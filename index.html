@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>머니랜드 투자 대시보드</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --bg: #070d1a; --card: #0f1829; --card2: #162033; --border: #1e2d47;
+    --text: #e2e8f0; --muted: #64748b; --up: #22d3a0; --down: #f87171;
+    --accent: #3b82f6; --gold: #f59e0b; --purple: #a78bfa;
+  }
+  body { background:var(--bg); color:var(--text); font-family:'Pretendard','Noto Sans KR',sans-serif; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; }
+  .card2 { background:var(--card2); border-radius:8px; }
+  .up { color:var(--up); } .down { color:var(--down); }
+  .badge-up { background:rgba(34,211,160,.15); color:var(--up); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+  .badge-down { background:rgba(248,113,113,.12); color:var(--down); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+  .nav-item { padding:10px 16px; border-radius:8px; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:10px; font-size:13.5px; font-weight:500; }
+  .nav-item:hover { background:var(--card2); }
+  .nav-item.active { background:var(--accent); color:#fff; }
+  .page { display:none; }
+  .page.active { display:block; }
+  .section-title { font-size:12px; font-weight:700; letter-spacing:.07em; color:var(--muted); text-transform:uppercase; margin-bottom:12px; }
+  .idx-card { background:var(--card2); border-radius:10px; padding:14px 18px; cursor:pointer; transition:transform .15s; }
+  .idx-card:hover { transform:translateY(-2px); }
+  .tag { display:inline-block; background:rgba(59,130,246,.15); color:#93c5fd; font-size:11px; padding:3px 8px; border-radius:20px; margin:2px; }
+  .theme-card { background:var(--card2); border-radius:10px; padding:14px; cursor:pointer; transition:transform .15s; }
+  .theme-card:hover { transform:translateY(-2px); }
+  .intraday-card { background:var(--card2); border-radius:8px; padding:12px 14px; border-left:3px solid var(--accent); margin-bottom:8px; cursor:pointer; }
+  .intraday-card.pm { border-left-color:var(--purple); }
+  .tbl { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .tbl th { color:var(--muted); font-size:10.5px; font-weight:600; text-transform:uppercase; padding:7px 10px; border-bottom:1px solid var(--border); text-align:right; }
+  .tbl th:first-child { text-align:left; }
+  .tbl td { padding:8px 10px; border-bottom:1px solid rgba(30,45,71,.4); text-align:right; }
+  .tbl td:first-child { text-align:left; }
+  .tbl tr:hover td { background:rgba(255,255,255,.025); }
+  .sector-bar { height:5px; border-radius:2px; }
+  .briefing-content h2 { color:#93c5fd; font-size:14px; font-weight:700; margin:14px 0 6px; }
+  .briefing-content li { padding:3px 0; color:#cbd5e1; font-size:13px; line-height:1.65; }
+  .briefing-content p { color:#cbd5e1; font-size:13px; line-height:1.75; margin:5px 0; }
+  .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:100; display:flex; align-items:center; justify-content:center; }
+  .modal { background:var(--card); border:1px solid var(--border); border-radius:16px; max-width:680px; width:95%; max-height:85vh; overflow-y:auto; padding:24px; }
+  .top5-card { background:var(--card2); border-radius:10px; padding:10px 14px; border-left:3px solid var(--accent); }
+  ::-webkit-scrollbar { width:4px; height:4px; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  .divider { height:1px; background:var(--border); margin:16px 0; }
+</style>
+</head>
+<body class="min-h-screen">
+<div class="flex h-screen overflow-hidden">
+
+<!-- ═══ SIDEBAR ═══════════════════════════════════════════════════════ -->
+<nav style="width:215px;min-width:215px;background:var(--card);border-right:1px solid var(--border);" class="flex flex-col py-5 px-3 gap-1 overflow-y-auto">
+  <div class="mb-5 px-2">
+    <div style="color:#3b82f6;font-size:19px;font-weight:800;letter-spacing:-.5px;">머니랜드</div>
+    <div id="nav-date" style="color:var(--muted);font-size:11px;margin-top:2px;"></div>
+  </div>
+  <div class="nav-item active" onclick="nav('home')" id="nav-home">📊 대시보드</div>
+  <div class="nav-item" onclick="nav('us')" id="nav-us">🇺🇸 미국시장</div>
+  <div class="nav-item" onclick="nav('kr')" id="nav-kr">🇰🇷 한국시장</div>
+  <div style="height:1px;background:var(--border);margin:8px 4px;"></div>
+  <div class="nav-item" onclick="nav('us-brief')" id="nav-us-brief">📰 모닝브리핑 미국</div>
+  <div class="nav-item" onclick="nav('kr-brief')" id="nav-kr-brief">📝 모닝브리핑 한국</div>
+  <div style="height:1px;background:var(--border);margin:8px 4px;"></div>
+  <div class="nav-item" onclick="nav('morning')" id="nav-morning">🔍 아침 분석</div>
+  <div class="mt-auto px-2 pt-4" style="border-top:1px solid var(--border);">
+    <div style="font-size:10px;color:var(--muted);">업데이트</div>
+    <div id="nav-updated" style="font-size:11px;color:#64748b;"></div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══════════════════════════════════════════════════════════ -->
+<main class="flex-1 overflow-y-auto p-6">
+
+<!-- ──── 대시보드 홈 ──────────────────────────────────────────────── -->
+<div id="page-home" class="page active">
+  <div class="flex items-center justify-between mb-5">
+    <div><h1 style="font-size:21px;font-weight:700;">투자 대시보드</h1>
+    <p style="color:var(--muted);font-size:12px;margin-top:2px;">실시간 핵심 투자정보 한눈에</p></div>
+    <div id="home-date" style="font-size:13px;color:var(--muted);"></div>
+  </div>
+
+  <!-- 지수 5개 -->
+  <div class="section-title">시장 지수</div>
+  <div id="home-indices" class="grid gap-3 mb-5" style="grid-template-columns:repeat(5,1fr);"></div>
+
+  <!-- 모닝브리핑 2개 + 시장지표 -->
+  <div class="grid gap-4 mb-5" style="grid-template-columns:1fr 1fr 260px;">
+    <div class="card p-4" style="cursor:pointer;" onclick="nav('us-brief')">
+      <div class="flex justify-between items-center mb-3">
+        <div style="font-size:13px;font-weight:700;">📰 모닝브리핑 미국</div>
+        <span style="font-size:11px;color:var(--accent);">전체보기 →</span>
+      </div>
+      <div id="home-us-brief" style="font-size:12.5px;line-height:1.7;color:#94a3b8;"></div>
+      <div class="divider"></div>
+      <div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:6px;">오늘의 이슈</div>
+      <div id="home-us-issues" class="space-y-1"></div>
+    </div>
+    <div class="card p-4" style="cursor:pointer;" onclick="nav('kr-brief')">
+      <div class="flex justify-between items-center mb-3">
+        <div style="font-size:13px;font-weight:700;">📝 모닝브리핑 한국</div>
+        <span style="font-size:11px;color:var(--accent);">전체보기 →</span>
+      </div>
+      <div id="home-kr-brief" style="font-size:12.5px;line-height:1.7;color:#94a3b8;"></div>
+      <div class="divider"></div>
+      <div id="home-kr-keywords"></div>
+    </div>
+    <div class="card p-4">
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px;">📈 시장 지표</div>
+      <div id="home-indicators" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- 오늘 리포트 Top5 + 윈레이트 Top5 + 윈스코어 Top5 -->
+  <div class="grid gap-4" style="grid-template-columns:1fr 1fr 1fr;">
+    <div class="card p-4">
+      <div class="flex justify-between items-center mb-3">
+        <div style="font-size:13px;font-weight:700;">📋 오늘의 리포트 Top5</div>
+        <span style="font-size:11px;color:var(--accent);cursor:pointer;" onclick="nav('morning')">더보기 →</span>
+      </div>
+      <div id="home-reports"></div>
+    </div>
+    <div class="card p-4">
+      <div class="flex justify-between items-center mb-3">
+        <div style="font-size:13px;font-weight:700;">🏆 윈레이트 Top5</div>
+        <span style="font-size:11px;color:var(--accent);cursor:pointer;" onclick="nav('morning')">더보기 →</span>
+      </div>
+      <div id="home-winrate"></div>
+    </div>
+    <div class="card p-4">
+      <div class="flex justify-between items-center mb-3">
+        <div style="font-size:13px;font-weight:700;">⚡ 윈스코어 Top5</div>
+        <span style="font-size:11px;color:var(--accent);cursor:pointer;" onclick="nav('morning')">더보기 →</span>
+      </div>
+      <div id="home-winscore"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── 미국시장 ──────────────────────────────────────────────────── -->
+<div id="page-us" class="page">
+  <div class="flex items-center gap-3 mb-5">
+    <button onclick="nav('home')" style="color:var(--muted);font-size:12px;">← 홈</button>
+    <h1 style="font-size:21px;font-weight:700;">🇺🇸 미국시장</h1>
+  </div>
+  <div class="section-title">주요 지수</div>
+  <div id="us-indices" class="grid gap-3 mb-5" style="grid-template-columns:repeat(4,1fr);"></div>
+  <div class="section-title">시장 지표</div>
+  <div id="us-indicators" class="grid gap-3 mb-5" style="grid-template-columns:repeat(3,1fr);"></div>
+  <div class="grid gap-4 mb-5" style="grid-template-columns:1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">🚀 급등주</div><div id="us-up"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">📉 급락주</div><div id="us-dn"></div></div>
+  </div>
+  <div class="section-title">섹터 성과</div>
+  <div id="us-sectors" class="grid gap-2 mb-5" style="grid-template-columns:repeat(2,1fr);"></div>
+  <div class="grid gap-4 mb-5" style="grid-template-columns:1fr 1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">🛢️ 원자재</div><div id="us-comm"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">₿ 암호화폐</div><div id="us-crypto"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">📦 ETF</div><div id="us-etf"></div></div>
+  </div>
+  <div class="section-title">뉴스 헤드라인</div>
+  <div id="us-news" class="card p-4 mb-4"></div>
+</div>
+
+<!-- ──── 한국시장 ──────────────────────────────────────────────────── -->
+<div id="page-kr" class="page">
+  <div class="flex items-center gap-3 mb-5">
+    <button onclick="nav('home')" style="color:var(--muted);font-size:12px;">← 홈</button>
+    <h1 style="font-size:21px;font-weight:700;">🇰🇷 한국시장</h1>
+  </div>
+  <div class="section-title">지수</div>
+  <div id="kr-indices" class="grid gap-3 mb-5" style="grid-template-columns:repeat(2,1fr);max-width:380px;"></div>
+  <div class="section-title">테마 동향</div>
+  <div id="kr-themes" class="grid gap-3 mb-5" style="grid-template-columns:repeat(3,1fr);"></div>
+  <div class="grid gap-4 mb-5" style="grid-template-columns:1fr 1fr;">
+    <div><div class="section-title">특징주 — 오전</div><div id="kr-am"></div></div>
+    <div><div class="section-title">특징주 — 오후</div><div id="kr-pm"></div></div>
+  </div>
+  <div class="grid gap-4 mb-5" style="grid-template-columns:1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">거래량 상위 KOSPI</div><div id="kr-vol-kp"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">거래량 상위 KOSDAQ</div><div id="kr-vol-kd"></div></div>
+  </div>
+  <div class="grid gap-4 mb-5" style="grid-template-columns:1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">🏆 52주 신고가 KOSPI</div><div id="kr-hi-kp"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">🏆 52주 신고가 KOSDAQ</div><div id="kr-hi-kd"></div></div>
+  </div>
+  <div class="section-title">투자자별 순매수 Top10 (KOSPI)</div>
+  <div class="grid gap-3 mb-4" style="grid-template-columns:repeat(4,1fr);">
+    <div class="card p-3"><div style="font-size:12px;font-weight:700;margin-bottom:8px;color:#60a5fa;">🌏 외국인</div><div id="kr-inv-f"></div></div>
+    <div class="card p-3"><div style="font-size:12px;font-weight:700;margin-bottom:8px;color:#a78bfa;">🏢 기관합계</div><div id="kr-inv-i"></div></div>
+    <div class="card p-3"><div style="font-size:12px;font-weight:700;margin-bottom:8px;color:#34d399;">🏦 연기금</div><div id="kr-inv-p"></div></div>
+    <div class="card p-3"><div style="font-size:12px;font-weight:700;margin-bottom:8px;color:#fb923c;">👤 개인</div><div id="kr-inv-d"></div></div>
+  </div>
+</div>
+
+<!-- ──── 모닝브리핑 미국 ──────────────────────────────────────────── -->
+<div id="page-us-brief" class="page">
+  <div class="flex items-center gap-3 mb-5">
+    <button onclick="nav('home')" style="color:var(--muted);font-size:12px;">← 홈</button>
+    <h1 style="font-size:21px;font-weight:700;">📰 모닝브리핑 미국</h1>
+  </div>
+  <div class="grid gap-4" style="grid-template-columns:1fr 280px;">
+    <div class="card p-5">
+      <div id="usb-header" class="mb-4"></div>
+      <div id="usb-body" class="briefing-content"></div>
+    </div>
+    <div>
+      <div class="card p-4 mb-4">
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px;">💡 오늘의 이슈</div>
+        <div id="usb-issues" class="space-y-2"></div>
+      </div>
+      <div class="card p-4">
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px;">📰 뉴스 헤드라인</div>
+        <div id="usb-news"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── 모닝브리핑 한국 ──────────────────────────────────────────── -->
+<div id="page-kr-brief" class="page">
+  <div class="flex items-center gap-3 mb-5">
+    <button onclick="nav('home')" style="color:var(--muted);font-size:12px;">← 홈</button>
+    <h1 style="font-size:21px;font-weight:700;">📝 모닝브리핑 한국</h1>
+  </div>
+  <div class="grid gap-4" style="grid-template-columns:1fr 300px;">
+    <div>
+      <div class="card p-5 mb-4">
+        <div id="krb-header" class="mb-4"></div>
+        <div id="krb-body" class="briefing-content"></div>
+      </div>
+      <div class="section-title">오늘의 테마</div>
+      <div id="krb-themes" class="grid gap-3 mb-4" style="grid-template-columns:repeat(2,1fr);"></div>
+      <div class="section-title">오늘의 특징주</div>
+      <div class="grid gap-4" style="grid-template-columns:1fr 1fr;">
+        <div><div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:8px;">오전</div><div id="krb-am"></div></div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--purple);margin-bottom:8px;">오후</div><div id="krb-pm"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card p-4 mb-4">
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px;">🔑 오늘의 키워드</div>
+        <div id="krb-keywords"></div>
+      </div>
+      <div class="card p-4">
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px;">🗂️ 아카이브</div>
+        <a id="krb-archive" href="#" style="color:var(--accent);font-size:13px;" target="_blank">아카이브 열기 →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── 아침 분석 ─────────────────────────────────────────────────── -->
+<div id="page-morning" class="page">
+  <div class="flex items-center gap-3 mb-5">
+    <button onclick="nav('home')" style="color:var(--muted);font-size:12px;">← 홈</button>
+    <h1 style="font-size:21px;font-weight:700;">🔍 아침 분석</h1>
+  </div>
+
+  <!-- ★ 상단 요약 Top5 -->
+  <div class="section-title">핵심 요약 Top5</div>
+  <div class="grid gap-4 mb-6" style="grid-template-columns:repeat(4,1fr);">
+    <div class="card p-4">
+      <div style="font-size:12px;font-weight:700;color:#a78bfa;margin-bottom:10px;">🏆 윈레이트 Top5</div>
+      <div id="sum-winrate"></div>
+    </div>
+    <div class="card p-4">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;">⚡ 윈스코어 Top5</div>
+      <div id="sum-winscore"></div>
+    </div>
+    <div class="card p-4">
+      <div style="font-size:12px;font-weight:700;color:var(--up);margin-bottom:10px;">📈 목표가 상향 Top5</div>
+      <div id="sum-tgtprc"></div>
+    </div>
+    <div class="card p-4">
+      <div style="font-size:12px;font-weight:700;color:#60a5fa;margin-bottom:10px;">💡 이익전망 상향 Top5</div>
+      <div id="sum-cns"></div>
+    </div>
+  </div>
+
+  <!-- 시장 밸류에이션 -->
+  <div class="section-title">시장 밸류에이션 · 신용잔고</div>
+  <div class="grid gap-4 mb-6" style="grid-template-columns:repeat(3,1fr) 1fr;">
+    <div id="morn-per-cards" class="contents"></div>
+    <div class="card p-4">
+      <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:10px;">KOSPI PER 30일</div>
+      <div id="morn-per-chart" style="display:flex;align-items:flex-end;gap:2px;height:70px;"></div>
+      <div id="morn-per-dates" style="display:flex;gap:2px;margin-top:4px;font-size:9px;color:var(--muted);"></div>
+    </div>
+  </div>
+  <div class="grid gap-4 mb-6" style="grid-template-columns:1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">💳 신용잔고 추이</div><div id="morn-credit"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">📋 오늘의 리포트 전체</div><div id="morn-reports"></div></div>
+  </div>
+
+  <!-- 전체 테이블들 -->
+  <div class="grid gap-4 mb-6" style="grid-template-columns:1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">🏆 윈레이트 전체</div><div id="morn-winrate"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">⚡ 윈스코어 Top30</div><div id="morn-winscore"></div></div>
+  </div>
+  <div class="grid gap-4 mb-4" style="grid-template-columns:1fr 1fr;">
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">📈 목표가 상향 전체</div><div id="morn-tgtprc"></div></div>
+    <div class="card p-4"><div style="font-size:13px;font-weight:700;margin-bottom:10px;">💡 이익전망 상향 전체</div><div id="morn-cns-up"></div></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this)closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="flex justify-between items-center mb-4">
+      <div id="modal-title" style="font-size:17px;font-weight:700;"></div>
+      <button onclick="closeModal()" style="color:var(--muted);font-size:22px;line-height:1;">×</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ──── 라우팅 ──────────────────────────────────────────────────────────
+const PAGES = ['home','us','kr','us-brief','kr-brief','morning'];
+function nav(page) {
+  PAGES.forEach(p => {
+    document.getElementById(`page-${p}`)?.classList.remove('active');
+    document.getElementById(`nav-${p}`)?.classList.remove('active');
+  });
+  document.getElementById(`page-${page}`)?.classList.add('active');
+  document.getElementById(`nav-${page}`)?.classList.add('active');
+  document.querySelector('main').scrollTop = 0;
+  const loaders = {us:initUs, kr:initKr, 'us-brief':initUsBrief, 'kr-brief':initKrBrief, morning:initMorning};
+  if (loaders[page]) loaders[page]();
+}
+
+// ──── 공통 유틸 ──────────────────────────────────────────────────────
+async function api(f) { try { return await (await fetch(`api/${f}`)).json(); } catch { return null; } }
+async function db(p) { try { return await (await fetch(`db/${p}.json`)).json(); } catch { return null; } }
+
+function fmt(v, d=2) { if (v==null||isNaN(v)) return '—'; return Number(v).toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function pct(v, sign=true) {
+  const n=parseFloat(v); if (isNaN(n)) return `<span style="color:var(--muted)">—</span>`;
+  return `<span class="${n>=0?'up':'down'}" style="font-weight:600;">${sign&&n>=0?'+':''}${fmt(n)}%</span>`;
+}
+function prtAmt(v) {
+  const n=Math.abs(parseFloat(v));
+  if (n>=1e12) return (n/1e12).toFixed(1)+'조'; if (n>=1e8) return (n/1e8).toFixed(0)+'억';
+  if (n>=1e4) return (n/1e4).toFixed(0)+'만'; return n.toLocaleString();
+}
+function fmtDate(s) {
+  if (!s) return ''; const d=String(s).replace(/\D/g,'');
+  if (d.length>=8) return `${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}`; return s;
+}
+function md2html(t) {
+  if (!t) return '';
+  return t.replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^### (.+)$/gm,'<h3 style="color:#f0abfc;font-size:12px;font-weight:700;margin:8px 0 3px;">$1</h3>')
+    .replace(/^- (.+)$/gm,'<li>$1</li>').replace(/^(\d+)\. (.+)$/gm,'<li>$1. $2</li>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong style="color:#e2e8f0;">$1</strong>')
+    .replace(/\n{2,}/g,'</p><p>').replace(/\n/g,'<br>');
+}
+function openModal(title, body) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = body;
+  document.getElementById('modal').style.display = 'flex';
+}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+function simpleTable(rows, cols, el, maxN=20) {
+  if (!rows?.length) { el.innerHTML='<p style="color:var(--muted);font-size:11px;">데이터 없음</p>'; return; }
+  el.innerHTML = `<table class="tbl"><thead><tr>${cols.map(c=>`<th>${c.label}</th>`).join('')}</tr></thead><tbody>${
+    rows.slice(0,maxN).map(r=>`<tr>${cols.map(c=>{
+      const v=r[c.key];
+      if (c.pct) return `<td>${pct(v)}</td>`;
+      if (c.amt) return `<td style="font-size:10.5px;color:var(--muted);">${prtAmt(v)}</td>`;
+      if (c.num) return `<td>${fmt(v,c.dec??0)}</td>`;
+      if (c.style) return `<td style="${c.style}">${v??'—'}</td>`;
+      return `<td>${v??'—'}</td>`;
+    }).join('')}</tr>`).join('')
+  }</tbody></table>`;
+}
+
+function invTable(rows, el) {
+  if (!rows?.length) { el.innerHTML='<p style="color:var(--muted);font-size:11px;">없음</p>'; return; }
+  el.innerHTML = rows.slice(0,10).map(r=>`
+    <div class="flex justify-between py-1" style="border-bottom:1px solid rgba(30,45,71,.4);font-size:11.5px;">
+      <span>${r.ITM_NM}</span>
+      <div class="text-right">${pct(r.UD_RT)}<div style="font-size:10px;color:var(--muted);">${prtAmt(r.PURE_BUY_TRD_AMT)}</div></div>
+    </div>`).join('');
+}
+
+// ──── 홈 대시보드 ─────────────────────────────────────────────────────
+async function initHome() {
+  const [kr, us, brief, winrate, winscore, reports, comm, crypto] = await Promise.all([
+    api('kr_index_latest.json'), api('us_market_latest.json'),
+    api('morning_briefing_latest.json'), api('winrate_rank.json'),
+    api('rs_report_latest.json'), api('today_reports.json'),
+    api('us_commodity_latest.json'), api('us_crypto_latest.json'),
+  ]);
+
+  const dateStr = fmtDate(kr?.trd_ymd || new Date().toISOString().slice(0,10).replace(/-/g,''));
+  document.getElementById('home-date').textContent = dateStr;
+  document.getElementById('nav-date').textContent = dateStr;
+  if (brief?.BRIEF_TIME) document.getElementById('nav-updated').textContent = brief.BRIEF_TIME.slice(0,2)+':'+brief.BRIEF_TIME.slice(2);
+
+  // 지수
+  const krCards = (kr?.rows||[]).map(r=>`
+    <div class="idx-card" onclick="nav('kr')">
+      <div style="font-size:11px;color:var(--muted);font-weight:600;">${r.IND_NM}</div>
+      <div style="font-size:19px;font-weight:700;margin:5px 0;">${fmt(r.EPNT,2)}</div>
+      <div class="${r.UD_RT>=0?'up':'down'}" style="font-size:12.5px;font-weight:600;">
+        ${r.UD_RT>=0?'▲':'▼'} ${Math.abs(r.UD_RT).toFixed(2)}% <span style="font-size:10.5px;font-weight:400;">(${r.UD_PNT>=0?'+':''}${fmt(r.UD_PNT,2)})</span>
+      </div>
+    </div>`).join('');
+  const usCards = us ? [{n:'다우',v:us.DOW_VAL,r:us.DOW_RT},{n:'나스닥',v:us.NDX_VAL,r:us.NDX_RT},{n:'S&P500',v:us.SP5_VAL,r:us.SP5_RT}]
+    .map(i=>`<div class="idx-card" onclick="nav('us')">
+      <div style="font-size:11px;color:var(--muted);font-weight:600;">${i.n}</div>
+      <div style="font-size:19px;font-weight:700;margin:5px 0;">${fmt(i.v,2)}</div>
+      <div class="${parseFloat(i.r)>=0?'up':'down'}" style="font-size:12.5px;font-weight:600;">
+        ${parseFloat(i.r)>=0?'▲':'▼'} ${Math.abs(parseFloat(i.r)).toFixed(2)}%</div>
+    </div>`).join('') : '';
+  document.getElementById('home-indices').innerHTML = krCards + usCards;
+
+  // 미국 모닝브리핑 요약
+  if (us?.SUMMARY) {
+    const lines = us.SUMMARY.split('\n').filter(l=>l.trim()&&!l.startsWith('#')&&!l.startsWith('|'));
+    document.getElementById('home-us-brief').textContent = lines.slice(0,3).join(' ').slice(0,220)+'...';
+  }
+  if (us?.ISSUES) {
+    document.getElementById('home-us-issues').innerHTML = String(us.ISSUES).split(',').map(i=>
+      `<div style="font-size:11.5px;color:#94a3b8;"><span style="color:var(--gold);">• </span>${i.trim()}</div>`
+    ).join('');
+  }
+
+  // 한국 모닝브리핑 요약
+  if (brief?.BRIEF_TEXT) {
+    const lines = brief.BRIEF_TEXT.split('\n').filter(l=>l.trim()&&!l.startsWith('#'));
+    document.getElementById('home-kr-brief').textContent = lines.slice(0,4).join(' ').replace(/📈|💬/g,'').trim().slice(0,240)+'...';
+    const kws = Array.isArray(brief.KEYWORDS) ? brief.KEYWORDS : JSON.parse(brief.KEYWORDS||'[]');
+    document.getElementById('home-kr-keywords').innerHTML = kws.slice(0,12).map(k=>`<span class="tag">${k}</span>`).join('');
+  }
+
+  // 시장 지표
+  const wti = comm?.rows?.find(r=>r.NAME==='WTI');
+  const gold = comm?.rows?.find(r=>r.NAME==='금');
+  const btc = crypto?.rows?.find(r=>r.TICKER==='BTC');
+  const eth = crypto?.rows?.find(r=>r.TICKER==='ETH');
+  const ind = [];
+  if (us) {
+    if (us.VIX_VAL) ind.push([`VIX`,`${fmt(us.VIX_VAL,2)}`]);
+    if (us.TNY_VAL) ind.push([`미국 10년 금리`,`${fmt(us.TNY_VAL,2)}%`]);
+    if (us.DXY_VAL) ind.push([`달러인덱스`,`${fmt(us.DXY_VAL,2)}`]);
+    if (us.PHLX_VAL) ind.push([`필라 반도체`,`${fmt(us.PHLX_VAL,2)}`]);
+  }
+  if (wti) ind.push([`WTI 원유`,`$${fmt(wti.CLOSE_PRC,2)} <span class="${wti.CHG_RT>=0?'up':'down'}" style="font-size:10px;">${wti.CHG_RT>=0?'+':''}${fmt(wti.CHG_RT,2)}%</span>`]);
+  if (gold) ind.push([`금`,`$${fmt(gold.CLOSE_PRC,2)} <span class="${gold.CHG_RT>=0?'up':'down'}" style="font-size:10px;">${gold.CHG_RT>=0?'+':''}${fmt(gold.CHG_RT,2)}%</span>`]);
+  if (btc) ind.push([`BTC`,`$${fmt(btc.CLOSE_PRC,0)} <span class="${btc.CHG_RT>=0?'up':'down'}" style="font-size:10px;">${btc.CHG_RT>=0?'+':''}${fmt(btc.CHG_RT,2)}%</span>`]);
+  if (eth) ind.push([`ETH`,`$${fmt(eth.CLOSE_PRC,2)} <span class="${eth.CHG_RT>=0?'up':'down'}" style="font-size:10px;">${eth.CHG_RT>=0?'+':''}${fmt(eth.CHG_RT,2)}%</span>`]);
+  document.getElementById('home-indicators').innerHTML = ind.map(([k,v],i)=>
+    `<div class="flex justify-between items-center" style="${i>0?'border-top:1px solid rgba(30,45,71,.4);padding-top:6px;':''}">
+      <span style="color:var(--muted);font-size:11.5px;">${k}</span>
+      <span style="font-size:12.5px;font-weight:600;">${v}</span>
+    </div>`).join('');
+
+  // 오늘 리포트 Top5
+  const rptRows = (reports?.rows||[]).slice(0,5);
+  document.getElementById('home-reports').innerHTML = rptRows.map(r=>`
+    <div class="top5-card mb-2">
+      <div class="flex justify-between items-center">
+        <span style="font-size:12.5px;font-weight:600;">${r.ITM_NM}</span>
+        <span style="font-size:10px;background:rgba(34,211,160,.15);color:var(--up);padding:1px 6px;border-radius:3px;">${r.RCMD_NM||''}</span>
+      </div>
+      <div style="font-size:10.5px;color:var(--muted);">${r.OFR_INST_NM} · ${r.ANLST_NM}</div>
+      <div style="font-size:10.5px;color:#94a3b8;margin-top:3px;">${(r.SMRY_CN||'').replace(/■/g,'').trim().split('\n')[0].slice(0,50)}</div>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">데이터 없음</p>';
+
+  // 윈레이트 Top5
+  const wrRows = (winrate?.rows||[]).slice(0,5);
+  document.getElementById('home-winrate').innerHTML = wrRows.map(r=>`
+    <div class="top5-card mb-2" style="border-left-color:var(--purple);">
+      <div class="flex justify-between items-center">
+        <span style="font-size:12.5px;font-weight:600;">${r.ITM_NM}</span>
+        <span style="font-size:11px;color:var(--purple);font-weight:600;">${r.MTH6_AVG_INCR_WIN_RT||'—'}</span>
+      </div>
+      <div style="font-size:10.5px;color:var(--muted);">${r.OFR_INST_NM} · 1년: ${r.YR1_PRFT_RT||'—'}</div>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">데이터 없음</p>';
+
+  // 윈스코어 Top5
+  const wsRows = (winscore?.rows||[]).filter(r=>r.SHRT_RS_CVRT_SCRE!=null)
+    .sort((a,b)=>b.SHRT_RS_CVRT_SCRE-a.SHRT_RS_CVRT_SCRE).slice(0,5);
+  document.getElementById('home-winscore').innerHTML = wsRows.map((r,i)=>`
+    <div class="top5-card mb-2" style="border-left-color:var(--gold);">
+      <div class="flex justify-between items-center">
+        <span style="font-size:12.5px;font-weight:600;">${r.ITM_NM}</span>
+        <span style="font-size:12px;color:var(--gold);font-weight:700;">${fmt(r.SHRT_RS_CVRT_SCRE,1)}</span>
+      </div>
+      <div style="font-size:10.5px;color:var(--muted);">단기RS ${fmt(r.SHRT_RS_CVRT_SCRE,1)} · 장기RS ${r.LNG_RS_CVRT_SCRE!=null?fmt(r.LNG_RS_CVRT_SCRE,1):'—'}</div>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">데이터 없음</p>';
+}
+
+// ──── 미국시장 ────────────────────────────────────────────────────────
+let usLoaded=false;
+async function initUs() {
+  if (usLoaded) return; usLoaded=true;
+  const [us, sec, comm, crypto, etf, news] = await Promise.all([
+    api('us_market_latest.json'), api('us_sector_latest.json'),
+    api('us_commodity_latest.json'), api('us_crypto_latest.json'),
+    api('us_etf_latest.json'), api('us_market_news_latest.json'),
+  ]);
+  if (us) {
+    document.getElementById('us-indices').innerHTML = [
+      {n:'다우',v:us.DOW_VAL,r:us.DOW_RT},{n:'나스닥',v:us.NDX_VAL,r:us.NDX_RT},
+      {n:'S&P500',v:us.SP5_VAL,r:us.SP5_RT},{n:'필라 반도체',v:us.PHLX_VAL,r:us.PHLX_RT}
+    ].map(i=>`<div class="idx-card"><div style="font-size:11px;color:var(--muted);font-weight:600;">${i.n}</div>
+      <div style="font-size:19px;font-weight:700;margin:5px 0;">${fmt(i.v,2)}</div>
+      <div class="${parseFloat(i.r)>=0?'up':'down'}" style="font-size:12px;font-weight:600;">
+        ${parseFloat(i.r)>=0?'▲':'▼'} ${Math.abs(parseFloat(i.r)).toFixed(2)}%</div>
+    </div>`).join('');
+    document.getElementById('us-indicators').innerHTML = [
+      {n:'VIX',v:us.VIX_VAL,u:''},{n:'10년 국채금리',v:us.TNY_VAL,u:'%'},{n:'달러인덱스(DXY)',v:us.DXY_VAL,u:''}
+    ].map(i=>`<div class="card p-4"><div style="font-size:10.5px;color:var(--muted);font-weight:600;margin-bottom:6px;">${i.n}</div>
+      <div style="font-size:21px;font-weight:700;">${fmt(i.v,2)}${i.u}</div></div>`).join('');
+    const up=typeof us.FEATURED_UP==='string'?JSON.parse(us.FEATURED_UP||'[]'):(us.FEATURED_UP||[]);
+    const dn=typeof us.FEATURED_DOWN==='string'?JSON.parse(us.FEATURED_DOWN||'[]'):(us.FEATURED_DOWN||[]);
+    document.getElementById('us-up').innerHTML=up.slice(0,8).map(s=>
+      `<div class="card2 p-2 mb-1 flex justify-between" style="font-size:11.5px;">
+        <span>${s.ticker} <span style="color:var(--muted);font-size:10px;">${(s.name||'').slice(0,20)}</span></span>
+        <span class="up">+${s.change}</span></div>`).join('');
+    document.getElementById('us-dn').innerHTML=dn.slice(0,6).map(s=>
+      `<div class="card2 p-2 mb-1 flex justify-between" style="font-size:11.5px;">
+        <span>${s.ticker} <span style="color:var(--muted);font-size:10px;">${(s.name||'').slice(0,20)}</span></span>
+        <span class="down">${s.change}</span></div>`).join('');
+  }
+  if (sec?.rows) {
+    const sorted=[...sec.rows].sort((a,b)=>b.AVG_CHG_RT-a.AVG_CHG_RT);
+    document.getElementById('us-sectors').innerHTML=sorted.map(r=>{
+      const p=parseFloat(r.AVG_CHG_RT);
+      const tickers=(()=>{try{return JSON.parse(r.TOP_STOCKS||'[]').slice(0,3).map(s=>`${s.ticker} ${s.pct>0?'+':''}${s.pct}%`).join(' · ');}catch{return '';}})();
+      return `<div class="card2 p-3"><div class="flex justify-between mb-1">
+        <span style="font-size:11.5px;font-weight:600;">${r.SECTOR_NM}</span>
+        <span class="${p>=0?'up':'down'}" style="font-size:12px;font-weight:700;">${p>=0?'+':''}${fmt(p,2)}%</span></div>
+        <div style="font-size:10px;color:var(--muted);">${tickers}</div>
+        <div class="sector-bar mt-2" style="width:${Math.min(Math.abs(p)*8,100)}%;background:${p>=0?'var(--up)':'var(--down)'};opacity:.5;"></div>
+      </div>`;}).join('');
+  }
+  simpleTable(comm?.rows,[{key:'NAME',label:'원자재'},{key:'CLOSE_PRC',label:'가격',num:true,dec:2},{key:'CHG_RT',label:'등락',pct:true}],document.getElementById('us-comm'));
+  const mc=(crypto?.rows||[]).filter(r=>['BTC','ETH','XRP','SOL'].includes(r.TICKER));
+  simpleTable(mc,[{key:'NAME',label:'코인'},{key:'CLOSE_PRC',label:'가격',num:true,dec:2},{key:'CHG_RT',label:'등락',pct:true}],document.getElementById('us-crypto'));
+  simpleTable(etf?.rows?.slice(0,10),[{key:'NAME',label:'ETF'},{key:'TICKER',label:'티커'},{key:'CLOSE_PRC',label:'가격',num:true,dec:2},{key:'CHG_RT',label:'등락',pct:true}],document.getElementById('us-etf'));
+  document.getElementById('us-news').innerHTML=(news?.rows||[]).slice(0,12).map((r,i)=>
+    `<div style="padding:7px 0;${i>0?'border-top:1px solid var(--border);':''}font-size:12.5px;color:#cbd5e1;">${r.HEADLINE}</div>`).join('');
+}
+
+// ──── 한국시장 ────────────────────────────────────────────────────────
+let krLoaded=false;
+async function initKr() {
+  if (krLoaded) return; krLoaded=true;
+  const [kr, themes, intra, vkp, vkd, hkp, hkd, fgn, ins, pen, ind] = await Promise.all([
+    api('kr_index_latest.json'), api('theme_latest.json'), api('intraday_latest.json'),
+    api('volume_rank_kospi.json'), api('volume_rank_kosdaq.json'),
+    api('new_high_52w_kospi.json'), api('new_high_52w_kosdaq.json'),
+    api('invstr_외국인_kospi.json'), api('invstr_기관합계_kospi.json'),
+    api('invstr_연기금_kospi.json'), api('invstr_개인_kospi.json'),
+  ]);
+  document.getElementById('kr-indices').innerHTML=(kr?.rows||[]).map(r=>`
+    <div class="idx-card"><div style="font-size:11px;color:var(--muted);font-weight:600;">${r.IND_NM}</div>
+      <div style="font-size:22px;font-weight:700;margin:5px 0;">${fmt(r.EPNT,2)}</div>
+      <div class="${r.UD_RT>=0?'up':'down'}" style="font-size:13px;font-weight:600;">${r.UD_RT>=0?'▲':'▼'} ${Math.abs(r.UD_RT).toFixed(2)}%</div>
+      <div style="font-size:10.5px;color:var(--muted);margin-top:4px;">고 ${fmt(r.HPRC,2)} / 저 ${fmt(r.LPRC,2)}</div>
+    </div>`).join('');
+  document.getElementById('kr-themes').innerHTML=(themes?.rows||[]).map(r=>`
+    <div class="theme-card" onclick='showThemeModal(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
+      <div class="flex justify-between mb-1">
+        <span style="font-size:12.5px;font-weight:700;">${r.THEME_NM}</span>
+        <span class="${r.CHG_RT>=0?'badge-up':'badge-down'}">${r.CHG_RT>=0?'+':''}${fmt(r.CHG_RT,2)}%</span>
+      </div>
+      <div style="font-size:10.5px;color:var(--muted);">${(r.STOCKS_WITH_RATES||'').split(',').slice(0,3).join(' · ')}</div>
+      <div class="sector-bar mt-2" style="width:${Math.min(Math.abs(r.CHG_RT)*4,100)}%;background:${r.CHG_RT>=0?'var(--up)':'var(--down)'};opacity:.6;"></div>
+    </div>`).join('');
+  function intraCards(stocks, el, pm=false) {
+    if (!stocks?.length){el.innerHTML='<p style="color:var(--muted);font-size:11px;">없음</p>';return;}
+    el.innerHTML=stocks.map(s=>`
+      <div class="intraday-card ${pm?'pm':''}" onclick='showIntradayModal(${JSON.stringify(s).replace(/'/g,"&#39;")})'>
+        <div class="flex justify-between"><span style="font-size:12.5px;font-weight:600;">${s.ITM_NM}</span>
+        <span style="font-size:9px;background:rgba(59,130,246,.2);color:#93c5fd;padding:1px 5px;border-radius:3px;">${s.MARKET}</span></div>
+        <div style="font-size:10.5px;color:#94a3b8;margin-top:3px;">${s.ITM_TIT||''}</div>
+      </div>`).join('');
+  }
+  intraCards(intra?.am?.stocks, document.getElementById('kr-am'));
+  intraCards(intra?.pm?.stocks, document.getElementById('kr-pm'), true);
+  const vCols=[{key:'ITM_NM',label:'종목'},{key:'EPRC',label:'현재가',num:true},{key:'UD_RT',label:'등락',pct:true},{key:'TRD_VOL',label:'거래량',num:true}];
+  simpleTable(vkp?.rows,vCols,document.getElementById('kr-vol-kp'));
+  simpleTable(vkd?.rows,vCols,document.getElementById('kr-vol-kd'));
+  const hCols=[{key:'ITM_NM',label:'종목'},{key:'EPRC',label:'현재가',num:true},{key:'UD_RT',label:'등락',pct:true},{key:'W52_LPRC',label:'52주저가',num:true}];
+  simpleTable(hkp?.rows,hCols,document.getElementById('kr-hi-kp'));
+  simpleTable(hkd?.rows,hCols,document.getElementById('kr-hi-kd'));
+  invTable(fgn?.rows,document.getElementById('kr-inv-f'));
+  invTable(ins?.rows,document.getElementById('kr-inv-i'));
+  invTable(pen?.rows,document.getElementById('kr-inv-p'));
+  invTable(ind?.rows,document.getElementById('kr-inv-d'));
+}
+
+// ──── 모닝브리핑 미국 ─────────────────────────────────────────────────
+let usBriefLoaded=false;
+async function initUsBrief() {
+  if (usBriefLoaded) return; usBriefLoaded=true;
+  const [us, news] = await Promise.all([api('us_market_latest.json'), api('us_market_news_latest.json')]);
+  if (us) {
+    document.getElementById('usb-header').innerHTML=`
+      <div style="font-size:17px;font-weight:700;color:#93c5fd;">🇺🇸 ${fmtDate(us.TRD_YMD)} 미국시장 브리핑</div>
+      <div class="flex gap-4 mt-2">
+        ${[{n:'다우',v:us.DOW_VAL,r:us.DOW_RT},{n:'나스닥',v:us.NDX_VAL,r:us.NDX_RT},{n:'S&P500',v:us.SP5_VAL,r:us.SP5_RT}].map(i=>
+          `<span style="font-size:12px;"><span style="color:var(--muted);">${i.n}</span> <span style="font-weight:600;">${fmt(i.v,2)}</span> <span class="${parseFloat(i.r)>=0?'up':'down'}">${parseFloat(i.r)>=0?'+':''}${i.r}%</span></span>`
+        ).join('')}
+      </div>`;
+    document.getElementById('usb-body').innerHTML=md2html(us.SUMMARY||'');
+    document.getElementById('usb-issues').innerHTML=String(us.ISSUES||'').split(',').map(i=>
+      `<div class="card2 p-2" style="font-size:12px;color:#e2e8f0;"><span style="color:var(--gold);">◆ </span>${i.trim()}</div>`).join('');
+  }
+  document.getElementById('usb-news').innerHTML=(news?.rows||[]).slice(0,15).map((r,i)=>
+    `<div style="padding:6px 0;${i>0?'border-top:1px solid var(--border);':''}font-size:12px;color:#cbd5e1;">${r.HEADLINE}</div>`).join('');
+}
+
+// ──── 모닝브리핑 한국 ─────────────────────────────────────────────────
+let krBriefLoaded=false;
+async function initKrBrief() {
+  if (krBriefLoaded) return; krBriefLoaded=true;
+  const [brief, themes, intra] = await Promise.all([
+    api('morning_briefing_latest.json'), api('theme_latest.json'), api('intraday_latest.json'),
+  ]);
+  if (brief) {
+    document.getElementById('krb-header').innerHTML=`
+      <div style="font-size:17px;font-weight:700;color:#93c5fd;">📝 ${fmtDate(brief.TRD_YMD)} 한국시장 브리핑</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px;">발행 ${brief.BRIEF_TIME?.slice(0,2)}:${brief.BRIEF_TIME?.slice(2)}</div>`;
+    document.getElementById('krb-body').innerHTML=md2html(brief.BRIEF_TEXT||'');
+    const kws=Array.isArray(brief.KEYWORDS)?brief.KEYWORDS:JSON.parse(brief.KEYWORDS||'[]');
+    document.getElementById('krb-keywords').innerHTML=kws.map(k=>`<span class="tag" style="margin:3px;">${k}</span>`).join('');
+    if (brief.HTML_PATH) document.getElementById('krb-archive').href=brief.HTML_PATH.replace(/\\/g,'/');
+  }
+  document.getElementById('krb-themes').innerHTML=(themes?.rows||[]).map(r=>`
+    <div class="theme-card" onclick='showThemeModal(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
+      <div class="flex justify-between mb-1">
+        <span style="font-size:12px;font-weight:700;">${r.THEME_NM}</span>
+        <span class="${r.CHG_RT>=0?'badge-up':'badge-down'}">${r.CHG_RT>=0?'+':''}${fmt(r.CHG_RT,2)}%</span>
+      </div>
+      <div style="font-size:10px;color:var(--muted);">${(r.STOCKS_WITH_RATES||'').split(',').slice(0,3).join(' · ')}</div>
+    </div>`).join('');
+  function kb(stocks, el, pm=false) {
+    if (!stocks?.length){el.innerHTML='<p style="color:var(--muted);font-size:11px;">없음</p>';return;}
+    el.innerHTML=stocks.map(s=>`
+      <div class="intraday-card ${pm?'pm':''}" onclick='showIntradayModal(${JSON.stringify(s).replace(/'/g,"&#39;")})'>
+        <div class="flex justify-between"><span style="font-size:12px;font-weight:600;">${s.ITM_NM}</span>
+        <span style="font-size:9px;background:rgba(59,130,246,.2);color:#93c5fd;padding:1px 5px;border-radius:3px;">${s.MARKET}</span></div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:3px;">${s.ITM_TIT||''}</div>
+      </div>`).join('');
+  }
+  kb(intra?.am?.stocks, document.getElementById('krb-am'));
+  kb(intra?.pm?.stocks, document.getElementById('krb-pm'), true);
+}
+
+// ──── 아침 분석 ───────────────────────────────────────────────────────
+let morningLoaded=false;
+async function initMorning() {
+  if (morningLoaded) return; morningLoaded=true;
+  const [perData, creditData, rsData, winData, cns, reports] = await Promise.all([
+    db('market_per'), db('credit_trend'), db('rs_top'), db('winrate_latest'),
+    api('consensus_latest.json'), api('today_reports.json'),
+  ]);
+
+  // ── 상단 Top5 요약 카드 ──
+  // 윈레이트 Top5
+  const wrRows = winData?.rows||[];
+  document.getElementById('sum-winrate').innerHTML = wrRows.slice(0,5).map((r,i)=>`
+    <div class="flex justify-between items-center py-1" style="${i>0?'border-top:1px solid rgba(30,45,71,.4);':''}">
+      <div><span style="font-size:12px;font-weight:600;">${r.ITM_NM}</span>
+      <span style="font-size:10px;color:var(--muted);margin-left:5px;">${r.OFR_INST_NM}</span></div>
+      <span style="font-size:11px;color:var(--purple);font-weight:600;">${r.MTH6_AVG_INCR_WIN_RT||'—'}</span>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">없음</p>';
+
+  // 윈스코어 Top5
+  const wsRows = (rsData?.rows||[]).slice(0,5);
+  document.getElementById('sum-winscore').innerHTML = wsRows.map((r,i)=>`
+    <div class="flex justify-between items-center py-1" style="${i>0?'border-top:1px solid rgba(30,45,71,.4);':''}">
+      <div><span style="font-size:12px;font-weight:600;">${r.ITM_NM}</span>
+      <span style="font-size:9px;color:var(--muted);margin-left:4px;">${r.MKT_NM||''}</span></div>
+      <span style="font-size:12px;color:var(--gold);font-weight:700;">${fmt(r.SHRT_RS_CVRT_SCRE,1)}</span>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">없음</p>';
+
+  // 목표가 상향 Top5
+  const tgtTop = (cns?.tgtprc||[]).filter(r=>r.CHG_TYPE==='상향').slice(0,5);
+  document.getElementById('sum-tgtprc').innerHTML = tgtTop.map((r,i)=>`
+    <div class="flex justify-between items-center py-1" style="${i>0?'border-top:1px solid rgba(30,45,71,.4);':''}">
+      <div><span style="font-size:12px;font-weight:600;">${r.ITM_NM}</span>
+      <span style="font-size:10px;color:var(--muted);margin-left:5px;">${r.BRK_NM}</span></div>
+      <div class="text-right">
+        <div class="up" style="font-size:11px;font-weight:600;">+${fmt(r.CHG_RT,0)}%</div>
+        <div style="font-size:10px;color:var(--muted);">괴리 ${parseFloat(r.GAP_RT)>=0?'+':''}${fmt(r.GAP_RT,1)}%</div>
+      </div>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">없음</p>';
+
+  // 이익전망 상향 Top5
+  const cnsTop = (cns?.stock||[]).filter(r=>parseFloat(r.CNS_CHG_RT)>0)
+    .sort((a,b)=>parseFloat(b.CNS_CHG_RT)-parseFloat(a.CNS_CHG_RT)).slice(0,5);
+  document.getElementById('sum-cns').innerHTML = cnsTop.map((r,i)=>`
+    <div class="flex justify-between items-center py-1" style="${i>0?'border-top:1px solid rgba(30,45,71,.4);':''}">
+      <div><span style="font-size:12px;font-weight:600;">${r.ITM_NM}</span>
+      <span style="font-size:10px;color:var(--muted);margin-left:5px;">${(r.SCTR_NM||'').replace('코스피 ','').replace('코스닥 ','').slice(0,8)}</span></div>
+      <span class="up" style="font-size:11.5px;font-weight:600;">+${fmt(r.CNS_CHG_RT,2)}%</span>
+    </div>`).join('') || '<p style="color:var(--muted);font-size:11px;">없음</p>';
+
+  // ── PER 카드 ──
+  if (perData?.latest) {
+    const cnsKp = cns?.sector?.find(s=>s.SCTR_NM==='코스피');
+    const cnsKd = cns?.sector?.find(s=>s.SCTR_NM==='코스닥');
+    const perHtml = perData.latest.map(r=>{
+      const ref = r.MKT_NM==='KOSPI'?cnsKp:cnsKd;
+      return `<div class="card p-4"><div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:8px;">${r.MKT_NM}</div>
+        <div class="grid gap-1" style="grid-template-columns:1fr 1fr;">
+          <div><div style="font-size:9.5px;color:var(--muted);">시장PER</div><div style="font-size:17px;font-weight:700;">${fmt(r.PER,2)}</div></div>
+          <div><div style="font-size:9.5px;color:var(--muted);">PBR</div><div style="font-size:17px;font-weight:700;">${fmt(r.PBR,2)}</div></div>
+          <div><div style="font-size:9.5px;color:var(--muted);">배당</div><div style="font-size:14px;font-weight:600;">${fmt(r.DIV_YLD,2)}%</div></div>
+          ${ref?`<div><div style="font-size:9.5px;color:var(--muted);">포워드PER</div><div style="font-size:14px;font-weight:600;color:#60a5fa;">${fmt(ref.FWD_PER,2)}</div></div>`:''}
+        </div>
+        ${cnsKp&&r.MKT_NM==='KOSPI'?`<div style="font-size:10px;color:var(--muted);margin-top:6px;">이익성장 <span class="up">+${parseFloat(cnsKp.YOY_RT).toFixed(1)}%</span> · CNS변화 <span class="${parseFloat(cnsKp.CNS_CHG_RT)>=0?'up':'down'}">${parseFloat(cnsKp.CNS_CHG_RT)>=0?'+':''}${cnsKp.CNS_CHG_RT}%</span></div>`:''}
+      </div>`;}).join('');
+    document.getElementById('morn-per-cards').outerHTML = `<div id="morn-per-cards" style="display:contents;">${perHtml}</div>`;
+  }
+
+  // PER 추이 차트
+  if (perData?.trend?.length) {
+    const vals=perData.trend.map(r=>r.PER);
+    const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
+    document.getElementById('morn-per-chart').innerHTML=vals.map((v,i)=>{
+      const h=Math.round(((v-mn)/rng)*60+10), isLast=i===vals.length-1;
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+        <div style="font-size:8.5px;color:${isLast?'#60a5fa':'transparent'};">${isLast?fmt(v,1):''}</div>
+        <div style="height:${h}px;width:100%;background:${isLast?'#3b82f6':'rgba(59,130,246,.3)'};border-radius:2px 2px 0 0;"></div>
+      </div>`;}).join('');
+    document.getElementById('morn-per-dates').innerHTML=perData.trend.filter((_,i)=>i%5===0||i===vals.length-1)
+      .map(r=>`<span style="flex:1;">${r.TRD_YMD.slice(4)}</span>`).join('');
+  }
+
+  // 신용잔고
+  if (creditData?.rows?.length) {
+    const latest=creditData.rows[creditData.rows.length-1];
+    const rows=[...creditData.rows].slice(-10);
+    document.getElementById('morn-credit').innerHTML=`
+      <div class="flex gap-3 mb-3">
+        <div class="card2 p-3 flex-1 text-center">
+          <div style="font-size:9.5px;color:var(--muted);">신용잔고</div>
+          <div style="font-size:18px;font-weight:700;">${prtAmt((latest?.CREDIT||0)*1e8)}</div>
+          <div class="${(latest?.CREDIT_CHG||0)>=0?'up':'down'}" style="font-size:11px;">${(latest?.CREDIT_CHG||0)>=0?'▲':'▼'} ${prtAmt(Math.abs(latest?.CREDIT_CHG||0)*1e8)}</div>
+        </div>
+        <div class="card2 p-3 flex-1 text-center">
+          <div style="font-size:9.5px;color:var(--muted);">고객예탁금</div>
+          <div style="font-size:18px;font-weight:700;">${prtAmt((latest?.DEPOSIT||0)*1e8)}</div>
+          <div class="${(latest?.DEPOSIT_CHG||0)>=0?'up':'down'}" style="font-size:11px;">${(latest?.DEPOSIT_CHG||0)>=0?'▲':'▼'} ${prtAmt(Math.abs(latest?.DEPOSIT_CHG||0)*1e8)}</div>
+        </div>
+      </div>
+      <table class="tbl"><thead><tr><th>날짜</th><th>신용잔고</th><th>증감</th></tr></thead><tbody>${
+        rows.map(r=>`<tr>
+          <td style="color:var(--muted);">${fmtDate(r.TRD_YMD)}</td>
+          <td>${prtAmt(r.CREDIT*1e8)}</td>
+          <td class="${(r.CREDIT_CHG||0)>=0?'up':'down'}">${(r.CREDIT_CHG||0)>=0?'+':''}${prtAmt(Math.abs(r.CREDIT_CHG||0)*1e8)}</td>
+        </tr>`).join('')
+      }</tbody></table>`;
+  }
+
+  // 오늘 리포트 전체
+  simpleTable(reports?.rows?.slice(0,30),[
+    {key:'ITM_NM',label:'종목'},{key:'OFR_INST_NM',label:'증권사'},{key:'ANLST_NM',label:'애널리스트'},{key:'RCMD_NM',label:'의견'}
+  ], document.getElementById('morn-reports'));
+
+  // 윈레이트 전체
+  simpleTable(wrRows,[
+    {key:'ITM_NM',label:'종목'},{key:'OFR_INST_NM',label:'증권사'},
+    {key:'MTH6_AVG_INCR_WIN_RT',label:'6개월수익/승률',style:'color:var(--purple);font-weight:600;'},
+    {key:'YR1_AVG_INCR_WIN_RT',label:'1년수익/승률'},{key:'YR1_PRFT_RT',label:'1년수익',style:'color:var(--up);font-weight:600;'},
+    {key:'RPRT_CNT',label:'리포트수',num:true}
+  ], document.getElementById('morn-winrate'), 30);
+
+  // 윈스코어 전체
+  simpleTable(rsData?.rows,[
+    {key:'ITM_NM',label:'종목'},{key:'MKT_NM',label:'시장'},
+    {key:'SHRT_RS_CVRT_SCRE',label:'단기RS',style:'color:var(--gold);font-weight:700;'},
+    {key:'LNG_RS_CVRT_SCRE',label:'장기RS'},{key:'UD_RT',label:'등락',pct:true}
+  ], document.getElementById('morn-winscore'), 30);
+
+  // 목표가 상향 전체
+  simpleTable((cns?.tgtprc||[]).filter(r=>r.CHG_TYPE==='상향'),[
+    {key:'ITM_NM',label:'종목'},{key:'BRK_NM',label:'증권사'},{key:'ANL_NM',label:'애널리스트'},
+    {key:'PRE_TGT',label:'이전목표'},{key:'NOW_TGT',label:'현재목표',style:'color:#60a5fa;font-weight:600;'},
+    {key:'CHG_RT',label:'상향율',pct:true},{key:'GAP_RT',label:'괴리율',pct:true}
+  ], document.getElementById('morn-tgtprc'), 30);
+
+  // 이익전망 상향 전체
+  simpleTable((cns?.stock||[]).filter(r=>parseFloat(r.CNS_CHG_RT)>0).sort((a,b)=>parseFloat(b.CNS_CHG_RT)-parseFloat(a.CNS_CHG_RT)),[
+    {key:'ITM_NM',label:'종목'},{key:'SCTR_NM',label:'섹터'},
+    {key:'CNS_CHG_RT',label:'CNS증가',pct:true},{key:'RT_1W',label:'1주수익',pct:true},{key:'FWD_PER',label:'포워드PER',num:true,dec:1}
+  ], document.getElementById('morn-cns-up'), 30);
+}
+
+// ──── 모달 ────────────────────────────────────────────────────────────
+function showThemeModal(r) {
+  const stocks=(r.STOCKS_WITH_RATES||r.STOCKS||'').split(',');
+  openModal(`${r.THEME_NM} 테마`,`
+    <div class="flex items-center gap-3 mb-4">
+      <span class="${r.CHG_RT>=0?'badge-up':'badge-down'}" style="font-size:13px;">${r.CHG_RT>=0?'+':''}${fmt(r.CHG_RT,2)}%</span>
+      <span style="font-size:12px;color:var(--muted);">종목 ${r.STOCK_CNT}개 · 상승 ${r.UP_CNT} · 하락 ${r.DOWN_CNT}</span>
+    </div>
+    <div class="grid gap-2" style="grid-template-columns:1fr 1fr;">${
+      stocks.map(s=>`<div class="card2 p-2" style="font-size:11.5px;">${s.trim()}</div>`).join('')
+    }</div>`);
+}
+function showIntradayModal(s) {
+  openModal(`${s.ITM_NM} (${s.MARKET})`,`
+    <div style="font-size:13px;font-weight:600;color:#93c5fd;margin-bottom:12px;">${s.ITM_TIT||''}</div>
+    <div style="font-size:12.5px;color:#cbd5e1;line-height:1.8;white-space:pre-line;">${(s.ITM_CN||'').slice(0,800)}</div>`);
+}
+
+// ──── 초기화 ──────────────────────────────────────────────────────────
+initHome();
+</script>
+</body>
+</html>
