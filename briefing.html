@@ -71,8 +71,12 @@ function renderDateTabs(type) {
 function hideBadge(iframe) {
   try {
     const doc = iframe.contentDocument || iframe.contentWindow.document;
+    // IKIM 브랜드 배지 숨기기
     const badge = doc.querySelector('.brand-badge');
     if (badge) badge.style.display = 'none';
+    // 이브닝 LIVE 헤더 숨기기
+    const liveHeader = doc.querySelector('.live-header');
+    if (liveHeader) liveHeader.style.display = 'none';
   } catch(e) {}
 }
 
