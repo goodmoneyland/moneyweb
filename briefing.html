@@ -46,7 +46,8 @@
 </div>
 
 <!-- iframe 영역 -->
-<iframe id="brief-frame" src="" style="flex:1;width:100%;border:none;background:#fff;"></iframe>
+<iframe id="brief-frame" src="" style="flex:1;width:100%;border:none;background:#fff;"
+  onload="hideBadge(this)"></iframe>
 
 <script>
 let FILES = {};
@@ -65,6 +66,14 @@ function renderDateTabs(type) {
     div.onclick = () => selectDate(type, i);
     container.appendChild(div);
   });
+}
+
+function hideBadge(iframe) {
+  try {
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    const badge = doc.querySelector('.brand-badge');
+    if (badge) badge.style.display = 'none';
+  } catch(e) {}
 }
 
 function selectDate(type, idx) {
