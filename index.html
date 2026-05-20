@@ -81,10 +81,26 @@ function hideBadge(iframe) {
   } catch(e) {}
 }
 
+const EMPTY_HTML = `<html><body style="background:#070d1a;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:'Noto Sans KR',sans-serif;">
+<div style="text-align:center;color:#64748b;">
+  <div style="font-size:48px;margin-bottom:16px;">📭</div>
+  <div style="font-size:16px;font-weight:600;color:#94a3b8;margin-bottom:8px;">아직 생성된 파일이 없습니다</div>
+  <div style="font-size:13px;">스마트2 실행 후 자동으로 업데이트됩니다</div>
+</div></body></html>`;
+
+function showEmpty() {
+  document.getElementById('brief-frame').srcdoc = EMPTY_HTML;
+}
+
 function selectDate(type, idx) {
   document.querySelectorAll('.date-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
   const src = (FILES[type] || [])[idx]?.src;
-  if (src) document.getElementById('brief-frame').src = src;
+  if (src) {
+    document.getElementById('brief-frame').removeAttribute('srcdoc');
+    document.getElementById('brief-frame').src = src;
+  } else {
+    showEmpty();
+  }
 }
 
 function switchType(type, el) {
@@ -92,7 +108,12 @@ function switchType(type, el) {
   document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   renderDateTabs(type);
-  selectDate(type, 0);
+  const list = FILES[type] || [];
+  if (list.length === 0) {
+    showEmpty();
+  } else {
+    selectDate(type, 0);
+  }
 }
 
 // briefing_index.json 로드 후 초기화
