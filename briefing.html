@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>김형철의 머니랜드 브리핑</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -97,7 +100,7 @@ function selectDate(type, idx) {
   const src = (FILES[type] || [])[idx]?.src;
   if (src) {
     document.getElementById('brief-frame').removeAttribute('srcdoc');
-    document.getElementById('brief-frame').src = src;
+    document.getElementById('brief-frame').src = src + '?t=' + Date.now();
   } else {
     showEmpty();
   }
@@ -116,8 +119,8 @@ function switchType(type, el) {
   }
 }
 
-// briefing_index.json 로드 후 초기화
-fetch('/briefing_index.json')
+// briefing_index.json 로드 후 초기화 (?t= 로 캐시 우회)
+fetch('/briefing_index.json?t=' + Date.now())
   .then(r => r.json())
   .then(data => {
     FILES = data;
