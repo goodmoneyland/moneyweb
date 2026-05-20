@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>섹터PER 20260520</title>
+<style>
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #070d1a; color: #e2e8f0; font-family: 'Malgun Gothic', sans-serif;
+           min-height: 100vh; padding: 24px; }
+    .header { text-align: center; padding: 32px 16px 24px; }
+    .header h1 { font-size: 2rem; font-weight: 800;
+                 background: linear-gradient(135deg, #f59e0b, #fcd34d, #f59e0b);
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                 background-clip: text; }
+    .header .date { color: #64748b; margin-top: 6px; font-size: 0.9rem; }
+    .header .desc { color: #93c5fd; margin-top: 4px; font-size: 0.85rem; }
+    .card { background: #0f1829; border: 1px solid #1e2d47; border-radius: 12px;
+            padding: 20px; margin-bottom: 24px; }
+    .card-title { font-size: 1rem; font-weight: 700; color: #93c5fd;
+                  margin-bottom: 16px; padding-bottom: 10px;
+                  border-bottom: 1px solid #1e2d47; }
+    .chart-img { width: 100%; border-radius: 8px; display: block; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th { background: #1e2d47; color: #93c5fd; padding: 8px 10px;
+         text-align: center; font-weight: 600; position: sticky; top: 0; }
+    td { padding: 7px 10px; text-align: center; border-bottom: 1px solid #1e2d47; }
+    tr:hover td { background: #1e2d47; }
+    .stock-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+    .stock-cell { background: #0f1829; border: 1px solid #1e2d47; border-radius: 6px;
+                  padding: 6px 4px; text-align: center; font-size: 0.72rem; }
+    .stock-name { color: #e2e8f0; margin-bottom: 2px;
+                  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stock-per { font-weight: 700; font-size: 0.78rem; }
+    
+.stock-grid { max-height: none; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>김형철의 머니랜드</h1>
+  <div class="date">2026년 05월 20일</div>
+  <div class="desc">섹터 PER &amp; TOP60 종목 Fwd PER</div>
+</div>
+
+<div class="card">
+  <div class="card-title">📊 TOP60 종목 Fwd PER (Fwd PER 낮은 순)</div>
+  <div class="stock-grid">
+<div class="stock-cell"><div class="stock-name" title="삼성전자">삼성전자</div><div class="stock-per" style="color:#22d3a0">5.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="SK하이닉스">SK하이닉스</div><div class="stock-per" style="color:#22d3a0">5.2배</div></div>
+<div class="stock-cell"><div class="stock-name" title="현대차">현대차</div><div class="stock-per" style="color:#93c5fd">14.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="LG에너지솔루션">LG에너지솔루션</div><div class="stock-per" style="color:#f87171">249.4배</div></div>
+<div class="stock-cell"><div class="stock-name" title="SK스퀘어">SK스퀘어</div><div class="stock-per" style="color:#22d3a0">3.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성바이오로직스">삼성바이오로직스</div><div class="stock-per" style="color:#f87171">30.0배</div></div>
+<div class="stock-cell"><div class="stock-name" title="한화에어로스페이스">한화에어로스페이스</div><div class="stock-per" style="color:#f87171">27.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="두산에너빌리티">두산에너빌리티</div><div class="stock-per" style="color:#f87171">175.0배</div></div>
+<div class="stock-cell"><div class="stock-name" title="기아">기아</div><div class="stock-per" style="color:#22d3a0">7.0배</div></div>
+<div class="stock-cell"><div class="stock-name" title="KB금융">KB금융</div><div class="stock-per" style="color:#22d3a0">8.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="HD현대중공업">HD현대중공업</div><div class="stock-per" style="color:#fbbf24">19.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성전기">삼성전기</div><div class="stock-per" style="color:#f87171">50.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성생명">삼성생명</div><div class="stock-per" style="color:#f87171">20.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성물산">삼성물산</div><div class="stock-per" style="color:#f87171">22.7배</div></div>
+<div class="stock-cell"><div class="stock-name" title="신한지주">신한지주</div><div class="stock-per" style="color:#22d3a0">7.9배</div></div>
+<div class="stock-cell"><div class="stock-name" title="셀트리온">셀트리온</div><div class="stock-per" style="color:#f87171">26.2배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성SDI">삼성SDI</div><div class="stock-per" style="color:#f87171">53.1배</div></div>
+<div class="stock-cell"><div class="stock-name" title="한화오션">한화오션</div><div class="stock-per" style="color:#f87171">20.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="HD현대일렉트릭">HD현대일렉트릭</div><div class="stock-per" style="color:#f87171">36.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="미래에셋증권">미래에셋증권</div><div class="stock-per" style="color:#fbbf24">18.9배</div></div>
+<div class="stock-cell"><div class="stock-name" title="현대모비스">현대모비스</div><div class="stock-per" style="color:#93c5fd">10.9배</div></div>
+<div class="stock-cell"><div class="stock-name" title="고려아연">고려아연</div><div class="stock-per" style="color:#f87171">21.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="하나금융지주">하나금융지주</div><div class="stock-per" style="color:#22d3a0">7.1배</div></div>
+<div class="stock-cell"><div class="stock-name" title="NAVER">NAVER</div><div class="stock-per" style="color:#93c5fd">14.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="POSCO홀딩스">POSCO홀딩스</div><div class="stock-per" style="color:#fbbf24">16.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="HD한국조선해양">HD한국조선해양</div><div class="stock-per" style="color:#22d3a0">7.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="한국전력">한국전력</div><div class="stock-per" style="color:#22d3a0">3.4배</div></div>
+<div class="stock-cell"><div class="stock-name" title="LS ELECTRIC">LS ELECTRIC</div><div class="stock-per" style="color:#f87171">64.4배</div></div>
+<div class="stock-cell"><div class="stock-name" title="효성중공업">효성중공업</div><div class="stock-per" style="color:#f87171">35.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="SK">SK</div><div class="stock-per" style="color:#22d3a0">5.0배</div></div>
+<div class="stock-cell"><div class="stock-name" title="우리금융지주">우리금융지주</div><div class="stock-per" style="color:#22d3a0">6.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성중공업">삼성중공업</div><div class="stock-per" style="color:#f87171">20.2배</div></div>
+<div class="stock-cell"><div class="stock-name" title="LG화학">LG화학</div><div class="stock-per" style="color:#f87171">29.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="한화시스템">한화시스템</div><div class="stock-per" style="color:#f87171">58.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="현대로템">현대로템</div><div class="stock-per" style="color:#f87171">20.4배</div></div>
+<div class="stock-cell"><div class="stock-name" title="카카오">카카오</div><div class="stock-per" style="color:#f87171">24.7배</div></div>
+<div class="stock-cell"><div class="stock-name" title="SK이노베이션">SK이노베이션</div><div class="stock-per" style="color:#93c5fd">12.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="두산">두산</div><div class="stock-per" style="color:#f87171">53.4배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성화재">삼성화재</div><div class="stock-per" style="color:#93c5fd">12.1배</div></div>
+<div class="stock-cell"><div class="stock-name" title="SK텔레콤">SK텔레콤</div><div class="stock-per" style="color:#fbbf24">16.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="포스코퓨처엠">포스코퓨처엠</div><div class="stock-per" style="color:#f87171">379.1배</div></div>
+<div class="stock-cell"><div class="stock-name" title="HD현대">HD현대</div><div class="stock-per" style="color:#22d3a0">9.2배</div></div>
+<div class="stock-cell"><div class="stock-name" title="에코프로비엠">에코프로비엠</div><div class="stock-per" style="color:#f87171">275.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="LG전자">LG전자</div><div class="stock-per" style="color:#fbbf24">16.1배</div></div>
+<div class="stock-cell"><div class="stock-name" title="HMM">HMM</div><div class="stock-per" style="color:#93c5fd">14.8배</div></div>
+<div class="stock-cell"><div class="stock-name" title="메리츠금융지주">메리츠금융지주</div><div class="stock-per" style="color:#22d3a0">7.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="현대건설">현대건설</div><div class="stock-per" style="color:#f87171">25.9배</div></div>
+<div class="stock-cell"><div class="stock-name" title="KT&G">KT&G</div><div class="stock-per" style="color:#93c5fd">14.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="알테오젠">알테오젠</div><div class="stock-per" style="color:#f87171">52.6배</div></div>
+<div class="stock-cell"><div class="stock-name" title="LIG디펜스앤에어로스페이스">LIG디펜스앤에어로스페이스</div><div class="stock-per" style="color:#f87171">44.2배</div></div>
+<div class="stock-cell"><div class="stock-name" title="한국항공우주">한국항공우주</div><div class="stock-per" style="color:#f87171">38.0배</div></div>
+<div class="stock-cell"><div class="stock-name" title="기업은행">기업은행</div><div class="stock-per" style="color:#22d3a0">5.7배</div></div>
+<div class="stock-cell"><div class="stock-name" title="현대글로비스">현대글로비스</div><div class="stock-per" style="color:#22d3a0">8.9배</div></div>
+<div class="stock-cell"><div class="stock-name" title="KT">KT</div><div class="stock-per" style="color:#22d3a0">9.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="에이피알">에이피알</div><div class="stock-per" style="color:#f87171">24.5배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성에피스홀딩스">삼성에피스홀딩스</div><div class="stock-per" style="color:#f87171">26.1배</div></div>
+<div class="stock-cell"><div class="stock-name" title="LG">LG</div><div class="stock-per" style="color:#93c5fd">12.7배</div></div>
+<div class="stock-cell"><div class="stock-name" title="한국금융지주">한국금융지주</div><div class="stock-per" style="color:#22d3a0">5.7배</div></div>
+<div class="stock-cell"><div class="stock-name" title="삼성에스디에스">삼성에스디에스</div><div class="stock-per" style="color:#fbbf24">17.0배</div></div>
+<div class="stock-cell"><div class="stock-name" title="S-Oil">S-Oil</div><div class="stock-per" style="color:#22d3a0">6.8배</div></div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">📋 섹터별 PER 현황</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align:left">섹터명</th>
+        <th>시장</th>
+        <th>Fwd PER(배)</th>
+        <th>Trail PER(배)</th>
+        <th>주간수익률(%)</th>
+        <th>CNS1W변동률(%)</th>
+      </tr>
+    </thead>
+    <tbody>
+<tr><td style="text-align:left">코스피</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">7.2</td><td>13.5</td><td style="color:#f87171">-4.9</td><td style="color:#f87171">-0.0</td></tr>
+<tr><td style="text-align:left">코스피 부동산</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">3.2</td><td>4.3</td><td style="color:#f87171">-3.3</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스피 전기·가스</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">3.5</td><td>3.6</td><td style="color:#f87171">-4.2</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 종이·목재</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">5.1</td><td>11.0</td><td style="color:#f87171">-4.5</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스피 전기·전자</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">6.0</td><td>12.9</td><td style="color:#f87171">-3.9</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 섬유·의류</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">6.0</td><td>7.3</td><td style="color:#f87171">-4.5</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 증권</td><td>IKS001</td><td style="color:#22d3a0;font-weight:700">9.6</td><td>11.5</td><td style="color:#f87171">-10.4</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스피 비금속</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">10.3</td><td>22.1</td><td style="color:#f87171">-0.9</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 통신</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">11.9</td><td>14.1</td><td style="color:#f87171">-5.0</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스피 보험</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">12.1</td><td>13.9</td><td style="color:#22d3a0">6.6</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 화학</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">12.3</td><td>55.2</td><td style="color:#f87171">-6.9</td><td style="color:#f87171">-0.0</td></tr>
+<tr><td style="text-align:left">코스피 음식료·담배</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">12.5</td><td>20.1</td><td style="color:#22d3a0">0.2</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 의료·정밀기기</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">12.8</td><td>26.5</td><td style="color:#f87171">-3.4</td><td style="color:#22d3a0">3.7</td></tr>
+<tr><td style="text-align:left">코스피 운송·창고</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">13.0</td><td>13.7</td><td style="color:#f87171">-5.7</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 운송장비·부품</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">13.3</td><td>15.8</td><td style="color:#f87171">-7.2</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 유통</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">14.5</td><td>18.5</td><td style="color:#f87171">-6.8</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 건설</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">14.8</td><td>32.6</td><td style="color:#f87171">-10.2</td><td style="color:#f87171">-3.5</td></tr>
+<tr><td style="text-align:left">코스피 일반서비스</td><td>IKS001</td><td style="color:#93c5fd;font-weight:700">14.9</td><td>17.9</td><td style="color:#f87171">-7.6</td><td style="color:#f87171">-1.2</td></tr>
+<tr><td style="text-align:left">코스피 IT 서비스</td><td>IKS001</td><td style="color:#fbbf24;font-weight:700">15.9</td><td>18.7</td><td style="color:#f87171">-3.3</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 금속</td><td>IKS001</td><td style="color:#fbbf24;font-weight:700">19.1</td><td>30.5</td><td style="color:#f87171">-6.8</td><td style="color:#22d3a0">0.1</td></tr>
+<tr><td style="text-align:left">코스피 오락·문화</td><td>IKS001</td><td style="color:#f87171;font-weight:700">22.9</td><td>68.0</td><td style="color:#22d3a0">0.7</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스피 제약</td><td>IKS001</td><td style="color:#f87171;font-weight:700">28.1</td><td>33.1</td><td style="color:#f87171">-5.7</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스피 기계·장비</td><td>IKS001</td><td style="color:#f87171;font-weight:700">40.1</td><td>64.6</td><td style="color:#f87171">-15.7</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">27.1</td><td>47.9</td><td style="color:#f87171">-8.1</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 통신</td><td>IKQ001</td><td style="color:#22d3a0;font-weight:700">5.6</td><td>6.3</td><td style="color:#f87171">-7.3</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 음식료·담배</td><td>IKQ001</td><td style="color:#22d3a0;font-weight:700">5.6</td><td>8.9</td><td style="color:#22d3a0">1.4</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 IT 서비스</td><td>IKQ001</td><td style="color:#93c5fd;font-weight:700">12.8</td><td>22.9</td><td style="color:#f87171">-5.7</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 금융</td><td>IKQ001</td><td style="color:#93c5fd;font-weight:700">13.2</td><td>11.2</td><td style="color:#f87171">-8.7</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 오락·문화</td><td>IKQ001</td><td style="color:#93c5fd;font-weight:700">13.8</td><td>13.7</td><td style="color:#f87171">-1.1</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 화학</td><td>IKQ001</td><td style="color:#fbbf24;font-weight:700">15.0</td><td>25.1</td><td style="color:#f87171">-7.8</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 유통</td><td>IKQ001</td><td style="color:#fbbf24;font-weight:700">15.9</td><td>20.6</td><td style="color:#f87171">-7.0</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 의료·정밀기기</td><td>IKQ001</td><td style="color:#fbbf24;font-weight:700">16.4</td><td>27.8</td><td style="color:#f87171">-5.6</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 금속</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">21.3</td><td>26.3</td><td style="color:#f87171">-1.7</td><td style="color:#22d3a0">3.3</td></tr>
+<tr><td style="text-align:left">코스닥 비금속</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">22.1</td><td>33.2</td><td style="color:#f87171">-8.1</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스닥 제약</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">24.2</td><td>37.0</td><td style="color:#f87171">-9.9</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 운송장비·부품</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">29.6</td><td>69.0</td><td style="color:#f87171">-6.5</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 기계·장비</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">30.8</td><td>48.7</td><td style="color:#f87171">-9.2</td><td style="color:#f87171">-0.2</td></tr>
+<tr><td style="text-align:left">코스닥 건설</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">32.4</td><td>44.1</td><td style="color:#f87171">-10.6</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 전기·전자</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">34.6</td><td>114.1</td><td style="color:#f87171">-8.5</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 일반서비스</td><td>IKQ001</td><td style="color:#f87171;font-weight:700">56.6</td><td>129.4</td><td style="color:#f87171">-8.6</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 종이·목재</td><td>IKQ001</td><td style="color:#64748b;font-weight:700">-43.8</td><td>-12.8</td><td style="color:#f87171">-4.7</td><td style="color:#22d3a0">0.0</td></tr>
+<tr><td style="text-align:left">코스닥 운송·창고</td><td>IKQ001</td><td style="color:#64748b;font-weight:700">0.0</td><td>0.0</td><td style="color:#f87171">-7.1</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스닥 섬유·의류</td><td>IKQ001</td><td style="color:#64748b;font-weight:700">0.0</td><td>0.0</td><td style="color:#f87171">-8.4</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스닥 출판·매체복제</td><td>IKQ001</td><td style="color:#64748b;font-weight:700">0.0</td><td>0.0</td><td style="color:#f87171">-1.4</td><td style="color:#64748b">-</td></tr>
+<tr><td style="text-align:left">코스닥 기타제조</td><td>IKQ001</td><td style="color:#64748b;font-weight:700">0.0</td><td>0.0</td><td style="color:#f87171">-4.2</td><td style="color:#64748b">-</td></tr>
+
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
