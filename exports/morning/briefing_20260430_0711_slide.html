@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.04.30</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.brand-badge{
+  position:fixed;top:24px;right:28px;z-index:200;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3730a3 50%,#6d28d9 100%);
+  color:#fff;border-radius:18px;padding:20px 32px 20px 24px;
+  box-shadow:0 8px 28px rgba(30,58,138,0.28),0 3px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:20px;border:1px solid rgba(255,255,255,0.15);
+}
+.brand-logo{width:66px;height:66px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#1e3a8a;box-shadow:0 3px 12px rgba(251,191,36,0.45);}
+.brand-info{display:flex;flex-direction:column;line-height:1.3;}
+.brand-name{font-size:24px;font-weight:800;display:flex;align-items:center;gap:12px;}
+.brand-name .divider{display:inline-block;width:2px;height:20px;background:rgba(255,255,255,0.45);}
+.brand-name .analyst{font-weight:700;font-size:22px;opacity:0.95;}
+.brand-url{font-size:17px;color:#fbbf24;font-weight:800;letter-spacing:0.3px;margin-top:6px;display:flex;align-items:center;gap:7px;}
+.brand-url::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.9);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="brand-badge">
+  <div class="brand-logo">IKIM</div>
+  <div class="brand-info">
+    <div class="brand-name">리서치<span class="divider"></span><span class="analyst">김형철</span></div>
+    <div class="brand-url">www.ikim.co.kr</div>
+  </div>
+</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.04.30 (목)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag bl">로봇</span><span class="sum-desc">흙길도 공장 실내도 누빈다…대동로보틱스, '범용 자율주행 로봇' 승부수</span></button>
+        <button class="sum-row" onclick="go(3)"><span class="sum-tag bl">에너지/수소</span><span class="sum-desc">배 엔진이 AI 서버 돌린다, HD현대 AI 인프라 기업으로... 정기선</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag bl">정유</span><span class="sum-desc">트럼프 "핵합의 이뤄질 때까지 대이란 해상봉쇄 계속"</span></button>
+        <button class="sum-row" onclick="go(5)"><span class="sum-tag bl">반도체/기판</span><span class="sum-desc">노무라: ABF 기판이 완전히 매도자 시장으로 전환, 신흥 목표가를 60</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill">피엠티</div>
+        <div class="pick-pill">엘티씨</div>
+        <div class="pick-pill">신흥</div>
+        <div class="pick-pill">HD한국조선해양</div>
+        <div class="pick-pill">HD현대중공업</div>
+        <div class="pick-pill">대동</div>
+        <div class="pick-pill">로보티즈</div>
+        <div class="pick-pill">유진로봇</div>
+        <div class="pick-pill">GS</div>
+        <div class="pick-pill">S-Oil</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">로봇</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">에너지/수소</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">정유</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">반도체/기판</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ 오늘 주목할 첫 번째 섹터는 로봇으로 중국이 휴머노이드 로봇 생산량의 <span class="highlight">90%</span>를 장악한 상황에서 대동로보틱스의 범용 <b>자율주행</b> 기술과 한국GM의 로봇 자동화 성과가 한국 기업들의 대응 역량을 보여주며 관련주 재평가가 예상됨.</p>
+        <p>■ 두 번째는 에너지 섹터로 HD현대가 선박엔진을 AI <b>데이터센터</b> 전력원으로 활용하는 신사업 모델을 통해 조선·에너지·기계 3개 부문의 시너지를 구현하며 <b>AI 인프라</b> 투자 <b>수혜</b>를 전방위적으로 흡수할 전망임.</p>
+        <p>■ 세 번째는 반도체 기판 섹터로 노무라가 ABF 기판 <b>슈퍼사이클</b> 시작을 선언하며 신흥의 목표가를 600원에서 1,350원으로 <span class="highlight">125%</span> 상향조정했고, AI GPU/CPU 수요 <b>급증</b>으로 기판 산능력이 완전 매진된 상황임.</p>
+        <p>■ 전체적으로는 지정학적 리스크 확대에도 불구하고 <b>AI 인프라</b>와 로봇 자동화 테마의 구조적 성장 <b>모멘텀</b>이 더 강력해 공격적 포지셔닝이 유효한 국면임.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ ABF 기판 업계가 완전한 매도자 시장으로 전환되며 주요 고객들이 3~7년 장기<b>계약</b>을 적극 체결하고 있어 피엠티, 엘티씨 등 한국 기판업체들의 수익성 급개선이 확실시됨. HD현대그룹이 AI <b>데이터센터</b> 밸류체인을 전방위로 구축하며 엔진부터 변압기, 솔루션까지 통합 공급업체로 포지셔닝해 <b>수혜</b> 규모가 기존 예상을 크게 상회할 전망임. 대동로보틱스의 GPS와 라이다 복합 <b>자율주행</b> 기술이 실외환경까지 커버하며 중국 휴머노이드 로봇 독점에 대응할 차세대 기술력을 입증했음. 한국GM 창원공장이 로봇 627대 운영으로 가동률 <span class="highlight">95%</span> 달성하며 제조업 자동화 성공사례를 제시해 관련 로봇업체들의 국내외 <b>수주</b> 확대 기대감이 증폭됨.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+        <p>■ 트럼프가 핵합의 이전까지 대이란 해상<b>봉쇄</b>를 지속하겠다고 명시하며 유가 상승 압력이 지속되어 정유업체 마진 개선에도 불구하고 전체 경기 둔화 우려가 확산될 수 있음. VIX 지수 <span class="highlight">5.5%</span> <b>급등</b>으로 글로벌 증시 변동성이 확대되며 외국인 자금 이탈 압력이 가중되어 코스피 상승 <b>모멘텀</b>이 제약받을 가능성이 높아졌음. 중국이 휴머노이드 로봇 생산량 <span class="highlight">90%</span> 장악하며 올해 20만대 출하 전망인 상황에서 한국 로봇업체들의 글로벌 경쟁력 격차가 확대될 리스크가 부각됨.</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>로봇·에너지/수소·정유·반도체/기판</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 로봇 -->
+<div class="slide" data-label="로봇">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 로봇</div>
+        <div class="stitle">흙길도 공장 실내도 누빈다…대동로보틱스, '범용 자율주행 로봇' 승부수</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">흙길도 공장 실내도 누빈다…대동로보틱스, '범용 자율주행 로봇' 승부수</div>
+      <a href="https://v.daum.net/v/20260430060340153" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ [대구=이데일리 ] 울퉁불퉁한 잔디밭 위를 <b>자율주행</b> 로봇 한 대가 가로질렀음.</p>
+          <p>■ 공장 내부처럼 정형화된 공간이 아닌데도 로봇은 시속 2.1km의 일정한 속도로 제 길을 찾아갔음.</p>
+          <p>■ 흙길과 비포장 농로에서도 스스로 길을 찾아 움직일 수 있는 대동(000490)모빌리티의 <b>자율주행</b> 운반로봇 'RT100'의 모습임.</p>
+          <p>■ 기존 운반로봇이 실내 환경에 최적화됐다면 RT100은 농지와 산업 현장을 넘나드는 범용 <b>자율주행</b> 플랫폼임.</p>
+          <p>■ 반면 RT100은 스스로 길을 판단함.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">로보티즈</span>
+          <span class="stock-pill">LG이노텍</span>
+          <span class="stock-pill">유진로봇</span>
+          <span class="stock-pill">에스오에스랩</span>
+          <span class="stock-pill">뉴로메카</span>
+          <span class="stock-pill">아이엘</span>
+          <span class="stock-pill">우림피티에스</span>
+          <span class="stock-pill">삼현</span>
+          <span class="stock-pill">나인테크</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 로봇 -->
+<div class="slide" data-label="로봇">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 로봇</div>
+        <div class="stitle">[현장] 한국GM 창원공장, 가동률 95% '국내 1위'…"비결은 로봇 627대·용접 자동화"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[현장] 한국GM 창원공장, 가동률 95% '국내 1위'…"비결은 로봇 627대·용접 자동화"</div>
+      <a href="https://v.daum.net/v/20260430060351168" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 1991년 <b>출시</b>된 대한민국 최초의 경차 '티코'.</p>
+          <p>■ 경남 창원시에 있는 한국GM 창원공장은 현재 국내제너럴모터스(GM) 생산기지 가운데 최고 수준의 운영 효율을 보이는 수출 전진 기지로 변신했음.</p>
+          <p>■ 지난 28일 방문한 한국GM 창원공장에서는 대표적인 수출 모델인 소형 SUV '트랙스 크로스오버'가 줄지어 조립을 기다리고 있었음.</p>
+          <p>■ 창원공장은 2023년 트랙스 크로스오버를 <b>양산</b>하기 시작한 이래 지난해까지 3년 연속 국내 완성차 수출량 1위를 유지했음.</p>
+          <p>■ 창원공장의 생산력을 기반으로 GM한국사업장은 이달 들어 소형 SUV 누적 생산량 200만대를 <b>돌파</b>했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">로보티즈</span>
+          <span class="stock-pill">LG이노텍</span>
+          <span class="stock-pill">유진로봇</span>
+          <span class="stock-pill">에스오에스랩</span>
+          <span class="stock-pill">뉴로메카</span>
+          <span class="stock-pill">아이엘</span>
+          <span class="stock-pill">우림피티에스</span>
+          <span class="stock-pill">삼현</span>
+          <span class="stock-pill">나인테크</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 로봇 -->
+<div class="slide" data-label="로봇">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 로봇</div>
+        <div class="stitle">중국 휴머노이드 로봇, 세계 생산량 90% 장악…미국과 격차 더 벌어진다</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">중국 휴머노이드 로봇, 세계 생산량 90% 장악…미국과 격차 더 벌어진다</div>
+      <a href="http://m.g-enews.com/view.php?ud=2026043006321110562bd56fbc3c_1" target="_blank" class="news-url">m.g-enews.com</a>
+      <div class="news-body">
+          <p>■ 올해 <b>양산</b> <b>10만</b> 대 <b>돌파</b> 전망, 유니트리 美 경쟁사 대비 36배 더 출하 15차 5개년 계획에 인공일반지능(AGI) 명시…2035년 사회 전면 통합 목표 미국이 인공지능(AI) 모델과 반도체에서 앞서 달리는 동안, 중국은 AI를 현실 세계에 심는 데 있어 이미 결정적인 우위를 굳히고 있다는 경고가 잇따르고 있음.</p>
+          <p>■ 특히 휴머노이드 로봇 분야에서 중국은 이미 글로벌 생산량의 <span class="highlight">90%</span>를 장악하고 있으며, 올해 출하량이 최대 <b>20만</b> 대에 달할 수 있다는 전망까지 나오고 있음.</p>
+          <p>■ 미국 경제 전문지 뉴스위크는 지난 15일(현지시각) "<b>중국의 로봇 공세가 미국의 AI 맹점을 드러내고 있다</b>"고 보도하며, 양국 간 로봇·AI 패권 경쟁의 구조적 불균형을 집중 조명했음.</p>
+          <p>■ 30일 현재 중국 로봇 산업의 최신 현황을 종합했음.</p>
+          <p>■ "<b>양산 원년</b>" 선언…<b>10만</b> 대 시대 눈앞 올해 중국 휴머노이드 로봇 산업은 '시험 단계'에서 '대량 생산 단계'로 전환하는 분기점을 넘고 있다는 분석이 나온음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">로보티즈</span>
+          <span class="stock-pill">LG이노텍</span>
+          <span class="stock-pill">유진로봇</span>
+          <span class="stock-pill">에스오에스랩</span>
+          <span class="stock-pill">뉴로메카</span>
+          <span class="stock-pill">아이엘</span>
+          <span class="stock-pill">우림피티에스</span>
+          <span class="stock-pill">삼현</span>
+          <span class="stock-pill">나인테크</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/수소 -->
+<div class="slide" data-label="에너지/수소">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/수소</div>
+        <div class="stitle">배 엔진이 AI 서버 돌린다, HD현대 AI 인프라 기업으로... 정기선號의 변신</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">배 엔진이 AI 서버 돌린다, HD현대 AI 인프라 기업으로... 정기선號의 변신</div>
+      <a href="https://v.daum.net/v/20260430060240018" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 대형 선박을 움직이던 엔진이 <b>데이터센터</b>의 새로운 전력 공급원으로 부상하면서 HD현대그룹이 인공지능(AI) <b>데이터센터</b> 투자의 <b>수혜</b>를 전방위적으로 흡수하고 있음.</p>
+          <p>■ 전력의 생산(엔진)부터 인프라(변압기·배전), 설치·운영·보수(솔루션)를 폭넓게 아우르는 사업 구조가 부각되면서 HD현대가 <b>데이터센터</b> 밸류체인을 포괄하는 대표 그룹으로 재평가받는 분위기음.</p>
+          <p>■ HD현대그룹의 사업은 크게 조선해양(HD한국조선해양·HD현대중공업·HD현대삼호), 에너지(HD현대오일뱅크·HD현대일렉트릭·HD현대에너지솔루션), 기계·로봇(HD현대사이트솔루션·HD건설기계·HD현대로보틱스) 3개 부문으로 나뉜음.</p>
+          <p>■ 과거에는 업황 주기가 서로 다른 개별 사업으로 인식됐지만, AI <b>데이터센터</b>를 중심으로 3개 부문이 유기적으로 시너지를 내는 구조로 진화하고 있음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">비나텍</span>
+          <span class="stock-pill">LS머트리얼즈</span>
+          <span class="stock-pill">두산퓨얼셀</span>
+          <span class="stock-pill">한선엔지니어링</span>
+          <span class="stock-pill">SK이터닉스</span>
+          <span class="stock-pill">아모센스</span>
+          <span class="stock-pill">범한퓨얼셀</span>
+          <span class="stock-pill">코세스</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 정유 -->
+<div class="slide" data-label="정유">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 정유</div>
+        <div class="stitle">트럼프 "핵합의 이뤄질 때까지 대이란 해상봉쇄 계속"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">트럼프 "핵합의 이뤄질 때까지 대이란 해상봉쇄 계속"</div>
+      <a href="https://n.news.naver.com/article/001/0016051592" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 미 악시오스 인터뷰…미, 교착 타개 위해 단기적 강력 공습도 준비 (워싱턴=연합뉴스) 백나리 특파원 = 도널드 트럼프 미국 대통령은 이란이 핵프로그램에 대한 미국의 우려를 해소하는 합의에 동의할 때까지 대이란 해상<b>봉쇄</b>를 유지할 것이라고 밝혔음.</p>
+          <p>■ 미 온라인매체 악시오스는 29일(현지시간) 트럼프 대통령이 15분간의 전화 인터뷰에서 이같이 말했다고 보도했음.</p>
+          <p>■ 트럼프 대통령은 <b>봉쇄</b>가 폭격보다 어느 정도 효과적이라고 말했음.</p>
+          <p>■ 그는 이란이 현재 숨이 막히는 상태이고 상황은 더 나빠질 것이라면서 "<b>그들은 핵무기를 가질 수 없다</b>"고 강조했음.</p>
+          <p>■ 그는 이어 "이란은 합의를 원함.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">GS</span>
+          <span class="stock-pill">S-Oil</span>
+          <span class="stock-pill">극동유화</span>
+          <span class="stock-pill">E1</span>
+          <span class="stock-pill">SK가스</span>
+          <span class="stock-pill">흥구석유</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체/기판 -->
+<div class="slide" data-label="반도체/기판">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 반도체/기판</div>
+        <div class="stitle">노무라: ABF 기판이 완전히 매도자 시장으로 전환, 신흥 목표가를 600원에서 1,350원으로 상향</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">노무라: ABF 기판이 완전히 매도자 시장으로 전환, 신흥 목표가를 600원에서 1,350원으로 상향</div>
+      <a href="https://money.udn.com/money/story/5710/9472654?from=ednappsharing" target="_blank" class="news-url">money.udn.com</a>
+      <div class="news-body">
+          <p>■ 노무라는 ABF 기판 선두 기업인 신흥(3037)의 목표가를 600원에서 1,350원으로 대폭 상향조정했으며, '매수' 등급을 재확인했음.</p>
+          <p>■ 다른 외국 증권사들도 신흥의 목표가를 잇따라 상향조정했음.</p>
+          <p>■ 미국 은행은 940원에서 1,100원으로, 씨티는 400원에서 1,080원으로(상향폭 <span class="highlight">170%</span> 최대), HSBC는 605원에서 1,060원으로 상향조정했음.</p>
+          <p>■ 다라, 맥쿼리, 모건스탠리(대모) 증권도 최근에 목표가를 상향조정했으며, 각각 <b>1,000원</b>, <b>940원</b>, 785원으로 조정했음.</p>
+          <p>■ 따라서 노무라는 신흥의 2026년 예상 주당순이익(EPS)을 <span class="highlight">28%</span> 상향조정했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">피엠티</span>
+          <span class="stock-pill">엘티씨</span>
+          <span class="stock-pill">OCI</span>
+          <span class="stock-pill">해성디에스</span>
+          <span class="stock-pill">한양디지텍</span>
+          <span class="stock-pill">덕산하이메탈</span>
+          <span class="stock-pill">3S</span>
+          <span class="stock-pill">엠케이전자</span>
+          <span class="stock-pill">퓨릿</span>
+          <span class="stock-pill">한솔아이원스</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">8</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>

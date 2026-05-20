@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.04.23</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.brand-badge{
+  position:fixed;top:24px;right:28px;z-index:200;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3730a3 50%,#6d28d9 100%);
+  color:#fff;border-radius:18px;padding:20px 32px 20px 24px;
+  box-shadow:0 8px 28px rgba(30,58,138,0.28),0 3px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:20px;border:1px solid rgba(255,255,255,0.15);
+}
+.brand-logo{width:66px;height:66px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#1e3a8a;box-shadow:0 3px 12px rgba(251,191,36,0.45);}
+.brand-info{display:flex;flex-direction:column;line-height:1.3;}
+.brand-name{font-size:24px;font-weight:800;display:flex;align-items:center;gap:12px;}
+.brand-name .divider{display:inline-block;width:2px;height:20px;background:rgba(255,255,255,0.45);}
+.brand-name .analyst{font-weight:700;font-size:22px;opacity:0.95;}
+.brand-url{font-size:17px;color:#fbbf24;font-weight:800;letter-spacing:0.3px;margin-top:6px;display:flex;align-items:center;gap:7px;}
+.brand-url::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.9);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="brand-badge">
+  <div class="brand-logo">IKIM</div>
+  <div class="brand-info">
+    <div class="brand-name">리서치<span class="divider"></span><span class="analyst">김형철</span></div>
+    <div class="brand-url">www.ikim.co.kr</div>
+  </div>
+</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.04.23 (목)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag bl">에너지/원전</span><span class="sum-desc">치솟는 전력수요, 원전 최소 3기 더 필요</span></button>
+        <button class="sum-row" onclick="go(3)"><span class="sum-tag bl">에너지/전력설비</span><span class="sum-desc">"데이터센터 늘수록 돈 쓸어담는다" LS일렉트릭 목표가 상향</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag bl">화학</span><span class="sum-desc">'군살' 뺀 OCI, 1분기 영업익 9배 껑충…카본케미칼 '독주'</span></button>
+        <button class="sum-row" onclick="go(5)"><span class="sum-tag dn">방산</span><span class="sum-desc">인도, 한화에어로스페이스와 함께 K-9 자주포 200기 추가 도입 계획…</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill">두산에너빌리티</div>
+        <div class="pick-pill">한전기술</div>
+        <div class="pick-pill">우진</div>
+        <div class="pick-pill">비에이치아이</div>
+        <div class="pick-pill">LS일렉트릭</div>
+        <div class="pick-pill">삼성전자</div>
+        <div class="pick-pill">LG전자</div>
+        <div class="pick-pill">경동나비엔</div>
+        <div class="pick-pill">한화에어로스페이스</div>
+        <div class="pick-pill">OCI</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">에너지/원전</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">에너지/전력설비</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">화학</span>
+          <span class="op-sector-pill" style="background:var(--down-bg);color:var(--down);">방산</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ 전일 미국 시장은 나스닥이 <span class="highlight">1.64%</span> <b>급등</b>하며 기술주 중심의 강력한 상승 <b>모멘텀</b>을 보였고, 이는 AI <b>데이터센터</b> <b>투자 확대</b> 기대감이 반영된 것으로 해석됨.</p>
+        <p>■ 오늘 한국 시장에서는 에너지 인프라 섹터가 가장 주목받을 전망인데, 정부의 히트펌프 보급 확대 정책과 <b>급증</b>하는 전력수요가 <b>원전</b> 3기 이상 추가 건설 필요성을 제기하면서 관련 업체들의 <b>수주</b> 기대감이 크게 부상했음.</p>
+        <p>■ 전력설비 섹터 역시 글로벌 <b>데이터센터</b> 증설 붐이 송전에서 배전 사이클로 전환되는 구조적 변화의 핵심 <b>수혜</b>처로 부각되고 있음.</p>
+        <p>■ <b>방산</b> 섹터는 인도의 K-9 자주포 200기 추가 도입 계획이 확정되면서 중장기 <b>수주</b> 가시성이 크게 개선됐음.</p>
+        <p>■ 중국의 <b>원전</b> 굴기가 가속화되고 있지만, 한국 기업들의 기술 경쟁력과 체코 등 서방 시장에서의 신뢰도가 차별화 요소로 작용할 전망임.</p>
+        <p>■ 전체적으로 인프라 투자 테마가 시장을 이끄는 공격적 매수 전략이 유효할 것으로 예상됨.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ 정부의 히트펌프 2030년 69만대, 2035년 250만대 보급 목표가 <b>삼성전자</b>, LG전자, 경동나비엔 등 관련 업체들의 국내 사업 확대 계기가 됨. AI <b>데이터센터</b> 확산으로 인한 전력수요 <b>급증</b>이 <b>원전</b> 건설과 배전 인프라 투자를 촉발하며 두산에너빌리티, LS일렉트릭 등의 중장기 성장 동력이 강화됨. 체코 정부가 테믈린 3, 4호기 <b>원전</b> 사업에서도 한수원과의 <b>협력</b> 의지를 공개적으로 표명하면서 <b>원전</b> 수출 확대 가능성이 높아졌음. OCI가 1분기 영업이익 9배 증가라는 깜짝 실적을 발표하며 화학 섹터 전반의 수익성 개선 기대감이 확산되고 있음.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+        <p>■ 중국이 동시에 50기 원자로 건설 역량을 확보하며 <b>원전</b> 시장에서의 가격 경쟁이 심화될 우려가 있음. 급격한 전력수요 증가가 전력망 안정성 문제를 야기할 수 있어 전력설비 업체들의 단기 <b>수주</b> 집중 현상이 나타날 가능성이 있음. 히트펌프 보급 확대가 전력요금 인상 압박으로 이어져 정책 지속성에 대한 불확실성이 존재함.</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>에너지/원전·에너지/전력설비·화학</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 에너지/원전 -->
+<div class="slide" data-label="에너지/원전">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/원전</div>
+        <div class="stitle">치솟는 전력수요, 원전 최소 3기 더 필요</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">치솟는 전력수요, 원전 최소 3기 더 필요</div>
+      <a href="https://v.daum.net/v/20260423005634658" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 인공지능(AI) <b>데이터센터</b>와 반도체 산업, <b>전기차</b>·히트펌프 확산까지 겹치면서 한국의 전력 수요가 전례 없는 속도로 증가할 전망임.</p>
+          <p>■ 전 세계적으로 '전기의 시대'가 열리는 가운데, 이재명 정부의 첫 중장기 전력 수급 계획도 이러한 흐름에 맞춰 전력 시스템 전반을 재조정하는 방향으로 설계될 전망임.</p>
+          <p>■ 이에 따르면 2040년 전력 소비량은 최소 657.6테라와트시(TWh)에서 최대 694.1TWh에 이를 것으로 예상됐음.</p>
+          <p>■ 직전 11차 전기본(2038년 624.5TWh)보다 최대 70TWh 가까이 늘어난 수치음.</p>
+          <p>■ 늘어나는 수요가 서울시 연간 전력 소비량(50TWh)의 1.4배로, <b>원전</b> 3~7기가 필요한 전력량임.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">두산에너빌리티</span>
+          <span class="stock-pill">한전기술</span>
+          <span class="stock-pill">우진</span>
+          <span class="stock-pill">비에이치아이</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/원전 -->
+<div class="slide" data-label="에너지/원전">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/원전</div>
+        <div class="stitle">체코 산업부 실장 "테믈린 3·4호기도 필요…한수원으로부터 경쟁력 있는 제안 받았다"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">체코 산업부 실장 "테믈린 3·4호기도 필요…한수원으로부터 경쟁력 있는 제안 받았다"</div>
+      <a href="https://n.news.naver.com/article/011/0004613658?sid=101" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ "<b>한수원이 두코바니와 테믈린 사업 하면 시너지</b>" "<b>프랑스 방해 문제 없을 것…韓·체코는 동반자</b>" 정부, <b>원전</b> 수출 한전·한수원 '공동 주<b>계약</b>' 검토 체코 정부 산업통상부 고위 관료가 향후 이어질 신규 <b>원전</b> 발주에서도 '팀 코리아'와 함께하고 싶다는 의사를 내비쳤음.</p>
+          <p>■ 현재 체코는 한국수력원자력이 이미 <b>수주</b>한 두코바니 5·6호기 외에도 테믈린 3·4호기 신설 사업을 추진 중임.</p>
+          <p>■ 토마시 에흘레르 체코 산업부 원자력 및 신기술 실장은 22일 부산 벡스코에서 회견에서 "<b>체코에 충분한 전력을 공급하기 위해서는 테믈린 3·4호기 건설도 필요하다</b>"며 "<b>한수원이 사업을 진행한다면 시너지가 날 것으로 생각한다</b>"고 밝혔음.</p>
+          <p>■ 그는 "<b>이번 사업 발주는 내년쯤 결정된다</b>"며 "<b>한수원으로부터 이미 경쟁력 있는 제안서를 받았다</b>"고 설명했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">두산에너빌리티</span>
+          <span class="stock-pill">한전기술</span>
+          <span class="stock-pill">우진</span>
+          <span class="stock-pill">비에이치아이</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/원전 -->
+<div class="slide" data-label="에너지/원전">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/원전</div>
+        <div class="stitle">中 '원전 굴기' 가속화… 동시에 원자로 50기 건설하는 '세계 최대' 역량 확보</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">中 '원전 굴기' 가속화… 동시에 원자로 50기 건설하는 '세계 최대' 역량 확보</div>
+      <a href="http://m.g-enews.com/view.php?ud=2026042218240727890c8c1c064d_1" target="_blank" class="news-url">m.g-enews.com</a>
+      <div class="news-body">
+          <p>■ 건설 중인 <b>원전</b>, 전 세계 절반 이상 차지… 2030년 설치 용량 美 추월 목표 이란 전쟁발 에너지 위기 속 원자력 비중 확대… '화롱원' 중심 3세대 기술 선도 중국이 한 번에 최대 50기의 원자로를 동시에 건설할 수 있는 압도적인 인프라 역량을 갖추며 원자력 발전 분야의 글로벌 리더로 급부상하고 있음.</p>
+          <p>■ 중국은 현재 전 세계에서 건설 중인 원자로 수의 절반 이상을 자국 내에서 소화하며, 설계부터 시공까지 전 과정을 아우르는 독자적인 공급망을 완성했음.</p>
+          <p>■ 22일(현지시각) 중국원자력협회(CNEA)가 발표한 연례 보고서에 따르면, 중국은 2030년까지 총 설치 용량 면에서 미국을 넘어 세계 최대 원자력 발전국이 되겠다는 야심 찬 로드맵을 가동 중임.</p>
+          <p>■ ◇ '따라잡기'에서 '선도'로… 압도적인 건설 규모와 투자 중국의 원자력 산업은 이제 서방 기술을 추격하던 단계에서 벗어나, 일부 분야에서는 이미 세계 최고 수준의 경쟁력을 확보한 것으로 평가받는음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">두산에너빌리티</span>
+          <span class="stock-pill">한전기술</span>
+          <span class="stock-pill">우진</span>
+          <span class="stock-pill">비에이치아이</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/전력설비 -->
+<div class="slide" data-label="에너지/전력">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/전력설비</div>
+        <div class="stitle">"데이터센터 늘수록 돈 쓸어담는다" LS일렉트릭 목표가 상향</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"데이터센터 늘수록 돈 쓸어담는다" LS일렉트릭 목표가 상향</div>
+      <a href="https://v.daum.net/v/20260423063107786" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ BNK투자증권은 LS일렉트릭(LS ELECTRIC)의 목표주가를 기존 19만4000원에서 23만원으로 상향하고 투자의견 '매수'를 유지했음.</p>
+          <p>■ 이상현 BNK투자증권 연구원은 23일 "<b>핵심 투자 포인트는 글로벌 전력 사이클이 송전에서 LS일렉트릭의 주력 분야인 '배전 사이클'로 넘어오며 구조적인 성장이 본격화됐다는 점</b>"이라며 "특히 빅테크 기업들과의 <b>데이터센터</b> <b>계약</b>이 단순 일회성이 아닌 중기 고정 <b>계약</b> 및 패키지 형태로 진화하고 있으며, 교체 주기가 짧은 배전 제품의 특성상 당해 연도 매출로 직결되는 고마진의 반복 매출 구조가 세팅됐다는 점이 매우 매력적"이라고 분석했음.</p>
+          <p>■ 이어 "주가 <b>급등</b>에 연동돼 지급된 장기성과급 등 약 100억원대 중반의 일회성 인건비가 전력 기기 부문에 주로 반영되면서 표면적 영업이익률은 9.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">LS일렉트릭</span>
+          <span class="stock-pill">LS에코에너지</span>
+          <span class="stock-pill">LS</span>
+          <span class="stock-pill">HD현대일렉트릭</span>
+          <span class="stock-pill">대한전선</span>
+          <span class="stock-pill">가온전선</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 화학 -->
+<div class="slide" data-label="화학">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 화학</div>
+        <div class="stitle">'군살' 뺀 OCI, 1분기 영업익 9배 껑충…카본케미칼 '독주'</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">'군살' 뺀 OCI, 1분기 영업익 9배 껑충…카본케미칼 '독주'</div>
+      <a href="https://n.news.naver.com/mnews/article/648/0000046506?sid=101" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 부실 법인 청산·<b>합병</b> 통한 효율 극대화 고유가 속 제품판가·마진 <b>동반 상승</b> 효과 하반기 인산·카본블랙 상업 생산 박차 OCI가 수익성이 낮은 사업을 정리하고 핵심 사업에 집중하는 체질 개선 작업을 통해 올해 1분기 실적 <b>반등</b>에 성공했음.</p>
+          <p>■ 특히 반도체 시황 개선과 신사업 증설 효과가 본격화되는 2분기와 하반기로 갈수록 실적 성장세는 더욱 가팔라질 전망임.</p>
+          <p>■ 실적 이끈 '카본케미칼' OCI는 올해 1분기 매출과 영업이익이 각각 5066억원, 278억원을 기록했다고 22일 공시했음.</p>
+          <p>■ 전년 동기 대비 매출은 <span class="highlight">6%</span> 줄었으나 영업이익이 <span class="highlight">172.5%</span> 늘며 내실을 키웠음.</p>
+          <p>■ 전분기 대비로도 매출과 영업이익 각각 <span class="highlight">8.4%</span>, <span class="highlight">892.8%</span> 성장하는 등 가파른 <b>반등</b>세를 보였음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">OCI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 방산 -->
+<div class="slide" data-label="방산">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag red">&#128736;&#65039; 방산</div>
+        <div class="stitle">인도, 한화에어로스페이스와 함께 K-9 자주포 200기 추가 도입 계획…국방력 강화</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">인도, 한화에어로스페이스와 함께 K-9 자주포 200기 추가 도입 계획…국방력 강화</div>
+      <a href="https://defence.in/threads/india-plans-to-procure-200-more-k-9-vajra-howitzers-with-70-indigenous-content-as-talks-with-south-korea-advances.17544/" target="_blank" class="news-url">defence.in</a>
+      <div class="news-body">
+          <p>■ 인도가 한국의 K-9 장갑자주포 추가 도입을 통해 국방력을 대폭 강화할 계획임.</p>
+          <p>■ 인도는 현재 보유 중인 K-9 vajra 자주포 100기에 추가로 200기를 도입하여 총 400기 규모로 확대함으로써 세계 최대 규모의 K-9 전력을 보유하게 될 전망임.</p>
+          <p>■ 첫 번째 배치인 100기는 라르센 앤 투브로(L&T)가 한국의 <b>한화에어로스페이스</b>와의 <b>파트너십</b>을 통해 약 <span class="highlight">50%</span>의 <b>국산화</b> 비율로 완성되어 2021년 예정보다 앞서 모두 납품되었음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">한화에어로스페이스</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">LIG넥스원</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">8</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.05.15</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.brand-badge{
+  position:fixed;top:24px;right:28px;z-index:200;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3730a3 50%,#6d28d9 100%);
+  color:#fff;border-radius:18px;padding:20px 32px 20px 24px;
+  box-shadow:0 8px 28px rgba(30,58,138,0.28),0 3px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:20px;border:1px solid rgba(255,255,255,0.15);
+}
+.brand-logo{width:66px;height:66px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#1e3a8a;box-shadow:0 3px 12px rgba(251,191,36,0.45);}
+.brand-info{display:flex;flex-direction:column;line-height:1.3;}
+.brand-name{font-size:24px;font-weight:800;display:flex;align-items:center;gap:12px;}
+.brand-name .divider{display:inline-block;width:2px;height:20px;background:rgba(255,255,255,0.45);}
+.brand-name .analyst{font-weight:700;font-size:22px;opacity:0.95;}
+.brand-url{font-size:17px;color:#fbbf24;font-weight:800;letter-spacing:0.3px;margin-top:6px;display:flex;align-items:center;gap:7px;}
+.brand-url::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.9);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="brand-badge">
+  <div class="brand-logo">IKIM</div>
+  <div class="brand-info">
+    <div class="brand-name">리서치<span class="divider"></span><span class="analyst">김형철</span></div>
+    <div class="brand-url">www.ikim.co.kr</div>
+  </div>
+</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.05.15 (금)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag up">반도체</span><span class="sum-desc">뉴욕증시, 미중회담 첫날후 강세 마감…다우 50,000선 회복(종합)</span></button>
+        <button class="sum-row" onclick="go(3)"><span class="sum-tag dn">방산</span><span class="sum-desc">체급 키우 KAI…'실적+M&A' 쌍끌이 호재</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag bl">인공지능</span><span class="sum-desc">'1만피' 달성은 시간 문제…"포스트 주도주는 '피지컬AI'"</span></button>
+        <button class="sum-row" onclick="go(5)"><span class="sum-tag bl">2차전지</span><span class="sum-desc">ESS·소형 배터리 회복세…K동박, '전방 산업 다변화'로 전기차 캐즘 </span></button>
+        <button class="sum-row" onclick="go(6)"><span class="sum-tag bl">우주항공</span><span class="sum-desc">일론 머스크 스페이스X, 4월 비공개 IPO 신청...6월초 기업공개 로</span></button>
+        <button class="sum-row" onclick="go(7)"><span class="sum-tag bl">정유</span><span class="sum-desc">트럼프 "시진핑, 호르무즈 지원 가능 언급"…방중 성과 부각</span></button>
+        <button class="sum-row" onclick="go(8)"><span class="sum-tag bl">음식료</span><span class="sum-desc">유럽까지 번진 '불닭 신드롬'…삼양식품, 현지법인 매출 700억 돌파</span></button>
+        <button class="sum-row" onclick="go(9)"><span class="sum-tag bl">가상화폐</span><span class="sum-desc">"가상자산, 전통금융 질서 뒤흔들 것"…美 클래리티법 통과 파장</span></button>
+        <button class="sum-row" onclick="go(10)"><span class="sum-tag bl">로봇</span><span class="sum-desc">글로벌 IT 공룡들은 피지컬 AI 각축전 중 [사파이어 2026]</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill">SK하이닉스</div>
+        <div class="pick-pill">삼성전자</div>
+        <div class="pick-pill">KAI</div>
+        <div class="pick-pill">현대로템</div>
+        <div class="pick-pill">LIG디펜스앤에어로스페이스</div>
+        <div class="pick-pill">현대오토에버</div>
+        <div class="pick-pill">레인보우로보틱스</div>
+        <div class="pick-pill">삼양식품</div>
+        <div class="pick-pill">다날</div>
+        <div class="pick-pill">솔루스첨단소재</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--up-bg);color:var(--up);">반도체</span>
+          <span class="op-sector-pill" style="background:var(--down-bg);color:var(--down);">방산</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">인공지능</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">2차전지</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">우주항공</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">정유</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ 미중 정상회담 첫날 이후 미국 시장이 기술주 <b>랠리</b>에 힘입어 <b>강세</b> 마감하며 다우가 3개월 만에 50,000선을 회복했음.</p>
+        <p>■ <b>엔비디아</b>가 <span class="highlight">4.39%</span> <b>급등</b>하며 반도체 섹터를 견인했고, 나스닥이 <b>사상 최고</b>치를 경신하면서 AI 투자 열풍이 재점화됐음.</p>
+        <p>■ 오늘 주목할 첫 번째 섹터는 반도체로, JP모건이 2026년을 '에이전틱 AI의 해'로 전망하며 AI 수요 가속화를 언급한 점이 <b>SK하이닉스</b>와 <b>삼성전자</b>에 직접적 <b>수혜</b> 요인으로 작용할 전망임.</p>
+        <p>■ 두 번째는 <b>방산</b> 섹터로, KAI가 1분기 <b>역대 최대</b> 매출을 달성하며 완제기 수출 확대 <b>모멘텀</b>이 지속되고 있어 글로벌 <b>방산</b> 시장 재편 <b>수혜</b>가 본격화될 것으로 예상됨.</p>
+        <p>■ 세 번째는 로봇 섹터로, SAP 컨퍼런스에서 피지컬 AI 시연이 활발히 진행되며 현대오토에버와 레인보우로보틱스 등 로봇 관련주들의 재평가가 임박했음.</p>
+        <p>■ 전체적으로 AI와 첨단 기술주 중심의 공격적 매수 전략이 유효한 시점으로 판단됨.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ 미중 정상회담에서 시진핑이 호르무즈 해협 개방 지원 의사를 표명하고 이란 군사 장비 제공 중단을 약속해 지정학적 리스크가 완화됨. 스페이스X가 4월 비공개 IPO 신청 후 6월 로드쇼를 진행할 예정이어서 <b>우주</b>항공 관련 국내 기업들의 <b>동반 상승</b>이 기대됨. 삼양식품의 1분기 유럽 매출이 <span class="highlight">215%</span> <b>급증</b>하며 불닭 신드롬이 글로벌로 확산돼 K푸드 수출 기업들의 <b>실적 개선</b>이 가시화됨. 미국 상원에서 클래리티 법안이 통과되며 가상자산이 제도권 편입 수순을 밟아 관련 핀테크 기업들의 사업 기회가 확대됨.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+        <p>■ 2차전지 동박 업체들이 <b>전기차</b> 캐즘 지속으로 여전히 영업 적자를 기록하며 실적 회복 속도가 예상보다 더딜 수 있음. 에버코어ISI가 기술주를 가치주로 평가했으나 높은 밸류에이션 부담은 여전해 차익 실현 압력이 상존함. 코스피 목표치가 1만500까지 급상향되면서 과도한 낙관론에 따른 조정 위험이 커짐.</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>반도체·인공지능·2차전지·우주항공</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">뉴욕증시, 미중회담 첫날후 강세 마감…다우 50,000선 회복(종합)</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">뉴욕증시, 미중회담 첫날후 강세 마감…다우 50,000선 회복(종합)</div>
+      <a href="https://n.news.naver.com/article/001/0016078375" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ S&P500 <span class="highlight">0.8%</span>↑·나스닥 <span class="highlight">0.9%</span>↑…반도체 <b>랠리</b>에 <b>사상 최고</b>치 또 경신 (뉴욕=연합뉴스) 이지헌 특파원 = 전 세계가 도널드 트럼프 미국 대통령과 시진핑 중국 국가주석 간 베이징 정상회담 내용에 촉각을 곤두세우는 가운데 14일(현지시간) 뉴욕증시가 기술주 <b>랠리</b> 지속에 힘입어 <b>강세</b>로 마감했음.</p>
+          <p>■ 이날 뉴욕증시에서 다우존스30 산업평균지수는 전장보다 370.26포인트(<span class="highlight">0.75%</span>) 오른 50,063.46에 거래를 마쳤음.</p>
+          <p>■ 다우지수가 종가 기준으로 50,000선을 회복한 것은 지난 2월 11일 이후 3개월 만에 처음임.</p>
+          <p>■ 스탠더드앤드푸어스(S&P) 500 지수는 전장보다 56.99포인트(<span class="highlight">0.77%</span>) 오른 7,501.24에, 기술주 중심의 나스닥 종합지수는 전장보다 232.88포인트(<span class="highlight">0.88%</span>) 오른 26,635.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">이오테크닉스</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 방산 -->
+<div class="slide" data-label="방산">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag red">&#128736;&#65039; 방산</div>
+        <div class="stitle">체급 키우 KAI…'실적+M&A' 쌍끌이 호재</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">체급 키우 KAI…'실적+M&A' 쌍끌이 호재</div>
+      <a href="https://v.daum.net/v/20260515061102305" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 15일 업계에 따르면 KAI는 국내 유일 완제기 업체로 국내 <b>방산</b>업계 내 존재감을 키우고 있음.</p>
+          <p>■ 글로벌 <b>방산</b> 시장이 육·해·공·<b>우주</b>를 아우르는 통합 체계 중심으로 재편되는 가운데, 완제기 플랫폼 확보 여부가 경쟁력을 좌우할 핵심 요소로 떠오르고 있어서음.</p>
+          <p>■ 실제 KAI는 올해 1분기 완제기 수출 확대로 역대 1분기 기준 최대 매출인 1조927억원을 달성했음.</p>
+          <p>■ 완제기 수출 부문 매출은 전년 동기 대비 <span class="highlight">79.5%</span> 증가한 3071억원으로 집계됐음.</p>
+          <p>■ KAI는 지난 3월 KF-21 <b>양산</b> 1호기를 출고했고, 올해 상륙공격헬기(MAH)·소해헬기(MCH) 등 국내 체계개발 사업도 추진 중임.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">KAI</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">LIG디펜스앤에어로스페이스</span>
+          <span class="stock-pill">한화오션</span>
+          <span class="stock-pill">STX엔진</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 인공지능 -->
+<div class="slide" data-label="인공지능">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 인공지능</div>
+        <div class="stitle">'1만피' 달성은 시간 문제…"포스트 주도주는 '피지컬AI'"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">'1만피' 달성은 시간 문제…"포스트 주도주는 '피지컬AI'"</div>
+      <a href="https://v.daum.net/v/20260515060107981" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 코스피 지수가 7900선에 안착한 가운데 증권가는 8000을 넘어 <b>1만</b> 시대를 바라보고 있음.</p>
+          <p>■ 국내외 주요 증권사들이 반도체 장기 호황과 인공지능(AI) 산업의 폭발적 성장을 근거로 목표치를 일제히 상향하면서 한국 증시의 '천장'이 완전히 열렸다는 평가음.</p>
+          <p>■ 15일 금융투자업계에 따르면 국내외 증권사들이 코스피의 전망치를 잇따라 상향하며 지수 <b>1만</b> 달성을 기정사실화하고 있음.</p>
+          <p>■ 이날 KB증권은 보고서를 통해 코스피 목표 지수를 기존 7500에서 1만500으로 <span class="highlight">40%</span> 상향 조정했음.</p>
+          <p>■ KB증권은 2026년 코스피 영업이익이 전년 대비 3배 증가한 919조원을 기록하고, 2027년에는 1240조원에 달해 사상 첫 1000조원 시대를 열 것으로 내다봤음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">LG전자</span>
+          <span class="stock-pill">NAVER</span>
+          <span class="stock-pill">카카오</span>
+          <span class="stock-pill">LG디스플레이</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 인공지능 -->
+<div class="slide" data-label="인공지능">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 인공지능</div>
+        <div class="stitle">JP모건 "2026년은 '에이전틱 AI'의 해"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">JP모건 "2026년은 '에이전틱 AI'의 해"</div>
+      <a href="https://n.news.naver.com/article/374/0000510291" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ JP모건 자산운용의 스테파니 알리아가 글로벌 시장 전략가는 현지시간 13일 블룸버그에 출연해 "<b>2026년 '에이전틱 인공지능(AI)'의 해로 역사에 기록될 것</b>"이라고 주장했음.</p>
+          <p>■ 알리아가 전략가는 "<b>여러 가지 역풍으로 올해 경제가 이전보다 훨씬 더 둔화된 것은 사실</b>"이라며 "<b>하지만 우리 등 뒤에는 이 모든 상황을 뚫고 나가게 해주는 AI라는 로켓이 장착돼 있다</b>"고 말했음.</p>
+          <p>■ 그는 "<b>적어도 기업 실적에 관해서라면 그렇다</b>"라며 "올해 AI 분야에서 무엇이 변했는지 생각해 보면 2026년은 에이전틱 AI의 해이자, 연산의 수학적 공식이 완전히 새로 쓰인 해로 역사에 기록될 것"이라고 전망했음.</p>
+          <p>■ 알리아가 전략가는 "<b>우리는 AI에 대한 수요가 가속화되고 있는 시장의 한가운데에 있다</b>"며 "<b>수요가 폭증하고 있는데, 공급이 그 속도를 따라가지 못하고 있다</b>"고 말했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">LG전자</span>
+          <span class="stock-pill">NAVER</span>
+          <span class="stock-pill">카카오</span>
+          <span class="stock-pill">LG디스플레이</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 인공지능 -->
+<div class="slide" data-label="인공지능">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 인공지능</div>
+        <div class="stitle">에버코어ISI "기술주, 가치주 됐다"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">에버코어ISI "기술주, 가치주 됐다"</div>
+      <a href="https://n.news.naver.com/article/374/0000510292" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 월가 대형 투자자문사 에버코어 ISI의 줄리언 이매뉴얼 수석 주식 전략가는 현지시간 13일 블룸버그에 출연해 "<b>기술주가 가치주가 됐다</b>"고 주장했음.</p>
+          <p>■ 이매뉴얼 전략가는 "<b>지난 3년과 비교해 보면 현재 주식의 밸류에이션이 높아진 것은 사실</b>"이라며 "<b>하지만 지난 몇 달간, 특히 나스닥의 경우 실적이 워낙 강했기 때문에 밸류에이션이 실적을 따라잡기 시작했다</b>"고 말했음.</p>
+          <p>■ 그는 "<b>지난해 말까지만 해도 기술주에 대한 거부감이 상당했지만, 이는 3월 30일 저점을 기점으로 완전히 뒤바뀌었다</b>"며 "<b>여러 면에서 기술주는 이제 '가치주'가 됐다</b>"고 설명했음.</p>
+          <p>■ 당신의 제보가 뉴스로 만들어집니음.</p>
+          <p>■ SBS Biz는 여러분의 제보를 기다리고 있음.</p>
+          <p>■ 홈페이지 =</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">LG전자</span>
+          <span class="stock-pill">NAVER</span>
+          <span class="stock-pill">카카오</span>
+          <span class="stock-pill">LG디스플레이</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2차전지 -->
+<div class="slide" data-label="2차전지">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 2차전지</div>
+        <div class="stitle">ESS·소형 배터리 회복세…K동박, '전방 산업 다변화'로 전기차 캐즘 돌파한다 - 굿모닝경제</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">ESS·소형 배터리 회복세…K동박, '전방 산업 다변화'로 전기차 캐즘 돌파한다 - 굿모닝경제</div>
+      <a href="https://www.goodkyung.com/news/articleView.html?idxno=286992" target="_blank" class="news-url">goodkyung.com</a>
+      <div class="news-body">
+          <p>■ 국내 동박 업계가 <b>전기차</b> 수요 정체기인 '캐즘'의 파고를 넘기 위해 사업 구조 다변화에 박차를 가하고 있음.</p>
+          <p>■ 그간 매출의 절대 비중을 차지했던 <b>전기차</b>(EV)용 동박 부문의 부진을 에너지저장장치(ESS), 소형 가전, 그리고 인공지능(AI) 반도체용 하이엔드 동박으로 메우며 뚜렷한 실적 회복세를 보이고 있음.</p>
+          <p>■ ◇ 1분기 실적 '바닥' 확인…일회성 요인 넘어 펀더멘털 개선 최근 발표된 1분기 경영 실적에 따르면, 국내 동박 3사(롯데에너지머티리얼즈, SKC, 솔루스첨단소재)는 여전히 영업 적자를 기록했으나 그 폭을 대폭 줄이며 시장 컨센서스를 상회했음.</p>
+          <p>■ 롯데에너지머티리얼즈는 1분기 영업손실 50억원을 기록하며 전 분기 대비 손실을 크게 개선했음.</p>
+          <p>■ 지난해 4분기 이 회사의 영업손실 규모는 338억원이었음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">롯데에너지머티리얼즈</span>
+          <span class="stock-pill">SKC</span>
+          <span class="stock-pill">솔루스첨단소재</span>
+          <span class="stock-pill">삼성SDI</span>
+          <span class="stock-pill">LG에너지솔루션</span>
+          <span class="stock-pill">SK이노베이션</span>
+          <span class="stock-pill">지투파워</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 우주항공 -->
+<div class="slide" data-label="우주항공">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128752; 우주항공</div>
+        <div class="stitle">일론 머스크 스페이스X, 4월 비공개 IPO 신청...6월초 기업공개 로드쇼</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">일론 머스크 스페이스X, 4월 비공개 IPO 신청...6월초 기업공개 로드쇼</div>
+      <a href="https://www.mediapen.com/news/view/1098975" target="_blank" class="news-url">mediapen.com</a>
+      <div class="news-body">
+          <p>■ 일론 머스크의 <b>우주</b>기업인 스페이스X가 지난달 기업공개(IPO)를 비공개로 신청한데 이어 다음달 초 투자설명회를 여는 등 상장 절차를 본격화한다고 CNBC가 14일(현지시간) 보도했음.</p>
+          <p>■ 소식통에 따르면 스페이스X는 4월에 비공개로 IPO를 신청했으며, 다음 주 초에 투자설명서를 공개할 계획임.</p>
+          <p>■ 스페이스X는 일론 머스크의 인공지능 스타트업인 xAI와 지난 2월에 <b>합병</b>하면서 기업가치를 1조<b>2,500억</b> 달러로 평가받았음.</p>
+          <p>■ 스페이스X는 6월 8일 투자자들에게 거래를 공식적으로 홍보하기 위한 로드쇼를 시작할 예정임.</p>
+          <p>■ 투자설명서는 로드쇼 시작 최소 15일 전에 공개되어야 함.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">퍼스텍</span>
+          <span class="stock-pill">LIG디펜스앤에어로스페이스</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">이노스페이스</span>
+          <span class="stock-pill">미래에셋벤처투자</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 정유 -->
+<div class="slide" data-label="정유">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 정유</div>
+        <div class="stitle">트럼프 "시진핑, 호르무즈 지원 가능 언급"…방중 성과 부각</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">트럼프 "시진핑, 호르무즈 지원 가능 언급"…방중 성과 부각</div>
+      <a href="https://n.news.naver.com/article/015/0005287239?sid=104" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 도널드 트럼프 미국 대통령이 시진핑 중국 국가주석으로부터 호르무즈 해협 개방을 돕겠다는 언급을 들었다고 밝혔음.</p>
+          <p>■ 로이터·AFP통신 등에 따르면 트럼프 대통령은 베이징 시간 14일 방중 일정에 동행한 폭스뉴스 앵커 션 해니티와의 인터뷰에서 시 주석이 호르무즈 해협 개방을 원한다고 말했다고 전했음.</p>
+          <p>■ 그는 시 주석이 "<b>어떤 식으로든 도울 수 있다면 돕고 싶다</b>"는 취지로 말했다고 설명했음.</p>
+          <p>■ 트럼프 대통령은 시 주석이 이란에 군사 장비를 제공하지 않겠다는 입장도 밝혔다고 덧붙였음.</p>
+          <p>■ 다만 현재 공개된 내용은 인터뷰 예고편 일부로, 시 주석의 지원 의사와 관련한 구체적인 맥락은 미국 동부시간 14일 저녁 전체 인터뷰가 공개된 뒤 확인될 전망임.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">S-Oil</span>
+          <span class="stock-pill">SK이노베이션</span>
+          <span class="stock-pill">한국가스공사</span>
+          <span class="stock-pill">포스코인터내셔널</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 음식료 -->
+<div class="slide" data-label="음식료">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 음식료</div>
+        <div class="stitle">유럽까지 번진 '불닭 신드롬'…삼양식품, 현지법인 매출 700억 돌파</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">유럽까지 번진 '불닭 신드롬'…삼양식품, 현지법인 매출 700억 돌파</div>
+      <a href="https://n.news.naver.com/article/421/0008945940" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 美·中 휩쓴 '불닭 인기' 유럽서 확산…1분기 유럽법인 매출 <span class="highlight">215%</span> 껑충 네덜란드 이어 영국에 판매법인 세워…증권가 "<b>올해 유럽서 <b>3000억</b> 매출 예상</b>" 미국과 중국을 휩쓴 '불닭 신드롬'이 이번에는 유럽으로 번지고 있음.</p>
+          <p>■ 현지 대형마트와 일반 매장 입점이 빠르게 늘어나면서 삼양식품의 올해 1분기 유럽 매출은 3배 이상 뛰었고 유럽 사업 확대에도 속도가 붙는 모습임.</p>
+          <p>■ 15일 업계에 따르면 삼양식품의 올해 1분기 유럽 매출은 <b>770억</b> 원으로 지난해 동기 대비 <span class="highlight">215%</span> 증가했음.</p>
+          <p>■ 최근 분기 기준 <b>500억</b> 원 수준이던 유럽 매출이 <b>700억</b> 원을 넘어선 것은 이번이 처음임.</p>
+          <p>■ 삼양식품의 유럽 매출이 <b>급증</b>한 배경에는 독일·네덜란드·폴란드 등 기존 핵심 시장의 안정적인 성장세에 더해 핀란드 시장 신규 진출 효과 등이 영향을 미친 것으로 분석됨.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">삼양식품</span>
+          <span class="stock-pill">CJ제일제당</span>
+          <span class="stock-pill">농심</span>
+          <span class="stock-pill">신세계푸드</span>
+          <span class="stock-pill">동서</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 가상화폐 -->
+<div class="slide" data-label="가상화폐">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 가상화폐</div>
+        <div class="stitle">"가상자산, 전통금융 질서 뒤흔들 것"…美 클래리티법 통과 파장</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"가상자산, 전통금융 질서 뒤흔들 것"…美 클래리티법 통과 파장</div>
+      <a href="https://n.news.naver.com/article/018/0006281801?sid=101" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 美 상원 은행위 통과, 민주당 의원 2명도 찬성 표결 스테이블코인 결제에 리워드 허용, 단순 보유엔 이자 금지 월스트리트저널 "<b>가상자산 업계, 은행 격돌 뒤 승리 거둬</b>" 블룸버그 "<b>트럼프 불씨, 초당적 윤리 조항 포함 여부 쟁점</b>" [이데일리 ] 미 상원 은행위원회가 '디지털자산 시장구조법' 일명 '클래리티(CLARITY) 법안'을 통과시켰음.</p>
+          <p>■ 디지털자산(가상자산)이 제도권으로 본격 편입되는 분수령이 될 전망임.</p>
+          <p>■ 미 상원 은행위원회가 14일(현지시간) 클래리티 법안을 표결 끝에 찬성 15표 대 반대 9표로 통과시켰음.</p>
+          <p>■ 민주당 의원 2명이 공화당과 함께 법안 통과에 찬성했음.</p>
+          <p>■ 통과된 법안에는 CFTC를 가상자산 산업 대부분의 주 규제기관으로 지정하고, SEC는 디지털 증권 감독 권한을 유지하도록 하는 내용이 반영됐음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">다날</span>
+          <span class="stock-pill">헥토파이낸셜</span>
+          <span class="stock-pill">한화투자증권</span>
+          <span class="stock-pill">카카오페이</span>
+          <span class="stock-pill">갤럭시아머니트리</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 로봇 -->
+<div class="slide" data-label="로봇">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 로봇</div>
+        <div class="stitle">글로벌 IT 공룡들은 피지컬 AI 각축전 중 [사파이어 2026]</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">글로벌 IT 공룡들은 피지컬 AI 각축전 중 [사파이어 2026]</div>
+      <a href="https://n.news.naver.com/article/011/0004621052?sid=105" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 13일(현지 시간) 미국 올랜도 오렌지카운티 컨벤션 센터.</p>
+          <p>■ 충전소에 잠들어있던 보스턴다이나믹스의 사족보행 로봇 '스팟'이 철컹거리는 소리를 내며 기지개를 폈음.</p>
+          <p>■ 접혔던 네 다리를 핀 스팟이 바닥의 턱을 자연스럽게 오르내리고 직각 코너를 돌며 3m쯤 이동했을 무렵, 스팟은 무언가 발견했다는 듯이 멈춰서 몸체에 달린 카메라를 들이밀었음.</p>
+          <p>■ 이날 스팟의 움직임은 건물 누수를 가정한 상황에서 수도관의 고장부를 찾아 이동하고 이를 촬영한 것임.</p>
+          <p>■ 12일부터 열린 SAP의 연례 콘퍼런스 'SAP 사파이어 2026'에선 글로벌 정보기술(IT)들의 피지컬 인공지능(AI) 시연 행사가 곳곳에서 열렸음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">현대오토에버</span>
+          <span class="stock-pill">현대모비스</span>
+          <span class="stock-pill">레인보우로보틱스</span>
+          <span class="stock-pill">MDS테크</span>
+          <span class="stock-pill">로보티즈</span>
+          <span class="stock-pill">한국피아이엠</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">13</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>

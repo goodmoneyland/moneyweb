@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>김형철의 머니랜드 브리핑</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --bg:#070d1a; --card:#0f1829; --card2:#162033; --border:#1e2d47;
+    --text:#e2e8f0; --muted:#64748b; --accent:#3b82f6;
+  }
+  body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; margin:0; }
+  .type-tab { padding:7px 16px; border-radius:8px; cursor:pointer; font-size:12.5px; font-weight:600;
+              border:1px solid var(--border); color:var(--muted); transition:all .15s; white-space:nowrap; }
+  .type-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .type-tab:hover:not(.active) { background:var(--card2); color:var(--text); }
+  .date-tab { padding:6px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600;
+              border:1px solid var(--border); color:var(--muted); transition:all .15s; white-space:nowrap; }
+  .date-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .date-tab:hover:not(.active) { background:var(--card2); color:var(--text); }
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+</style>
+</head>
+<body style="height:100vh;display:flex;flex-direction:column;overflow:hidden;">
+
+<!-- 상단 바 -->
+<div style="background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+  <!-- 로고 -->
+  <span style="font-size:30px;font-weight:900;white-space:nowrap;margin-right:4px;
+               background:linear-gradient(90deg,#f59e0b,#fbbf24);
+               -webkit-background-clip:text;-webkit-text-fill-color:transparent;">김형철의 머니랜드</span>
+  <div style="width:1px;height:18px;background:var(--border);margin:0 6px;"></div>
+
+  <!-- 타입 탭 -->
+  <div class="type-tab active" onclick="switchType('us-morning', this)">US모닝브리프</div>
+  <div class="type-tab" onclick="switchType('kr-morning', this)">한국모닝브리프</div>
+  <div class="type-tab" onclick="switchType('us-evening', this)">US이브닝</div>
+
+  <div style="flex:1;"></div>
+
+  <!-- 날짜 탭 (JS로 동적 생성) -->
+  <div id="date-tabs" style="display:flex;gap:6px;"></div>
+</div>
+
+<!-- iframe 영역 -->
+<iframe id="brief-frame" src="" style="flex:1;width:100%;border:none;background:#fff;"></iframe>
+
+<script>
+let FILES = {};
+let currentType = 'us-morning';
+
+function renderDateTabs(type) {
+  const list = FILES[type] || [];
+  const container = document.getElementById('date-tabs');
+  container.innerHTML = '';
+  list.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'date-tab' + (i === 0 ? ' active' : '');
+    div.innerHTML = f.today
+      ? `${f.label} <span style="font-size:10px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:8px;margin-left:3px;">오늘</span>`
+      : f.label;
+    div.onclick = () => selectDate(type, i);
+    container.appendChild(div);
+  });
+}
+
+function selectDate(type, idx) {
+  document.querySelectorAll('.date-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  const src = (FILES[type] || [])[idx]?.src;
+  if (src) document.getElementById('brief-frame').src = src;
+}
+
+function switchType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderDateTabs(type);
+  selectDate(type, 0);
+}
+
+// briefing_index.json 로드 후 초기화
+fetch('/briefing_index.json')
+  .then(r => r.json())
+  .then(data => {
+    FILES = data;
+    renderDateTabs('us-morning');
+    selectDate('us-morning', 0);
+  })
+  .catch(() => {
+    document.getElementById('brief-frame').srcdoc =
+      '<p style="color:#888;padding:40px;font-family:sans-serif;">브리핑 인덱스를 불러올 수 없습니다.</p>';
+  });
+</script>
+</body>
+</html>

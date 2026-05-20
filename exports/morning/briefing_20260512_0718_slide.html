@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.05.12</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.brand-badge{
+  position:fixed;top:24px;right:28px;z-index:200;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3730a3 50%,#6d28d9 100%);
+  color:#fff;border-radius:18px;padding:20px 32px 20px 24px;
+  box-shadow:0 8px 28px rgba(30,58,138,0.28),0 3px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:20px;border:1px solid rgba(255,255,255,0.15);
+}
+.brand-logo{width:66px;height:66px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#1e3a8a;box-shadow:0 3px 12px rgba(251,191,36,0.45);}
+.brand-info{display:flex;flex-direction:column;line-height:1.3;}
+.brand-name{font-size:24px;font-weight:800;display:flex;align-items:center;gap:12px;}
+.brand-name .divider{display:inline-block;width:2px;height:20px;background:rgba(255,255,255,0.45);}
+.brand-name .analyst{font-weight:700;font-size:22px;opacity:0.95;}
+.brand-url{font-size:17px;color:#fbbf24;font-weight:800;letter-spacing:0.3px;margin-top:6px;display:flex;align-items:center;gap:7px;}
+.brand-url::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.9);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="brand-badge">
+  <div class="brand-logo">IKIM</div>
+  <div class="brand-info">
+    <div class="brand-name">리서치<span class="divider"></span><span class="analyst">김형철</span></div>
+    <div class="brand-url">www.ikim.co.kr</div>
+  </div>
+</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.05.12 (화)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag bl">에너지/원전</span><span class="sum-desc">대미투자 1호에 SMR 급부상</span></button>
+        <button class="sum-row" onclick="go(3)"><span class="sum-tag up">반도체</span><span class="sum-desc">"20년 걸린다"던 젠슨 황…양자컴퓨터의 '윈도우' 꺼냈다</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag bl">우주항공산업</span><span class="sum-desc">스페이스X, '신형 스타십 완전체' 첫 공개…상장 앞두고 오는 15일 우</span></button>
+        <button class="sum-row" onclick="go(5)"><span class="sum-tag bl">제약바이오/백신</span><span class="sum-desc">한타바이러스 사례가 제약·바이오 주식 급등 촉발 — 거래가 변동성이 심한</span></button>
+        <button class="sum-row" onclick="go(6)"><span class="sum-tag cy">자동차/피지컬AI</span><span class="sum-desc">"현대글로비스, 휴머노이드 투입 현실화…재평가 기대"[클릭 e종목]</span></button>
+        <button class="sum-row" onclick="go(7)"><span class="sum-tag bl">금융/토큰증권</span><span class="sum-desc">삼성SDS, 토큰증권 시장 정조준…AI·클라우드와 시너지 낼까</span></button>
+        <button class="sum-row" onclick="go(8)"><span class="sum-tag bl">블록체인/암호화폐</span><span class="sum-desc">서클, ARC로 2억2200만달러 유치⋯월가 자금 몰렸다 | 블록미디어</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill">SK하이닉스</div>
+        <div class="pick-pill">삼성전자</div>
+        <div class="pick-pill">두산에너빌리티</div>
+        <div class="pick-pill">현대글로비스</div>
+        <div class="pick-pill">한양이엔지</div>
+        <div class="pick-pill">미래반도체</div>
+        <div class="pick-pill">펨트론</div>
+        <div class="pick-pill">현대차</div>
+        <div class="pick-pill">현대모비스</div>
+        <div class="pick-pill">헥토파이낸셜</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">에너지/원전</span>
+          <span class="op-sector-pill" style="background:var(--up-bg);color:var(--up);">반도체</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">우주항공산업</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">제약바이오/백신</span>
+          <span class="op-sector-pill" style="background:var(--cyan-bg);color:var(--cyan);">자동차/피지컬AI</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">금융/토큰증권</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ 오늘 한국 시장에서는 **반도체** 섹터가 최우선 주목 대상임.</p>
+        <p>■ <b>엔비디아</b>의 양자컴퓨팅 AI 모델 '이징' 공개로 새로운 성장 동력이 부각되면서 관련 한국 기업들의 <b>동반 상승</b>이 기대됨.</p>
+        <p>■ <b>삼성전자</b>와 키옥시아의 2D 낸드 생산 중단으로 레거시 메모리 가격이 반년 새 <span class="highlight">300%</span> <b>폭등</b>한 점도 국내 반도체 기업들에겐 수익성 개선 <b>호재</b>임.</p>
+        <p>■ **에너지/<b>원전</b>** 섹터는 대미투자 1호 프로젝트로 <b>SMR</b>(소형모듈<b>원전</b>) 급부상과 글로벌 에너지 공급 불안정성이 투자 동력으로 작용할 전망임.</p>
+        <p>■ 뉴스케일파워와의 <b>협력</b> 논의 진행과 중동 리스크 지속은 국내 <b>원전</b> 관련 기업들의 재평가 촉진 요인임.</p>
+        <p>■ **로봇/자동화** 섹터는 현대글로비스의 휴머노이드 실증 본격화와 삼성의 로봇 인재 대규모 채용으로 피지컬AI 투자 가속화가 확인됨.</p>
+        <p>■ 특히 현대글로비스는 보스턴다이내믹스 지분 <span class="highlight">11.3%</span> 보유로 직접적 <b>수혜</b>가 예상됨.</p>
+        <p>■ 전체적으로는 기술 혁신과 지정학적 리스크가 공존하는 상황에서 **선별적 공격** 전략이 유효할 것으로 판단됨.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ <b>엔비디아</b> 양자컴퓨팅 진출로 AI 생태계 확장이 가속화되면서 국내 <b>반도체 장비</b> 및 소재 기업들의 신규 <b>수주</b> 기회가 확대됨. 2D 낸드플래시 공급 절벽으로 인한 가격 <span class="highlight">300%</span> <b>폭등</b>은 레거시 메모리 보유 기업들의 수익성 급개선 요인임. 대미투자 <b>SMR</b> 프로젝트 본격화로 두산에너빌리티, 한양이엔지 등 <b>원전</b> 관련주들의 장기 <b>수주</b> 가시성이 높아짐. 현대글로비스 휴머노이드 실증과 삼성 로봇 사업 가속화는 국내 제조업의 자동화 투자 확산을 의미함.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+        <p>■ VIX <b>급등</b>과 미 금리 상승은 글로벌 유동성 축소 우려를 높여 성장주 밸류에이션 압박 요인으로 작용함. 사우디 아람코의 석유 재고 임계점 경고는 글로벌 인플레이션 재점화 리스크를 시사하며 원자재 집약 산업에 부담임. <b>삼성전자</b> 노사갈등 지속은 반도체 생산 차질과 글로벌 공급망 불안정성을 야기할 가능성이 있음.</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>에너지/원전·반도체·우주항공산업·제약바이오/백신</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 에너지/원전 -->
+<div class="slide" data-label="에너지/원전">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/원전</div>
+        <div class="stitle">대미투자 1호에 SMR 급부상</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">대미투자 1호에 SMR 급부상</div>
+      <a href="https://n.news.naver.com/article/011/0004619609" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 정부, 뉴스케일파워와 <b>협력</b> 논의 다음 달 18일 대미투자특별법 발효를 앞두고 정부가 <b>2000억</b> 달러 규모로 진행될 대미 투자의 1호 프로젝트 후보군을 좁히고 있음.</p>
+          <p>■ 액화천연가스(LNG)·<b>원전</b> 등이 후보 분야로 꼽히는 가운데 정부는 다음 달 특별법 시행 이후 1호 프로젝트를 발표한다는 계획임.</p>
+          <p>■ 11일 <b>원전</b> 업계에 따르면 정부는 최근 미국 워싱턴DC에서 뉴스케일파워 최고경영자(CEO) 등 경영진과 대미 전략적 투자 프로젝트 추진 방안을 논의한 것으로 알려졌음.</p>
+          <p>■ 뉴스케일파워는 미국 원자력규제위원회(NRC)의 표준 설계 인증을 획득한 소형모듈<b>원전</b>(<b>SMR</b>) 기업으로 현재 삼성물산·두산에너빌리티 등 국내 기업과도 손잡고 미국에 <b>SMR</b>을 건설하는 방안을 추진하고 있음.</p>
+          <p>■ 정부는 미국 행정부와도 <b>원전</b>과 관련한 고위급 협의를 이어가고 있음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">두산에너빌리티</span>
+          <span class="stock-pill">한양이엔지</span>
+          <span class="stock-pill">GS건설</span>
+          <span class="stock-pill">한미글로벌</span>
+          <span class="stock-pill">DL이앤씨</span>
+          <span class="stock-pill">GS</span>
+          <span class="stock-pill">S-Oil</span>
+          <span class="stock-pill">SNT에너지</span>
+          <span class="stock-pill">팬오션</span>
+          <span class="stock-pill">성광벤드</span>
+          <span class="stock-pill">원일티엔아이</span>
+          <span class="stock-pill">대한해운</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/원전 -->
+<div class="slide" data-label="에너지/원전">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/원전</div>
+        <div class="stitle">사우디 아람코 "세계 휘발유·항공유 재고 임계점 근접"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">사우디 아람코 "세계 휘발유·항공유 재고 임계점 근접"</div>
+      <a href="https://n.news.naver.com/article/014/0005520022" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ [파이낸셜뉴스] 전 세계 휘발유와 항공유 재고가 여름 휴가철 성수기를 앞두고 "<b>심각하게 낮은 수준</b>"까지 떨어질 것이라고 세계 최대 석유업체인 사우디 아람코가 11일(현지시간) 경고했음.</p>
+          <p>■ 파이낸셜타임스(FT)에 따르면 사우디아라비아 국영 석유업체인 사우디 아람코 최고경영자(CEO) 아민 나세르는 호르무즈 해협 <b>봉쇄</b>가 지속되면 세계 석유제품 재고가 임계점에 도달할 것이라고 말했음.</p>
+          <p>■ 나세르는 휘발유와 항공유가 가장 빠르게 소진되는 가운데 정제유 '육상 재고' 고갈이 급속히 빨라지고 있다면서 이같이 경고했음.</p>
+          <p>■ 그는 이란 전쟁이 시작된 뒤 호르무즈 해협이 <b>봉쇄</b>되면서 전 세계 석유 공급 감소 규모가 누적 10억배럴에 이른다면서, 매주 추가로 1억배럴씩 사라지고 있다고 우려했음.</p>
+          <p>■ 나세르는 재고가 유가 <b>폭등</b>을 막아주는 유일한 완충 장치이지만 "<b>실질적으로 감소하고 있다</b>"고 지적했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">두산에너빌리티</span>
+          <span class="stock-pill">한양이엔지</span>
+          <span class="stock-pill">GS건설</span>
+          <span class="stock-pill">한미글로벌</span>
+          <span class="stock-pill">DL이앤씨</span>
+          <span class="stock-pill">GS</span>
+          <span class="stock-pill">S-Oil</span>
+          <span class="stock-pill">SNT에너지</span>
+          <span class="stock-pill">팬오션</span>
+          <span class="stock-pill">성광벤드</span>
+          <span class="stock-pill">원일티엔아이</span>
+          <span class="stock-pill">대한해운</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/원전 -->
+<div class="slide" data-label="에너지/원전">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/원전</div>
+        <div class="stitle">美, '이란 원유 中수출' 관여 개인·기업 추가 제재</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">美, '이란 원유 中수출' 관여 개인·기업 추가 제재</div>
+      <a href="https://v.daum.net/v/20260512062502755" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 미국 정부가 이란산 원유의 중국 수출을 지원한 혐의로 홍콩과 아랍에미리트(UAE) 등 소재 기업 9곳과 개인 3명을 <b>제재</b> 대상으로 지정했음.</p>
+          <p>■ 오는 14~15일 예정된 미중 정상회담을 앞두고 대이란 압박 수위를 끌어올리는 동시에 중국을 겨냥한 경고 메시지를 보낸 것으로 풀이됨.</p>
+          <p>■ 11일(현지 시간) 미 재무부 해외자산통제국(OFAC)은 이란 혁명수비대(IRGC)의 원유 판매와 중국 수출을 지원한 개인 및 기업들을 신규 <b>제재</b> 명단에 올렸다고 밝혔음.</p>
+          <p>■ 이번에 <b>제재</b> 리스트에 추가된 개인 3명은 모두 이란 국적자이며, 기업 9곳은 홍콩 기업 4곳과 UAE 기업 4곳, 오만 기업 1곳임.</p>
+          <p>■ <b>제재</b> 대상 기업과 개인의 미국 내 자산은 모두 동결되며, 미국 기업 및 개인과의 거래도 전면 금지됨.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">두산에너빌리티</span>
+          <span class="stock-pill">한양이엔지</span>
+          <span class="stock-pill">GS건설</span>
+          <span class="stock-pill">한미글로벌</span>
+          <span class="stock-pill">DL이앤씨</span>
+          <span class="stock-pill">GS</span>
+          <span class="stock-pill">S-Oil</span>
+          <span class="stock-pill">SNT에너지</span>
+          <span class="stock-pill">팬오션</span>
+          <span class="stock-pill">성광벤드</span>
+          <span class="stock-pill">원일티엔아이</span>
+          <span class="stock-pill">대한해운</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">"20년 걸린다"던 젠슨 황…양자컴퓨터의 '윈도우' 꺼냈다</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"20년 걸린다"던 젠슨 황…양자컴퓨터의 '윈도우' 꺼냈다</div>
+      <a href="https://n.news.naver.com/mnews/article/015/0005285447" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ <b>엔비디아</b>, 양자 AI '이징' 공개 "<b>양자컴의 운영체제 역할 맡을 것</b>" 큐비트 불안정성 보정 자동화 오류 정정 속도 2.5배·정확도 3배 GPU 앞세워 양자 생태계 구축 양자 컴퓨터 비관론자였던 젠슨 황 <b>엔비디아</b> 최고경영자(CEO·사진)가 양자 컴퓨팅 전용 인공지능(AI) 모델을 내놨음.</p>
+          <p>■ 그래픽처리장치(GPU)에 이어 양자컴퓨팅 사업도 본격화한 것임.</p>
+          <p>■ <b>엔비디아</b>는 지난달 오픈소스 기반의 양자컴퓨팅용 AI 모델 '이징(Ising)'을 공개했음.</p>
+          <p>■ 양자컴퓨팅은 큐비트의 특성을 이용해 기존 컴퓨터가 처리하기 어려운 문제를 빠르게 병렬 계산하는 기술임.</p>
+          <p>■ 양자컴퓨터에서 정보 1칸을 나타내는 최소 단위인 큐비트는 0과 1이 동시에 존재하는 '중첩' 상태를 띨 수 있음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">파두</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">엑스게이트</span>
+          <span class="stock-pill">케이씨에스</span>
+          <span class="stock-pill">네오셈</span>
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">한미반도체</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">삼성전자 노사 사후조정 첫날 결론없이 종료…내일 최종 판가름(종합)</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">삼성전자 노사 사후조정 첫날 결론없이 종료…내일 최종 판가름(종합)</div>
+      <a href="https://stock.mk.co.kr/news/view/1083992" target="_blank" class="news-url">stock.mk.co.kr</a>
+      <div class="news-body">
+          <p>■ 7882.24 … 8천피도 눈앞코스피 <b>급등</b>에 사이드카 발동하이닉스 시총, 마이크론 추월골드만삭스 올려잡은데 이어JP모건은 목표치 1만피 제시<b>현대차</b>증권 "<b>1만2000도 가능</b>"지나친 반도체 쏠림현상 여전코스피가 반도체 투톱의 쾌속 질주에 힘입어 전인미답의 7800선을 <b>돌파</b>했음.</p>
+          <p>■ 하루 새 324포인트 상승한 수준임.</p>
+          <p>■ 이런 가운데 국내외 증권사들은 앞다퉈 코스피...</p>
+          <p>■ 매일경제 마켓에서 지난 2시간동안많이 조회된 뉴스임.</p>
+          <p>■ 주소 : 서울특별시 중구 퇴계로 190(필동1가) | 전화 : 02-2000-2114 일간신문등록번호 : 가00196 | 등록일자 : 1966.03.08 주소 : 서울특별시 중구 퇴계로 190(필동1가) 8층 | 전화 : 02-2000-2114 인터넷신문등록번호 : 서울아01043 | 등록(발행)일자 : 2009.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">파두</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">엑스게이트</span>
+          <span class="stock-pill">케이씨에스</span>
+          <span class="stock-pill">네오셈</span>
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">한미반도체</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">'증오하는 자들은 증오할 것이다' Dan Ives, AI 랠리 확대로 나스닥 30,000 도달 예측</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">'증오하는 자들은 증오할 것이다' Dan Ives, AI 랠리 확대로 나스닥 30,000 도달 예측</div>
+      <a href="https://www.cnbc.com/2026/05/11/the-haters-will-hate-dan-ives-predicts-nasdaq-rally.html" target="_blank" class="news-url">cnbc.com</a>
+      <div class="news-body">
+          <p>■ 더브시 시큐리티스의 운영 담당자인 Dan Ives가 월요일 CNBC의 Squawk Box Europe에 "<b>증오하는 자들은 증오할 것이다</b>"라며 앞으로 1년 내 나스닥이 30,000 포인트에 도달할 것으로 예측했음.</p>
+          <p>■ 견고한 기술 실적 시즌이 <b>AI 인프라</b> 구축에 대한 낙관론으로 대체하면서 투자자 불안감을 해소했음.</p>
+          <p>■ 금요일 마감 시점에 나스닥 종합지수는 26,247로 마감했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">파두</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">엑스게이트</span>
+          <span class="stock-pill">케이씨에스</span>
+          <span class="stock-pill">네오셈</span>
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">한미반도체</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">삼성전자·키옥시아 떠난 '2D 낸드플래시' 공급 절벽… 반년 새 가격 300% 폭등</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">삼성전자·키옥시아 떠난 '2D 낸드플래시' 공급 절벽… 반년 새 가격 300% 폭등</div>
+      <a href="https://v.daum.net/v/20260512060239451" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 글로벌 메모리 반도체 업계가 고대역폭메모리(<b>HBM</b>)와 첨단 3차원(D) 낸드플래시에 생산 역량을 총동원하면서, 2D 낸드플래시 등 레거시(구형) 제품의 공급 기반이 무너지고 있음.</p>
+          <p>■ <b>삼성전자</b>와 키옥시아가 수익성이 낮은 구공정 라인을 잇달아 폐쇄하고, 마이크론마저 범용 제품의 핵심 창구였던 소비자용 사업 철수를 선언하면서 자동차 전장·산업용 장비 등 장기 안정성이 필수적인 시장의 수급 불균형이 악화 일로음.</p>
+          <p>■ 12일 반도체 업계에 따르면 <b>삼성전자</b>는 지난 3월 화성사업장 12라인의 2D 낸드 생산을 점진적으로 중단하고, 해당 시설을 첨단 1c D램 생산을 위한 '엔드팹(End Fab)'으로 전환하는 작업에 착수한 것으로 알려졌음.</p>
+          <p>■ 월 <b>8만</b>~10만장 규모의 <b>웨이퍼</b> 생산 능력을 갖췄던 삼성의 마지막 2D 낸드 거점이 문을 닫으면서, 2002년 세계 최초 1Gb <b>양산</b>으로 시작된 삼성의 2D 낸드 시대는 24년 만에 막을 내리게 됐음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">파두</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">엑스게이트</span>
+          <span class="stock-pill">케이씨에스</span>
+          <span class="stock-pill">네오셈</span>
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">한미반도체</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">삼성전자, 7월 폴더블 신작 공개…AI 글래스도 눈길 [biz-플러스]</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">삼성전자, 7월 폴더블 신작 공개…AI 글래스도 눈길 [biz-플러스]</div>
+      <a href="https://v.daum.net/v/20260512061850699" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ <b>삼성전자</b>(005930)가 올 7월 영국 런던에서 하반기 신제품 공개 행사 '갤럭시 언팩'을 열고 차세대 폴더블 스마트폰인 '갤럭시 Z 폴드8·플립8'과 첫 스마트 안경인 '갤럭시 글라스(가칭)'를 공개할 전망임.</p>
+          <p>■ <b>애플</b>이 하반기 첫 폴더블 아이폰을 선보일 것으로 예상되는 가운데 <b>삼성전자</b>는 폼팩터 혁신과 강력한 인공지능(AI) 생태계를 앞세워 글로벌 시장 주도권을 확고히 다진다는 구상임.</p>
+          <p>■ 11일 업계에 따르면 <b>삼성전자</b>는 올 7월 22일 영국 런던에서 갤럭시 언팩 행사를 개최함.</p>
+          <p>■ 이번 행사에서는 하반기 주력 스마트폰인 갤럭시 Z 폴드8과 Z 플립8, 그리고 갤럭시 워치9 시리즈가 베일을 벗을 전망임.</p>
+          <p>■ 올 언팩에서는 기존 폴드 모델 라인업을 확장한 '폴드 와이드(가칭)' 모델이 추가로 공개될 가능성이 유력하게 거론됨.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">파두</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">엑스게이트</span>
+          <span class="stock-pill">케이씨에스</span>
+          <span class="stock-pill">네오셈</span>
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">한미반도체</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">골드만삭스 "AI 붐에 한·대만 경상흑자 최대"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">골드만삭스 "AI 붐에 한·대만 경상흑자 최대"</div>
+      <a href="https://n.news.naver.com/article/001/0016070726" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 한국 GDP 대비 <span class="highlight">10%</span>·대만 <span class="highlight">20%</span> 초과 전망…양국 금리인상 압력도 인공지능(AI) 호황에 힘입은 반도체 수출 <b>급증</b>으로 한국과 대만의 경상수지 흑자가 <b>사상 최대</b>치로 불어나고, 양국 중앙은행이 올해 금리를 올릴 압력도 커지고 있다고 글로벌 투자은행 골드만삭스가 전망했음.</p>
+          <p>■ 앤드루 틸턴이 이끄는 골드만삭스 이코노미스트들은 한국은행이 3분기와 4분기에 각각 25bp(1bp=<span class="highlight">0.01%</span>포인트) 금리를 인상하고, 대만 중앙은행도 2분기와 4분기에 각각 12.5bp 올릴 것으로 내다봤다고 블룸버그 통신이 11일(현지시간) 보도했음.</p>
+          <p>■ 이들은 기술 수출 <b>급증</b>으로 이른바 'AI 주도 초대형 흑자(AI-driven super surplus)'가 2026년 한국 국내총생산(GDP)의 <span class="highlight">10%</span>, 대만 GDP의 <span class="highlight">20%</span>를 각각 웃돌 것으로 분석했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">미래반도체</span>
+          <span class="stock-pill">펨트론</span>
+          <span class="stock-pill">파두</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">엑스게이트</span>
+          <span class="stock-pill">케이씨에스</span>
+          <span class="stock-pill">네오셈</span>
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">DB하이텍</span>
+          <span class="stock-pill">한미반도체</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 우주항공산업 -->
+<div class="slide" data-label="우주항공">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128752; 우주항공산업</div>
+        <div class="stitle">스페이스X, '신형 스타십 완전체' 첫 공개…상장 앞두고 오는 15일 우주로</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">스페이스X, '신형 스타십 완전체' 첫 공개…상장 앞두고 오는 15일 우주로</div>
+      <a href="https://n.news.naver.com/article/032/0003444959" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 엔진 추력 향상된 '스타십 V3' 2028년 달 착륙선 기술적 모태 일론 머스크가 이끄는 미국 민간<b>우주</b>기업 스페이스X가 자사의 차세대 <b>발사체</b> 스타십의 신형 모델을 공개했음.</p>
+          <p>■ 오는 15일(현지시간) 시험 발사될 '스타십 V3'라는 이 모델은 2028년까지 스페이스X가 개발할 달 착륙선의 기술적인 모태음.</p>
+          <p>■ 이번 시험 발사는 다음 달로 예상되는 스페이스X의 미국 증권시장 상장 직전 실시되는 것이어서 성공 여부에 관심이 쏠린음.</p>
+          <p>■ 스페이스X는 10일 SNS를 통해 "<b>스타십 V3가 사상 처음으로 '완전체'가 됐다</b>"며 조립이 완전히 끝나 텍사스주 스타베이스 발사장에 기립해 있는 <b>발사체</b> 사진을 게시했음.</p>
+          <p>■ 사진에는 1단 로켓 '슈퍼헤비' 위에 2단 로켓 '스타십 <b>우주</b>선'이 연립 주택처럼 쌓인 채 우뚝 서 있는 모습이 담겼음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">LIG디펜스앤에어로스페이스</span>
+          <span class="stock-pill">한양이엔지</span>
+          <span class="stock-pill">퍼스텍</span>
+          <span class="stock-pill">알멕</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">상아프론테크</span>
+          <span class="stock-pill">이수페타시스</span>
+          <span class="stock-pill">이노스페이스</span>
+          <span class="stock-pill">그린광학</span>
+          <span class="stock-pill">비츠로넥스텍</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 우주항공산업 -->
+<div class="slide" data-label="우주항공">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128752; 우주항공산업</div>
+        <div class="stitle">중국 화물우주선 톈저우 10호, 우주정거장 도킹 성공 | 연합뉴스</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">중국 화물우주선 톈저우 10호, 우주정거장 도킹 성공 | 연합뉴스</div>
+      <a href="https://vo.la/aU66lSg" target="_blank" class="news-url">vo.la</a>
+      <div class="news-body">
+          <p>■ (베이징=연합뉴스) 한종구 특파원 = 중국이 화물<b>우주</b>선 톈저우(天舟) 10호 발사에 성공했다고 관영 신화통신이 11일 보도했음.</p>
+          <p>■ 보도에 따르면 톈저우 10호는 이날 오전 8시 14분(현지시간) 중국 남부 하이난성 원창<b>우주</b>발사장에서 운반 로켓 '창청(長征) 7호-야오(遙) 11호'에 실려 쏘아 올려졌음.</p>
+          <p>■ 톈저우 10호는 발사 약 10분 뒤 로켓과 분리돼 예정 궤도에 진입했으며 이후 오후 1시 11분께 중국이 자체 건설한 <b>우주</b>정거장 톈궁(天宮)과 도킹했음.</p>
+          <p>■ 톈저우 10호에는 신형 <b>우주</b>복을 비롯해 <b>우주</b>비행사들의 체류를 위한 소모품과 추진제, 각종 응용 실험장비 등 6.2t의 화물이 실렸음.</p>
+          <p>■ 이번 발사는 중국의 유인 <b>우주</b> 프로젝트가 <b>우주</b>정거장 응용·발전 단계에 진입한 이후 진행된 5번째 화물 보급 임무이자 중국 유인<b>우주</b>공정 전체 기준으로는 39번째 발사 임무음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">LIG디펜스앤에어로스페이스</span>
+          <span class="stock-pill">한양이엔지</span>
+          <span class="stock-pill">퍼스텍</span>
+          <span class="stock-pill">알멕</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">상아프론테크</span>
+          <span class="stock-pill">이수페타시스</span>
+          <span class="stock-pill">이노스페이스</span>
+          <span class="stock-pill">그린광학</span>
+          <span class="stock-pill">비츠로넥스텍</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 제약바이오/백신 -->
+<div class="slide" data-label="제약바이오/">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 제약바이오/백신</div>
+        <div class="stitle">한타바이러스 사례가 제약·바이오 주식 급등 촉발 — 거래가 변동성이 심한 이유는?</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">한타바이러스 사례가 제약·바이오 주식 급등 촉발 — 거래가 변동성이 심한 이유는?</div>
+      <a href="https://www.cnbc.com/2026/05/11/hantavirus-cases-pharma-stocks-surge-moderna-novavax.html" target="_blank" class="news-url">cnbc.com</a>
+      <div class="news-body">
+          <p>■ 한타바이러스 발생으로 백신 개발에 나선 회사들의 주식이 <b>급등</b>했지만, 초기 <b>상승세</b>를 유지하지 못했음.</p>
+          <p>■ 세계보건기구(WHO)는 5월 2일 한타바이러스(설치류로 인해 전파되는 치명적 바이러스 호흡기 질환) 발생을 보고했으며, 일부 승객들이 대서양을 항해 중인 더치기(Dutch-flagged) 원정 크루즈선 MV Hondius호에서 감염되었음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">진원생명과학</span>
+          <span class="stock-pill">수젠텍</span>
+          <span class="stock-pill">랩지노믹스</span>
+          <span class="stock-pill">아이진</span>
+          <span class="stock-pill">신풍제약</span>
+          <span class="stock-pill">바디텍메드</span>
+          <span class="stock-pill">씨젠</span>
+          <span class="stock-pill">프로티아</span>
+          <span class="stock-pill">파미셀</span>
+          <span class="stock-pill">올릭스</span>
+          <span class="stock-pill">녹십자</span>
+          <span class="stock-pill">한미약품</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 자동차/피지컬AI -->
+<div class="slide" data-label="자동차·통상">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag cyan">&#128663; 자동차/피지컬AI</div>
+        <div class="stitle">"현대글로비스, 휴머노이드 투입 현실화…재평가 기대"[클릭 e종목]</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"현대글로비스, 휴머노이드 투입 현실화…재평가 기대"[클릭 e종목]</div>
+      <a href="https://v.daum.net/v/20260512060847616" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ KB증권이 현대글로비스에 대해 "<b>미국 휴머노이드(인간형 로봇) 기업 보스턴다이내믹스(BD)와 가장 가까운 투자 대안</b>"이라며 투자의견 매수와 목표주가 36만원을 유지했음.</p>
+          <p>■ 휴머노이드 실전 투입에 따른 공정 효율화와 향후 지배구조 개편 과정에서 현대글로비스의 중요성이 부각될 것이란 분석임.</p>
+          <p>■ 12일 KB증권에 따르면 전날 강선진 연구원은 "<b>현대글로비스는 BD 지분 <span class="highlight">11.3%</span>를 직접 보유 중이며, BD 상장 후 지분가치를 활용할 수 있다는 점에서 차별적</b>"이라며 "<b>현대차그룹 내에서 휴머노이드를 물류 및 부품 서열화 공정에 처음 투입하는 업체가 될 것</b>"이라고 밝혔음.</p>
+          <p>■ 또한 현대글로비스가 올해 중반부터 BD의 휴머노이드 아틀라스(Atlas)에 대한 실증을 본격화하고, 2028년엔 자동차 공장 현장에 투입할 것으로 내다봤음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">현대글로비스</span>
+          <span class="stock-pill">에스비비테크</span>
+          <span class="stock-pill">현대차</span>
+          <span class="stock-pill">아진엑스텍</span>
+          <span class="stock-pill">현대모비스</span>
+          <span class="stock-pill">한국피아이엠</span>
+          <span class="stock-pill">현대오토에버</span>
+          <span class="stock-pill">나우로보틱스</span>
+          <span class="stock-pill">우림피티에스</span>
+          <span class="stock-pill">기아</span>
+          <span class="stock-pill">한온시스템</span>
+          <span class="stock-pill">LG전자</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 자동차/피지컬AI -->
+<div class="slide" data-label="자동차·통상">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag cyan">&#128663; 자동차/피지컬AI</div>
+        <div class="stitle">삼성, '로봇 전쟁' 선전포고… NASA·혼다 출신 영입하고 연봉 5억 쏜다 - 글로벌이코노믹</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">삼성, '로봇 전쟁' 선전포고… NASA·혼다 출신 영입하고 연봉 5억 쏜다 - 글로벌이코노믹</div>
+      <a href="http://m.g-enews.com/view.php?ud=202605112004361302bd56fbc3c_1" target="_blank" class="news-url">m.g-enews.com</a>
+      <div class="news-body">
+          <p>■ "<b>파업 위기에도 멈추지 않는다</b>"… DX부문 '미래로봇TF' 긴급 충원 'Shallow-π' 비밀병기 첫 공개 <b>삼성전자</b>가 잠재적 파업 위기 속에서도 휴머노이드 로봇 사업에 전면 가속 페달을 밟고 있음.</p>
+          <p>■ 기술 전문 매체 주달(Judal), EVXL(EV 전문 매체), 더일렉(THE ELEC) 등 영문 외신들은 지난 8일(현지시각), 국내 언론이 주목하지 못한 사이 삼성의 로봇 굴기(崛起)를 연일 집중 조명하고 있음.</p>
+          <p>■ 단순한 미래 먹거리 발굴을 넘어, 반도체·스마트폰에 이어 삼성의 세 번째 도약을 이끌 '피지컬 AI' 전쟁이 현재 진행형임을 보여주는 것임.</p>
+          <p>■ 파업 리스크도 못 막는 로봇 인재 총동원령 <b>삼성전자</b>는 노조가 오는 5월 21일부터 6월 7일까지 총파업을 예고한 가운데서도 AI 로봇 사업 가속화를 위한 인재 채용에 적극 나서고 있음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">현대글로비스</span>
+          <span class="stock-pill">에스비비테크</span>
+          <span class="stock-pill">현대차</span>
+          <span class="stock-pill">아진엑스텍</span>
+          <span class="stock-pill">현대모비스</span>
+          <span class="stock-pill">한국피아이엠</span>
+          <span class="stock-pill">현대오토에버</span>
+          <span class="stock-pill">나우로보틱스</span>
+          <span class="stock-pill">우림피티에스</span>
+          <span class="stock-pill">기아</span>
+          <span class="stock-pill">한온시스템</span>
+          <span class="stock-pill">LG전자</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 금융/토큰증권 -->
+<div class="slide" data-label="금융/토큰증">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 금융/토큰증권</div>
+        <div class="stitle">삼성SDS, 토큰증권 시장 정조준…AI·클라우드와 시너지 낼까</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">삼성SDS, 토큰증권 시장 정조준…AI·클라우드와 시너지 낼까</div>
+      <a href="https://www.news2day.co.kr/article/20260511500156" target="_blank" class="news-url">news2day.co.kr</a>
+      <div class="news-body">
+          <p>■ [관련기사] 삼성SDS, 토큰증권 시장 정조준…AI·클라우드와 시너지 낼까 삼성SDS, 1분기 영업익 전년比 <span class="highlight">70.8%</span> 감소…클라우드로 <b>반등</b> 시동 삼성SDS, 생성형 AI로 금융 AX 가속화 삼성SDS, 'AI 에이전트 뱅킹 구축'…기업 AX 경쟁력 확산 삼성SDS, B300 GPU 서비스 선봬…기업용 AI 추론 성능 ↑</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK증권</span>
+          <span class="stock-pill">헥토파이낸셜</span>
+          <span class="stock-pill">아이티센글로벌</span>
+          <span class="stock-pill">코리아에셋투자증권</span>
+          <span class="stock-pill">유진투자증권</span>
+          <span class="stock-pill">한화투자증권</span>
+          <span class="stock-pill">다날</span>
+          <span class="stock-pill">갤럭시아머니트리</span>
+          <span class="stock-pill">한국정보인증</span>
+          <span class="stock-pill">카카오페이</span>
+          <span class="stock-pill">아톤</span>
+          <span class="stock-pill">한컴위드</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 금융/토큰증권 -->
+<div class="slide" data-label="금융/토큰증">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 금융/토큰증권</div>
+        <div class="stitle">Circle 주가 16% 상승</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">Circle 주가 16% 상승</div>
+      <a href="https://finance.yahoo.com/markets/crypto/article/circle-stock-climbs-16-as-stablecoin-use-cases-grow-164442768.html" target="_blank" class="news-url">finance.yahoo.com</a>
+      <div class="news-body">
+          <p>■ Circle Internet Group (CRCL) 주가가 월요일에 등락한 후 정오 무렵 <span class="highlight">13%</span> 상승했음.</p>
+          <p>■ 주가는 마감 때까지 <span class="highlight">16%</span>로 더 올라갔음.</p>
+          <p>■ 스테이블코인 발행사인 이 회사는 변동성이 큰 암호화폐 시장의 한 해 동안 첫 분기 수익을 보고했음.</p>
+          <p>■ 매출은 전년 대비 <span class="highlight">20%</span> 증가하여 <b>6억</b> <b>9,400만</b> 달러에 도달했으며, 수익은 <span class="highlight">15%</span> 감소하여 <b>5,500만</b> 달러 또는 주당 0.21달러가 되었음.</p>
+          <p>■ 분석가들은 <b>4,600만</b> 달러의 수익과 <b>7억</b> <b>2,100만</b> 달러의 총 수익을 예상했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK증권</span>
+          <span class="stock-pill">헥토파이낸셜</span>
+          <span class="stock-pill">아이티센글로벌</span>
+          <span class="stock-pill">코리아에셋투자증권</span>
+          <span class="stock-pill">유진투자증권</span>
+          <span class="stock-pill">한화투자증권</span>
+          <span class="stock-pill">다날</span>
+          <span class="stock-pill">갤럭시아머니트리</span>
+          <span class="stock-pill">한국정보인증</span>
+          <span class="stock-pill">카카오페이</span>
+          <span class="stock-pill">아톤</span>
+          <span class="stock-pill">한컴위드</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 블록체인/암호화폐 -->
+<div class="slide" data-label="블록체인/암">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 블록체인/암호화폐</div>
+        <div class="stitle">서클, ARC로 2억2200만달러 유치⋯월가 자금 몰렸다 | 블록미디어</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">서클, ARC로 2억2200만달러 유치⋯월가 자금 몰렸다 | 블록미디어</div>
+      <a href="https://www.blockmedia.co.kr/archives/1090485?utm_source=telegram&utm_medium=social#google_vignette" target="_blank" class="news-url">blockmedia.co.kr</a>
+      <div class="news-body">
+          <p>■ 서클은 신규 블록체인 네트워크 아크의 토큰 ARC 프리세일을 통해 약 2억2200만달러를 조달했음.</p>
+          <p>■ 아크 네트워크에는 블랙록, 아폴로 펀드 등 대형 금융기관이 투자에 참여했음.</p>
+          <p>■ 아크는 스테이블코인 기반 자본시장과 규제에 적합한 금융 서비스를 지원하는 것을 목표로 하며, ARC 토큰은 네트워크 운영과 보안을 담당함.</p>
+          <p>■ 서강대에서 경영학을 전공했으며, 2022년부터 코인데스크코리아에서 디지털자산 관련 취재를 시작했음.</p>
+          <p>■ 사업자번호 : 785-86-01045등록번호 : 서울, 아04882 / 등록일 : 2017년 12월 20일대표자 : 최창환 / 발행인·편집인 : 최창환개인정보관리책임자·청소년보호책임자 : 최동녘 주소 : 서울특별시영등포구 당산로 241, 3층이메일 : 전화 : 02-6964-6262 Type above and pressEnterto search.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">헥토파이낸셜</span>
+          <span class="stock-pill">다날</span>
+          <span class="stock-pill">갤럭시아머니트리</span>
+          <span class="stock-pill">한컴위드</span>
+          <span class="stock-pill">아톤</span>
+          <span class="stock-pill">한화투자증권</span>
+          <span class="stock-pill">핑거</span>
+          <span class="stock-pill">NHN KCP</span>
+          <span class="stock-pill">한국정보인증</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">라온시큐어</span>
+          <span class="stock-pill">FSN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 블록체인/암호화폐 -->
+<div class="slide" data-label="블록체인/암">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 블록체인/암호화폐</div>
+        <div class="stitle">'산업계 숙원' 블록체인기본법 만든다…오늘 국회 토론회</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">'산업계 숙원' 블록체인기본법 만든다…오늘 국회 토론회</div>
+      <a href="https://v.daum.net/v/20260512050325503" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ [이데일리 ] 더불어민주당이 블록체인 산업계 숙원 입법인 블록체인기본법 제정 논의에 나선음.</p>
+          <p>■ 국회 과학기술정보방송통신위원회 김우영·이주희 더불어민주당 의원은 12일 오후 2시 서울 여의도 국회의원회관 제1간담회의실에서 '블록체인 기본법, 왜 지금인가?' 주제로 디지털 신뢰 인프라 강국으로의 도약을 위한 국회 정책 세미나(주관 한국블록체인산업진흥협회)를 개최함.</p>
+          <p>■ 블록체인기본법은 블록체인 기술과 산업 전반을 육성하기 위한 법안임.</p>
+          <p>■ 스마트<b>계약</b>의 법적 효력 인정, 분산원장 기술 활성화, 전담 기관 지정 등 산업의 진흥을 목표로 하고 있음.</p>
+          <p>■ 스테이블코인 관련 디지털자산기본법은 국회 정무위원회와 금융위, 블록체인기본법은 국회 과학기술정보방송통신위원회와 과학기술정보통신부가 중심이 돼 입법을 준비 중임.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">헥토파이낸셜</span>
+          <span class="stock-pill">다날</span>
+          <span class="stock-pill">갤럭시아머니트리</span>
+          <span class="stock-pill">한컴위드</span>
+          <span class="stock-pill">아톤</span>
+          <span class="stock-pill">한화투자증권</span>
+          <span class="stock-pill">핑거</span>
+          <span class="stock-pill">NHN KCP</span>
+          <span class="stock-pill">한국정보인증</span>
+          <span class="stock-pill">드림시큐리티</span>
+          <span class="stock-pill">라온시큐어</span>
+          <span class="stock-pill">FSN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">20</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>

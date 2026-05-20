@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.04.17</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.brand-badge{
+  position:fixed;top:24px;right:28px;z-index:200;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3730a3 50%,#6d28d9 100%);
+  color:#fff;border-radius:18px;padding:20px 32px 20px 24px;
+  box-shadow:0 8px 28px rgba(30,58,138,0.28),0 3px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:20px;border:1px solid rgba(255,255,255,0.15);
+}
+.brand-logo{width:66px;height:66px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#1e3a8a;box-shadow:0 3px 12px rgba(251,191,36,0.45);}
+.brand-info{display:flex;flex-direction:column;line-height:1.3;}
+.brand-name{font-size:24px;font-weight:800;display:flex;align-items:center;gap:12px;}
+.brand-name .divider{display:inline-block;width:2px;height:20px;background:rgba(255,255,255,0.45);}
+.brand-name .analyst{font-weight:700;font-size:22px;opacity:0.95;}
+.brand-url{font-size:17px;color:#fbbf24;font-weight:800;letter-spacing:0.3px;margin-top:6px;display:flex;align-items:center;gap:7px;}
+.brand-url::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.9);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="brand-badge">
+  <div class="brand-logo">IKIM</div>
+  <div class="brand-info">
+    <div class="brand-name">리서치<span class="divider"></span><span class="analyst">김형철</span></div>
+    <div class="brand-url">www.ikim.co.kr</div>
+  </div>
+</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.04.17 (금)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag bl">반도체/기판</span><span class="sum-desc">삼성전기·LG이노텍 'CPO기판' 개발 돌입</span></button>
+        <button class="sum-row" onclick="go(3)"><span class="sum-tag bl">반도체/파운드리</span><span class="sum-desc">[단독] 삼성 美테일러팹 가동 준비 마쳐…"하반기부터 테슬라칩 양산"</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag bl">반도체/메모리</span><span class="sum-desc">[단독] 오픈AI CFO, 삼성전자와 'HBM4' 공급망 논의… 'AI </span></button>
+        <button class="sum-row" onclick="go(5)"><span class="sum-tag cy">자동차</span><span class="sum-desc">시간외 거래 주요 종목: 넷플릭스, 알코아, Knight-Swift, N</span></button>
+        <button class="sum-row" onclick="go(6)"><span class="sum-tag bl">우주항공</span><span class="sum-desc">보이저 테크놀로지스(VOYG), NASA와 7번째 민간 우주비행 계약 체</span></button>
+        <button class="sum-row" onclick="go(7)"><span class="sum-tag bl">에너지</span><span class="sum-desc">트럼프 "이스라엘-레바논, 열흘휴전 합의"…이란戰 협상 힘싣나(종합)</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill">삼성전기</div>
+        <div class="pick-pill">LG이노텍</div>
+        <div class="pick-pill">삼성전자</div>
+        <div class="pick-pill">SK하이닉스</div>
+        <div class="pick-pill">솔브레인</div>
+        <div class="pick-pill">동진쎄미켐</div>
+        <div class="pick-pill">LIG넥스원</div>
+        <div class="pick-pill">SNT다이내믹스</div>
+        <div class="pick-pill">현대차</div>
+        <div class="pick-pill">기아</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">반도체/기판</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">반도체/파운드리</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">반도체/메모리</span>
+          <span class="op-sector-pill" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">우주항공</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">에너지</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ <b>마이크로소프트</b>가 <span class="highlight">2.20%</span> <b>급등</b>한 반면 <b>애플</b>과 <b>테슬라</b>는 <b>하락세</b>를 보이며 빅테크 간 격차가 벌어졌음.</p>
+        <p>■ 오늘 주목할 첫 번째 섹터는 반도체 기판으로 삼성전기와 LG이노텍이 차세대 CPO 기판 개발에 본격 돌입하면서 AI 시대 핵심 부품 경쟁력 확보에 나섰음.</p>
+        <p>■ 두 번째는 메모리 반도체로 오픈AI CFO가 <b>삼성전자</b>와 <b>HBM</b>4 공급망 논의를 진행하며 AI 메모리 주도권 재편 신호탄이 터졌음.</p>
+        <p>■ 세 번째는 <b>파운드리</b> 부문으로 <b>삼성전자</b> 미국 테일러팹이 하반기 본격 가동을 앞두고 있어 <b>TSMC</b> 추격 가속화가 기대됨.</p>
+        <p>■ 중동 <b>휴전</b> 합의로 지정학적 리스크가 완화되면서 위험자산 선호 심리가 개선될 전망으로 공격적 포지셔닝이 유효할 것으로 판단됨.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ 삼성전기와 LG이노텍의 CPO 기판 기술 확보가 본격화되면서 <b>AI 인프라</b> 핵심 부품 시장에서 한국 기업들의 경쟁력이 강화됨. 오픈AI의 <b>삼성전자</b> <b>HBM</b>4 공급망 직접 접촉은 메모리 반도체 수급 안정성 확보와 중장기 수익성 개선 신호임. <b>삼성전자</b> 미국 테일러팹 가동 임박으로 북미 <b>파운드리</b> 시장 본격 진출과 함께 <b>테슬라</b> 등 글로벌 고객사 확보 가능성이 높아졌음. 트럼프 행정부의 중동 <b>휴전</b> 중재 성공으로 유가 <b>하락세</b>와 글로벌 인플레이션 압력 완화가 예상됨.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+        <p>■ 미국 10년물 금리 <b>급등</b>으로 글로벌 유동성 긴축 우려가 확산되면서 성장주와 기술주 밸류에이션 부담이 가중될 수 있음. <b>애플</b>과 <b>테슬라</b> 등 주요 빅테크 <b>약세</b>가 지속될 경우 국내 관련 부품업체들의 실적 가이던스 하향 조정 리스크가 존재함. 스페이스X IPO 준비 과정에서 <b>우주</b>항공 섹터 관심이 집중되지만 국내 관련주들의 실질적 <b>수혜</b>는 제한적일 가능성이 높음.</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>반도체/기판·반도체/파운드리·반도체/메모리·자동차</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 반도체/기판 -->
+<div class="slide" data-label="반도체/기판">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 반도체/기판</div>
+        <div class="stitle">삼성전기·LG이노텍 'CPO기판' 개발 돌입</div>
+      </div>
+      <div class="sec-count">1 news</div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">삼성전기·LG이노텍 'CPO기판' 개발 돌입</div>
+      <a href="https://www.etnews.com/20260416000258" target="_blank" class="news-url">etnews.com</a>
+      <div class="news-body">
+          <p>■ 삼성전기와 LG이노텍이 차세대 반도체 기판 시장 공략을 위해 '공동패키징광학(CPO)' 기술 확보에 뛰어들었음.</p>
+          <p>■ CPO는 전기 신호를 빛으로 바꿔 반도체 칩 성능을 극대화하는 첨단 패키징 기술로 양사는 반도체 기판에 이를 적용할 방침임.</p>
+          <p>■ 고속·저전력 등 다양한 특성으로 인공지능(AI) 시장 핵심 기술로 주목받는 CPO 기판 기술 경쟁이 본격화됐음.</p>
+          <p>■ 16일 업계에 따르면, 삼성전기와 LG이노텍은 AI 반도체 기판에 CPO 기술 적용을 위한 작업을 본격화했음.</p>
+          <p>■ 단순 검토나 구상을 넘어 선행 기술 개발을 시작했으며, 기판에 CPO를 구현할 일부 부품의 시제품 평가에도 돌입한 것으로 파악됐음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">삼성전기</span>
+          <span class="stock-pill">LG이노텍</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">SKC</span>
+          <span class="stock-pill">와이씨켐</span>
+          <span class="stock-pill">켐트로닉스</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체/파운드리 -->
+<div class="slide" data-label="반도체/파운">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 반도체/파운드리</div>
+        <div class="stitle">[단독] 삼성 美테일러팹 가동 준비 마쳐…"하반기부터 테슬라칩 양산"</div>
+      </div>
+      <div class="sec-count">1 news</div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[단독] 삼성 美테일러팹 가동 준비 마쳐…"하반기부터 테슬라칩 양산"</div>
+      <a href="https://n.news.naver.com/mnews/article/015/0005275905?sid=101" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ <b>삼성전자</b>가 북미시장 공략의 핵심 거점인 미국 텍사스주 테일러 <b>파운드리</b>(반도체 수탁생산) 공장의 가동 준비를 마쳤음.</p>
+          <p>■ 2022년 11월 첫 삽을 뜬 지 3년 6개월 만임.</p>
+          <p>■ 16일 업계에 따르면 <b>삼성전자</b>는 오는 24일 테일러 공장에서 주요 장비 반입식을 열 예정임.</p>
+          <p>■ 행사에는 한진만 <b>파운드리</b> 부문 사장을 비롯한 <b>삼성전자</b> 핵심 경영진과 국내외 소재·부품·장비(소부장) <b>협력</b>사 관계자들이 대거 참석함.</p>
+          <p>■ 테일러 1공장은 당초 2024년 10월 가동을 목표로 했으나 <b>수주</b> 확보 등 문제로 건설 일정이 다소 지연됐음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">솔브레인</span>
+          <span class="stock-pill">동진쎄미켐</span>
+          <span class="stock-pill">이수페타시스</span>
+          <span class="stock-pill">제이앤티씨</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체/메모리 -->
+<div class="slide" data-label="반도체/메모">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 반도체/메모리</div>
+        <div class="stitle">[단독] 오픈AI CFO, 삼성전자와 'HBM4' 공급망 논의… 'AI 메모리 주도권' 재편 신호</div>
+      </div>
+      <div class="sec-count">1 news</div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[단독] 오픈AI CFO, 삼성전자와 'HBM4' 공급망 논의… 'AI 메모리 주도권' 재편 신호</div>
+      <a href="https://www.chosun.com/economy/tech_it/2026/04/16/GFRWKZJZGUZDQY3EHEYWMMTFGA/" target="_blank" class="news-url">chosun.com</a>
+      <div class="news-body">
+          <p>■ 오픈AI가 인공지능(AI) 인프라의 핵심 부품인 고대역폭메모리(<b>HBM</b>) 확보를 위해 <b>삼성전자</b>와 독자적인 <b>협력</b> 라인을 구축하기 시작했음.</p>
+          <p>■ 메모리 반도체 <b>공급 부족</b>이 심화하는 가운데, <b>삼성전자</b>의 생산 능력을 확보하기 위해 적극적인 행보에 나선 것으로 풀이됨.</p>
+          <p>■ 16일 업계에 따르면 사라 프라이어 오픈AI 최고재무책임자(CFO)는 지난달 중순 방한 일정 중 <b>삼성전자</b> 경영진과 비공개로 만나 6세대 <b>HBM</b>(<b>HBM</b>4) 공급 및 확산 방안을 집중 논의했음.</p>
+          <p>■ 양측은 <b>HBM</b>4 <b>양산</b> 시점과 공급 안정성, 중장기 <b>협력</b> 구조 등에 대해 의견을 교환한 것으로 전해졌음.</p>
+          <p>■ 이번 접촉은 단순한 기술 협의를 넘어 AI 시대 핵심 부품 주도권을 둘러싼 전략적 포석이라는 평가가 나온음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">솔브레인</span>
+          <span class="stock-pill">동진쎄미켐</span>
+          <span class="stock-pill">대주전자재료</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 자동차 -->
+<div class="slide" data-label="자동차·통상">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag cyan">&#128663; 자동차</div>
+        <div class="stitle">시간외 거래 주요 종목: 넷플릭스, 알코아, Knight-Swift, NiSource By Investing.com</div>
+      </div>
+      <div class="sec-count">1 news</div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">시간외 거래 주요 종목: 넷플릭스, 알코아, Knight-Swift, NiSource By Investing.com</div>
+      <a href="https://kr.investing.com/news/stock-market-news/article-432SI-1902486" target="_blank" class="news-url">kr.investing.com</a>
+      <div class="news-body">
+          <p>■ <b>테슬라</b>, 차세대 AI 칩 기대에 <span class="highlight">8%</span> '껑충'…루시드는 <span class="highlight">7%</span> <b>급락</b> 글로벌 투자자들, 달러 <b>약세</b>에 베팅…달러 헤지 비율 2년 최고치 인베스팅닷컴 투자 챌린지에 참여하세요.</p>
+          <p>■ 투자를 배우고 경쟁하며 보상을 얻을 수 있음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">현대차</span>
+          <span class="stock-pill">기아</span>
+          <span class="stock-pill">현대모비스</span>
+          <span class="stock-pill">현대오토에버</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 우주항공 -->
+<div class="slide" data-label="우주항공">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128752; 우주항공</div>
+        <div class="stitle">보이저 테크놀로지스(VOYG), NASA와 7번째 민간 우주비행 계약 체결</div>
+      </div>
+      <div class="sec-count">1 news</div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">보이저 테크놀로지스(VOYG), NASA와 7번째 민간 우주비행 계약 체결</div>
+      <a href="https://www.infostockdaily.co.kr/news/articleView.html?idxno=215372" target="_blank" class="news-url">infostockdaily.co.kr</a>
+      <div class="news-body">
+          <p>■ 보이저 테크놀로지스(VOYG)가 미국 항공<b>우주</b>국(NASA, 이하 나사)으로부터 국제<b>우주</b>정거장(ISS)행 7번째 민간 <b>우주</b>인 미션(Private Astronaut Mission) 수행 기업으로 선정됐다는 소식에 주가가 <b>강세</b>를 보이고 있음.</p>
+          <p>■ 16일(현지시간) 미국 증시 개장 전 프리마켓에서 보이저 테크놀로지스의 주가는 전 거래일 대비 약 <span class="highlight">7%</span>대 <b>급등</b>하며 32달러선에 거래되고 있음.</p>
+          <p>■ 보이저 테크놀로지스가 나사와 체결한 이번 <b>계약</b>은 'VOYG-1'으로 명명된 7번째 민간 <b>우주</b>인 미션으로, 발사 예정 시기는 2028년 이후음.</p>
+          <p>■ "<b>스페이스X, IPO 앞두고 대형투자자 美 초청해 현장투어 추진</b>" 최대 750억달러 조달 목표…아시아 주간사 미즈호증권 참여 일론 머스크가 이끄는 스페이스X가 <b>사상 최대</b> 규모 기업공개(IPO)를 앞두고 핵심 투자자들을 대상으로 미국 내 주요 사업장을 소개하는 현장 투어를 준비중이라고 블룸버그가 16일 보도했음.</p>
+          <p>■ 스페이스X는 이미 비공개로 상장 신청을 마쳤으며, 최대 <b>750억</b> 달러를 조달하고 기업가치 평가는 <b>2조</b> 달러 이상을 목표로 하는 것으로 전해졌음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">LIG넥스원</span>
+          <span class="stock-pill">SNT다이내믹스</span>
+          <span class="stock-pill">스피어</span>
+          <span class="stock-pill">쎄트렉아이</span>
+          <span class="stock-pill">아이쓰리시스템</span>
+          <span class="stock-pill">AP위성</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지 -->
+<div class="slide" data-label="에너지">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지</div>
+        <div class="stitle">트럼프 "이스라엘-레바논, 열흘휴전 합의"…이란戰 협상 힘싣나(종합)</div>
+      </div>
+      <div class="sec-count">1 news</div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">트럼프 "이스라엘-레바논, 열흘휴전 합의"…이란戰 협상 힘싣나(종합)</div>
+      <a href="https://n.news.naver.com/article/001/0016026611" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 미동부시간 16일 오후 5시 <b>휴전</b> 개시…"<b>양국 정상 워싱턴에 초청할 것</b>" 미, 합의문 공개…"<b>레바논, 헤즈볼라의 對이스라엘 공격 방지 조처</b>" (워싱턴=연합뉴스) 박성민 특파원 = 도널드 트럼프 미국 대통령은 16일(현지시간) 이스라엘과 레바논이 열흘간의 공식 <b>휴전</b>에 합의했다고 밝혔음.</p>
+          <p>■ 트럼프 대통령은 이날 소셜미디어(SNS) 트루스소셜에 "<b>나는 방금 전 레바논의 존경받는 조셉 아운 대통령, 이스라엘의 비비('베냐민'의 애칭) 네타냐후 총리와 매우 훌륭한 대화를 가졌다</b>"며 이같이 밝혔음.</p>
+          <p>■ 트럼프 대통령은 이들 두 정상이 합의한 <b>휴전</b> 개시 시점을 "<b>미국 동부 표준시 오후 5시(한국시간 17일 오전 6시)</b>"라고 밝혔음.</p>
+          <p>■ 트럼프 대통령은 곧바로 올린 또 다른 게시글에서는 "방금 발표한 성명에 더해 나는 아주 오래 전인 1983년 이후 처음으로 양국간 의미있는 회담을 위해 네타냐후 총리와 아운 대통령을 백악관으로 초청할 것"<b>이라며 </b>"양측 모두 평화를 바라고 있으며 나는 그것이 빨리 일어날 것으로 믿는다"고 밝혔음.</p>
+          <p>■ 트럼프 "<b>이란과 주말에 후속<b>협상</b> 가능성…합의되면 직접 갈 수도</b>"(종합) "<b>이란, 20년 이상 핵무기 포기 및 핵물질 미국 반환 합의</b>" "<b>이스라엘-레바논 10일 <b>휴전</b>에 헤즈볼라 포함…두 정상 백악관 회동 추진</b>" 도널드 트럼프 미국 대통령이 이란과의 <b>협상</b>이 타결에 매우 근접했다면서 이르면 이번 주말 후속 회담이 열릴 수 있다고 16일(현지시간) 밝혔음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">SK이노베이션</span>
+          <span class="stock-pill">GS</span>
+          <span class="stock-pill">E1</span>
+          <span class="stock-pill">SK가스</span>
+          <span class="stock-pill">한국석유</span>
+          <span class="stock-pill">한국가스공사</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">8</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>

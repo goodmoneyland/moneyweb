@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.04.20</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.brand-badge{
+  position:fixed;top:24px;right:28px;z-index:200;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3730a3 50%,#6d28d9 100%);
+  color:#fff;border-radius:18px;padding:20px 32px 20px 24px;
+  box-shadow:0 8px 28px rgba(30,58,138,0.28),0 3px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:20px;border:1px solid rgba(255,255,255,0.15);
+}
+.brand-logo{width:66px;height:66px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#1e3a8a;box-shadow:0 3px 12px rgba(251,191,36,0.45);}
+.brand-info{display:flex;flex-direction:column;line-height:1.3;}
+.brand-name{font-size:24px;font-weight:800;display:flex;align-items:center;gap:12px;}
+.brand-name .divider{display:inline-block;width:2px;height:20px;background:rgba(255,255,255,0.45);}
+.brand-name .analyst{font-weight:700;font-size:22px;opacity:0.95;}
+.brand-url{font-size:17px;color:#fbbf24;font-weight:800;letter-spacing:0.3px;margin-top:6px;display:flex;align-items:center;gap:7px;}
+.brand-url::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,0.9);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="brand-badge">
+  <div class="brand-logo">IKIM</div>
+  <div class="brand-info">
+    <div class="brand-name">리서치<span class="divider"></span><span class="analyst">김형철</span></div>
+    <div class="brand-url">www.ikim.co.kr</div>
+  </div>
+</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.04.20 (월)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag bl">지정학/외교</span><span class="sum-desc">트럼프-파키스탄 협상과 習川會로 중동 평화 및 미중관계 개선 기대감 확산</span></button>
+        <button class="sum-row" onclick="go(3)"><span class="sum-tag bl">AI/로봇</span><span class="sum-desc">중국 휴머노이드 로봇 하프마라톤으로 로봇기술 발전상 과시</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag bl">원자재/희토류</span><span class="sum-desc">중국의 희토류 90% 독점에 대한 서방의 우려와 대체 공급망 구축 논의</span></button>
+        <button class="sum-row" onclick="go(5)"><span class="sum-tag bl">외교/국제관계</span><span class="sum-desc">習川會預計5月中登場 川普：將是場歷史性會談</span></button>
+        <button class="sum-row" onclick="go(6)"><span class="sum-tag bl">우주항공</span><span class="sum-desc">미중 달 탐사 경쟁 격화와 블루오리진 재사용 기술 성공</span></button>
+        <button class="sum-row" onclick="go(7)"><span class="sum-tag bl">조선</span><span class="sum-desc">K-조선 미군함정 MRO 수주로 올해 3개월만에 작년 연간실적 초과 달성</span></button>
+        <button class="sum-row" onclick="go(8)"><span class="sum-tag cy">자동차</span><span class="sum-desc">현대차그룹 SW 사업재편으로 SDV시대 대응 본격화</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill">HD한국조선해양</div>
+        <div class="pick-pill">한화오션</div>
+        <div class="pick-pill">삼성중공업</div>
+        <div class="pick-pill">현대오토에버</div>
+        <div class="pick-pill">현대모비스</div>
+        <div class="pick-pill">레인보우로보틱스</div>
+        <div class="pick-pill">로보티즈</div>
+        <div class="pick-pill">이노스페이스</div>
+        <div class="pick-pill">쎄트렉아이</div>
+        <div class="pick-pill">한국항공우주</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">지정학/외교</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">조선</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">원자재/희토류</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">AI/로봇</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">우주항공</span>
+          <span class="op-sector-pill" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ 글로벌 증시는 미-이란 <b>협상</b> 타결 기대감과 중동 긴장 완화 신호에 힘입어 <b>상승세</b>를 이어가고 있음.</p>
+        <p>■ 트럼프 대통령이 미국 대표단의 이슬라마바드 도착을 예고하며 중동 평화 <b>협상</b>에 대한 기대감이 높아지고 있고, 이는 안전자산 선호 심리 완화와 위험자산 선호도 증가로 이어질 것으로 보임.</p>
+        <p>■ 국내에서는 K-조선업계의 미군 함정 유지보수 <b>수주</b> <b>랠리</b>가 눈에 띄는데, 올해 들어 3개월여 만에 작년 연간 실적을 초과하며 한미 조선 <b>협력</b>의 가시적 성과를 보여주고 있음.</p>
+        <p>■ 한편 중국의 희토류 <span class="highlight">90%</span> 독점 구조에 대한 서방의 우려가 커지고 있어, 관련 소재 및 대체 공급망 구축 관련 종목들에 주목할 필요가 있음.</p>
+        <p>■ 미중 간 달 탐사 경쟁과 習川會 예정 소식은 <b>우주</b>항공 및 첨단기술 섹터에 영향을 줄 전망이며, 중국 휴머노이드 로봇의 기술 발전은 국내 로봇 관련 기업들의 경쟁력 점검 필요성을 제기하고 있음.</p>
+        <p>■ <b>현대차</b>그룹의 소프트웨어 사업 재편과 오토에버 부상 소식은 SDV 시대를 맞아 자동차 산업의 패러다임 변화를 보여주는 중요한 신호로 해석됨.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ 글로벌 증시는 미-이란 <b>협상</b> 타결 기대감과 중동 긴장 완화 신호에 힘입어 <b>상승세</b>를 이어가고 있음.</p>
+        <p>■ 국내에서는 K-조선업계의 미군 함정 유지보수 <b>수주</b> <b>랠리</b>가 눈에 띄는데, 올해 들어 3개월여 만에 작년 연간 실적을 초과하며 한미 조선 <b>협력</b>의 가시적 성과를 보여주고 있음.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+          <p>■ 데이터 없음</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>지정학/외교·조선·원자재/희토류·AI/로봇</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 지정학/외교 -->
+<div class="slide" data-label="지정학/외교">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 지정학/외교</div>
+        <div class="stitle">트럼프 "美대표단, 협상 위해 내일 저녁 이슬라마바드 도착"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">트럼프 "美대표단, 협상 위해 내일 저녁 이슬라마바드 도착"</div>
+      <a href="https://n.news.naver.com/mnews/article/016/0002631888" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 도널드 트럼프 미국 대통령.</p>
+          <p>■ [게티이미지] [속보] 트럼프 "<b>美대표단, <b>협상</b> 위해 내일 저녁 이슬라마바드 도착</b>"</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">한국항공우주</span>
+          <span class="stock-pill">한화시스템</span>
+          <span class="stock-pill">한화에어로스페이스</span>
+          <span class="stock-pill">LIG넥스원</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">풍산</span>
+          <span class="stock-pill">포스코홀딩스</span>
+          <span class="stock-pill">삼성중공업</span>
+          <span class="stock-pill">HD한국조선해양</span>
+          <span class="stock-pill">현대건설</span>
+          <span class="stock-pill">대우건설</span>
+          <span class="stock-pill">DL이앤씨</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI/로봇 -->
+<div class="slide" data-label="AI/로봇">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; AI/로봇</div>
+        <div class="stitle">육상선수도 따라잡을까, 中 휴머노이드 로봇 하프마라톤 개막</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">육상선수도 따라잡을까, 中 휴머노이드 로봇 하프마라톤 개막</div>
+      <a href="https://v.daum.net/v/20260419060339702" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ [베이징=이데일리 이명철 특파원] 중국 베이징에서 휴머노이드 로봇이 참가한 하프마라톤 대회가 열린음.</p>
+          <p>■ 지난해 4월 이좡에선 처음으로 휴머노이드 로봇 하프마라톤 대회가 열렸는데 이번엔 참가 규모가 확대돼 2회 대회가 열리게 됐음.</p>
+          <p>■ 지난해 대회 땐 예선을 거쳐 21개 팀이 결승에 참가했는데 이번엔 중국 100개, 해외 5개 등 총 105개 팀이 참가함.</p>
+          <p>■ 지난해에는 휴머노이드 로봇이 직접 달리는 <b>자율주행</b>과 관계자가 조종하는 원격 조종이 뒤섞였는데 이번엔 <b>자율주행</b>과 원격 조정을 분리함.</p>
+          <p>■ <b>자율주행</b>은 42개 팀, 원격 조종 63개팀이 참가함.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">레인보우로보틱스</span>
+          <span class="stock-pill">로보티즈</span>
+          <span class="stock-pill">뉴로메카</span>
+          <span class="stock-pill">두산로보틱스</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">HL만도</span>
+          <span class="stock-pill">현대모비스</span>
+          <span class="stock-pill">현대오토에버</span>
+          <span class="stock-pill">삼현</span>
+          <span class="stock-pill">에스비비테크</span>
+          <span class="stock-pill">클로봇</span>
+          <span class="stock-pill">티엑스알로보틱스</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 원자재/희토류 -->
+<div class="slide" data-label="원자재/희토">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 원자재/희토류</div>
+        <div class="stitle">'중동엔 석유, 中엔 희토류'… 中의 30년 자원 함정에 빠진 서방 - 글로벌이코노믹</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">'중동엔 석유, 中엔 희토류'… 中의 30년 자원 함정에 빠진 서방 - 글로벌이코노믹</div>
+      <a href="http://m.g-enews.com/view.php?ud=2026041816230750550c8c1c064d_1" target="_blank" class="news-url">m.g-enews.com</a>
+      <div class="news-body">
+          <p>■ 中, 전 세계 희토류 가공 <span class="highlight">90%</span> 독점하며 '무기화'… 미국 방위 산업 공급망 비상 나스닥 상장사 '리알로이(REalloys)', 중국 기술 없는 독자 공급망 구축으로 반격 개시 1992년 중국의 지도자 덩샤오핑은 "<b>중동에 석유가 있다면, 중국에는 희토류가 있다</b>"는 선언을 통해 자원의 전략적 가치를 설파했음.</p>
+          <p>■ 그로부터 30년이 지난 지금, 중국은 전 세계 희토류 가공 시장의 <span class="highlight">90%</span>를 장악하며 서방 경제와 군사 안보를 겨냥한 '장전된 총'을 손에 쥐게 됐음.</p>
+          <p>■ 서방 정부들이 가공 공정을 저부가가치 산업으로 치부해 방치하는 사이, 중국은 국가적 지원과 약탈적 가격 정책을 통해 독점적 지위를 굳혔음.</p>
+          <p>■ 18일(현지시각) 에너지 전문 매체 오일프라이스(Oilprice)는 서방의 방위 산업이 직면한 '희토류 함정'의 실태와 이를 타개하기 위한 민간기업의 사투를 집중 조명했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">고려아연</span>
+          <span class="stock-pill">포스코엠텍</span>
+          <span class="stock-pill">유니온머티리얼</span>
+          <span class="stock-pill">노바텍</span>
+          <span class="stock-pill">EG</span>
+          <span class="stock-pill">동국알앤에스</span>
+          <span class="stock-pill">제이에스링크</span>
+          <span class="stock-pill">LS에코에너지</span>
+          <span class="stock-pill">풍산</span>
+          <span class="stock-pill">KBI메탈</span>
+          <span class="stock-pill">아이티센글로벌</span>
+          <span class="stock-pill">LX인터내셔널</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 외교/국제관계 -->
+<div class="slide" data-label="외교/국제관">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 외교/국제관계</div>
+        <div class="stitle">習川會預計5月中登場 川普：將是場歷史性會談</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">習川會預計5月中登場 川普：將是場歷史性會談</div>
+      <a href="https://www.ctee.com.tw/news/20260419700077-430801" target="_blank" class="news-url">ctee.com.tw</a>
+      <div class="news-body">
+          <p>■ 중동 정세가 여전히 불확실함에 따라 시장이 이에 대한 중국의 역할과 향후 습川會晤을 면밀히 주시하고 있음.</p>
+          <p>■ 트럼프는 5월 14일부터 15일까지 중국을 국사 방문할 계획이며, 시진핑과 회담할 예정임.</p>
+          <p>■ 중미 양국이 일정 조율과 회담 실질적 성과에 관한 <b>협상</b>을 가속화 중인 것으로 전해지고 있으며, 트럼프의 베이징 천단 참관 및 중국 측 열병식 참석 등이 포함되어 있음.</p>
+          <p>■ 양국 정상의 회담 이전에 각국이 상대방에 대한 다양한 <b>제재</b> 조치를 단행 중이며, 외부에서는 이를 <b>협상</b> 테이블의 우위 확보 전략으로 해석하고 있음.</p>
+          <p>■ 미국의 경우 양원의 지지를 받은 「반도체 기술 다자간 조율 통제법안」(MATCH Act)을 시행하여 중국 기업에 대한 반도체 제조 설비 수출 통제를 강화함.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">삼성전자</span>
+          <span class="stock-pill">SK하이닉스</span>
+          <span class="stock-pill">현대차</span>
+          <span class="stock-pill">기아</span>
+          <span class="stock-pill">LG화학</span>
+          <span class="stock-pill">POSCO홀딩스</span>
+          <span class="stock-pill">한국조선해양</span>
+          <span class="stock-pill">삼성중공업</span>
+          <span class="stock-pill">한화오션</span>
+          <span class="stock-pill">현대건설</span>
+          <span class="stock-pill">대우건설</span>
+          <span class="stock-pill">삼성물산</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 우주항공 -->
+<div class="slide" data-label="우주항공">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128752; 우주항공</div>
+        <div class="stitle">美·中 '문 레이스'… 달 찍고 화성 간다 [세계는 지금]</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">美·中 '문 레이스'… 달 찍고 화성 간다 [세계는 지금]</div>
+      <a href="https://v.daum.net/v/20260419100352355" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 미국의 달 복귀 프로젝트 아르테미스는 1970년대 아폴로의 재연이 아니음.</p>
+          <p>■ 나사는 아르테미스를 통해 과학적 발견과 경제적 이익을 추구하는 동시에 미래 세대에 영감을 주고 화성 유인 임무의 토대를 쌓겠다고 밝히고 있음.</p>
+          <p>■ 달은 목표이면서 동시에 화성으로 가기 전 시스템을 검증하는 시험장임.</p>
+          <p>■ 최근 아르테미스II의 유인 달궤도 비행을 성공한 나사는 2027년 저궤도에서 <b>우주</b>선 오리온과 민간 달착륙선의 통합 운용을 시험하고(아르테미스III) 2028년 유인 <b>우주</b>선을 달에 착륙시킬 계획임.</p>
+          <p>■ 나사는 이 구조를 실현하는 데 민간기업에 역할을 상당 부분 나눴음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">한국항공우주</span>
+          <span class="stock-pill">이노스페이스</span>
+          <span class="stock-pill">쎄트렉아이</span>
+          <span class="stock-pill">켄코아에어로스페이스</span>
+          <span class="stock-pill">한화시스템</span>
+          <span class="stock-pill">한화에어로스페이스</span>
+          <span class="stock-pill">AP위성</span>
+          <span class="stock-pill">컨텍</span>
+          <span class="stock-pill">스피어</span>
+          <span class="stock-pill">에이치브이엠</span>
+          <span class="stock-pill">와이제이링크</span>
+          <span class="stock-pill">인텔리안테크</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 우주항공 -->
+<div class="slide" data-label="우주항공">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128752; 우주항공</div>
+        <div class="stitle">블루오리진, 재사용 기술 입증했지만 위성 오궤도…'과제' 여전</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">블루오리진, 재사용 기술 입증했지만 위성 오궤도…'과제' 여전</div>
+      <a href="https://n.news.naver.com/mnews/article/277/0005751590" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ '블루버드-7' <b>위성</b> 정상 궤도 이탈 스페이스X와 '<b>우주</b> 경쟁'을 벌이는 블루 오리진이 재사용 추진체(부스터) 착륙에 성공했지만, 탑재한 <b>위성</b>을 정상 궤도에 투입시키는데 실패했음.</p>
+          <p>■ 19일(현지시간) 월스트리트저널(WSJ)과 CBS방송에 따르면, 블루 오리진의 '뉴 글렌' 로켓은 이날 플로리다주(州) 케이프 커내버럴 <b>우주</b>군 기지에서 발사돼 대서양 플랫폼에 착륙했음.</p>
+          <p>■ 이번 비행은 뉴 글렌의 세 번째 비행임.</p>
+          <p>■ 이번에 발사된 추진체는 지난해 11월 'NG-2' 임무에 쓰였던 것을 재사용한 것임.</p>
+          <p>■ 초기 단계는 순조롭게 이뤄졌으나 이후 임무에서 문제가 발생했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">이노스페이스</span>
+          <span class="stock-pill">한국항공우주</span>
+          <span class="stock-pill">쎄트렉아이</span>
+          <span class="stock-pill">켄코아에어로스페이스</span>
+          <span class="stock-pill">한화시스템</span>
+          <span class="stock-pill">한화에어로스페이스</span>
+          <span class="stock-pill">AP위성</span>
+          <span class="stock-pill">컨텍</span>
+          <span class="stock-pill">스피어</span>
+          <span class="stock-pill">에이치브이엠</span>
+          <span class="stock-pill">와이제이링크</span>
+          <span class="stock-pill">인텔리안테크</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 조선 -->
+<div class="slide" data-label="조선">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 조선</div>
+        <div class="stitle">K-조선, 美함정 MRO 수주 랠리…3개월여만에 작년 연간실적 초과 | 연합뉴스</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">K-조선, 美함정 MRO 수주 랠리…3개월여만에 작년 연간실적 초과 | 연합뉴스</div>
+      <a href="https://vo.la/Pb5DrJP" target="_blank" class="news-url">vo.la</a>
+      <div class="news-body">
+          <p>■ 국내 조선업계가 특수선 '양강' HD현대중공업과 한화오션을 필두로 미국 해군 함정 유지·보수·정비(MRO) 시장에서 잇달아 낭보를 전하고 있음.</p>
+          <p>■ 한미 조선 <b>협력</b> 프로젝트인 '마스가'(MASGA)를 위한 마중물 성격으로 평가받는 가운데 장기적으로는 미국 현지 규제와 <b>계약</b> 형태의 개선이 필요하다는 지적도 나온음.</p>
+          <p>■ 19일 업계에 따르면 HD현대중공업과 한화오션은 올해 들어 미 해군 함정 MRO 사업을 각각 2건씩 <b>수주</b>했음.</p>
+          <p>■ 지난해 연간 <b>수주</b> 실적이 HD현대중공업은 1건, 한화오션은 2건이었던 점을 고려하면 올해 들어 <b>수주</b> 속도가 확연히 빨라졌음.</p>
+          <p>■ HD현대중공업은 최근 미 해군 7함대 소속의 4만1천톤급 화물보급함 'USNS 리처드 E.버드'함의 정기 정비 사업을 따냈음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">HD한국조선해양</span>
+          <span class="stock-pill">HD현대중공업</span>
+          <span class="stock-pill">한화오션</span>
+          <span class="stock-pill">삼성중공업</span>
+          <span class="stock-pill">STX엔진</span>
+          <span class="stock-pill">대한조선</span>
+          <span class="stock-pill">세진중공업</span>
+          <span class="stock-pill">한화엔진</span>
+          <span class="stock-pill">삼영엠텍</span>
+          <span class="stock-pill">동성화인텍</span>
+          <span class="stock-pill">HJ중공업</span>
+          <span class="stock-pill">케이프</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 자동차 -->
+<div class="slide" data-label="자동차·통상">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag cyan">&#128663; 자동차</div>
+        <div class="stitle">[현대차 실용주의 사업재편]SDV시대 흩어진 'SW' 부상한 '오토에버'</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[현대차 실용주의 사업재편]SDV시대 흩어진 'SW' 부상한 '오토에버'</div>
+      <a href="https://www.bloter.net/news/articleView.html?idxno=659830" target="_blank" class="news-url">bloter.net</a>
+      <div class="news-body">
+          <p>■ <b>현대차</b>그룹 내 중복·비주력사업들의 통폐합 시나리오를 점검함.</p>
+          <p>■ 현대자동차그룹이 현대위아의 <b>방산</b> 부문을 현대로템으로 통합하는 등 하드웨어(HW) 사업 재편에 착수한 가운데 소프트웨어(SW) 부문에서도 '교통정리'가 임박했다는 관측이 나온음.</p>
+          <p>■ 하드웨어 중심 제조기업에서 소프트웨어중심차량(SDV) 및 피지컬 인공지능(AI) 기업으로의 체질개선에 속도를 내는 만큼 그룹에 분산된 SW 역량을 한 곳으로 결집하는 작업이 본격화될 것으로 전망됨.</p>
+          <p>■ 이 과정에서 현대오토에버는 유력한 중심 역할을 할 것으로 보임.</p>
+          <p>■ 대주주 지분율이 높은 현대오토에버에 미래 핵심사업을 집중시켜 기업가치를 끌어올리고 이를 향후 지배구조 개편 과정에서 활용하려는 재무적·거버넌스적 고려가 깔려 있다는 분석이 나온음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <span class="stock-pill">현대오토에버</span>
+          <span class="stock-pill">현대차</span>
+          <span class="stock-pill">현대모비스</span>
+          <span class="stock-pill">현대위아</span>
+          <span class="stock-pill">HL만도</span>
+          <span class="stock-pill">기아</span>
+          <span class="stock-pill">현대로템</span>
+          <span class="stock-pill">에스엘</span>
+          <span class="stock-pill">링크솔루션</span>
+          <span class="stock-pill">디아이씨</span>
+          <span class="stock-pill">클로봇</span>
+          <span class="stock-pill">한국피아이엠</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">10</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>
