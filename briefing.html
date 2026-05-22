@@ -46,6 +46,15 @@
 
   <div style="flex:1;"></div>
 
+  <!-- 당일 접속자 카운터 (Firebase Realtime DB) -->
+  <div id="visitor-wrap" style="display:flex;align-items:center;gap:6px;
+       background:rgba(255,255,255,0.05);border:1px solid var(--border);
+       border-radius:8px;padding:5px 12px;flex-shrink:0;margin-right:8px;white-space:nowrap;">
+    <span style="font-size:13px;">👥</span>
+    <span style="font-size:11px;color:var(--muted);font-weight:600;">오늘</span>
+    <span id="visitor-count" style="font-size:13px;font-weight:800;color:#fbbf24;min-width:20px;text-align:right;">—</span>
+  </div>
+
   <!-- 날짜 탭 (JS로 동적 생성) -->
   <div id="date-tabs" style="display:flex;gap:6px;"></div>
 </div>
@@ -55,6 +64,45 @@
   onload="hideBadge(this)"></iframe>
 
 <script>
+// ── 당일 접속자 카운터 (Firebase Realtime DB) ──────────────
+(function () {
+  const DB = 'https://moneylandone-default-rtdb.asia-southeast1.firebasedatabase.app';
+  const SESSION_KEY = 'ml_visited';
+  const today = new Date().toLocaleDateString('sv-SE').replace(/-/g, ''); // 20260522 (KST)
+  const PATH  = `${DB}/visitors/daily/${today}.json`;
+  const el    = document.getElementById('visitor-count');
+
+  function show(n) {
+    el.textContent = n >= 1000 ? (n / 1000).toFixed(1) + 'k' : n;
+  }
+
+  const counted = sessionStorage.getItem(SESSION_KEY) === today;
+
+  if (counted) {
+    // 이미 카운트한 세션 → 조회만
+    fetch(PATH)
+      .then(r => r.json())
+      .then(n => { if (n != null) show(n); })
+      .catch(() => {});
+  } else {
+    // 신규 방문 → 서버 측 원자적 +1
+    fetch(PATH, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ '.sv': { 'increment': 1 } })
+    })
+      .then(r => r.json())
+      .then(n => {
+        if (n != null) {
+          show(n);
+          sessionStorage.setItem(SESSION_KEY, today);
+        }
+      })
+      .catch(() => {});
+  }
+})();
+// ────────────────────────────────────────────────────────────
+
 let FILES = {};
 let currentType = 'us-morning';
 
