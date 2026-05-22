@@ -61,7 +61,7 @@
 
 <!-- iframe 영역 -->
 <iframe id="brief-frame" src="" style="flex:1;width:100%;border:none;background:#fff;"
-  onload="hideBadge(this)"></iframe>
+  onload="if(typeof hideBadge==='function') hideBadge(this)"></iframe>
 
 <script>
 // ── 당일 접속자 카운터 (Firebase Realtime DB) ──────────────
@@ -82,8 +82,8 @@
     // 이미 카운트한 세션 → 조회만
     fetch(PATH)
       .then(r => r.json())
-      .then(n => { if (n != null) show(n); })
-      .catch(() => {});
+      .then(n => { console.log('[방문카운터] 조회:', n); if (n != null) show(n); })
+      .catch(e => console.error('[방문카운터] 조회 오류:', e));
   } else {
     // 신규 방문 → 서버 측 원자적 +1
     fetch(PATH, {
@@ -93,12 +93,13 @@
     })
       .then(r => r.json())
       .then(n => {
+        console.log('[방문카운터] 증가 결과:', n);
         if (n != null) {
           show(n);
           sessionStorage.setItem(SESSION_KEY, today);
         }
       })
-      .catch(() => {});
+      .catch(e => console.error('[방문카운터] 증가 오류:', e));
   }
 })();
 // ────────────────────────────────────────────────────────────
