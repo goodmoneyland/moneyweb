@@ -66,11 +66,11 @@
 <script>
 // ── 당일 접속자 카운터 ─────────────────────────────────────
 (function() {
-  // 세션 내 중복 카운트 방지 (탭 전환해도 1회만)
   const SESSION_KEY = 'ml_visited';
   const today = new Date().toISOString().slice(0,10).replace(/-/g,''); // 20260522
   const NS  = 'moneyland-kr';
   const KEY = 'daily-' + today;
+  const BASE = 'https://api.counterapi.dev/v1';
 
   const elCount = document.getElementById('visitor-count');
 
@@ -80,28 +80,23 @@
       : n;
   }
 
-  function fetchHit() {
-    // 오늘 첫 방문이면 카운트 올리기, 이미 방문했으면 조회만
-    const alreadyCounted = sessionStorage.getItem(SESSION_KEY) === today;
-    const apiUrl = alreadyCounted
-      ? `https://api.countapi.xyz/get/${NS}/${KEY}`
-      : `https://api.countapi.xyz/hit/${NS}/${KEY}`;
+  // 오늘 첫 방문이면 카운트 올리기(up), 이미 방문했으면 조회만(get)
+  const alreadyCounted = sessionStorage.getItem(SESSION_KEY) === today;
+  const apiUrl = alreadyCounted
+    ? `${BASE}/${NS}/${KEY}`
+    : `${BASE}/${NS}/${KEY}/up`;
 
-    fetch(apiUrl)
-      .then(r => r.json())
-      .then(d => {
-        if (d && d.value != null) {
-          showCount(d.value);
-          if (!alreadyCounted) sessionStorage.setItem(SESSION_KEY, today);
-        }
-      })
-      .catch(() => {
-        // API 실패 시 조용히 숨김
-        document.getElementById('visitor-wrap').style.display = 'none';
-      });
-  }
-
-  fetchHit();
+  fetch(apiUrl)
+    .then(r => r.json())
+    .then(d => {
+      if (d && d.count != null) {
+        showCount(d.count);
+        if (!alreadyCounted) sessionStorage.setItem(SESSION_KEY, today);
+      }
+    })
+    .catch(() => {
+      // API 실패 시 '—' 유지 (숨기지 않음)
+    });
 })();
 
 // ────────────────────────────────────────────────────────────
