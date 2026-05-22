@@ -46,6 +46,15 @@
 
   <div style="flex:1;"></div>
 
+  <!-- 당일 접속자 카운터 -->
+  <div id="visitor-wrap" style="display:flex;align-items:center;gap:6px;
+       background:rgba(255,255,255,0.05);border:1px solid var(--border);
+       border-radius:8px;padding:5px 12px;flex-shrink:0;margin-right:8px;">
+    <span style="font-size:13px;">👥</span>
+    <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;">오늘 방문</span>
+    <span id="visitor-count" style="font-size:13px;font-weight:800;color:#fbbf24;min-width:24px;text-align:right;">—</span>
+  </div>
+
   <!-- 날짜 탭 (JS로 동적 생성) -->
   <div id="date-tabs" style="display:flex;gap:6px;"></div>
 </div>
@@ -55,6 +64,47 @@
   onload="hideBadge(this)"></iframe>
 
 <script>
+// ── 당일 접속자 카운터 ─────────────────────────────────────
+(function() {
+  // 세션 내 중복 카운트 방지 (탭 전환해도 1회만)
+  const SESSION_KEY = 'ml_visited';
+  const today = new Date().toISOString().slice(0,10).replace(/-/g,''); // 20260522
+  const NS  = 'moneyland-kr';
+  const KEY = 'daily-' + today;
+
+  const elCount = document.getElementById('visitor-count');
+
+  function showCount(n) {
+    elCount.textContent = n >= 1000
+      ? (n / 1000).toFixed(1) + 'k'
+      : n;
+  }
+
+  function fetchHit() {
+    // 오늘 첫 방문이면 카운트 올리기, 이미 방문했으면 조회만
+    const alreadyCounted = sessionStorage.getItem(SESSION_KEY) === today;
+    const apiUrl = alreadyCounted
+      ? `https://api.countapi.xyz/get/${NS}/${KEY}`
+      : `https://api.countapi.xyz/hit/${NS}/${KEY}`;
+
+    fetch(apiUrl)
+      .then(r => r.json())
+      .then(d => {
+        if (d && d.value != null) {
+          showCount(d.value);
+          if (!alreadyCounted) sessionStorage.setItem(SESSION_KEY, today);
+        }
+      })
+      .catch(() => {
+        // API 실패 시 조용히 숨김
+        document.getElementById('visitor-wrap').style.display = 'none';
+      });
+  }
+
+  fetchHit();
+})();
+
+// ────────────────────────────────────────────────────────────
 let FILES = {};
 let currentType = 'us-morning';
 
