@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>국장테마 2026.05.26</title>
+<style>
+:root {
+  --bg:#070d1a; --card:#0f1829; --card2:#162033; --border:#1e2d47;
+  --text:#e2e8f0; --muted:#64748b;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+       min-height:100vh; padding-bottom:40px; }
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+
+/* 헤더 */
+.page-header { background:var(--card); border-bottom:1px solid var(--border);
+               padding:14px 24px; display:flex; align-items:center; gap:14px;
+               position:sticky; top:0; z-index:100; }
+.page-title { font-size:20px; font-weight:900;
+              background:linear-gradient(90deg,#38bdf8,#a78bfa,#f59e0b);
+              -webkit-background-clip:text; -webkit-text-fill-color:transparent; white-space:nowrap; }
+.page-date { font-size:14px; color:var(--muted); font-weight:600; }
+.update-badge { position:fixed; top:12px; right:18px; z-index:200; font-size:11px;
+                color:#fbbf24; background:#1e3a8a; padding:4px 12px; border-radius:8px;
+                font-weight:600; pointer-events:none; border:1px solid rgba(251,191,36,0.4); }
+
+/* 네비 앵커 */
+.nav-bar { display:flex; gap:8px; padding:14px 24px 0; flex-wrap:wrap; }
+.nav-btn { padding:5px 14px; border-radius:8px; font-size:12px; font-weight:700;
+           border:1px solid var(--border); color:var(--muted); cursor:pointer;
+           text-decoration:none; transition:all .15s; }
+.nav-btn:hover { background:var(--card2); color:var(--text); }
+.nav-btn.am { border-color:#38bdf8; color:#38bdf8; }
+.nav-btn.pm { border-color:#a78bfa; color:#a78bfa; }
+.nav-btn.close { border-color:#f59e0b; color:#f59e0b; }
+
+/* 섹션 카드 */
+.section-card { background:var(--card); border:1px solid var(--border); border-radius:12px;
+                margin:16px 24px; overflow:hidden; }
+.sec-header { display:flex; align-items:center; gap:12px; padding:14px 18px;
+              background:var(--card2); }
+.sec-title { font-size:15px; font-weight:800; letter-spacing:0.5px; }
+.time-badge { font-size:11px; color:var(--muted); background:rgba(255,255,255,0.06);
+              padding:2px 8px; border-radius:6px; }
+.sec-empty { font-size:13px; color:var(--muted); }
+
+/* 강세/약세 테마 그리드 */
+.theme-grid { display:grid; grid-template-columns:1fr 1fr; gap:0;
+              border-bottom:1px solid var(--border); }
+.theme-col { padding:14px 18px; }
+.theme-col:first-child { border-right:1px solid var(--border); }
+.theme-col-label { font-size:12px; font-weight:800; letter-spacing:1px; margin-bottom:10px; }
+.pills-wrap { display:flex; flex-wrap:wrap; gap:0; }
+
+/* 특징 테마 카드 */
+.feat-section { padding:14px 18px; border-bottom:1px solid var(--border); }
+.feat-section-title { font-size:12px; font-weight:800; color:var(--muted);
+                      letter-spacing:1.5px; margin-bottom:10px; }
+.feat-card { background:var(--card2); border:1px solid var(--border); border-radius:8px;
+             padding:12px 14px; margin-bottom:8px; }
+.feat-nm { font-size:17px; font-weight:800; color:#e2e8f0; margin-bottom:5px;
+           display:flex; align-items:center; flex-wrap:wrap; }
+.feat-tit { font-size:17px; color:#94a3b8; line-height:1.5; margin-bottom:4px; }
+.feat-cn { font-size:19px; color:#cbd5e1; line-height:1.6; margin-top:6px;
+           border-top:1px solid var(--border); padding-top:8px; }
+
+/* 특징주 */
+.stock-section { padding:14px 18px; }
+.mkt-label { font-size:12px; font-weight:800; color:var(--muted);
+             letter-spacing:1.5px; margin-bottom:8px; }
+.stk-row { display:flex; gap:10px; align-items:flex-start; padding:6px 0;
+           border-bottom:1px solid rgba(30,45,71,0.5); }
+.stk-nm { font-size:26px; font-weight:700; color:#38bdf8; white-space:nowrap;
+          min-width:140px; }
+.stk-tit { font-size:26px; color:#94a3b8; line-height:1.4; flex:1; }
+
+/* 데일리(장마감) — US프리마켓 동일 스타일 */
+.daily-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.daily-grid > div:first-child { border-right:1px solid var(--border); }
+.daily-col-label { font-size:12px; font-weight:800; letter-spacing:1.5px;
+                   padding:12px 16px 8px; border-bottom:1px solid var(--border); }
+.daily-grid .theme-item { margin:12px 14px; border-radius:12px; padding:18px 20px; }
+.theme-item { background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:18px 20px; }
+.theme-item.up-theme { border-left:4px solid #ff4444; }
+.theme-item.dn-theme { border-left:4px solid #4477ff; }
+.theme-nm { font-size:22px; font-weight:900; color:#e2e8f0; margin-bottom:6px; }
+.theme-tit { font-size:17px; color:#fbbf24; font-weight:700; margin-bottom:8px; line-height:1.5; }
+.theme-cn { font-size:16px; color:#ccdded; line-height:1.6; }
+.theme-dir { font-size:15px; font-weight:800; padding:4px 12px; border-radius:6px;
+             display:inline-block; margin-bottom:8px; }
+.theme-dir.up { background:rgba(255,68,68,0.18); color:#ff4444; }
+.theme-dir.dn { background:rgba(68,119,255,0.18); color:#4477ff; }
+
+@media (max-width:700px) {
+  .theme-grid, .daily-grid { grid-template-columns:1fr; }
+  .theme-col:first-child { border-right:none; border-bottom:1px solid var(--border); }
+  .daily-grid > div:first-child { border-right:none; border-bottom:1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="page-title">국장테마</span>
+  <span class="page-date">2026.05.26 (화)</span>
+</div>
+<div class="update-badge">업데이트: 2026-05-26 11:50</div>
+
+<div class="nav-bar">
+  <a href="#sec-am" class="nav-btn am">🌅 오전</a>
+  <a href="#sec-pm" class="nav-btn pm">🌇 오후</a>
+  <a href="#sec-close" class="nav-btn close">🏁 장마감후</a>
+</div>
+
+
+<div class="section-card" id="sec-am">
+  <div class="sec-header" style="border-left:4px solid #38bdf8;">
+    <span class="sec-title" style="color:#38bdf8;">오전 (11:50) 테마</span>
+    <span class="time-badge">11:07 기준</span>
+  </div>
+
+  <div class="theme-grid">
+    <div class="theme-col">
+      <div class="theme-col-label" style="color:#10b981;">▲ 강세 테마</div>
+      <div class="pills-wrap"><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">MLCC(적층세라믹콘덴서)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">반도체 대표주(생산)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">국내 상장 중국기업</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">탄소나노튜브(CNT)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">반도체 기판(FC-BGA/PCB/MLB 등)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">양자암호/양자컴퓨팅</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">스페이스X(SpaceX)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">소캠(SOCAMM)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">광통신(광케이블/광섬유 등)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">뉴로모픽 반도체</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">PCB(FPCB 등)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">폴더블폰</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">온디바이스 AI</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">핵융합에너지</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">유리 기판</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">우주항공산업(누리호/인공위성 등)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">조선</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">아이폰</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">바이오인식(생체인식)</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">니켈</span><span style="display:inline-block;background:rgba(16,185,129,0.12);color:#10b981;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">IT 대표주 등...</span></div>
+    </div>
+    <div class="theme-col">
+      <div class="theme-col-label" style="color:#f87171;">▼ 약세 테마</div>
+      <div class="pills-wrap"><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">서울고속버스터미널 재개발 수혜</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">영화</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">자전거</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">미디어(방송/신문)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">엔터테인먼트</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">사료</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">음원/음반</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">지역화폐</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">웹툰</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">영상콘텐츠</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">해운</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">애플페이</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">생명보험</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">통신</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">전자결제(전자화폐)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">토스(toss)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">아스콘(아스팔트 콘크리트)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">패션/의류</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">부동산 보유 자산주</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">낙태/피임</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">마스크</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">면세점</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">화이자(PFIZER)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">테마파크</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">쿠팡(coupang)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">NFT(대체불가토큰)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">보톡스(보툴리눔톡신)</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">손해보험</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">미용기기</span><span style="display:inline-block;background:rgba(248,113,113,0.12);color:#f87171;padding:3px 10px;border-radius:12px;font-size:13px;font-weight:600;margin:2px 3px;">카지노 등...</span></div>
+    </div>
+  </div>
+
+  <div class='feat-section'><div class='feat-section-title'>특징 테마</div>
+    <div class="feat-card">
+      <div class="feat-nm"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-right:7px;vertical-align:middle;flex-shrink:0;"></span>반도체 관련주</div>
+      <div class="feat-tit">AI發 반도체 슈퍼사이클 지속 전망 등에 상승</div>
+      <div class='feat-cn'>▷<a href="https://www.tradingview.com/chart/?symbol=KRX%3A005940" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">NH투자증권</a>은 보고서를 통해 현재 AI는 두번째 투자 단계로 접어들고 있는 가운데, 그동안 AI는 모델 구축과 학습이 중심이었던 만큼 GPU/HBM이 가장 큰 수혜를 누렸지만, 현재는 추론으로 영역이 확장되는 시기로 GPU/HBM뿐만 아니라 CPU/ASIC/메모리/기판 등 다양한 부품들의 수요도 증가하고 있다고 밝힘. 향후 로봇/자율주행과 같은 에지 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A187870" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">디바이스</a>의 확산이 모델 전환의 필요성을 키우며 다시 GPU 중심의 수요 증가가 이어질 것으로 전망. 현재 AI 관련 모든 투자 단계에서 병목으로 지목되고 있는 요소는 바로 메모리로 초기 학습 시장에서는 HBM이, 현재는 서버 DRAM, LPDDR(SOCAMM), eSSD가 수혜를 누리고 있는 상황이라고 분석. 향후 에지 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A187870" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">디바이스</a>의 확산은 LPDDR의 수혜로 이어질 것으로 전망. 최근 메모리 업계 전반의 계약 형태가 다년 장기계약으로 전환 중이며, 일부에서는 장기계약을 사이클 피크아웃 신호로 해석하지만, 다양한 하드웨어 조합에 따른 세부 계획의 필요성과 수급 양측의 전략적 이해가 맞아떨어진 결과라 판단.<br><br>▷지난 22일(현지시간) 뉴욕 주식시장이 美-이란 협상 낙관론 등에 상승 마감한 가운데, 금일 필라델피아 반도체지수(+1.99%)도 강세 마감. 특히, <a href="https://finviz.com/quote.ashx?t=QCOM" target="_blank" style="color:#60a5fa;text-decoration:none;font-weight:700;">퀄컴</a>(+11.60%)은 피지컬AI 주도 업체로 부상하며, 급등세를 기록. 외신에 따르면, <a href="https://finviz.com/quote.ashx?t=QCOM" target="_blank" style="color:#60a5fa;text-decoration:none;font-weight:700;">퀄컴</a>은 AI 모델 칩 경쟁에서 <a href="https://finviz.com/quote.ashx?t=NVDA" target="_blank" style="color:#60a5fa;text-decoration:none;font-weight:700;">엔비디아</a>에 뒤처졌지만, 스마트폰 지배력을 바탕으로 스마트 글래스·자동차·로봇 등 커넥티드 기기들에서 핵심 칩 공급 업체로 자리를 굳히고 있다고 전해짐. 오픈AI도 AI 에이전트 기반 차세대 기기용 AI 칩 개발을 위해 <a href="https://finviz.com/quote.ashx?t=QCOM" target="_blank" style="color:#60a5fa;text-decoration:none;font-weight:700;">퀄컴</a>과 협력하는 것으로 알려짐.<br><br>▷호르무즈 재개방 기대감도 긍정적으로 작용. 언론에 따르면, 미국과 이란은 휴전 기간을 60일 연장하고 이 기간에 최종 합의를 도출하기 위한 양해각서(MOU) 체결에 근접한 것으로 알려짐. 이란의 대미 협상단장인 모하마드 바게르 갈리바프 의회 의장과 아바스 아라그치 외무장관은 카타르 도하를 방문, 카타르 총리와 회담을 가진 가운데, 회담에선 호르무즈 해협과 고농축 우라늄 문제 등이 논의된 것으로 전해짐. 트럼프 미 대통령은 트루스소셜에 "이란과의 협상이 순조롭게 진행되고 있다"며 이번에도 합의가 불발되면 이란을 향한 공격이 더욱 거세질 것이라고 밝힘. 이에 아시아 장중 서부텍사스산 원유(WTI) 7월 인도분 가격은 약 5% 가량 하락한 91달러 부근에서 거래중.<br><br>▷이 같은 소식 속 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005930" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전자</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">SK하이닉스</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000990" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">DB하이텍</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A403870" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">HPSP</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A089030" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">테크윙</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A089970" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">브이엠</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A095340" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">ISC</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">두산</a> 등 반도체 관련주가 상승.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-nm"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-right:7px;vertical-align:middle;flex-shrink:0;"></span>MLCC(적층세라믹콘덴서)</div>
+      <div class="feat-tit">AI향 MLCC 업황 호조 기대감 확대 등에 상승</div>
+      <div class='feat-cn'>▷KB증권은 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전기</a>에 대해 언론보도(5/24 키포스트)에서 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전기</a>가 세종 사업장 및 부산 사업장에 반도체 패키징 기판 생산라인을 신설할 예정이라는 소식이 전해진 가운데, 이는 지난 4/14 발표된 1.8조원 규모의 베트남 FC-BGA 생산라인(1Q28E 가동 시작 예정) 증설에 이어 또 한 번의 대규모 투자가 단행되는 것이라고 밝힘. 메모리 업체들의 실적이 보여주듯, 현재 AI(인공지능)향 핵심 부품은 전례 없는 초호황을 누리고 있다며, 일반적으로 반도체 대비 6개월가량 후행하는 MLCC 업황을 고려 시, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전기</a> MLCC 사업의 본격적인 실적 반등 흐름은 이제 막 시작된 수준이라고 밝힘. AI향 대규모 투자가 당분간 지속될 것으로 전망되는 만큼 향후 MLCC와 패키징 기판 비즈니스의 가파른 실적 성장세가 기대된다며, 초고부가 부품 수요가 빠르게 증가하고 있어 실리콘 캐퍼시터와 유리 기판 등 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전기</a>의 신사업도 동시에 탄력 받을 것으로 전망.<br><br>▷지난 24일 일부 언론에 따르면, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전기</a>가 세종사업장에 반도체 패키지 기판 생산라인을 신설한다고 전해짐. 빅테크들의 AI(인공지능) 서버 투자 수요가 급증하면서 패키지 기판 전반에 공급 부족 현상이 극심하기 때문임.<br><br>▷이 같은 소식 속 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009150" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성전기</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A052710" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">아모텍</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A001820" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼화콘덴서</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A306620" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">지아이에스</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A149950" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">아바텍</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A126730" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">코칩</a> 등 MLCC(적층세라믹콘덴서) 테마가 상승.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-nm"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-right:7px;vertical-align:middle;flex-shrink:0;"></span>양자암호 / 양자컴퓨팅</div>
+      <div class="feat-tit">美 정부, 양자컴퓨팅 기업 투자 모멘텀 지속 등에 상승</div>
+      <div class='feat-cn'>▷IBK투자증권은 보고서를 통해 트럼프 행정부는 5월21일(현지시간) CHIPS 및 과학법(CHIPS and Science Act)을 토대로 양자컴퓨팅 기업 9곳에 총 약 20억 달러(약 3조원) 규모의 보조금을 지원하겠다고 발표했다고 언급. 이는 양자 산업의 국가 차원에서 키우겠다는 내용으로 해석된다며, 이번 투자는 정부가 해당 기업의 비지배적 소수 지분(noncontrolling minority equity stake)을 확보하는 방식이라고 분석. 주요 내용은 IBM 신규 벤처 '앤더론(Anderon)'에 최대 10억 달러 투입해 뉴욕 올버니 양자칩 생산시설 구축, 미국의 양자 리더십 강화 및 고임금 일자리 창출이라고 언급. 대규모 투자 발표 후, 뉴욕증시에서 IBM +12.4%, GlobalFoundries +14.9%, D-Wave +33.4%, Rigetti Computing +30.6%, Infleqtion +31.5% 상승을 기록했다고 밝힘.<br><br>▷아울러 <a href="https://finviz.com/quote.ashx?t=NVDA" target="_blank" style="color:#60a5fa;text-decoration:none;font-weight:700;">엔비디아</a>는 자사 GPU 플랫폼(CUDA-Q)을 통해 양자-고전 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A352820" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">하이브</a>리드 컴퓨팅 생태계를 구축 중이며, 주요 양자 기업들과의 협업을 확대하고 있다고 설명. 이번 미국 정부의 $20억 지분 투자는 양자 컴퓨팅의 상업화가 정책적 뒷받침 단계에 진입했음을 확인할 수 있다고 밝힘. 빅테크의 생태계 편입과 맞물려 섹터 전반의 투자 매력도가 높아지고 있다고 설명.<br><br>▷한편, 미 정부는 중국과의 첨단 기술 패권 경쟁 속에서 양자컴퓨팅을 국가안보 및 산업 경쟁력 차원의 전략 기술로 보고 지원을 확대하고 있다며, 트럼프 행정부는 양자컴퓨팅 산업 육성을 위한 행정명령도 준비 중인 것으로 알려짐.<br><br>▷이 같은 소식 속 금일 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A203650" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">드림시큐리티</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A062970" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">한국첨단소재</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A208710" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">포톤</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A115500" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">케이씨에스</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A356680" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">엑스게이트</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A456010" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">아이씨티케이</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A056360" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">코위버</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A042510" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">라온시큐어</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A054920" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">한컴위드</a> 등 양자암호/양자컴퓨팅 테마가 상승.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-nm"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-right:7px;vertical-align:middle;flex-shrink:0;"></span>조선 / 조선기자재</div>
+      <div class="feat-tit">대형 수주 프로젝트 현실화 기대감 등에 상승</div>
+      <div class='feat-cn'>▷<a href="https://www.tradingview.com/chart/?symbol=KRX%3A005940" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">NH투자증권</a>은 보고서를 통해 2026년 하반기 조선업은 상선 발주 호조에 기반한 수주 추정치가 상향되는 가운데, 추가적인 주가 모멘텀은 대형 수주 프로젝트의 현실화 여부에 달려있다고 밝힘. 4월 누적 글로벌 발주량은 전년 대비 크게 증가했고, 중국 조선사는 2028~2029년 슬롯을 상당 부분 채운 반면 한국 조선사는 상대적으로 납기 여력이 남아 있어 하반기 추가 수주 가능성이 높다고 설명. 다만, 주력 선종인 LNG선 선가 상승은 제한적이어서 주가 추가 상승을 위해서는 대형 특수선, 해양플랜트, 엔진에서 수주 성과가 필요하며, 핵심 파이프라인은 캐나다 잠수함(CPSP), 해양플랜트(FLNG, FPSO 등), 데이터센터향 발전용 중속엔진이 될 것으로 전망.<br><br>▷특히, 캐나다 잠수함 프로젝트는 대형 플랫폼·납기·산업협력 측면에서 강점을 보유하고 있는 한국 컨소시엄이 글로벌 잠수함 수출 레퍼런스를 쌓을 수 있는 좋은 기회가 될 것으로 분석. 아울러 전쟁 영향으로 FLNG 수요가 구조적으로 증가하고 있으며, 데이터센터의 On-site 발전원으로 중속엔진의 적합성이 부각될 수 있다고 판단.<br><br>▷이 같은 분석 속 금일 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A042660" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">한화오션</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A329180" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">HD현대중공업</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009540" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">HD한국조선해양</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A010140" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">삼성중공업</a> 등 조선, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A101000" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">KS인더스트리</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A082740" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">한화엔진</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A443060" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">HD현대마린솔루션</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A460930" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">현대힘스</a> 등 조선기자재 테마가 상승.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-nm"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-right:7px;vertical-align:middle;flex-shrink:0;"></span>스페이스X(SpaceX) / 우주항공산업(누리호 / 인공위성 등)</div>
+      <div class="feat-tit">스페이스X 기업공개(IPO) 앞두고 스타십 성공 소식 등에 상승</div>
+      <div class='feat-cn'>▷일론 머스크의 우주기업 스페이스X가 기업공개(IPO)를 앞두고 인류 역사상 가장 큰 로켓인 차세대 우주선 스타십의 새 모델 시험비행에서 핵심 목표를 달성했음. 22일(현지시간) 스페이스X가 생중계한 영상에 따르면, 이전 11차례 시험 비행을 거쳐 전면 재설계한 차세대 모델 'V3'는 이날 오후 5시30분께 텍사스주 스타베이스에서 발사. V3 스타십은 지구 준궤도에 올라 모형 위성 22기를 성공적으로 사출했으며, 우주에서의 전 과정을 실시간 영상으로 전송했음. 임무를 마친 V3는 약 1시간 뒤 지구 대기권으로 재진입한 뒤 인도양 해상의 목표 지점에 정확히 착수했으며, 계획대로 기체를 수직으로 세우는 기동을 거쳐 비행을 종료. 이번 시험비행 성공으로 스페이스X는 내달 상장을 목표로 진행 중인 IPO를 앞두고 스타십이 상용화 단계에 접어들고 있다는 자신들 주장을 어느 정도 입증하게 됐음.<br><br>▷이 같은 소식 속 <a href="https://www.tradingview.com/chart/?symbol=KRX%3A295310" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">에이치브이엠</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A274090" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">켄코아에어로스페이스</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A347700" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">스피어</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A211270" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">AP위성</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A478340" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">나라스페이스테크놀로지</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A474170" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">루미르</a>, <a href="https://www.tradingview.com/chart/?symbol=KRX%3A462350" target="_blank" style="color:#38bdf8;text-decoration:none;font-weight:700;">이노스페이스</a> 등 스페이스X(SpaceX), 우주항공산업(누리호/인공위성 등) 테마가 상승.</div>
+    </div></div>
+  <div class="stock-section"><div class="mkt-label">KOSPI 특징주</div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A011070" target="_blank" style="color:inherit;text-decoration:none;">LG이노텍</a></span><span class="stk-tit">전 사업부 성장 기대감 등에  급등</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A009420" target="_blank" style="color:inherit;text-decoration:none;">한올바이오파마</a></span><span class="stk-tit">류마티스 관절염 치료제 'IMVT-1402' 파이프라인 가치 재평가 기대감 등에  강세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A010060" target="_blank" style="color:inherit;text-decoration:none;">OCI홀딩스</a></span><span class="stk-tit">태양광 가치 재평가 기대감 등에  강세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A248070" target="_blank" style="color:inherit;text-decoration:none;">솔루엠</a></span><span class="stk-tit">ESL 바텀 아웃과 BBU용 파워 시장 진입 기대감 등에 강세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A003550" target="_blank" style="color:inherit;text-decoration:none;">LG</a></span><span class="stk-tit">보통주 3,029,581주 소각 결정에  상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A302440" target="_blank" style="color:inherit;text-decoration:none;">SK바이오사이언스</a></span><span class="stk-tit">콜롬비아와 백신 기술 이전 계약 체결 소식에  소폭 상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A028260" target="_blank" style="color:inherit;text-decoration:none;">삼성물산</a></span><span class="stk-tit">삼성그룹 지주사로 밸류업 및 원전 밸류 상승 본격화 전망 등에  소폭 상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A036420" target="_blank" style="color:inherit;text-decoration:none;">콘텐트리중앙</a></span><span class="stk-tit">영화 '호프', 칸 영화제 수상 불발 소식에  급락</span></div><div class="mkt-label" style="margin-top:10px;">KOSDAQ 특징주</div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A062970" target="_blank" style="color:inherit;text-decoration:none;">한국첨단소재</a></span><span class="stk-tit">100억원 규모 CB 발행 결정 속  상한가</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A052710" target="_blank" style="color:inherit;text-decoration:none;">아모텍</a></span><span class="stk-tit">대규모 시설 투자 기대감 등에  상한가</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A263860" target="_blank" style="color:inherit;text-decoration:none;">지니언스</a></span><span class="stk-tit">양자 보안 게이트웨이 핵심 기술 개발 관련 최종 검증 단계 돌입 소식 등에  급등</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A042510" target="_blank" style="color:inherit;text-decoration:none;">라온시큐어</a></span><span class="stk-tit">'옴니원 CX' 앞세워 금융·공공 마이데이터 통합인증 시장 공략 소식 속  급등</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A437730" target="_blank" style="color:inherit;text-decoration:none;">삼현</a></span><span class="stk-tit">코스닥150·KRX 300 정기 지수 동시 편입 소식에 급등</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A054920" target="_blank" style="color:inherit;text-decoration:none;">한컴위드</a></span><span class="stk-tit">제로트러스트 지속 인증 솔루션 '엑스씨오스' 출시 소식 속 강세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A039980" target="_blank" style="color:inherit;text-decoration:none;">폴라리스AI</a></span><span class="stk-tit">산업부 '온디바이스 AI' 관련 국가과제 선정 소식에  강세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A950160" target="_blank" style="color:inherit;text-decoration:none;">코오롱티슈진</a></span><span class="stk-tit">TG-C, 무릎 이어 척추 임상 본격화 소식에  상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A125490" target="_blank" style="color:inherit;text-decoration:none;">한라캐스트</a></span><span class="stk-tit">AI 모빌리티·휴머노이드 수혜 전망 등에  상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A082270" target="_blank" style="color:inherit;text-decoration:none;">젬백스</a></span><span class="stk-tit">70억원 규모 CB 발행 결정 속 상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A380550" target="_blank" style="color:inherit;text-decoration:none;">뉴로핏</a></span><span class="stk-tit">스페인 발데브론 연구소와 '뉴로핏 아쿠아 MS' 공동 연구 협력 소식에  상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A255220" target="_blank" style="color:inherit;text-decoration:none;">SG</a></span><span class="stk-tit">우크라이나 도로복구에 에코스틸아스콘 적용 협의 소식 속  소폭 상승</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A234100" target="_blank" style="color:inherit;text-decoration:none;">폴라리스세원</a></span><span class="stk-tit">액면병합 후 변경상장 첫날  약세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A115530" target="_blank" style="color:inherit;text-decoration:none;">씨엔플러스</a></span><span class="stk-tit">액면병합 후 변경상장 첫날  약세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A032680" target="_blank" style="color:inherit;text-decoration:none;">소프트센</a></span><span class="stk-tit">액면병합 후 변경상장 첫날  약세</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A023790" target="_blank" style="color:inherit;text-decoration:none;">동일스틸럭스</a></span><span class="stk-tit">액면병합 후 변경상장 첫날  급락</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A419540" target="_blank" style="color:inherit;text-decoration:none;">비스토스</a></span><span class="stk-tit">액면병합 후 변경상장 첫날  급락</span></div><div class="stk-row"><span class="stk-nm"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A046390" target="_blank" style="color:inherit;text-decoration:none;">삼화네트웍스</a></span><span class="stk-tit">액면병합 후 변경상장 첫날  급락</span></div></div>
+</div>
+
+<div class="section-card" id="sec-pm">
+  <div class="sec-header" style="border-left:4px solid #a78bfa;">
+    <span class="sec-title" style="color:#a78bfa;">오후 (14:50) 테마</span>
+    <span class="sec-empty">아직 수집 전입니다</span>
+  </div>
+</div>
+
+<div class="section-card" id="sec-close">
+  <div class="sec-header" style="border-left:4px solid #f59e0b;">
+    <span class="sec-title" style="color:#f59e0b;">장마감 후 테마</span>
+    <span class="sec-empty">아직 수집 전입니다 (17:30 이후 업데이트)</span>
+  </div>
+</div>
+
+</body>
+</html>
