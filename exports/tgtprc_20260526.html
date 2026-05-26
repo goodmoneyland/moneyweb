@@ -232,13 +232,13 @@ function selectStock(itm_cd) {
     <div class="view-tab ${activeView==='table'?'active':''}" data-view="table" onclick="showView('table')">테이블</div>
   `;
 
-  const rows = (MONTHLY[itm_cd] || []).slice().sort((a, b) => a.YM.localeCompare(b.YM));
-
-  // 차트
+  // 차트/테이블 영역 먼저 표시
   document.getElementById('chart-view').style.display = activeView === 'chart' ? 'block' : 'none';
   document.getElementById('table-view').style.display = activeView === 'table' ? 'block' : 'none';
 
-  const labels = rows.map(r => fmtYM(r.YM));
+  const rows = (MONTHLY[itm_cd] || []).slice().sort((a, b) => a.ym.localeCompare(b.ym));
+
+  const labels = rows.map(r => fmtYM(r.ym));
   const avgData = rows.map(r => r.avg_tgt);
   const minData = rows.map(r => r.min_tgt);
   const maxData = rows.map(r => r.max_tgt);
@@ -333,7 +333,7 @@ function selectStock(itm_cd) {
     const upCls2 = r.upside > 0 ? 'up' : r.upside < 0 ? 'dn' : '';
     const upStr = r.upside != null ? (r.upside > 0 ? '+' : '') + r.upside.toFixed(1) + '%' : '-';
     return `<tr>
-      <td>${r.YM.substring(0,4)}.${r.YM.substring(4,6)}.말</td>
+      <td>${r.ym.substring(0,4)}.${r.ym.substring(4,6)}.말</td>
       <td>${fmtNum(r.price)}</td>
       <td>${fmtNum(r.avg_tgt)}</td>
       <td>${fmtNum(r.min_tgt)}</td>
