@@ -1,6 +1,11 @@
 {
   "us-morning": [
     {
+      "label": "06.01 월",
+      "today": true,
+      "src": "/exports/usstock/broadcast_20260601_0613.html"
+    },
+    {
       "label": "05.30 토",
       "today": false,
       "src": "/exports/usstock/broadcast_20260530_0613.html"
@@ -19,11 +24,6 @@
       "label": "05.27 수",
       "today": false,
       "src": "/exports/usstock/broadcast_20260527_0614.html"
-    },
-    {
-      "label": "05.26 화",
-      "today": false,
-      "src": "/exports/usstock/broadcast_20260526_0613.html"
     }
   ],
   "kr-morning": [
@@ -83,7 +83,7 @@
   "report": [
     {
       "label": "05.31 일",
-      "today": true,
+      "today": false,
       "src": "/exports/report_20260531.html"
     },
     {
@@ -110,7 +110,7 @@
   "value-chart": [
     {
       "label": "05.31 일",
-      "today": true,
+      "today": false,
       "src": "/exports/value_chart_20260531.html"
     },
     {
@@ -137,7 +137,7 @@
   "sector-per": [
     {
       "label": "05.31 일",
-      "today": true,
+      "today": false,
       "src": "/exports/sector_per_20260531.html"
     },
     {
