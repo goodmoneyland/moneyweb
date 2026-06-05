@@ -1138,9 +1138,8 @@ function toLabel(d) {
 }
 
 const TODAY = new Date();
-// 오늘이 주말이면 금요일로
+// 오늘 날짜 그대로 표시 (주말/공휴일도 오늘 날짜 유지)
 let currentDate = new Date(TODAY);
-if (!isWeekday(currentDate)) currentDate = prevBizDay(currentDate);
 const TODAY_YMD = toYMD(new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate()));
 
 function renderDateNav() {
