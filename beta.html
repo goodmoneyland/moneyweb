@@ -1173,7 +1173,7 @@ function moveDate(dir) {
 var BINDEX = {};
 
 // JSON 경로: moneyland 루트에 briefing_index.json 있음 (서버는 moneyland/ 기준 서빙)
-fetch('/moneyweb/briefing_index.json?t=' + Date.now())
+fetch('/briefing_index.json?t=' + Date.now())
   .then(r => r.json())
   .then(data => {
     BINDEX = data;
@@ -3903,4 +3903,5 @@ _startKrPricesPolling();
 </script>
 </body>
 </html>
+
 
