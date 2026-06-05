@@ -1255,10 +1255,12 @@ function switchTab(tab, el) {
 function getFileSrc(tab) {
   const key = TAB_KEY[tab];
   if (!key || !BINDEX[key]) return null;
-  const ymd = toYMD(currentDate);
-  // 현재 날짜와 정확히 맞는 항목 찾기 (label에 날짜 포함)
   const list = BINDEX[key];
-  // label 형식: "05.28 목" → YYYYMMDD 변환해서 비교
+  // today:true 항목 우선 (날짜 네비와 무관하게 오늘 생성된 브리핑)
+  const todayEntry = list.find(e => e.today);
+  if (todayEntry) return todayEntry.src;
+  // 없으면 날짜 네비 기준으로 찾기
+  const ymd = toYMD(currentDate);
   for (const entry of list) {
     const lblYMD = entryLabelToYMD(entry.label);
     if (lblYMD === ymd) return entry.src;
