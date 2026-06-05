@@ -1,8 +1,13 @@
 {
   "us-morning": [
     {
-      "label": "06.05 금",
+      "label": "06.06 토",
       "today": true,
+      "src": "/exports/usstock/broadcast_20260606_0615.html"
+    },
+    {
+      "label": "06.05 금",
+      "today": false,
       "src": "/exports/usstock/broadcast_20260605_0614.html"
     },
     {
@@ -19,17 +24,12 @@
       "label": "06.02 화",
       "today": false,
       "src": "/exports/usstock/broadcast_20260602_0614.html"
-    },
-    {
-      "label": "06.01 월",
-      "today": false,
-      "src": "/exports/usstock/broadcast_20260601_0613.html"
     }
   ],
   "kr-morning": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/morning/briefing_20260605_0728_slide.html"
     },
     {
@@ -56,7 +56,7 @@
   "us-evening": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/evening/evening_20260605.html"
     },
     {
@@ -83,7 +83,7 @@
   "report": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/report_20260605.html"
     },
     {
@@ -110,7 +110,7 @@
   "value-chart": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/value_chart_20260605.html"
     },
     {
@@ -137,7 +137,7 @@
   "sector-per": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/sector_per_20260605.html"
     },
     {
@@ -164,7 +164,7 @@
   "kr-theme": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/kr_theme_20260605.html"
     },
     {
@@ -191,7 +191,7 @@
   "kr-tgtprc": [
     {
       "label": "06.05 금",
-      "today": true,
+      "today": false,
       "src": "/exports/tgtprc_20260605.html"
     },
     {
