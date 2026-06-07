@@ -2,7 +2,7 @@
   "us-morning": [
     {
       "label": "06.06 토",
-      "today": true,
+      "today": false,
       "src": "/exports/usstock/broadcast_20260606_0615.html"
     },
     {
@@ -82,8 +82,13 @@
   ],
   "report": [
     {
-      "label": "06.06 토",
+      "label": "06.07 일",
       "today": true,
+      "src": "/exports/report_20260607.html"
+    },
+    {
+      "label": "06.06 토",
+      "today": false,
       "src": "/exports/report_20260606.html"
     },
     {
@@ -100,17 +105,17 @@
       "label": "06.03 수",
       "today": false,
       "src": "/exports/report_20260603.html"
-    },
-    {
-      "label": "06.02 화",
-      "today": false,
-      "src": "/exports/report_20260602.html"
     }
   ],
   "value-chart": [
     {
-      "label": "06.06 토",
+      "label": "06.07 일",
       "today": true,
+      "src": "/exports/value_chart_20260607.html"
+    },
+    {
+      "label": "06.06 토",
+      "today": false,
       "src": "/exports/value_chart_20260606.html"
     },
     {
@@ -127,17 +132,17 @@
       "label": "06.03 수",
       "today": false,
       "src": "/exports/value_chart_20260603.html"
-    },
-    {
-      "label": "06.02 화",
-      "today": false,
-      "src": "/exports/value_chart_20260602.html"
     }
   ],
   "sector-per": [
     {
-      "label": "06.06 토",
+      "label": "06.07 일",
       "today": true,
+      "src": "/exports/sector_per_20260607.html"
+    },
+    {
+      "label": "06.06 토",
+      "today": false,
       "src": "/exports/sector_per_20260606.html"
     },
     {
@@ -154,11 +159,6 @@
       "label": "06.03 수",
       "today": false,
       "src": "/exports/sector_per_20260603.html"
-    },
-    {
-      "label": "06.02 화",
-      "today": false,
-      "src": "/exports/sector_per_20260602.html"
     }
   ],
   "kr-theme": [
