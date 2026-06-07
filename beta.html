@@ -1295,7 +1295,13 @@ function loadFrame(tab) {
   // 로딩 플레이스홀더 표시
   if (ph) { ph.style.display = 'flex'; if(phSub) phSub.textContent = ''; }
   frame.style.display = 'none';
-  frame.src = src + '?t=' + Date.now();
+  // replace()로 로드 — src= 직접 대입은 브라우저 히스토리에 쌓여 뒤로가기 시 이전 페이지로 이동하는 버그 유발
+  const newSrc = src + '?t=' + Date.now();
+  if (frame.src && frame.contentWindow) {
+    try { frame.contentWindow.location.replace(newSrc); } catch(e) { frame.src = newSrc; }
+  } else {
+    frame.src = newSrc;
+  }
 }
 
 function onFrameLoad(tab) {
