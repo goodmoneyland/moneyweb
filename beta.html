@@ -1752,10 +1752,10 @@ async function renderNewHigh(tab) {
       const fmtD = d => d ? d.slice(0,4)+'.'+d.slice(4,6)+'.'+d.slice(6,8) : '';
       const fmt  = n => n ? Number(n).toLocaleString('ko-KR') : '-';
 
-      // 섹터별 그룹핑
+      // 섹터별 그룹핑 ('기타' → '기타 ETF' 통일)
       const sectorMap = {};
       rows.forEach(r => {
-        const s = r.sector || '기타 ETF';
+        const s = (!r.sector || r.sector === '기타') ? '기타 ETF' : r.sector;
         if (!sectorMap[s]) sectorMap[s] = [];
         sectorMap[s].push(r);
       });
@@ -1779,21 +1779,24 @@ async function renderNewHigh(tab) {
       const buildEtfCard = (s) => {
         const items = sectorMap[s];
         const trs = items.map(r => {
-          const u = r.ud_rt != null ? r.ud_rt : null;
+          const live = _getPrice(r.itm_cd);
+          const u = live ? live.ud_rt : r.ud_rt;
+          const prc = live ? live.curr_prc : r.close_prc;
           const c = (u == null || u >= 0) ? '#ef4444' : '#3b82f6';
           const sg = (u != null && u >= 0) ? '+' : '';
           const udStr = u != null ? sg + u.toFixed(2) + '%' : '-';
           const tg = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
-          return '<tr style="cursor:pointer;" onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
-            + '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
-            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:100px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
-            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';width:78px;white-space:nowrap;">' + udStr + '</td>'
+          return '<tr style="cursor:pointer;" onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'"'
+            + ' onclick="openKrStock(\'' + r.itm_cd + '\',\'' + r.itm_nm.replace(/'/g,"&#39;") + '\')">'
+            + '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
+            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;white-space:nowrap;">' + fmt(prc) + '</td>'
+            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';white-space:nowrap;">' + udStr + '</td>'
             + '</tr>';
         }).join('');
-        return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:0;">'
+        return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:0;display:inline-block;min-width:0;">'
           + '<div style="padding:4px 8px;background:var(--card2);font-size: 16.5px;font-weight:700;border-bottom:1px solid var(--border);">▣ ' + s
           + ' <span style="color:#f59e0b;font-weight:700;">(' + items.length + ')</span></div>'
-          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;"><tbody>' + trs + '</tbody></table></div>';
+          + '<table style="border-collapse:collapse;"><tbody>' + trs + '</tbody></table></div>';
       };
 
       const summaryCol =
@@ -1809,7 +1812,7 @@ async function renderNewHigh(tab) {
 
       // 일반 섹터: auto-fill 그리드
       const mainGrid =
-        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;align-items:start;">'
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:start;">'
         + mainSectors.map(buildEtfCard).join('')
         + '</div>';
 
@@ -1822,14 +1825,17 @@ async function renderNewHigh(tab) {
           '<tr>' + cols.map(c => {
             const r = c[ri];
             if (!r) return '<td colspan="3"></td>';
-            const u = r.ud_rt != null ? r.ud_rt : null;
+            const live = _getPrice(r.itm_cd);
+            const u = live ? live.ud_rt : r.ud_rt;
+            const prc = live ? live.curr_prc : r.close_prc;
             const cl = (u == null || u >= 0) ? '#ef4444' : '#3b82f6';
             const sg = (u != null && u >= 0) ? '+' : '';
             const udStr = u != null ? sg + u.toFixed(2) + '%' : '-';
             const tg = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
-            return '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis;">' + tg + r.itm_nm + '</td>'
-              + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:100px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
-              + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + cl + ';width:78px;white-space:nowrap;border-right:1px solid var(--border);">' + udStr + '</td>';
+            const nm_esc = r.itm_nm.replace(/'/g,"&#39;");
+            return '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')" onmouseover="this.parentElement.style.background=\'var(--card2)\'" onmouseout="this.parentElement.style.background=\'\'">' + tg + r.itm_nm + '</td>'
+              + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;white-space:nowrap;cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')">' + fmt(prc) + '</td>'
+              + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + cl + ';white-space:nowrap;border-right:1px solid var(--border);cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')">' + udStr + '</td>';
           }).join('') + '</tr>'
         ).join('');
         gitaHtml =
@@ -1912,15 +1918,15 @@ async function renderNewHigh(tab) {
           return '<tr style="cursor:pointer;"'
             + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'"'
             + ' onclick="openKrStock(\'' + r.itm_cd + '\',\'' + r.itm_nm.replace(/'/g,"&#39;") + '\')">'
-            + '<td style="padding:3px 8px;font-size: 18px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
-            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:88px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
-            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';width:82px;white-space:nowrap;">' + udStr + '</td>'
+            + '<td style="padding:3px 8px;font-size: 18px;font-weight:600;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
+            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
+            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';white-space:nowrap;">' + udStr + '</td>'
             + '</tr>';
         }).join('');
-        return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px;">'
+        return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px;display:inline-block;min-width:0;">'
           + '<div style="padding:4px 8px;background:var(--card2);font-size: 16.5px;font-weight:700;border-bottom:1px solid var(--border);">▣ ' + sctr
           + ' <span style="color:var(--muted);font-weight:400;">(' + items.length + ')</span></div>'
-          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;"><tbody>' + trs + '</tbody></table></div>';
+          + '<table style="border-collapse:collapse;"><tbody>' + trs + '</tbody></table></div>';
       };
 
       const detailCards = detailSorted.map(([s,it]) => buildStkCard(s, it)).join('');
@@ -1946,7 +1952,7 @@ async function renderNewHigh(tab) {
         + '</div>'
 
         // 컬럼3: 섹터별 종목 상세 — 카드 고정폭으로 자동 wrap
-        + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;align-items:start;">'
+        + '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:start;">'
         + detailCards
         + '</div>'
 
