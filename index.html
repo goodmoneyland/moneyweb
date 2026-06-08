@@ -27,7 +27,7 @@
     font-size: 24px; font-weight: 900; white-space: nowrap; margin-right: 6px;
     background: linear-gradient(90deg, #f59e0b, #fbbf24);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    cursor: default; user-select: none; flex-shrink: 0;
+    cursor: pointer; user-select: none; flex-shrink: 0;
   }
   .v-divider { width: 1px; height: 18px; background: var(--border); margin: 0 6px; flex-shrink: 0; }
 
@@ -718,7 +718,7 @@
 <div id="topbar">
 
   <!-- 로고 -->
-  <span class="logo">김형철의 마켓레이더</span>
+  <span class="logo" onclick="hardReload()" title="클릭하여 새로고침 (캐시 삭제)">김형철의 마켓레이더</span>
   <div class="v-divider"></div>
 
   <!-- 날짜 + 시세 상태 (2줄) + 검색 묶음 -->
@@ -926,7 +926,7 @@
       </div>
 
       <!-- 신고가 -->
-      <div class="bottom-card" onclick="switchTab('kr-theme',document.querySelector('[data-tab=\'kr-theme\']'))">
+      <div class="bottom-card" onclick="switchTab('kr-theme',document.querySelector('[data-tab=\'kr-theme\']'));switchKrThemeTab('stk-high',document.getElementById('krt-stk-high'))">
         <div class="bottom-card-head">
           📈 52주 신고가
           <span class="bottom-viewall">관련주 전체보기 →</span>
@@ -1234,6 +1234,19 @@
 </div>
 
 <script>
+// ═══════════════════════════════════════
+// 하드 새로고침 (캐시 삭제)
+// ═══════════════════════════════════════
+async function hardReload() {
+  try {
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    }
+  } catch(e) {}
+  location.reload(true);
+}
+
 // ═══════════════════════════════════════
 // 날짜 유틸
 // ═══════════════════════════════════════
@@ -1763,8 +1776,6 @@ async function renderNewHigh(tab) {
         + '</div>';
 
       // 섹터 카드 (이름 전체 표시, 가변폭)
-      const PRC_W = '80px'; const UD_W = '64px';
-
       const buildEtfCard = (s) => {
         const items = sectorMap[s];
         const trs = items.map(r => {
@@ -1774,15 +1785,15 @@ async function renderNewHigh(tab) {
           const udStr = u != null ? sg + u.toFixed(2) + '%' : '-';
           const tg = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
           return '<tr style="cursor:pointer;" onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
-            + '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
-            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:' + PRC_W + ';white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
-            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';width:' + UD_W + ';white-space:nowrap;">' + udStr + '</td>'
+            + '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
+            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:100px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
+            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';width:78px;white-space:nowrap;">' + udStr + '</td>'
             + '</tr>';
         }).join('');
         return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:0;">'
           + '<div style="padding:4px 8px;background:var(--card2);font-size: 16.5px;font-weight:700;border-bottom:1px solid var(--border);">▣ ' + s
           + ' <span style="color:#f59e0b;font-weight:700;">(' + items.length + ')</span></div>'
-          + '<table style="border-collapse:collapse;width:100%;"><tbody>' + trs + '</tbody></table></div>';
+          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;"><tbody>' + trs + '</tbody></table></div>';
       };
 
       const summaryCol =
@@ -1798,7 +1809,7 @@ async function renderNewHigh(tab) {
 
       // 일반 섹터: auto-fill 그리드
       const mainGrid =
-        '<div style="display:grid;grid-template-columns:repeat(auto-fill,338px);gap:8px;align-items:start;">'
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;align-items:start;">'
         + mainSectors.map(buildEtfCard).join('')
         + '</div>';
 
@@ -1816,9 +1827,9 @@ async function renderNewHigh(tab) {
             const sg = (u != null && u >= 0) ? '+' : '';
             const udStr = u != null ? sg + u.toFixed(2) + '%' : '-';
             const tg = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
-            return '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
-              + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:80px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
-              + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + cl + ';width:64px;white-space:nowrap;border-right:1px solid var(--border);">' + udStr + '</td>';
+            return '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis;">' + tg + r.itm_nm + '</td>'
+              + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:100px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
+              + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + cl + ';width:78px;white-space:nowrap;border-right:1px solid var(--border);">' + udStr + '</td>';
           }).join('') + '</tr>'
         ).join('');
         gitaHtml =
@@ -1901,15 +1912,15 @@ async function renderNewHigh(tab) {
           return '<tr style="cursor:pointer;"'
             + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'"'
             + ' onclick="openKrStock(\'' + r.itm_cd + '\',\'' + r.itm_nm.replace(/'/g,"&#39;") + '\')">'
-            + '<td style="padding:3px 8px;font-size: 18px;font-weight:600;width:130px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
-            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:72px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
-            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';width:58px;white-space:nowrap;">' + udStr + '</td>'
+            + '<td style="padding:3px 8px;font-size: 18px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
+            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;width:88px;white-space:nowrap;">' + fmt(r.close_prc) + '</td>'
+            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';width:82px;white-space:nowrap;">' + udStr + '</td>'
             + '</tr>';
         }).join('');
         return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px;">'
           + '<div style="padding:4px 8px;background:var(--card2);font-size: 16.5px;font-weight:700;border-bottom:1px solid var(--border);">▣ ' + sctr
           + ' <span style="color:var(--muted);font-weight:400;">(' + items.length + ')</span></div>'
-          + '<table style="border-collapse:collapse;table-layout:fixed;width:268px;"><tbody>' + trs + '</tbody></table></div>';
+          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;"><tbody>' + trs + '</tbody></table></div>';
       };
 
       const detailCards = detailSorted.map(([s,it]) => buildStkCard(s, it)).join('');
@@ -1935,7 +1946,7 @@ async function renderNewHigh(tab) {
         + '</div>'
 
         // 컬럼3: 섹터별 종목 상세 — 카드 고정폭으로 자동 wrap
-        + '<div style="display:grid;grid-template-columns:repeat(auto-fill,268px);gap:8px;align-items:start;">'
+        + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;align-items:start;">'
         + detailCards
         + '</div>'
 
@@ -1976,11 +1987,11 @@ async function renderNewHigh(tab) {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
           ${section('KOSPI 역사적 신고가', r3.rows||[], r3.trd_ymd)}
-          ${section('KOSPI 52주 신고가', r1.rows||[], r1.trd_ymd)}
+          ${section('KOSPI 52주 신고가', (r1.rows||[]).filter(r=>r.W52_LPRC!==0), r1.trd_ymd)}
         </div>
         <div>
           ${section('KOSDAQ 역사적 신고가', r4.rows||[], r4.trd_ymd)}
-          ${section('KOSDAQ 52주 신고가', r2.rows||[], r2.trd_ymd)}
+          ${section('KOSDAQ 52주 신고가', (r2.rows||[]).filter(r=>r.W52_LPRC!==0), r2.trd_ymd)}
         </div>
       </div>`;
   } catch(e) {
@@ -2210,7 +2221,7 @@ async function loadNewHighSection() {
   try {
     const res = await fetch('/api/new_high_52w_kospi.json?t=' + Date.now());
     const data = await res.json();
-    const rows = data.rows || [];
+    const rows = (data.rows || []).filter(r => r.W52_LPRC !== 0 && r.UD_RT !== 0);
 
     if (rows.length === 0) { el.innerHTML = '<div style="color:var(--muted);font-size: 18px;">데이터 없음</div>'; return; }
 
@@ -3039,8 +3050,8 @@ function _buildPopupData(cd, nm) {
       itm_nm:  nm || (tgt && tgt.itm_nm) || (meta && meta.nm) || cd,
       mkt_nm:  (meta && meta.mkt)  || null,
       sctr_nm: (meta && meta.sctr) || null,
-      mktcap:       null,
-      lstd_stc_cnt: null,
+      mktcap:       (meta && meta.mktcap)        || null,
+      lstd_stc_cnt: (meta && meta.lstd_stc_cnt)  || null,
       eprc:    (live && live.curr_prc) || (tgt && tgt.cur_prc) || null,
       sprc:    (live && live.open_prc) || null,
       hprc:    (live && live.high_prc) || null,
@@ -3048,8 +3059,8 @@ function _buildPopupData(cd, nm) {
       trd_vol: (live && live.trd_vol)  || null,
       ud_rt:   (live && live.ud_rt  != null) ? live.ud_rt  : null,
       ud_prc:  (live && live.ud_prc != null) ? live.ud_prc : null,
-      w52_h:   null,
-      w52_l:   null,
+      w52_h:   (meta && meta.w52_h) || null,
+      w52_l:   (meta && meta.w52_l) || null,
     },
     consensus: {
       avg_tp:    (tgt && tgt.avg_tgt)     || null,
