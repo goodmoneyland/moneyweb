@@ -1775,28 +1775,32 @@ async function renderNewHigh(tab) {
         + '<span style="font-size: 16.5px;font-weight:700;color:#f59e0b;margin-left:8px;">' + sectorMap[s].length + '</span>'
         + '</div>';
 
-      // 섹터 카드 (이름 전체 표시, 가변폭)
+      // 섹터 카드 — 이름 줄바꿈 허용, 가격·등락률 고정폭
+      const buildEtfRow = (r) => {
+        const live = _getPrice(r.itm_cd);
+        const prc  = (live && live.curr_prc) || r.close_prc;
+        const rawU = live ? live.ud_rt : r.ud_rt;
+        const u    = rawU != null ? rawU : null;
+        const c    = (u == null || u >= 0) ? '#ef4444' : '#3b82f6';
+        const udStr = u != null ? (u >= 0 ? '+' : '') + u.toFixed(2) + '%' : '-';
+        const tg   = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
+        const nm_esc = r.itm_nm.replace(/'/g, "&#39;");
+        return '<tr style="cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')"'
+          + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
+          + '<td style="padding:4px 10px 4px 8px;font-size:13.5px;font-weight:600;line-height:1.4;word-break:keep-all;">' + tg + r.itm_nm + '</td>'
+          + '<td style="padding:4px 6px;text-align:right;font-size:13.5px;font-weight:700;white-space:nowrap;width:72px;">' + fmt(prc) + '</td>'
+          + '<td style="padding:4px 10px 4px 4px;text-align:right;font-size:13.5px;font-weight:800;color:' + c + ';white-space:nowrap;width:66px;">' + udStr + '</td>'
+          + '</tr>';
+      };
+
       const buildEtfCard = (s) => {
         const items = sectorMap[s];
-        const trs = items.map(r => {
-          const live = _getPrice(r.itm_cd);
-          const u = live ? live.ud_rt : r.ud_rt;
-          const prc = live ? live.curr_prc : r.close_prc;
-          const c = (u == null || u >= 0) ? '#ef4444' : '#3b82f6';
-          const sg = (u != null && u >= 0) ? '+' : '';
-          const udStr = u != null ? sg + u.toFixed(2) + '%' : '-';
-          const tg = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
-          return '<tr style="cursor:pointer;" onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'"'
-            + ' onclick="openKrStock(\'' + r.itm_cd + '\',\'' + r.itm_nm.replace(/'/g,"&#39;") + '\')">'
-            + '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;">' + tg + r.itm_nm + '</td>'
-            + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;white-space:nowrap;">' + fmt(prc) + '</td>'
-            + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + c + ';white-space:nowrap;">' + udStr + '</td>'
-            + '</tr>';
-        }).join('');
-        return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:0;display:inline-block;min-width:0;">'
-          + '<div style="padding:4px 8px;background:var(--card2);font-size: 16.5px;font-weight:700;border-bottom:1px solid var(--border);">▣ ' + s
-          + ' <span style="color:#f59e0b;font-weight:700;">(' + items.length + ')</span></div>'
-          + '<table style="border-collapse:collapse;"><tbody>' + trs + '</tbody></table></div>';
+        return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">'
+          + '<div style="padding:5px 10px;background:var(--card2);font-size:14px;font-weight:700;border-bottom:1px solid var(--border);">▣ ' + s
+          + ' <span style="color:#f59e0b;">(' + items.length + ')</span></div>'
+          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;"><colgroup>'
+          + '<col style="width:auto"/><col style="width:72px"/><col style="width:66px"/>'
+          + '</colgroup><tbody>' + items.map(buildEtfRow).join('') + '</tbody></table></div>';
       };
 
       const summaryCol =
@@ -1810,39 +1814,27 @@ async function renderNewHigh(tab) {
       const hasGita      = !!sectorMap['기타 ETF'];
       const gitaItems    = hasGita ? sectorMap['기타 ETF'] : [];
 
-      // 일반 섹터: auto-fill 그리드
+      // 일반 섹터: 반응형 그리드 (min 260px)
       const mainGrid =
-        '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:start;">'
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;align-items:start;">'
         + mainSectors.map(buildEtfCard).join('')
         + '</div>';
 
-      // 기타 ETF: 가로로 넓게, 4컬럼 테이블
+      // 기타 ETF: 2열 그리드
       let gitaHtml = '';
       if (hasGita) {
-        const col = Math.ceil(gitaItems.length / 4);
-        const cols = [0,1,2,3].map(i => gitaItems.slice(i * col, (i+1) * col));
-        const gitaTrs = Array.from({length: col}, (_, ri) =>
-          '<tr>' + cols.map(c => {
-            const r = c[ri];
-            if (!r) return '<td colspan="3"></td>';
-            const live = _getPrice(r.itm_cd);
-            const u = live ? live.ud_rt : r.ud_rt;
-            const prc = live ? live.curr_prc : r.close_prc;
-            const cl = (u == null || u >= 0) ? '#ef4444' : '#3b82f6';
-            const sg = (u != null && u >= 0) ? '+' : '';
-            const udStr = u != null ? sg + u.toFixed(2) + '%' : '-';
-            const tg = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
-            const nm_esc = r.itm_nm.replace(/'/g,"&#39;");
-            return '<td style="padding:3px 8px;font-size: 17.2px;font-weight:600;white-space:nowrap;cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')" onmouseover="this.parentElement.style.background=\'var(--card2)\'" onmouseout="this.parentElement.style.background=\'\'">' + tg + r.itm_nm + '</td>'
-              + '<td style="padding:3px 4px;text-align:right;font-size: 18px;font-weight:700;white-space:nowrap;cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')">' + fmt(prc) + '</td>'
-              + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size: 18px;font-weight:800;color:' + cl + ';white-space:nowrap;border-right:1px solid var(--border);cursor:pointer;" onclick="openKrStock(\'' + r.itm_cd + '\',\'' + nm_esc + '\')">' + udStr + '</td>';
-          }).join('') + '</tr>'
-        ).join('');
         gitaHtml =
           '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:12px;">'
-          + '<div style="padding:4px 8px;background:var(--card2);font-size: 16.5px;font-weight:700;border-bottom:1px solid var(--border);">▣ 기타 ETF'
-          + ' <span style="color:#f59e0b;font-weight:700;">(' + gitaItems.length + ')</span></div>'
-          + '<table style="border-collapse:collapse;width:100%;table-layout:fixed;"><tbody>' + gitaTrs + '</tbody></table></div>';
+          + '<div style="padding:5px 10px;background:var(--card2);font-size:14px;font-weight:700;border-bottom:1px solid var(--border);">▣ 기타 ETF'
+          + ' <span style="color:#f59e0b;">(' + gitaItems.length + ')</span></div>'
+          + '<div style="display:grid;grid-template-columns:1fr 1fr;">'
+          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;"><colgroup><col/><col style="width:72px"/><col style="width:66px"/></colgroup><tbody>'
+          + gitaItems.slice(0, Math.ceil(gitaItems.length/2)).map(buildEtfRow).join('')
+          + '</tbody></table>'
+          + '<table style="border-collapse:collapse;table-layout:fixed;width:100%;border-left:1px solid var(--border);"><colgroup><col/><col style="width:72px"/><col style="width:66px"/></colgroup><tbody>'
+          + gitaItems.slice(Math.ceil(gitaItems.length/2)).map(buildEtfRow).join('')
+          + '</tbody></table>'
+          + '</div></div>';
       }
 
       el.innerHTML =
