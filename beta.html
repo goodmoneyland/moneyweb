@@ -109,20 +109,16 @@
     box-shadow: 0 0 5px #22d3a0;
   }
 
-  /* 알림 벨 */
-  .bell-wrap {
-    position: relative; width: 32px; height: 32px; display: flex;
-    align-items: center; justify-content: center; cursor: pointer;
-    border-radius: 8px; border: 1px solid var(--border); color: var(--muted);
-    font-size: 21px; transition: all .15s;
+  /* 방문자 카운터 */
+  .visitor-wrap {
+    display: flex; align-items: center; gap: 5px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 4px 10px; color: var(--muted); font-size: 13px; white-space: nowrap;
+    user-select: none;
   }
-  .bell-wrap:hover { background: var(--card2); color: var(--text); }
-  .bell-count {
-    position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px;
-    background: #f97316; color: #fff; font-size: 13.5px; font-weight: 700;
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    padding: 0 3px; border: 1px solid var(--card);
-  }
+  .visitor-wrap .v-icon { font-size: 15px; }
+  .visitor-wrap .v-label { font-size: 11px; color: var(--muted); }
+  .visitor-wrap .v-num { font-size: 14px; font-weight: 700; color: var(--text); }
 
   /* 유저 아바타 */
   .user-avatar {
@@ -178,7 +174,9 @@
   .dash-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 4px; }
   .idx-card {
     background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+    cursor: pointer; transition: border-color .15s, background .15s;
   }
+  .idx-card:hover { background: var(--card2); border-color: var(--accent); }
   .idx-card .name { font-size: 16.5px; color: var(--muted); margin-bottom: 4px; }
   .idx-card .value { font-size: 28.5px; font-weight: 700; }
   .idx-card .change { font-size: 18px; margin-top: 3px; }
@@ -640,9 +638,8 @@
     <div class="search-wrap">
       <div class="search-box" style="width:160px;padding:4px 8px;">
         <span class="s-icon" style="font-size:16px;">&#128269;</span>
-        <input id="search-input" type="text" placeholder="종목명, 코드..."
+        <input id="search-input" type="text" placeholder="종목검색"
                onkeydown="handleSearch(event)" oninput="handleSearchInput()" style="font-size:13px;"/>
-        <span class="lang-btn">한</span>
       </div>
       <div id="search-dropdown" class="search-dropdown"></div>
     </div>
@@ -671,10 +668,11 @@
 
   <!-- 우측 툴바 -->
   <div class="right-bar">
-    <!-- 알림 벨 -->
-    <div class="bell-wrap" onclick="alert('알림 기능 준비중')">
-      &#128276;
-      <span class="bell-count" id="bell-count">0</span>
+    <!-- 방문자 카운터 -->
+    <div class="visitor-wrap" title="오늘 방문자 수">
+      <span class="v-icon">👥</span>
+      <span class="v-label">오늘</span>
+      <span class="v-num" id="visitor-count">—</span>
     </div>
     <!-- 유저 아바타 -->
     <div class="user-avatar" id="user-avatar" title="내 계정" onclick="openUserPanel()">김</div>
@@ -714,11 +712,11 @@
 
     <div class="section-title">주요 지수</div>
     <div class="dash-grid">
-      <div class="idx-card" id="idx-KOSPI"><div class="name">KOSPI</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
-      <div class="idx-card" id="idx-KOSDAQ"><div class="name">KOSDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
-      <div class="idx-card" id="idx-DOW"><div class="name">DOW</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
-      <div class="idx-card" id="idx-NASDAQ"><div class="name">NASDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
-      <div class="idx-card" id="idx-SP500"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
+      <div class="idx-card" id="idx-KOSPI" onclick="window.open('https://www.tradingview.com/symbols/KRX-KOSPI/','_blank')"><div class="name">KOSPI</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
+      <div class="idx-card" id="idx-KOSDAQ" onclick="window.open('https://www.tradingview.com/symbols/KRX-KOSDAQ/','_blank')"><div class="name">KOSDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
+      <div class="idx-card" id="idx-DOW" onclick="window.open('https://www.tradingview.com/symbols/TVC-DJI/','_blank')"><div class="name">DOW</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
+      <div class="idx-card" id="idx-NASDAQ" onclick="window.open('https://www.tradingview.com/symbols/NASDAQ-COMP/','_blank')"><div class="name">NASDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
+      <div class="idx-card" id="idx-SP500" onclick="window.open('https://www.tradingview.com/symbols/SP-500/','_blank')"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);font-size:16.5px;">로딩중</div></div>
     </div>
 
     <div class="section-title">오늘의 브리핑</div>
@@ -3906,6 +3904,21 @@ document.addEventListener('click', e => {
 
 // 실시간 시세 폴링 시작
 _startKrPricesPolling();
+
+// ── 방문자 카운터 ──
+(function() {
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const lsKey = 'visitor_counted_' + today;
+  const ns    = 'moneyland-reweb';
+  const apiBase = 'https://api.counterapi.dev/v1/' + ns + '/' + today;
+
+  function showCount(n) {
+    const el = document.getElementById('visitor-count');
+    if (el) el.textContent = Number(n).toLocaleString() + '명';
+  }
+
+  fetch(apiBase + '/up').then(r => r.json()).then(d => showCount(d.count)).catch(() => {});
+})();
 </script>
 </body>
 </html>
