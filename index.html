@@ -176,6 +176,7 @@
   }
   .section-title:first-child { margin-top: 0; }
   .dash-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px; }
+  .dash-grid-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 8px; }
 
   .idx-card {
     background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px;
@@ -306,9 +307,11 @@
     .card-row { grid-template-columns: 1fr; }
     .bottom-grid { grid-template-columns: 1fr; }
     .dash-grid-5 { grid-template-columns: repeat(3, 1fr); }
+    .dash-grid-7 { grid-template-columns: repeat(4, 1fr); }
   }
   @media (max-width: 640px) {
     .dash-grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .dash-grid-7 { grid-template-columns: repeat(2, 1fr); }
   }
   /* 브리핑 카드 헤드: 좁아질 때 타이틀+뷰올 한 줄, 날짜/시간 다음 줄 */
   .brief-card-head-meta {
@@ -821,10 +824,12 @@
 
     <div class="section-title">주요 지수</div>
 
-    <!-- 1행: 국내 + 미국 3대 지수 -->
-    <div class="dash-grid-5">
+    <!-- 1행: 국내 + 미국 3대 지수 + 야간선물 + 환율 -->
+    <div class="dash-grid-7">
       <div class="idx-card" id="idx-KOSPI"  onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSPI','_blank')"><div class="name">KOSPI</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-KOSDAQ" onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSDAQ','_blank')"><div class="name">KOSDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-K200F"  onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AK200F1%21','_blank')"><div class="name">코스피200선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-USDKRW"><div class="name">원달러</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-DOW"    onclick="window.open('https://www.tradingview.com/chart/?symbol=DJI','_blank')"><div class="name">다우존스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-NASDAQ" onclick="window.open('https://www.tradingview.com/chart/?symbol=IXIC','_blank')"><div class="name">나스닥</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-SP500"  onclick="window.open('https://www.tradingview.com/chart/?symbol=SPX','_blank')"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
@@ -2675,7 +2680,7 @@ async function fetchKrPricesLive() {
       statusEl.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${dot};margin-right:4px;vertical-align:middle;"></span>${msLabel} ${data.updated_at ? data.updated_at.slice(11,16) : ''}`;
     }
     // 지수 카드 갱신
-    const idMap = {'KOSPI':'idx-KOSPI','KOSDAQ':'idx-KOSDAQ','DOW':'idx-DOW','NASDAQ':'idx-NASDAQ','S&P 500':'idx-SP500'};
+    const idMap = {'KOSPI':'idx-KOSPI','KOSDAQ':'idx-KOSDAQ','K200F':'idx-K200F','USDKRW':'idx-USDKRW','DOW':'idx-DOW','NASDAQ':'idx-NASDAQ','S&P 500':'idx-SP500'};
     const indices = data.indices || {};
     for (const [nm, elId] of Object.entries(idMap)) {
       const el = document.getElementById(elId);
