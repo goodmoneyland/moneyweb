@@ -1860,6 +1860,109 @@ async function renderNewHigh(tab) {
     return;
   }
 
+  // ── 장중 단순 리스트 뷰 ──
+  const isMarketOpen = KR_MARKET_STATUS === 'KRX' || KR_MARKET_STATUS === 'NXT_PRE';
+  if (isMarketOpen) {
+    el.innerHTML = `<div style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>`;
+    try {
+      const [stkData, etfData] = await Promise.all([
+        fetch('/api/new_high_stocks.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),
+        fetch('/api/new_high_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),
+      ]);
+      const stkRows = stkData.rows || [];
+      const etfRows = etfData.rows || [];
+      const fmtD = d => d ? `${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}` : '';
+      const fmt  = n => n != null && n !== '' ? Number(n).toLocaleString('ko-KR') : '-';
+
+      // 종목 행 빌더 (실시간 시세 사용)
+      const buildStkTr = r => {
+        const live = _getPrice(r.itm_cd);
+        const prc  = (live && live.curr_prc) || r.close_prc;
+        const rawU = live ? live.ud_rt : r.ud_rt;
+        const u    = rawU != null ? rawU : null;
+        const c    = u == null ? 'var(--muted)' : u >= 0 ? '#ef4444' : '#3b82f6';
+        const udStr = u != null ? (u >= 0 ? '+' : '') + u.toFixed(2) + '%' : '-';
+        const tg   = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
+        const nm_esc = r.itm_nm.replace(/'/g,"&#39;");
+        return `<tr style="cursor:pointer;border-bottom:1px solid var(--border);"
+            onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
+            onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
+          <td style="padding:6px 10px;font-size:18px;font-weight:700;">${tg}${r.itm_nm}</td>
+          <td style="padding:6px 10px;font-size:15px;color:var(--muted);">${r.sector||'-'}</td>
+          <td style="padding:6px 10px;text-align:right;font-size:18px;font-weight:700;">${fmt(prc)}</td>
+          <td style="padding:6px 10px;text-align:right;font-size:18px;font-weight:800;color:${c};">${udStr}</td>
+        </tr>`;
+      };
+
+      // ETF 행 빌더 (close_prc 사용, live 없으면 전일가 표시)
+      const buildEtfTr = r => {
+        const prc  = r.close_prc;
+        const u    = r.ud_rt != null ? r.ud_rt : null;
+        const c    = u == null ? 'var(--muted)' : u >= 0 ? '#ef4444' : '#3b82f6';
+        const udStr = u != null ? (u >= 0 ? '+' : '') + u.toFixed(2) + '%' : '-';
+        const tg   = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
+        const nm_esc = r.itm_nm.replace(/'/g,"&#39;");
+        return `<tr style="cursor:pointer;border-bottom:1px solid var(--border);"
+            onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
+            onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
+          <td style="padding:6px 10px;font-size:17px;font-weight:600;word-break:keep-all;">${tg}${r.itm_nm}</td>
+          <td style="padding:6px 10px;font-size:14px;color:var(--muted);">${r.sector||'-'}</td>
+          <td style="padding:6px 10px;text-align:right;font-size:17px;font-weight:700;">${fmt(prc)}</td>
+          <td style="padding:6px 10px;text-align:right;font-size:17px;font-weight:800;color:${c};">${udStr}</td>
+        </tr>`;
+      };
+
+      const thead = cols => `<thead><tr>${cols.map((c,i)=>
+        `<th style="padding:7px 10px;text-align:${i>1?'right':'left'};font-size:15px;color:var(--muted);border-bottom:2px solid var(--border);">${c}</th>`
+      ).join('')}</tr></thead>`;
+
+      const alltime = stkRows.filter(r=>r.is_alltime).length;
+      const uplimit = stkRows.filter(r=>r.is_uplimit).length;
+
+      const stkPanel = `
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;font-weight:800;">📈 개별종목</span>
+            <span style="font-size:15px;color:var(--muted);">${stkRows.length}개</span>
+            ${alltime ? `<span style="font-size:14px;color:#f59e0b;font-weight:700;">🏆 ${alltime}</span>` : ''}
+            ${uplimit ? `<span style="font-size:14px;color:#ef4444;font-weight:700;">🚨 ${uplimit}</span>` : ''}
+          </div>
+          <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">
+            ${thead(['종목명','섹터','현재가','등락률'])}
+            <tbody>${stkRows.length ? stkRows.map(buildStkTr).join('') : '<tr><td colspan="4" style="padding:30px;text-align:center;color:var(--muted);">데이터 없음</td></tr>'}</tbody>
+          </table></div>
+        </div>`;
+
+      const etfPanel = `
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;font-weight:800;">📦 ETF</span>
+            <span style="font-size:15px;color:var(--muted);">${etfRows.length}개</span>
+            <span style="margin-left:auto;font-size:13px;color:var(--muted);">전일 종가 기준</span>
+          </div>
+          <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">
+            ${thead(['ETF명','섹터','종가','등락률'])}
+            <tbody>${etfRows.length ? etfRows.map(buildEtfTr).join('') : '<tr><td colspan="4" style="padding:30px;text-align:center;color:var(--muted);">데이터 없음</td></tr>'}</tbody>
+          </table></div>
+        </div>`;
+
+      el.innerHTML =
+        `<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="font-size:20px;font-weight:800;">📈 종목 신고가</span>
+          <span style="font-size:15px;color:var(--muted);">${fmtD(stkData.trd_ymd)} 기준</span>
+          <span style="margin-left:auto;font-size:13px;color:#22c55e;background:rgba(34,197,94,0.1);padding:3px 10px;border-radius:6px;border:1px solid rgba(34,197,94,0.3);">🟢 장중</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          ${stkPanel}
+          ${etfPanel}
+        </div>`;
+    } catch(e) {
+      el.innerHTML = `<div style="color:#f87171;padding:20px;">데이터 로드 실패: ${e.message}</div>`;
+    }
+    return;
+  }
+
+  // ── 장마감 후 풀 정리 뷰 ──
   el.innerHTML = `<div style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>`;
   try {
     const [r1,r2,r3,r4,stkData,etfData] = await Promise.all([
@@ -2226,25 +2329,28 @@ async function loadThemeSection(src) {
 async function loadNewHighSection() {
   const el = document.getElementById('home-newhigh');
   try {
-    const res = await fetch('/api/new_high_52w_kospi.json?t=' + Date.now());
+    const res = await fetch('/api/new_high_stocks.json?t=' + Date.now());
     const data = await res.json();
-    const rows = (data.rows || []).filter(r => r.W52_LPRC !== 0 && r.UD_RT !== 0);
+    const rows = data.rows || [];
 
     if (rows.length === 0) { el.innerHTML = '<div style="color:var(--muted);font-size: 18px;">데이터 없음</div>'; return; }
 
     let out = '';
-    rows.slice(0, 2).forEach(row => {
-      const pct = row.UD_RT != null
-        ? (row.UD_RT >= 0 ? '+' + row.UD_RT.toFixed(2) : row.UD_RT.toFixed(2)) + '%'
+    rows.slice(0, 3).forEach(row => {
+      const live = _getPrice(row.itm_cd);
+      const u = live ? live.ud_rt : row.ud_rt;
+      const pct = u != null
+        ? (u >= 0 ? '+' + u.toFixed(2) : u.toFixed(2)) + '%'
         : '';
+      const tg = row.is_alltime ? '🏆 ' : (row.is_uplimit ? '🚨 ' : '');
       out += `<div class="high-row">
-        <span class="high-nm kr-stock" onclick="openKrStock('${row.ITM_CD}');event.stopPropagation();">${row.ITM_NM}</span>
-        <span class="high-sector">${row.SCTR_NM || ''}</span>
+        <span class="high-nm kr-stock" onclick="openKrStock('${row.itm_cd}');event.stopPropagation();">${tg}${row.itm_nm}</span>
+        <span class="high-sector">${row.sector || ''}</span>
         <span class="high-pct">${pct}</span>
       </div>`;
     });
 
-    if (rows.length > 2) {
+    if (rows.length > 3) {
       out += `<div class="more-indicator" onclick="switchTab('kr-theme',document.querySelector('[data-tab=\\'kr-theme\\']'))">···</div>`;
     }
 
@@ -2629,6 +2735,7 @@ function closeSearchDropdown() {
 var TODAY_REPORTS   = null;   // 오늘 리포트 (홈 브리핑 카드용)
 var KR_PRICES_LIVE  = null;   // 실시간(폴링) 시세 {itm_cd: {curr_prc, ud_rt, ud_prc, src}}
 var KR_CLOSE_PRICES = null;   // 종가 스냅샷 폴백 {itm_cd: {curr_prc, open_prc, high_prc, low_prc, ...}}
+var KR_MARKET_STATUS = '';    // 'KRX' | 'NXT_PRE' | 'NXT_EVE' | 'CLOSED'
 var _krPricesTimer  = null;   // 폴링 인터벌 ID
 var TGTPRC_DATA     = null;   // 목표가/현재가 (tgtprc HTML 파싱)
 var TGTPRC_MONTHLY  = null;   // 종목별 월별 목표주가 히스토리
@@ -2676,6 +2783,7 @@ async function fetchKrPricesLive() {
     if (!res.ok) return;
     const data = await res.json();
     KR_PRICES_LIVE = data.prices || {};
+    KR_MARKET_STATUS = data.market_status || '';
     const statusEl = document.getElementById('kpl-status');
     if (statusEl) {
       const ms = data.market_status || '';
