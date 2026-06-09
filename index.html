@@ -4127,7 +4127,8 @@ _startKrPricesPolling();
 
 // ── 방문자 카운터 ──
 (function() {
-  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const _d = new Date(); _d.setHours(_d.getHours() + 9); // KST
+  const today = _d.toISOString().slice(0, 10); // YYYY-MM-DD (KST)
   const lsKey = 'visitor_counted_' + today;
   const ns    = 'moneyland-reweb';
   const apiBase = 'https://api.counterapi.dev/v1/' + ns + '/' + today;
