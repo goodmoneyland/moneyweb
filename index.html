@@ -743,6 +743,7 @@
   <div class="drawer-tab" data-tab="tgtprc"                       onclick="drawerNav('tgtprc')">🎯 목표주가검색기</div>
   <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="per"                          onclick="drawerNav('per')">📊 PER 마켓&amp;종목</div>
+  <div class="drawer-tab" data-tab="peer"                         onclick="drawerNav('peer')">⚖️ 한국vs글로벌</div>
   <div class="drawer-tab" data-tab="kr-theme"                     onclick="drawerNav('kr-theme')">🔥 KR테마&amp;신고가</div>
   <div class="drawer-tab" data-tab="kr-marketmap"                 onclick="drawerNav('kr-marketmap')">🗺️ KR마켓맵</div>
   <div class="drawer-tab" data-tab="idea"                         onclick="drawerNav('idea')">💡 투자아이디어</div>
@@ -834,6 +835,10 @@
   <!-- PER마켓 -->
   <div class="ntab" data-tab="per" onclick="switchTab('per',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-7M12 20V5M17 20v-10"/></svg></span> PER마켓&amp;종목
+  </div>
+  <!-- 한국vs글로벌 : 좌우 비교(저울) -->
+  <div class="ntab" data-tab="peer" onclick="switchTab('peer',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 7h12"/><path d="M6 7l-3 6a3 3 0 006 0L6 7z"/><path d="M18 7l-3 6a3 3 0 006 0l-3-6z"/></svg></span> 한국vs글로벌
   </div>
 
   <div class="side-divider"></div>
@@ -1067,6 +1072,11 @@
       </div>
       <iframe class="page-frame" id="page-per" onload="onFrameLoad('per')"></iframe>
     </div>
+  </div>
+
+  <!-- ── 한국vs글로벌 (iframe, 고정 src) ── -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-peer">
+    <iframe id="page-peer" src="/moneyweb/peer_kr_global.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
   <!-- ── KR테마&신고가 (iframe) ── -->
@@ -1471,7 +1481,7 @@ function switchTab(tab, el) {
 
   // 모든 페이지 숨기기
   document.querySelectorAll('.page-inner').forEach(p => p.classList.remove('active'));
-  ['us-morning','kr-morning','report','per','kr-theme','kr-marketmap'].forEach(k => {
+  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap'].forEach(k => {
     const w = document.getElementById('wrap-' + k);
     if (w) w.style.display = 'none';
   });
@@ -1484,6 +1494,7 @@ function switchTab(tab, el) {
   else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
+  else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
   // kr-theme 진입 시 기본 서브탭(오전) 활성화
   if (tab === 'kr-theme') {
     document.querySelectorAll('#kr-theme-bar .stab').forEach(b => b.classList.remove('active'));
