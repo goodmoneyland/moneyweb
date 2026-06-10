@@ -1368,8 +1368,7 @@ const TODAY_YMD = toYMD(new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.ge
 function renderDateNav() {
   const ymd = toYMD(currentDate);
   const isToday = ymd >= TODAY_YMD;
-  document.getElementById('date-label').innerHTML =
-    toLabel(currentDate) + (isToday ? '<span class="today-badge-pill">오늘</span>' : '');
+  document.getElementById('date-label').innerHTML = toLabel(currentDate);
   // < = 최신(오늘 방향): 오늘이면 비활성
   document.getElementById('arr-newer').classList.toggle('disabled', isToday);
   // > = 이전날(과거 방향): 항상 활성
