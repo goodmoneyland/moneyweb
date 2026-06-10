@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>김형철의 마켓레이더</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --bg:#070d1a; --card:#0f1829; --card2:#162033; --border:#1e2d47;
+    --text:#e2e8f0; --muted:#64748b; --accent:#3b82f6;
+  }
+  body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; margin:0; }
+  .type-tab { padding:7px 16px; border-radius:8px; cursor:pointer; font-size:12.5px; font-weight:600;
+              border:1px solid var(--border); color:var(--muted); transition:all .15s; white-space:nowrap; }
+  .type-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .type-tab:hover:not(.active) { background:var(--card2); color:var(--text); }
+  .date-tab { padding:6px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600;
+              border:1px solid var(--border); color:var(--muted); transition:all .15s; white-space:nowrap; }
+  .date-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .date-tab:hover:not(.active) { background:var(--card2); color:var(--text); }
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+</style>
+</head>
+<body style="height:100vh;display:flex;flex-direction:column;overflow:hidden;">
+
+<!-- 상단 바 -->
+<div style="background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+  <!-- 로고 -->
+  <span style="font-size:30px;font-weight:900;white-space:nowrap;margin-right:4px;
+               background:linear-gradient(90deg,#f59e0b,#fbbf24);
+               -webkit-background-clip:text;-webkit-text-fill-color:transparent;">김형철의 마켓레이더</span>
+  <div style="width:1px;height:18px;background:var(--border);margin:0 6px;"></div>
+
+  <!-- 타입 탭 -->
+  <div class="type-tab active" onclick="switchType('us-morning', this)">US모닝브리프</div>
+  <div class="type-tab" onclick="switchType('kr-morning', this)">한국모닝브리프</div>
+  <div class="type-tab" onclick="switchType('us-evening', this)">US프리마켓</div>
+  <div class="type-tab" onclick="switchType('value-chart', this)">밸류차트</div>
+  <div class="type-tab" onclick="switchType('sector-per', this)">섹터PER</div>
+  <div class="type-tab" onclick="switchType('report', this)">리포트</div>
+  <div class="type-tab" onclick="switchType('kr-theme', this)">국장테마</div>
+  <div class="type-tab" onclick="switchType('kr-tgtprc', this)">목표주가</div>
+
+  <div style="flex:1;"></div>
+
+  <!-- 날짜 탭 (JS로 동적 생성) -->
+  <div id="date-tabs" style="display:flex;gap:6px;"></div>
+</div>
+
+<!-- iframe 영역 -->
+<iframe id="brief-frame" src="" style="flex:1;width:100%;border:none;background:#fff;"
+  onload="hideBadge(this)"></iframe>
+
+<script>
+let FILES = {};
+let currentType = 'us-morning';
+
+function renderDateTabs(type) {
+  const list = FILES[type] || [];
+  const container = document.getElementById('date-tabs');
+  container.innerHTML = '';
+  list.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'date-tab' + (i === 0 ? ' active' : '');
+    div.innerHTML = f.today
+      ? `${f.label} <span style="font-size:10px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:8px;margin-left:3px;">오늘</span>`
+      : f.label;
+    div.onclick = () => selectDate(type, i);
+    container.appendChild(div);
+  });
+}
+
+function hideBadge(iframe) {
+  try {
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    // IKIM 브랜드 배지 숨기기
+    const badge = doc.querySelector('.brand-badge');
+    if (badge) badge.style.display = 'none';
+    // 이브닝 LIVE 헤더 숨기기
+    const liveHeader = doc.querySelector('.live-header');
+    if (liveHeader) liveHeader.style.display = 'none';
+  } catch(e) {}
+}
+
+const EMPTY_HTML = `<html><body style="background:#070d1a;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:'Noto Sans KR',sans-serif;">
+<div style="text-align:center;color:#64748b;">
+  <div style="font-size:48px;margin-bottom:16px;">📭</div>
+  <div style="font-size:16px;font-weight:600;color:#94a3b8;margin-bottom:8px;">아직 생성된 파일이 없습니다</div>
+  <div style="font-size:13px;">스마트2 실행 후 자동으로 업데이트됩니다</div>
+</div></body></html>`;
+
+function showEmpty() {
+  document.getElementById('brief-frame').srcdoc = EMPTY_HTML;
+}
+
+function selectDate(type, idx) {
+  document.querySelectorAll('.date-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  const src = (FILES[type] || [])[idx]?.src;
+  if (src) {
+    document.getElementById('brief-frame').removeAttribute('srcdoc');
+    document.getElementById('brief-frame').src = src + '?t=' + Date.now();
+  } else {
+    showEmpty();
+  }
+}
+
+function switchType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderDateTabs(type);
+  const list = FILES[type] || [];
+  if (list.length === 0) {
+    showEmpty();
+  } else {
+    selectDate(type, 0);
+  }
+}
+
+// briefing_index.json 로드 후 초기화 (?t= 로 캐시 우회)
+fetch('/briefing_index.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(data => {
+    FILES = data;
+    renderDateTabs('us-morning');
+    selectDate('us-morning', 0);
+  })
+  .catch(() => {
+    document.getElementById('brief-frame').srcdoc =
+      '<p style="color:#888;padding:40px;font-family:sans-serif;">브리핑 인덱스를 불러올 수 없습니다.</p>';
+  });
+</script>
+</body>
+</html>
