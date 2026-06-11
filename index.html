@@ -3471,12 +3471,12 @@ function _renderRecentEarnings(earnings, estimates, annual, mktcap, cns, cd) {
       const isEst   = i >= recent.length;
       const isFirst = isEst && i === recent.length;
       const v       = valFn(e, isEst);
-      const txt     = v != null ? v.toLocaleString('ko-KR') + '억' : '-';
+      const txt     = v != null ? v.toLocaleString('ko-KR') + '<span style="font-size:11px;opacity:.7;">억</span>' : '-';
       const clr     = label !== '매출액' && _isNum(v)
         ? (v >= 0 ? (isEst ? '#93c5fd' : '#f1f5f9') : '#f87171')
         : (isEst ? '#93c5fd' : '#f1f5f9');
       const bl = isFirst ? 'border-left:1px dashed #1e3a5f;' : '';
-      return `<td style="padding:7px 10px;font-size:18px;color:${clr};text-align:right;${bl}">${txt}</td>`;
+      return `<td style="padding:7px 10px;font-size:18px;color:${clr};text-align:right;white-space:nowrap;${bl}">${txt}</td>`;
     }).join('');
     return `<tr style="border-top:1px solid #1e2d47;">
       <td style="padding:7px 10px;font-size:18px;color:#94a3b8;white-space:nowrap;">${label}</td>${tds}</tr>`;
@@ -3503,11 +3503,11 @@ function _renderRecentEarnings(earnings, estimates, annual, mktcap, cns, cd) {
         const isEst = e._type === 'est';
         const v = isNI ? (e['순이익'] != null ? Math.round(e['순이익']) : null)
                        : (e[key] != null ? Math.round(e[key]) : null);
-        const txt = v != null ? v.toLocaleString('ko-KR')+'억' : '-';
+        const txt = v != null ? v.toLocaleString('ko-KR')+'<span style="font-size:11px;opacity:.7;">억</span>' : '-';
         const clr = (isNI || key==='영업이익') && _isNum(v)
           ? (v>=0 ? (isEst?'#93c5fd':'#c4b5fd') : '#f87171')
           : (isEst?'#93c5fd':'#c4b5fd');
-        return `<td style="padding:7px 10px;font-size:18px;color:${clr};text-align:right;">${txt}</td>`;
+        return `<td style="padding:7px 10px;font-size:18px;color:${clr};text-align:right;white-space:nowrap;">${txt}</td>`;
       }).join('');
       return `<tr style="border-top:1px solid #1e2d47;">
         <td style="padding:7px 10px;font-size:18px;color:#94a3b8;white-space:nowrap;">${label}</td>${tds}</tr>`;
