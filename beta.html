@@ -939,8 +939,8 @@
       <!-- US모닝브리핑 카드 -->
       <div class="brief-card" onclick="switchTab('us-morning', document.querySelector('[data-tab=\'us-morning\']'))">
         <div class="brief-card-head">
-          <span class="brief-card-icon">🇺🇸</span>
-          <span class="brief-card-title">US모닝브리핑</span>
+          <span class="brief-card-icon"><img class="flag-img" src="https://flagcdn.com/w40/us.png" alt="US" style="width:26px;height:18px;"></span>
+          <span class="brief-card-title">US마감브리핑</span>
           <span class="brief-viewall">관련종목 전체보기 →</span>
           <span id="home-us-date" class="brief-card-date">—</span>
           <span class="brief-card-time">매일 06:30</span>
@@ -953,8 +953,8 @@
       <!-- KR개장전이슈 카드 -->
       <div class="brief-card" onclick="switchTab('kr-morning', document.querySelector('[data-tab=\'kr-morning\']'))">
         <div class="brief-card-head">
-          <span class="brief-card-icon">🇰🇷</span>
-          <span class="brief-card-title">KR개장전이슈&amp;종목</span>
+          <span class="brief-card-icon"><img class="flag-img" src="https://flagcdn.com/w40/kr.png" alt="KR" style="width:26px;height:18px;"></span>
+          <span class="brief-card-title">개장전뉴스&amp;종목</span>
           <span class="brief-viewall">관련종목 전체보기 →</span>
           <span id="home-kr-date" class="brief-card-date">—</span>
           <span class="brief-card-time">매일 07:30</span>
@@ -2333,7 +2333,7 @@ async function loadKRCard(src) {
 
     if (sumRows.length > 0) {
       out += '<div class="brief-stocks">';
-      for (let i = 0; i < Math.min(3, sumRows.length); i++) {
+      for (let i = 1; i < Math.min(4, sumRows.length); i++) {
         const tag = sumRows[i].querySelector('.sum-tag');
         const desc = sumRows[i].querySelector('.sum-desc');
         if (tag) {
