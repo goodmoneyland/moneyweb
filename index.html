@@ -792,6 +792,7 @@
   <div class="drawer-tab" data-tab="per"                          onclick="drawerNav('per')">📊 PER 마켓&amp;종목</div>
   <div class="drawer-tab" data-tab="peer"                         onclick="drawerNav('peer')">⚖️ 한국vs글로벌</div>
   <div class="drawer-tab" data-tab="kr-theme"                     onclick="drawerNav('kr-theme')">🔥 KR테마&amp;신고가</div>
+  <div class="drawer-tab" data-tab="kr-thememap"                  onclick="drawerNav('kr-thememap')">🫧 테마맵</div>
   <div class="drawer-tab" data-tab="kr-marketmap"                 onclick="drawerNav('kr-marketmap')">🗺️ KR마켓맵</div>
   <div class="drawer-tab" data-tab="idea"                         onclick="drawerNav('idea')">💡 투자아이디어</div>
   <div class="drawer-tab" data-tab="community"                    onclick="drawerNav('community')">💬 커뮤니티</div>
@@ -903,6 +904,10 @@
   <!-- 신고가(KR테마) : 우상향 추세선 -->
   <div class="ntab" data-tab="kr-theme" onclick="switchTab('kr-theme',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 3.5 3.5L21 5.5"/><path d="M15 5.5h6v6"/></svg></span> 신고가
+  </div>
+  <!-- 테마맵 : 버블 -->
+  <div class="ntab" data-tab="kr-thememap" onclick="switchTab('kr-thememap',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><circle cx="16.5" cy="14.5" r="4"/><circle cx="17" cy="6" r="2"/></svg></span> 테마맵
   </div>
   <!-- 마켓맵 : 지도 -->
   <div class="ntab" data-tab="kr-marketmap" onclick="switchTab('kr-marketmap',this)">
@@ -1092,6 +1097,11 @@
       </div>
 
     </div>
+  </div>
+
+  <!-- ── 테마맵 (iframe, 고정 src) ── -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-kr-thememap">
+    <iframe id="page-kr-thememap" src="/moneyweb/thememap.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
   <!-- ── KR마켓맵 (iframe) ── -->
@@ -1517,7 +1527,7 @@ const TAB_KEY = {
   'per':        'sector-per',
   'kr-theme':   'kr-theme',
 };
-const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap'];
+const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap', 'kr-thememap'];
 
 var currentTab = 'home';
 
@@ -1575,7 +1585,7 @@ function switchTab(tab, el) {
 
   // 모든 페이지 숨기기
   document.querySelectorAll('.page-inner').forEach(p => p.classList.remove('active'));
-  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap'].forEach(k => {
+  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','kr-thememap'].forEach(k => {
     const w = document.getElementById('wrap-' + k);
     if (w) w.style.display = 'none';
   });
@@ -1588,6 +1598,7 @@ function switchTab(tab, el) {
   else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
+  else if (tab === 'kr-thememap') { document.getElementById('wrap-kr-thememap').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
   // kr-theme 진입 시 기본 서브탭(오전) 활성화
   if (tab === 'kr-theme') {
