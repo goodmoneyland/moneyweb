@@ -25,8 +25,19 @@
   .stk { display:flex; justify-content:space-between; align-items:baseline; gap:8px;
          padding:7px 13px; border-top:1px solid #1b2129; cursor:pointer; }
   .stk:hover { background:#18202c; }
-  .stk .snm { font-size:12.5px; font-weight:600; } .stk .ssc { font-size:10.5px; color:#8b949e; margin-left:4px; font-weight:400; }
-  .stk .srt { font-size:12.5px; font-weight:700; min-width:60px; text-align:right; }
+  .stk .snm, .stk2 .snm { font-size:12.5px; font-weight:600; } .stk .ssc, .stk2 .ssc { font-size:10.5px; color:#8b949e; margin-left:4px; font-weight:400; }
+  .stk .srt, .stk2 .srt { font-size:12.5px; font-weight:700; min-width:60px; text-align:right; }
+  .more { padding:7px 13px; border-top:1px solid #1b2129; cursor:pointer; font-size:11.5px;
+          color:#7d8da3; background:#0f141b; user-select:none; }
+  .more:hover { color:#9fb0c9; background:#141b25; }
+  .more .arr { display:inline-block; }
+  .card.open .more .arr { transform:rotate(90deg); }
+  .restwrap { display:none; background:#0c1118; }
+  .card.open .restwrap { display:block; }
+  .stk2 { padding:6px 13px 8px; border-top:1px solid #161c25; }
+  .stk2 .top { display:flex; justify-content:space-between; align-items:baseline; gap:8px; cursor:pointer; }
+  .stk2 .top:hover .snm { color:#fff; }
+  .rs { font-size:11px; color:#8b97a8; line-height:1.5; margin-top:3px; }
   .up_c { color:#f85149; } .down_c { color:#58a6ff; } .flat_c { color:#8b949e; }
   .bubble { flex-shrink:0; border-radius:50%; box-shadow:0 0 0 1px rgba(255,255,255,0.10);
             margin:0 2px; align-self:center; }
@@ -63,21 +74,38 @@ function bubble(n){
        + ` style="width:${d.toFixed(1)}px;height:${d.toFixed(1)}px;background:hsl(${hue},85%,${L}%)"></span>`;
 }
 function card(n, rank){
-  // 등락률순 상위 5종목 (네이버 멤버십 전체는 DB에 보존, 화면엔 대표 5개)
-  const ss = (n.stocks||[]).slice().sort((a,b)=>(b.chg??-99)-(a.chg??-99)).slice(0,5);
-  let body = '';
-  for(const s of ss){
-    body += `<div class="stk" onclick="openPopup('${s.cd}')" title="${s.nm} 상세보기">`
-          + `<span><span class="snm">${s.nm}</span><span class="ssc">${s.sctr||''}</span></span>`
-          + `<span class="srt ${cls(s.chg)}">${fmt(s.chg)}</span></div>`;
+  const all = (n.stocks||[]).slice().sort((a,b)=>(b.chg??-99)-(a.chg??-99));
+  const top5 = all.slice(0, 5), rest = all.slice(5);
+  // 상위 5종목: 종목 + 등락률 (항상 표시, 클릭→팝업)
+  let topHtml = '';
+  for(const s of top5){
+    topHtml += `<div class="stk" onclick="openPopup('${s.cd}')" title="${s.nm} 상세보기">`
+            + `<span><span class="snm">${s.nm}</span><span class="ssc">${s.sctr||''}</span></span>`
+            + `<span class="srt ${cls(s.chg)}">${fmt(s.chg)}</span></div>`;
+  }
+  // 나머지 종목: 토글 → 종목 + 편입사유(왜 이 테마에 엮였는지)
+  let toggle = '';
+  if(rest.length){
+    let restHtml = '';
+    for(const s of rest){
+      restHtml += `<div class="stk2">`
+               + `<div class="top" onclick="openPopup('${s.cd}')" title="${s.nm} 상세보기">`
+               + `<span><span class="snm">${s.nm}</span><span class="ssc">${s.sctr||''}</span></span>`
+               + `<span class="srt ${cls(s.chg)}">${fmt(s.chg)}</span></div>`
+               + (s.reason ? `<div class="rs">${s.reason}</div>` : '')
+               + `</div>`;
+    }
+    toggle = `<div class="more" onclick="this.parentNode.classList.toggle('open')"><span class="arr">▸</span> 나머지 ${rest.length}종목 · 편입사유 보기</div>`
+           + `<div class="restwrap">${restHtml}</div>`;
   }
   return `<div class="card"><div class="hd">`
        + `<span class="rk">${rank}</span>`
        + bubble(n)
-       + `<span class="nm">${n.name}<span class="leaders">${n.leaders||''}</span></span>`
+       + `<span class="nm">${n.name}</span>`
        + `<span class="cnt">${n.cnt}종목<br>▲${n.up??0} ▼${n.down??0}</span>`
        + `<span class="rt ${cls(n.chg)}">${fmt(n.chg)}</span></div>`
-       + `<div class="stklist">${body}</div></div>`;
+       + `<div class="stklist">${topHtml}</div>`
+       + toggle + `</div>`;
 }
 // 종목 클릭 → 부모 SPA의 KR 종목 팝업 (iframe 내부에서만 동작, standalone은 무시)
 function openPopup(cd){
