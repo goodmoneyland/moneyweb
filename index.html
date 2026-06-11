@@ -801,7 +801,7 @@
   <div class="drawer-tab" data-tab="us-morning"                   onclick="drawerNav('us-morning')">🇺🇸 US모닝브리핑</div>
   <div class="drawer-tab" data-tab="nxt"                          onclick="drawerNav('nxt')">⚡ NXT&amp;시간외</div>
   <div class="drawer-tab" data-tab="kr-morning"                   onclick="drawerNav('kr-morning')">🇰🇷 KR개장전이슈&amp;종목</div>
-  <div class="drawer-tab" data-tab="report"                       onclick="drawerNav('report')">📋 리포트</div>
+  <div class="drawer-tab" data-tab="report"                       onclick="drawerNav('report')">📋 오늘의주식리포트</div>
   <div class="drawer-tab" data-tab="tgtprc"                       onclick="drawerNav('tgtprc')">🎯 목표주가검색기</div>
   <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="per"                          onclick="drawerNav('per')">📊 PER 마켓&amp;종목</div>
@@ -899,7 +899,7 @@
   </div>
   <!-- 증권사리포트 -->
   <div class="ntab" data-tab="report" onclick="switchTab('report',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 16.5h7"/></svg></span> 증권사리포트
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 16.5h7"/></svg></span> 오늘의주식리포트
   </div>
 
   <div class="side-divider"></div>
@@ -1617,16 +1617,10 @@ function switchTab(tab, el) {
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
-  // kr-theme 진입 시 기본 서브탭(오전) 활성화
+  // kr-theme 진입 시 기본 서브탭(종목신고가) 활성화
   if (tab === 'kr-theme') {
-    document.querySelectorAll('#kr-theme-bar .stab').forEach(b => b.classList.remove('active'));
-    const defBtn = document.getElementById('krt-am');
-    if (defBtn) defBtn.classList.add('active');
-    _krThemeTab = 'am';
-    document.getElementById('wrap-newhigh').style.display = 'none';
-    const wKr = document.getElementById('wrap-kr-theme');
-    if (wKr) wKr.style.display = 'block';
     loadFrame('kr-theme');
+    switchKrThemeTab('stk-high', document.getElementById('krt-stk-high'));
   }
   else if (tab === 'per') {
     const wPer = document.getElementById('wrap-per');
