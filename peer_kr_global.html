@@ -30,7 +30,7 @@
   .nm.kr, .nm.gl { cursor:pointer; }
   .nm.kr:hover .nm-t, .nm.gl:hover .nm-t { color:#7fc4ff; text-decoration:underline; }
   .chg { font-size:11.5px; font-weight:600; text-align:right; white-space:nowrap; color:#7f8c9b; }
-  .chg .ext { font-size:8px; color:#ff9f40; margin-left:2px; vertical-align:top; }
+  .chg .ext { display:block; font-size:9px; color:#ff9f40; margin-top:1px; }
   .lks { display:inline-flex; gap:3px; }
   .lk { display:inline-flex; align-items:center; justify-content:center;
         width:15px; height:15px; border-radius:3px; font-size:10px; font-weight:700;
@@ -60,6 +60,7 @@
   #glmodal .gsub { color:#8aa0b8; font-size:12px; margin:2px 0 12px; }
   #glmodal .gpx { font-size:22px; font-weight:700; margin-bottom:4px; }
   #glmodal .gchg.up { color:#ff6b6b; } #glmodal .gchg.dn { color:#5b9dff; }
+  #glmodal .gext { font-size:13px; color:#ffb066; margin:2px 0 4px; }
   #glmodal .gmk { color:#9fb2c8; font-size:12.5px; margin-bottom:14px; }
   .ggrid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px 14px; margin-bottom:14px; }
   .gcell { display:flex; justify-content:space-between; font-size:12.5px;
@@ -81,7 +82,7 @@
 <body>
   <div class="topbar">
     <h1>한국 vs 글로벌 밸류에이션</h1>
-    <span class="sub">Forward PER (배) · 2026-06-11 15:26 기준</span>
+    <span class="sub">Forward PER (배) · 2026-06-11 15:36 기준</span>
     <span class="legend">
       <span><b style="color:#ff5b5b">■</b>&lt;10</span>
       <span><b style="color:#ffd33d">■</b>10–20</span>
@@ -523,21 +524,24 @@
   _applyKrChg();
   setInterval(_applyKrChg, 30000);   // 부모 폴링(3분) 반영
 
-  // ── 해외 종목 등락률: 야후 폴링 json (정규장 + 미국 시간외) ──
+  // ── 해외 종목 등락률: 야후 폴링 json (전일종가 대비 + 미국 시간외) ──
+  var _GLIVE = {};
   function _applyGlChg() {
     fetch('api/global_prices_live.json?t=' + Date.now()).then(function(r){ return r.json(); })
     .then(function(d) {
-      var p = d.prices || {};
+      _GLIVE = d.prices || {};
       document.querySelectorAll('.gl-chg').forEach(function(el) {
-        var q = p[el.getAttribute('data-tk')];
+        var q = _GLIVE[el.getAttribute('data-tk')];
         if (!q) return;
-        if (q.e != null) {   // 미국 시간외(pre/post)
-          el.innerHTML = (q.e>=0?'+':'') + Number(q.e).toFixed(2) + '%<span class="ext">시간외</span>';
-          el.style.color = '#ff9f40';
-        } else if (q.c != null) {
-          el.textContent = (q.c>=0?'+':'') + Number(q.c).toFixed(2) + '%';
-          el.style.color = q.c>=0 ? '#ff5b5b' : '#5b9dff';
+        var html = '';
+        if (q.c != null) {
+          var col = q.c>=0 ? '#ff5b5b' : '#5b9dff';
+          html = '<span style="color:'+col+'">' + (q.c>=0?'+':'') + Number(q.c).toFixed(2) + '%</span>';
         }
+        if (q.e != null) {   // 미국/유럽 시간외
+          html += '<span class="ext">외 ' + (q.e>=0?'+':'') + Number(q.e).toFixed(2) + '%</span>';
+        }
+        if (html) el.innerHTML = html;
       });
     }).catch(function(){});
   }
@@ -552,11 +556,22 @@
     var d = PEER[tk]; if (!d) return;
     document.getElementById('gl-nm').textContent = d.n;
     document.getElementById('gl-sub').textContent = d.tk + (d.cur ? '  ·  '+d.cur : '');
-    var px = d.px!=null ? Number(d.px).toLocaleString() : '-';
+    var L = _GLIVE[tk] || {};
+    var pxv = (L.p!=null) ? L.p : d.px;
+    var chgv = (L.c!=null) ? L.c : d.chg;
+    var px = pxv!=null ? Number(pxv).toLocaleString() : '-';
     document.getElementById('gl-px').textContent = px + (d.cur?(' '+d.cur):'');
     var chgEl = document.getElementById('gl-chg');
-    if (d.chg!=null) { chgEl.textContent = (d.chg>=0?'▲ +':'▼ ')+Number(d.chg).toFixed(2)+'%';
-      chgEl.className = 'gchg '+(d.chg>=0?'up':'dn'); } else chgEl.textContent='';
+    if (chgv!=null) { chgEl.textContent = (chgv>=0?'▲ +':'▼ ')+Number(chgv).toFixed(2)+'% (전일종가 대비)';
+      chgEl.className = 'gchg '+(chgv>=0?'up':'dn'); } else chgEl.textContent='';
+    // 시간외 (미국/유럽 pre·post)
+    var extEl = document.getElementById('gl-ext');
+    if (L.e!=null && L.ep!=null) {
+      var ec = L.e>=0 ? '#ff6b6b' : '#5b9dff';
+      extEl.style.display='block';
+      extEl.innerHTML = '시간외 <b>'+Number(L.ep).toLocaleString()+(d.cur?(' '+d.cur):'')+'</b> '+
+        '<span style="color:'+ec+'">('+(L.e>=0?'+':'')+Number(L.e).toFixed(2)+'%)</span>';
+    } else extEl.style.display='none';
     var mk = d.mk!=null ? (d.mk/1e12).toFixed(1)+'조' : '-';
     var mu = d.mu!=null ? '$'+(d.mu/1e9).toFixed(1)+'B' : '';
     var w52 = (d.w52l!=null && d.w52h!=null) ? ('   ·   52주 '+Number(d.w52l).toLocaleString()+'~'+Number(d.w52h).toLocaleString()) : '';
@@ -605,6 +620,7 @@
       <div class="gsub" id="gl-sub"></div>
       <div class="gpx" id="gl-px"></div>
       <div class="gchg" id="gl-chg"></div>
+      <div class="gext" id="gl-ext" style="display:none"></div>
       <div class="gmk" id="gl-mk"></div>
       <div class="ggrid" id="gl-metrics"></div>
       <div class="gratings" id="gl-ratings"></div>
