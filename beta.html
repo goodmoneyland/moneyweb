@@ -72,6 +72,13 @@
   }
   .ntab-home:hover { background: linear-gradient(135deg, #d97706, #f59e0b); }
   .ntab-home.active { background: linear-gradient(135deg, #92400e, #b45309); }
+  /* 한국vs글로벌 강조 (청록 그라데이션) */
+  .ntab.ntab-peer {
+    background: linear-gradient(135deg, #0e7490, #0891b2);
+    border-color: #22d3ee; color: #fff; font-weight: 700;
+  }
+  .ntab.ntab-peer:hover { background: linear-gradient(135deg, #0891b2, #06b6d4); color: #fff; }
+  .ntab.ntab-peer.active { background: linear-gradient(135deg, #155e75, #0e7490); border-color: #22d3ee; color: #fff; }
 
   .side-divider { height: 1px; background: var(--border); margin: 5px 2px; }
 
@@ -405,6 +412,12 @@
     color: #f59e0b; background: rgba(245,158,11,.08);
   }
   .drawer-tab.home-tab.active { color: #f59e0b; background: rgba(245,158,11,.12); }
+  .drawer-tab.peer-tab {
+    color: #fff; font-weight: 700;
+    background: linear-gradient(135deg, #0e7490, #0891b2);
+  }
+  .drawer-tab.peer-tab:hover { color: #fff; background: linear-gradient(135deg, #0891b2, #06b6d4); }
+  .drawer-tab.peer-tab.active { color: #fff; background: linear-gradient(135deg, #155e75, #0e7490); }
 
   @media (max-width: 768px) {
     #sidebar { display: none; }
@@ -784,6 +797,7 @@
 <div class="drawer-panel" id="drawer-panel">
   <div class="drawer-header">🏠 김형철의 마켓레이더</div>
   <div class="drawer-tab home-tab active" data-tab="home"         onclick="drawerNav('home')">🏠 홈</div>
+  <div class="drawer-tab peer-tab" data-tab="peer"                onclick="drawerNav('peer')">⚖️ 한국vs글로벌</div>
   <div class="drawer-tab" data-tab="us-morning"                   onclick="drawerNav('us-morning')">🇺🇸 US모닝브리핑</div>
   <div class="drawer-tab" data-tab="nxt"                          onclick="drawerNav('nxt')">⚡ NXT&amp;시간외</div>
   <div class="drawer-tab" data-tab="kr-morning"                   onclick="drawerNav('kr-morning')">🇰🇷 KR개장전이슈&amp;종목</div>
@@ -791,7 +805,6 @@
   <div class="drawer-tab" data-tab="tgtprc"                       onclick="drawerNav('tgtprc')">🎯 목표주가검색기</div>
   <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="per"                          onclick="drawerNav('per')">📊 PER 마켓&amp;종목</div>
-  <div class="drawer-tab" data-tab="peer"                         onclick="drawerNav('peer')">⚖️ 한국vs글로벌</div>
   <div class="drawer-tab" data-tab="kr-theme"                     onclick="drawerNav('kr-theme')">🔥 KR테마&amp;신고가</div>
   <div class="drawer-tab" data-tab="kr-thememap"                  onclick="drawerNav('kr-thememap')">🫧 테마맵</div>
   <div class="drawer-tab" data-tab="kr-marketmap"                 onclick="drawerNav('kr-marketmap')">🗺️ KR마켓맵</div>
@@ -868,6 +881,10 @@
 
   <div class="side-divider"></div>
 
+  <!-- 한국vs글로벌 : 좌우 비교(저울) — 강조 -->
+  <div class="ntab ntab-peer" data-tab="peer" onclick="switchTab('peer',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 7h12"/><path d="M6 7l-3 6a3 3 0 006 0L6 7z"/><path d="M18 7l-3 6a3 3 0 006 0l-3-6z"/></svg></span> 한국vs글로벌
+  </div>
   <!-- US 마감브리핑 -->
   <div class="ntab" data-tab="us-morning" onclick="switchTab('us-morning',this)">
     <img class="flag-img" src="https://flagcdn.com/w40/us.png" alt="US"> US마감브리핑
@@ -894,10 +911,6 @@
   <!-- PER마켓 -->
   <div class="ntab" data-tab="per" onclick="switchTab('per',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-7M12 20V5M17 20v-10"/></svg></span> PER마켓&amp;종목
-  </div>
-  <!-- 한국vs글로벌 : 좌우 비교(저울) -->
-  <div class="ntab" data-tab="peer" onclick="switchTab('peer',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 7h12"/><path d="M6 7l-3 6a3 3 0 006 0L6 7z"/><path d="M18 7l-3 6a3 3 0 006 0l-3-6z"/></svg></span> 한국vs글로벌
   </div>
 
   <div class="side-divider"></div>
