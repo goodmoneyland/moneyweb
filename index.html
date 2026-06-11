@@ -916,6 +916,9 @@
       <div class="idx-card" id="idx-K200F"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AK200F1%21','_blank')"><div class="name">K200선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-K200F_NIGHT"><div class="name">K200야간종가</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-USDKRW"><div class="name">원달러</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-DOW"        onclick="window.open('https://www.tradingview.com/chart/?symbol=DJI','_blank')"><div class="name">다우존스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-NASDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=IXIC','_blank')"><div class="name">나스닥</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-SP500"      onclick="window.open('https://www.tradingview.com/chart/?symbol=SPX','_blank')"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
@@ -2888,7 +2891,7 @@ async function fetchKrPricesLive() {
       statusEl.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${dot};margin-right:4px;vertical-align:middle;"></span>${msLabel} ${data.updated_at ? data.updated_at.slice(11,16) : ''}`;
     }
     // 지수 카드 갱신
-    const idMap = {'KOSPI':'idx-KOSPI','KOSDAQ':'idx-KOSDAQ','K200F':'idx-K200F','K200F_NIGHT':'idx-K200F_NIGHT','USDKRW':'idx-USDKRW','DOW':'idx-DOW','NASDAQ':'idx-NASDAQ','S&P 500':'idx-SP500'};
+    const idMap = {'KOSPI':'idx-KOSPI','KOSDAQ':'idx-KOSDAQ','K200F':'idx-K200F','K200F_NIGHT':'idx-K200F_NIGHT','USDKRW':'idx-USDKRW','NIKKEI':'idx-NIKKEI','SHCOMP':'idx-SHCOMP','TWII':'idx-TWII','DOW':'idx-DOW','NASDAQ':'idx-NASDAQ','S&P 500':'idx-SP500'};
     const indices = data.indices || {};
     for (const [nm, elId] of Object.entries(idMap)) {
       const el = document.getElementById(elId);
