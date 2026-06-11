@@ -598,18 +598,22 @@ function calcStat(stocks) {
 async function load() {
   try {
     const t = Date.now();
-    const [mapRes, liveRes] = await Promise.all([
+    const [mapRes, liveRes, closeRes] = await Promise.all([
       fetch(DATA_URL + '?t=' + t),
       fetch('api/kr_prices_live.json?t=' + t),
+      fetch('api/kr_close_prices.json?t=' + t),
     ]);
     const data = await mapRes.json();
     const live = liveRes.ok ? await liveRes.json() : null;
     const livePrices = live?.prices || {};
+    const closeData  = closeRes.ok ? await closeRes.json() : null;
+    const closePrices = closeData?.prices || {};
     const liveStatus = live?.market_status || data.market_status;
 
-    // 실시간 시세 덮어쓰기
+    // 시세 덮어쓰기 우선순위: 실시간(live) > 당일 KRX 종가 스냅샷(close) > 빌드시점 스냅샷(baked)
+    // NXT 미거래 종목(우선주 등)은 장 외 시간 live에 없으므로 당일 종가로 폴백해야 stale 표시 방지
     data.stocks.forEach(s => {
-      const p = livePrices[s.code];
+      const p = livePrices[s.code] || closePrices[s.code];
       if (p) {
         s.curr_prc = p.curr_prc;
         s.ud_rt    = p.ud_rt;
