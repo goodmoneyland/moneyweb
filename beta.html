@@ -683,6 +683,7 @@
   #glmodal .gnews-item:hover { background:#16273c; }
   #glmodal .gnews-hd { font-size:12.5px; color:#dbe6f2; line-height:1.45; }
   #glmodal .gnews-item:hover .gnews-hd { color:#7fc4ff; }
+  #glmodal .gnews-hd-ko { font-size:11.5px; color:#8aa9c8; line-height:1.4; margin-top:2px; }
   #glmodal .gnews-meta { font-size:10.5px; color:#7f97b0; margin-top:3px; display:flex; gap:8px; }
   #glmodal .gnews-meta .src { color:#ffb066; }
   #glmodal .gnews-empty { font-size:12px; color:#6f8398; padding:10px 2px; }
@@ -2989,10 +2990,12 @@ function renderGlNews(tk) {
   }
   box.innerHTML = list.slice(0, 10).map(x => {
     const t = (x.t || '').replace(/</g, '&lt;');
+    const ko = (x.tk || '').replace(/</g, '&lt;');
     const src = (x.src || '').replace(/</g, '&lt;');
     const dt = (x.dt || '').replace(/</g, '&lt;');
     return '<a class="gnews-item" href="' + x.u + '" target="_blank" rel="noopener">' +
       '<div class="gnews-hd">' + t + '</div>' +
+      (ko ? '<div class="gnews-hd-ko">' + ko + '</div>' : '') +
       '<div class="gnews-meta"><span class="src">' + src + '</span><span>' + dt + '</span></div></a>';
   }).join('');
 }
@@ -3263,7 +3266,7 @@ function _startKrPricesPolling() {
   fetchKrClosePrices();
   fetchKrPricesLive();
   if (_krPricesTimer) clearInterval(_krPricesTimer);
-  _krPricesTimer = setInterval(fetchKrPricesLive, 3 * 60 * 1000);
+  _krPricesTimer = setInterval(fetchKrPricesLive, 60 * 1000);
 }
 
 function _livePriceTag(cd) {
