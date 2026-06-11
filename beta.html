@@ -1099,9 +1099,12 @@
     </div>
   </div>
 
-  <!-- ── 테마맵 (iframe, 고정 src) ── -->
+  <!-- ── 테마맵 (iframe, 날짜기반) ── -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-kr-thememap">
-    <iframe id="page-kr-thememap" src="/moneyweb/thememap.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+    <div class="frame-placeholder" id="ph-kr-thememap">
+      <div class="icon">🫧</div><div class="msg">파일 로딩중...</div><div class="sub" id="ph-kr-thememap-sub"></div>
+    </div>
+    <iframe class="page-frame" id="page-kr-thememap" onload="onFrameLoad('kr-thememap')"></iframe>
   </div>
 
   <!-- ── KR마켓맵 (iframe) ── -->
@@ -1526,8 +1529,9 @@ const TAB_KEY = {
   'report':     'report',
   'per':        'sector-per',
   'kr-theme':   'kr-theme',
+  'kr-thememap':'kr-thememap',
 };
-const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap', 'kr-thememap'];
+const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap'];
 
 var currentTab = 'home';
 
@@ -1598,7 +1602,6 @@ function switchTab(tab, el) {
   else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
-  else if (tab === 'kr-thememap') { document.getElementById('wrap-kr-thememap').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
   // kr-theme 진입 시 기본 서브탭(오전) 활성화
   if (tab === 'kr-theme') {
