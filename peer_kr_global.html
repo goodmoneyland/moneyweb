@@ -96,7 +96,7 @@
 <body>
   <div class="topbar">
     <h1>한국 vs 글로벌 밸류에이션</h1>
-    <span class="sub">Forward PER (배) · 2026-06-11 17:14 기준</span>
+    <span class="sub">Forward PER (배) · 2026-06-11 19:20 기준</span>
     <span class="legend">
       <span><b style="color:#ff5b5b">■</b>&lt;10</span>
       <span><b style="color:#ffd33d">■</b>10–20</span>
@@ -553,7 +553,7 @@
           html = '<span style="color:'+col+'">' + (q.c>=0?'+':'') + Number(q.c).toFixed(2) + '%</span>';
         }
         if (q.e != null) {   // 미국/유럽 시간외
-          html += '<span class="ext">외 ' + (q.e>=0?'+':'') + Number(q.e).toFixed(2) + '%</span>';
+          html += '<span class="ext">🌙 ' + (q.e>=0?'+':'') + Number(q.e).toFixed(2) + '%</span>';
         }
         if (html) el.innerHTML = html;
       });
