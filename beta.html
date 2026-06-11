@@ -979,6 +979,10 @@
       <div class="idx-card" id="idx-DOW"        onclick="window.open('https://www.tradingview.com/chart/?symbol=DJI','_blank')"><div class="name">다우존스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-NASDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=IXIC','_blank')"><div class="name">나스닥</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-SP500"      onclick="window.open('https://www.tradingview.com/chart/?symbol=SPX','_blank')"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-RUSSELL"    onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ARUT','_blank')"><div class="name">러셀2000</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-DOWF"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOT_MINI%3AYM1%21','_blank')"><div class="name">다우 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-NASDAQF"    onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3ANQ1%21','_blank')"><div class="name">나스닥 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-SP500F"     onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3AES1%21','_blank')"><div class="name">S&amp;P 500 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
     </div>
 
     <!-- 2행: 미국 지표 5개 -->
@@ -4616,6 +4620,10 @@ _startKrPricesPolling();
       'DXY': { id: 'ind-dxy', fmt: v => fmtN(v, 2),       prefix: '' },
       'VIX': { id: 'ind-vix', fmt: v => fmtN(v, 2),       prefix: '' },
       'WTI': { id: 'ind-wti', fmt: v => fmtN(v, 2),       prefix: '$' },
+      'RUT':  { id: 'idx-RUSSELL', fmt: v => fmtN(v, 2),  prefix: '' },
+      'YM_F': { id: 'idx-DOWF',    fmt: v => fmtN(v, 2),  prefix: '' },
+      'NQ_F': { id: 'idx-NASDAQF', fmt: v => fmtN(v, 2),  prefix: '' },
+      'ES_F': { id: 'idx-SP500F',  fmt: v => fmtN(v, 2),  prefix: '' },
     };
     for (const [key, cfg] of Object.entries(MAP)) {
       const row = ind[key];
