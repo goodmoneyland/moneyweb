@@ -102,7 +102,7 @@
 <body>
   <div class="topbar">
     <h1>한국 vs 글로벌 밸류에이션</h1>
-    <span class="sub">Forward PER (배) · 2026-06-12 08:00 기준</span>
+    <span class="sub">Forward PER (배) · 2026-06-12 09:57 기준</span>
     <span class="legend">
       <span><b style="color:#ff5b5b">■</b>&lt;10</span>
       <span><b style="color:#ffd33d">■</b>10–20</span>
@@ -586,7 +586,7 @@
     if (upd) upd.textContent = _GLNEWS_UPD ? ('업데이트 ' + _GLNEWS_UPD.slice(5,16)) : '';
     if (!list || !list.length) {
       box.innerHTML = '<div class="gnews-empty">' +
-        (_GLNEWS === null ? '뉴스 로딩 중...' : '수집된 뉴스가 없습니다 (미국 상장 종목만 지원)') + '</div>';
+        (_GLNEWS === null ? '뉴스 로딩 중...' : '수집된 뉴스가 없습니다') + '</div>';
       return;
     }
     box.innerHTML = list.slice(0,10).map(function(x){

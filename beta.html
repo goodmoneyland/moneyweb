@@ -2992,7 +2992,7 @@ function renderGlNews(tk) {
   upd.textContent = GL_NEWS_UPD ? ('업데이트 ' + GL_NEWS_UPD.slice(5, 16)) : '';
   if (!list || !list.length) {
     box.innerHTML = '<div class="gnews-empty">' +
-      (GL_NEWS === null ? '뉴스 로딩 중...' : '수집된 뉴스가 없습니다 (미국 상장 종목만 지원)') + '</div>';
+      (GL_NEWS === null ? '뉴스 로딩 중...' : '수집된 뉴스가 없습니다') + '</div>';
     return;
   }
   box.innerHTML = list.slice(0, 10).map(x => {
