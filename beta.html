@@ -42,7 +42,7 @@
   #sidebar::-webkit-scrollbar { display: none; }
 
   /* 콘텐츠 3영역을 사이드바 폭만큼 오른쪽으로 */
-  #kr-theme-bar, #subtab-bar, #content-area { margin-left: 174px; }
+  #kr-theme-bar, #kr-thememap-bar, #subtab-bar, #content-area { margin-left: 174px; }
 
   /* 사이드바 상단: 아바타+이름 / 날짜 / 시세상태 */
   .side-user { display: flex; align-items: center; gap: 5px; padding: 2px 6px 8px; }
@@ -421,7 +421,7 @@
 
   @media (max-width: 768px) {
     #sidebar { display: none; }
-    #kr-theme-bar, #subtab-bar, #content-area { margin-left: 0; }
+    #kr-theme-bar, #kr-thememap-bar, #subtab-bar, #content-area { margin-left: 0; }
     .hamburger-btn { display: flex; }
     /* 모바일에서 로고 축소 */
     .logo { font-size: 16px; }
@@ -957,11 +957,15 @@
      KR테마 서브탭 바
 ══════════════════════════════════════ -->
 <div id="kr-theme-bar" style="background:var(--card2);border-bottom:1px solid var(--border);padding:0 20px;display:none;gap:4px;align-items:center;height:38px;flex-shrink:0;">
-  <div class="stab active" id="krt-am"         onclick="switchKrThemeTab('am',this)">🌅 오전</div>
-  <div class="stab"        id="krt-pm"         onclick="switchKrThemeTab('pm',this)">☀️ 오후</div>
-  <div class="stab"        id="krt-close"      onclick="switchKrThemeTab('close',this)">🌆 장마감후</div>
-  <div class="stab"        id="krt-stk-high"   onclick="switchKrThemeTab('stk-high',this)">📈 종목신고가</div>
+  <div class="stab active" id="krt-stk-high"   onclick="switchKrThemeTab('stk-high',this)">📈 종목신고가</div>
   <div class="stab"        id="krt-etf-high"   onclick="switchKrThemeTab('etf-high',this)">📊 ETF신고가</div>
+</div>
+<!-- 테마맵 서브탭 바 -->
+<div id="kr-thememap-bar" style="background:var(--card2);border-bottom:1px solid var(--border);padding:0 20px;display:none;gap:4px;align-items:center;height:38px;flex-shrink:0;">
+  <div class="stab active" id="krm-map"   onclick="switchThemeMapTab('map',this)">🫧 테마맵</div>
+  <div class="stab"        id="krm-am"    onclick="switchThemeMapTab('am',this)">🌅 오전특징주</div>
+  <div class="stab"        id="krm-pm"    onclick="switchThemeMapTab('pm',this)">☀️ 오후특징주</div>
+  <div class="stab"        id="krm-close" onclick="switchThemeMapTab('close',this)">🌆 특징주정리</div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -1089,10 +1093,10 @@
       </div>
 
       <!-- 테마 -->
-      <div class="bottom-card" onclick="switchTab('kr-theme',document.querySelector('[data-tab=\'kr-theme\']'))">
+      <div class="bottom-card" onclick="switchTab('kr-thememap',document.querySelector('[data-tab=\'kr-thememap\']'))">
         <div class="bottom-card-head">
-          🔥 오늘 테마
-          <span class="bottom-viewall">관련주 전체보기 →</span>
+          🔥 오늘 테마&amp;특징주
+          <span class="bottom-viewall">테마맵 보기 →</span>
         </div>
         <div class="bottom-card-body" id="home-theme">
           <div style="color:var(--muted);font-size: 18px;padding:8px 0;">로딩중...</div>
@@ -1596,6 +1600,7 @@ function switchTab(tab, el) {
   document.getElementById('subtab-bar').style.display = (tab === 'schedule') ? 'flex' : 'none';
   // KR테마 서브탭 바
   document.getElementById('kr-theme-bar').style.display = (tab === 'kr-theme') ? 'flex' : 'none';
+  document.getElementById('kr-thememap-bar').style.display = (tab === 'kr-thememap') ? 'flex' : 'none';
   if (tab !== 'kr-theme') document.getElementById('wrap-newhigh').style.display = 'none';
 
   // 날짜 네비 항상 표시
@@ -1617,10 +1622,13 @@ function switchTab(tab, el) {
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
-  // kr-theme 진입 시 기본 서브탭(종목신고가) 활성화
+  // kr-theme(신고가) 진입 → 기본 서브탭(종목신고가). 인포스탁 iframe은 테마맵 메뉴로 이동.
   if (tab === 'kr-theme') {
-    loadFrame('kr-theme');
     switchKrThemeTab('stk-high', document.getElementById('krt-stk-high'));
+  }
+  // kr-thememap(테마맵) 진입 → 기본 서브탭(테마맵 버블)
+  else if (tab === 'kr-thememap') {
+    switchThemeMapTab('map', document.getElementById('krm-map'));
   }
   else if (tab === 'per') {
     const wPer = document.getElementById('wrap-per');
@@ -1737,8 +1745,8 @@ function _injectKrThemeLayout(frame) {
       sec.appendChild(wrapper);
     });
 
-    // 기본 탭(오전)에 맞게 섹션 표시 초기화
-    _applyKrThemeSection('am');
+    // 현재 선택된 섹션(오전/오후/특징주정리)에 맞게 표시 초기화
+    _applyKrThemeSection(['am','pm','close'].includes(_krThemeTab) ? _krThemeTab : 'am');
   } catch(e) { console.warn('kr-theme 레이아웃 주입 실패', e); }
 }
 
@@ -1955,6 +1963,32 @@ function switchKrThemeTab(tab, btn) {
     wrapTheme.style.display = 'block';
     wrapHigh.style.display  = 'none';
     _applyKrThemeSection(tab);
+  }
+}
+
+// 테마맵 메뉴 서브탭: 테마맵(버블) / 오전·오후특징주 / 특징주정리(인포스탁 iframe 섹션)
+function switchThemeMapTab(sub, btn) {
+  document.querySelectorAll('#kr-thememap-bar .stab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const wMap   = document.getElementById('wrap-kr-thememap');
+  const wTheme = document.getElementById('wrap-kr-theme');
+  document.getElementById('wrap-newhigh').style.display = 'none';
+  if (sub === 'map') {
+    if (wTheme) wTheme.style.display = 'none';
+    if (wMap)   wMap.style.display   = 'block';
+    loadFrame('kr-thememap');
+  } else {
+    _krThemeTab = sub;                       // am | pm | close
+    if (wMap)   wMap.style.display   = 'none';
+    if (wTheme) wTheme.style.display = 'block';
+    const want = getFileSrc('kr-theme');
+    const f = document.getElementById('page-kr-theme');
+    if (f && want && f.getAttribute('data-srckey') !== want) {
+      f.setAttribute('data-srckey', want);
+      loadFrame('kr-theme');                 // 로드 후 onFrameLoad→_injectKrThemeLayout→_applyKrThemeSection(_krThemeTab)
+    } else {
+      _applyKrThemeSection(sub);             // 이미 로드됨 → 섹션만 토글
+    }
   }
 }
 
@@ -2376,8 +2410,7 @@ async function loadHomeSummary() {
     loadReportCard(rpList[0].src);
   }
 
-  const themeList = BINDEX['kr-theme'];
-  if (themeList && themeList.length > 0) loadThemeSection(themeList[0].src);
+  loadThemeToday();
 
   loadNewHighSection();
 }
@@ -2492,6 +2525,34 @@ async function loadReportCard(src) {
     body.innerHTML = out;
   } catch (e) {
     body.innerHTML = '<div style="color:var(--muted);font-size: 18px;">로드 실패</div>';
+  }
+}
+
+// 홈 '오늘 테마&특징주' 카드: 우리 테마맵 데이터(theme_today.json)의 상승/하락 테마+등락률
+async function loadThemeToday() {
+  const el = document.getElementById('home-theme');
+  try {
+    const res = await fetch('/api/theme_today.json?t=' + Date.now());
+    const d = await res.json();
+    const pill = (t) => {
+      const up = (t.chg || 0) >= 0;
+      const c  = up ? '#ef4444' : '#3b82f6';
+      const s  = (up ? '+' : '') + Number(t.chg).toFixed(2) + '%';
+      const bg = up ? 'rgba(239,68,68,0.12)' : 'rgba(59,130,246,0.12)';
+      return `<span class="theme-pill" style="background:${bg};">${t.name} <b style="color:${c}">${s}</b></span>`;
+    };
+    let out = '';
+    if (d.up && d.up.length) {
+      out += `<div class="theme-section"><div class="theme-period"><span style="color:#ef4444;">▲ 상승 테마</span></div>`
+           + `<div class="theme-pills">${d.up.map(pill).join('')}</div></div>`;
+    }
+    if (d.down && d.down.length) {
+      out += `<div class="theme-section"><div class="theme-period"><span style="color:#3b82f6;">▼ 하락 테마</span></div>`
+           + `<div class="theme-pills">${d.down.map(pill).join('')}</div></div>`;
+    }
+    el.innerHTML = out || '<div style="color:var(--muted);font-size:18px;">데이터 없음</div>';
+  } catch (e) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:18px;">로드 실패</div>';
   }
 }
 
