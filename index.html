@@ -2932,6 +2932,17 @@ async function loadTrumpPage(force) {
       const ko = _esc(p.korean).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(번역 없음)</span>';
       const en = _esc(p.original).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(원문 없음)</span>';
       const link = p.link ? `<a class="trump-link" href="${_esc(p.link)}" target="_blank" rel="noopener">원문 링크 ↗</a>` : '';
+      const media = (p.media || []).filter(Boolean);
+      let mediaHtml = '';
+      if (media.length) {
+        mediaHtml = '<div class="trump-media">' + media.map(u => {
+          const url = _esc(u);
+          if (/\.mp4($|\?)/i.test(u)) {
+            return `<video class="trump-media-item" src="${url}" controls preload="metadata"></video>`;
+          }
+          return `<a href="${url}" target="_blank" rel="noopener"><img class="trump-media-item" src="${url}" loading="lazy" alt="첨부 이미지"></a>`;
+        }).join('') + '</div>';
+      }
       return `<div class="trump-card">
         <div class="trump-card-head">
           <span class="trump-flag">🇺🇸</span>
@@ -2939,6 +2950,7 @@ async function loadTrumpPage(force) {
           ${link}
         </div>
         <div class="trump-ko">${ko}</div>
+        ${mediaHtml}
         <div class="trump-en"><span class="trump-en-label">ORIGINAL</span>${en}</div>
       </div>`;
     }).join('');
