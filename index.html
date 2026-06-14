@@ -801,6 +801,11 @@
   .trump-link { margin-left:auto; color:var(--accent); text-decoration:none; font-weight:600; }
   .trump-link:hover { text-decoration:underline; }
   .trump-ko { font-size:15.5px; line-height:1.65; color:var(--text); white-space:normal; }
+  .trump-media { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .trump-media-item { max-width:260px; max-height:300px; width:auto; height:auto;
+    border-radius:8px; border:1px solid var(--border); background:var(--card2);
+    object-fit:cover; cursor:zoom-in; display:block; }
+  video.trump-media-item { cursor:default; max-width:340px; }
   .trump-en { margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);
     font-size:13.5px; line-height:1.6; color:var(--muted); }
   .trump-en-label { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.5px;
@@ -2940,7 +2945,7 @@ async function loadTrumpPage(force) {
           if (/\.mp4($|\?)/i.test(u)) {
             return `<video class="trump-media-item" src="${url}" controls preload="metadata"></video>`;
           }
-          return `<a href="${url}" target="_blank" rel="noopener"><img class="trump-media-item" src="${url}" loading="lazy" alt="첨부 이미지"></a>`;
+          return `<a href="${url}" target="_blank" rel="noopener"><img class="trump-media-item" src="${url}" alt="첨부 이미지" onerror="this.closest('a').style.display='none'"></a>`;
         }).join('') + '</div>';
       }
       return `<div class="trump-card">
