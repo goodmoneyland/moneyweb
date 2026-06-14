@@ -786,6 +786,26 @@
   .tp-data-td { padding:9px 12px;text-align:right;border-bottom:1px solid var(--border);color:var(--text);font-size: 12.5px; }
   .tp-data-td:first-child { text-align:left;color:var(--muted); }
   .tp-data-tr:hover td { background: var(--card2); }
+
+  /* ── 트럼프 SNS 카드 ── */
+  .trump-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+  .trump-title { font-size:20px; font-weight:800; color:var(--text); }
+  .trump-meta { font-size:12.5px; color:var(--muted); }
+  .trump-card { background:var(--card); border:1px solid var(--border); border-left:3px solid #dc2626;
+    border-radius:10px; padding:16px 18px; margin-bottom:14px; max-width:860px; }
+  .trump-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px;
+    font-size:12.5px; color:var(--muted); }
+  .trump-flag { font-size:15px; }
+  .trump-time { font-weight:700; color:var(--text); }
+  .trump-link { margin-left:auto; color:var(--accent); text-decoration:none; font-weight:600; }
+  .trump-link:hover { text-decoration:underline; }
+  .trump-ko { font-size:15.5px; line-height:1.65; color:var(--text); white-space:normal; }
+  .trump-en { margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);
+    font-size:13.5px; line-height:1.6; color:var(--muted); }
+  .trump-en-label { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.5px;
+    color:#94a3b8; background:var(--card2); border:1px solid var(--border); border-radius:4px;
+    padding:1px 6px; margin-right:8px; vertical-align:1px; }
 </style>
 </head>
 <body>
@@ -803,6 +823,7 @@
   <div class="drawer-tab" data-tab="kr-morning"                   onclick="drawerNav('kr-morning')">🇰🇷 KR개장전이슈&amp;종목</div>
   <div class="drawer-tab" data-tab="report"                       onclick="drawerNav('report')">📋 오늘의주식리포트</div>
   <div class="drawer-tab" data-tab="tgtprc"                       onclick="drawerNav('tgtprc')">🎯 목표주가검색기</div>
+  <div class="drawer-tab" data-tab="trump"                        onclick="drawerNav('trump')">📢 트럼프SNS</div>
   <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="per"                          onclick="drawerNav('per')">📊 PER 마켓&amp;종목</div>
   <div class="drawer-tab" data-tab="kr-theme"                     onclick="drawerNav('kr-theme')">🔥 KR테마&amp;신고가</div>
@@ -930,6 +951,10 @@
 
   <div class="side-divider"></div>
 
+  <!-- 트럼프SNS : 확성기(액센트) -->
+  <div class="ntab" data-tab="trump" onclick="switchTab('trump',this)">
+    <span class="ico" style="color:#dc2626"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l4.5 3.5a.6.6 0 0 0 1-.5V7a.6.6 0 0 0-1-.5L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7 7 0 0 1 0 12"/></svg></span> 트럼프SNS
+  </div>
   <!-- 일정 : 달력 -->
   <div class="ntab" data-tab="schedule" onclick="switchTab('schedule',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg></span> 일정
@@ -1263,6 +1288,15 @@
       <div class="board-row"><div class="board-num">2</div><div>오늘 반도체 흐름 어떻게 보시나요?</div><div class="board-author">김형철</div><div class="board-date">05-28</div></div>
       <div class="board-row"><div class="board-num">1</div><div>머니랜드 커뮤니티 오픈합니다</div><div class="board-author">운영자</div><div class="board-date">05-26</div></div>
     </div>
+  </div>
+
+  <!-- ── 트럼프 SNS (Truth Social) ── -->
+  <div class="page-inner" id="page-trump" style="padding:20px 24px;overflow-y:auto;">
+    <div class="trump-head">
+      <div class="trump-title">📢 트럼프 SNS <span style="color:var(--muted);font-weight:400;font-size:14px;">Truth Social · 원문/번역</span></div>
+      <div class="trump-meta" id="trump-updated"></div>
+    </div>
+    <div id="trump-list" style="color:var(--muted);font-size:15px;">로딩 중...</div>
   </div>
 
   <!-- ── NXT & 시간외 ── -->
@@ -1618,6 +1652,7 @@ function switchTab(tab, el) {
   else if (tab === 'schedule') { document.getElementById('page-schedule').classList.add('active'); loadAllScheduleDashboard(); }
   else if (tab === 'idea')      { document.getElementById('page-idea').classList.add('active'); renderIdeas(); }
   else if (tab === 'community') document.getElementById('page-community').classList.add('active');
+  else if (tab === 'trump')    { document.getElementById('page-trump').classList.add('active'); loadTrumpPage(); }
   else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
@@ -2870,6 +2905,48 @@ async function loadEveningTab(sectionTagText, targetElId) {
 // ═══════════════════════════════════════
 function fmtDoc(cmd) { document.getElementById('idea-body').focus(); document.execCommand(cmd, false, null); }
 function fmtHead(tag) { document.getElementById('idea-body').focus(); document.execCommand('formatBlock', false, tag); }
+
+// ═══════════════════════════════════════
+//  트럼프 SNS (Truth Social) — 원문/번역 카드
+// ═══════════════════════════════════════
+let _trumpLoaded = false;
+function _esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function loadTrumpPage(force) {
+  const list = document.getElementById('trump-list');
+  if (!list) return;
+  if (_trumpLoaded && !force) return;   // 탭 재진입 시 재요청 안 함
+  list.innerHTML = '<div style="padding:16px 0;color:var(--muted);">로딩 중...</div>';
+  try {
+    const res = await fetch('/api/trump_truth.json?t=' + Date.now());
+    const data = await res.json();
+    const posts = data.posts || [];
+    const upd = document.getElementById('trump-updated');
+    if (upd) upd.textContent = '업데이트 ' + (data.updated_at || '') + ' · 최근 ' + posts.length + '건';
+    if (!posts.length) {
+      list.innerHTML = '<div style="padding:24px 0;color:var(--muted);">표시할 글이 없습니다.</div>';
+      _trumpLoaded = true;
+      return;
+    }
+    list.innerHTML = posts.map(p => {
+      const ko = _esc(p.korean).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(번역 없음)</span>';
+      const en = _esc(p.original).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(원문 없음)</span>';
+      const link = p.link ? `<a class="trump-link" href="${_esc(p.link)}" target="_blank" rel="noopener">원문 링크 ↗</a>` : '';
+      return `<div class="trump-card">
+        <div class="trump-card-head">
+          <span class="trump-flag">🇺🇸</span>
+          <span class="trump-time">${_esc(p.kst)} (KST)</span>
+          ${link}
+        </div>
+        <div class="trump-ko">${ko}</div>
+        <div class="trump-en"><span class="trump-en-label">ORIGINAL</span>${en}</div>
+      </div>`;
+    }).join('');
+    _trumpLoaded = true;
+  } catch (e) {
+    list.innerHTML = '<div style="padding:24px 0;color:var(--danger,#dc2626);">불러오기 실패: ' + _esc(String(e)) + '</div>';
+  }
+}
 
 let ideas = JSON.parse(localStorage.getItem('ml_ideas') || '[]');
 
