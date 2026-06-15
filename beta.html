@@ -2069,8 +2069,11 @@ async function renderNewHigh(tab) {
   if (tab === 'etf-high') {
     el.innerHTML = '<div style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>';
     try {
-      const res  = await fetch('/api/new_high_etf.json?t=' + Date.now());
-      const data = await res.json();
+      let data = await fetch('/api/new_high_etf.json?t=' + Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));
+      // k_ath 데이터 없으면 KRX 기반 폴백
+      if (!(data.rows||[]).length) {
+        data = await fetch('/api/new_high_etf_52w.json?t=' + Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));
+      }
       const rows = data.rows || [];
       if (!rows.length) {
         el.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);">데이터 없음</div>';
@@ -2283,13 +2286,18 @@ async function renderNewHigh(tab) {
   // ── 장마감 후 풀 정리 뷰 ──
   el.innerHTML = `<div style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>`;
   try {
+    const _etfWithFallback = async () => {
+      const d = await fetch('/api/new_high_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));
+      if ((d.rows||[]).length) return d;
+      return fetch('/api/new_high_etf_52w.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));
+    };
     const [r1,r2,r3,r4,stkData,etfData] = await Promise.all([
       fetch('/api/new_high_52w_kospi.json?t='+Date.now()).then(r=>r.json()),
       fetch('/api/new_high_52w_kosdaq.json?t='+Date.now()).then(r=>r.json()),
       fetch('/api/new_high_alltime_kospi.json?t='+Date.now()).then(r=>r.json()),
       fetch('/api/new_high_alltime_kosdaq.json?t='+Date.now()).then(r=>r.json()),
       fetch('/api/new_high_stocks.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),
-      fetch('/api/new_high_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),
+      _etfWithFallback(),
     ]);
 
     const fmt  = n => n ? Number(n).toLocaleString('ko-KR') : '-';
