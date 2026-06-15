@@ -337,7 +337,9 @@
     border-bottom: 1px solid var(--border); font-size: 16.5px;
   }
   .high-nm { font-weight: 700; flex: 1; }
-  .high-pct { font-weight: 700; color: var(--up); min-width: 48px; text-align: right; }
+  .high-pct { font-weight: 700; min-width: 48px; text-align: right; }
+  .high-pct.up { color: var(--down); }
+  .high-pct.dn { color: #60a5fa; }
   .high-sector { font-size: 15px; color: var(--muted); }
 
   /* ── 반응형 ── */
@@ -2659,7 +2661,7 @@ async function loadNewHighSection() {
       out += `<div class="high-row">
         <span class="high-nm kr-stock" onclick="openKrStock('${row.itm_cd}');event.stopPropagation();">${tg}${row.itm_nm}</span>
         <span class="high-sector">${row.sector || ''}</span>
-        <span class="high-pct">${pct}</span>
+        <span class="high-pct ${u != null && u >= 0 ? 'up' : 'dn'}">${pct}</span>
       </div>`;
     });
 
@@ -4080,6 +4082,25 @@ async function _renderDisclosureTab(cd) {
     <div style="background:#162033;border:1px solid #1e2d47;border-radius:8px;padding:4px 16px;">${rows}</div>`;
 }
 
+// 증권사명 → 공식 홈페이지 (리포트 클릭 시 발행 증권사로 연결)
+const BROKER_URL = {
+  '삼성증권':'https://www.samsungpop.com', '하나증권':'https://www.hanaw.com',
+  'NH투자증권':'https://www.nhqv.com', 'KB증권':'https://www.kbsec.com',
+  '신한투자증권':'https://www.shinhansec.com', '키움증권':'https://www.kiwoom.com',
+  '메리츠증권':'https://www.imeritz.com', '한국투자증권':'https://securities.koreainvestment.com',
+  '유진투자증권':'https://www.eugenefn.com', '대신증권':'https://www.daishin.com',
+  'LS증권':'https://www.ls-sec.co.kr', '미래에셋증권':'https://securities.miraeasset.com',
+  'iM증권':'https://www.imfnsec.com', '한화투자증권':'https://www.hanwhawm.com',
+  '현대차증권':'https://www.hmsec.com', 'SK증권':'https://www.sks.co.kr',
+  '다올투자증권':'https://www.daolsecurities.com', '유안타증권':'https://www.myasset.com',
+  'IBK투자증권':'https://www.ibks.com', 'DB증권':'https://www.dbsec.co.kr',
+  '신영증권':'https://www.shinyoung.com', 'BNK투자증권':'https://www.bnkfn.co.kr',
+  '흥국증권':'https://www.heungkuksec.co.kr', '상상인증권':'https://sangsanginib.com',
+  '교보증권':'https://www.iprovest.com', 'DS투자증권':'https://www.ds-sec.co.kr',
+  '부국증권':'https://www.bookook.co.kr', '한양증권':'https://www.hygood.co.kr',
+};
+function brokerUrl(firm) { return (firm && BROKER_URL[firm.trim()]) || null; }
+
 function _renderReports(rpt, curPrice, cns) {
   const sumEl  = document.getElementById('sp-report-summary');
   const listEl = document.getElementById('sp-report-list');
@@ -4140,11 +4161,9 @@ function _renderReports(rpt, curPrice, cns) {
   const RCMD_CLR = { '매수':'#22d3a0','BUY':'#22d3a0','비중확대':'#22d3a0','중립':'#94a3b8','HOLD':'#94a3b8','매도':'#f87171','SELL':'#f87171' };
   listEl.innerHTML = rpt.items.map(r => {
     const rcmdClr = RCMD_CLR[r.rcmd] || '#94a3b8';
-    const link = r.blt_no
-      ? `https://www.fnguide.com/fgBbs/bltDetail?bltNo=${r.blt_no}`
-      : null;
+    const link = brokerUrl(r.firm);
     const titleHtml = link
-      ? `<a href="${link}" target="_blank" style="color:#cbd5e1;text-decoration:none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#cbd5e1'">${r.title || ''}</a>`
+      ? `<a href="${link}" target="_blank" title="${r.firm} 홈페이지" style="color:#cbd5e1;text-decoration:none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#cbd5e1'">${r.title || ''}</a>`
       : `<span style="color:#cbd5e1;">${r.title || ''}</span>`;
     return `<div class="sp-rprt">
       <div class="r-top">
@@ -4695,9 +4714,9 @@ function tgtprcRenderReports(cd, tab) {
   }
   listEl.innerHTML = reports.map(r => {
     const tpClr = r.tp ? (r.tp >= cur_prc ? '#22d3a0' : '#f87171') : '#64748b';
-    const link = r.blt_no ? `https://www.fnguide.com/fgBbs/bltDetail?bltNo=${r.blt_no}` : null;
+    const link = brokerUrl(r.firm);
     const titleHtml = link
-      ? `<a href="${link}" target="_blank" style="color:var(--text);text-decoration:none;font-size: 15px;font-weight:700;line-height:1.4;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='var(--text)'">${r.title}</a>`
+      ? `<a href="${link}" target="_blank" title="${r.firm} 홈페이지" style="color:var(--text);text-decoration:none;font-size: 15px;font-weight:700;line-height:1.4;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='var(--text)'">${r.title}</a>`
       : `<span style="font-size: 15px;font-weight:700;color:var(--text);line-height:1.4;">${r.title}</span>`;
     const smryHtml = r.smry
       ? r.smry.replace(/\s*■/g, '\n■').trim()
