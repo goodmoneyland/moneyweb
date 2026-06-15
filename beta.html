@@ -2190,8 +2190,11 @@ async function renderNewHigh(tab) {
         fetch('/api/new_high_stocks.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),
         fetch('/api/new_high_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),
       ]);
-      const stkRows = stkData.rows || [];
-      const etfRows = etfData.rows || [];
+      const stkRows    = stkData.rows     || [];
+      const etfRows    = etfData.rows     || [];
+      const nxtStkRows = stkData.nxt_rows || [];
+      const nxtEtfRows = etfData.nxt_rows || [];
+      const hasNxt = nxtStkRows.length > 0 || nxtEtfRows.length > 0;
       const fmtD = d => d ? `${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}` : '';
       const fmt  = n => n != null && n !== '' ? Number(n).toLocaleString('ko-KR') : '-';
 
@@ -2267,12 +2270,46 @@ async function renderNewHigh(tab) {
           </table></div>
         </div>`;
 
+      // NXT 프리마켓 배너 (nxt_rows 있을 때만)
+      const nxtBanner = hasNxt ? (() => {
+        const nxtAll = [...nxtStkRows, ...nxtEtfRows];
+        const nxtItems = nxtAll.map(r => {
+          const live = _getPrice(r.itm_cd);
+          const prc  = (live && live.curr_prc) || r.close_prc;
+          const rawU = live ? live.ud_rt : r.ud_rt;
+          const u    = rawU != null ? rawU : null;
+          const c    = u == null ? 'var(--muted)' : u >= 0 ? '#ef4444' : '#3b82f6';
+          const udStr = u != null ? (u >= 0 ? '+' : '') + u.toFixed(2) + '%' : '-';
+          const tg   = r.is_alltime ? '🏆 ' : (r.is_uplimit ? '🚨 ' : '');
+          const nm_esc = r.itm_nm.replace(/'/g,"&#39;");
+          return `<tr style="cursor:pointer;"
+              onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background=''"
+              onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
+            <td style="padding:5px 10px;font-size:15px;font-weight:700;">${tg}${r.itm_nm}</td>
+            <td style="padding:5px 10px;font-size:13px;color:var(--muted);">${r.sector||'-'}</td>
+            <td style="padding:5px 10px;text-align:right;font-size:15px;font-weight:700;">${fmt(prc)}</td>
+            <td style="padding:5px 10px;text-align:right;font-size:15px;font-weight:800;color:${c};">${udStr}</td>
+          </tr>`;
+        }).join('');
+        return `<div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.35);border-radius:10px;overflow:hidden;margin-bottom:12px;">
+          <div style="padding:8px 14px;border-bottom:1px solid rgba(251,191,36,0.25);display:flex;align-items:center;gap:8px;">
+            <span style="font-size:16px;font-weight:800;color:#fbbf24;">⚡ NXT 프리마켓 신고가</span>
+            <span style="font-size:13px;color:rgba(251,191,36,0.8);">${nxtAll.length}개</span>
+            <span style="margin-left:auto;font-size:12px;color:rgba(251,191,36,0.7);">장 시작 전 · NXT 거래소</span>
+          </div>
+          <table style="width:100%;border-collapse:collapse;">
+            <tbody>${nxtItems}</tbody>
+          </table>
+        </div>`;
+      })() : '';
+
       el.innerHTML =
         `<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
           <span style="font-size:20px;font-weight:800;">📈 종목 신고가</span>
           <span style="font-size:15px;color:var(--muted);">${fmtD(stkData.trd_ymd)} 기준</span>
           <span style="margin-left:auto;font-size:13px;color:#22c55e;background:rgba(34,197,94,0.1);padding:3px 10px;border-radius:6px;border:1px solid rgba(34,197,94,0.3);">🟢 장중</span>
         </div>
+        ${nxtBanner}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           ${stkPanel}
           ${etfPanel}
