@@ -668,19 +668,21 @@
   .search-wrap{position:relative;}
   .search-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:380px;background:#0f1829;border:1px solid #1e2d47;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.75);z-index:8888;display:none;max-height:440px;overflow-y:auto;}
   .search-dropdown.open{display:block;}
-  .sd-hd{padding:8px 14px;font-size: 15px;color:#64748b;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #1e2d47;background:#162033;position:sticky;top:0;z-index:1;}
-  .sd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(30,45,71,.5);transition:background .1s;}
+  .sd-hd{padding:6px 12px;font-size: 10px;color:#64748b;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #1e2d47;background:#162033;position:sticky;top:0;z-index:1;}
+  .sd-item{display:flex;align-items:center;gap:7px;padding:7px 12px;cursor:pointer;border-bottom:1px solid rgba(30,45,71,.5);transition:background .1s;}
   .sd-item:last-child{border-bottom:none;}
   .sd-item:hover{background:#162033;}
   .sd-item.sd-active{background:#1c2a44;}
-  .sd-cd{font-size: 16.5px;color:#64748b;min-width:58px;font-family:monospace;font-weight:600;}
-  .sd-nm{font-size: 19.5px;font-weight:700;flex:1;}
-  .sd-prc{font-size: 18px;color:#e2e8f0;font-weight:600;white-space:nowrap;}
-  .sd-tp{font-size: 16.5px;color:#f59e0b;white-space:nowrap;}
-  .sd-chgcol{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
-  .sd-ext{font-size: 13px;color:#94a3b8;white-space:nowrap;}
-  .sd-empty{padding:24px;text-align:center;color:#64748b;font-size: 18px;}
-  .sd-cur{font-size:13px;color:#22c55e;font-weight:700;background:rgba(34,197,94,.12);border-radius:5px;padding:1px 6px;white-space:nowrap;}
+  .sd-cd{font-size: 10px;color:#64748b;min-width:42px;font-family:monospace;font-weight:600;}
+  .sd-nm{font-size: 12px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sd-prc{font-size: 11px;color:#e2e8f0;font-weight:600;white-space:nowrap;}
+  .sd-tp{font-size: 11px;color:#f59e0b;white-space:nowrap;}
+  .sd-chgcol{display:flex;flex-direction:column;align-items:flex-end;gap:1px;}
+  .sd-ext{font-size: 9px;color:#94a3b8;white-space:nowrap;}
+  .sd-empty{padding:18px;text-align:center;color:#64748b;font-size: 12px;}
+  .sd-cur{font-size:9px;color:#22c55e;font-weight:700;background:rgba(34,197,94,.12);border-radius:4px;padding:1px 5px;white-space:nowrap;}
+  .search-box .search-clear{flex-shrink:0;cursor:pointer;color:var(--muted);font-size:13px;line-height:1;padding:0 2px;user-select:none;display:none;align-items:center;}
+  .search-box .search-clear:hover{color:var(--text);}
 
   /* ── 해외 종목 팝업 (peer_kr_global 이식) ── */
   #glmodal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65);
@@ -861,6 +863,7 @@
       <span class="s-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7"/><path d="M21 21l-5.2-5.2"/></svg></span>
       <input id="search-input" type="text" placeholder="종목명 · 코드 검색 (예: 삼성전자, 005930)"
              onkeydown="handleSearch(event)" oninput="handleSearchInput()"/>
+      <span id="search-clear" class="search-clear" title="지우기" onclick="event.stopPropagation();clearKrSearch()">✕</span>
       <span class="search-kbd">/</span>
     </div>
     <div id="search-dropdown" class="search-dropdown"></div>
@@ -872,6 +875,7 @@
       <span class="s-icon" style="color:#22c55e"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
       <input id="gl-search-input" type="text" placeholder="해외 종목 · 티커 검색 (예: NVIDIA, NVDA)"
              onkeydown="handleGlSearch(event)" oninput="handleGlSearchInput()"/>
+      <span id="gl-search-clear" class="search-clear" title="지우기" onclick="event.stopPropagation();clearGlSearch()">✕</span>
     </div>
     <div id="gl-search-dropdown" class="search-dropdown"></div>
   </div>
@@ -3084,10 +3088,22 @@ function handleSearch(e) {
 }
 
 function handleSearchInput() {
-  const q = document.getElementById('search-input').value.trim();
+  const inp = document.getElementById('search-input');
+  const q = inp.value.trim();
+  const cb = document.getElementById('search-clear');
+  if (cb) cb.style.display = inp.value ? 'inline-flex' : 'none';
   clearTimeout(window._sdTimer);
   if (!q) { closeSearchDropdown(); return; }
   window._sdTimer = setTimeout(() => updateSearchDropdown(q), 180);
+}
+
+function clearKrSearch() {
+  const inp = document.getElementById('search-input');
+  inp.value = '';
+  closeSearchDropdown();
+  const cb = document.getElementById('search-clear');
+  if (cb) cb.style.display = 'none';
+  inp.focus();
 }
 
 async function updateSearchDropdown(q) {
@@ -3147,9 +3163,11 @@ async function updateSearchDropdown(q) {
       const dispPrc = reg ? reg.curr_prc : r.prc;
       const dispUd  = reg ? reg.ud_rt : null;
       const udClr   = dispUd != null ? (dispUd > 0 ? '#ef4444' : dispUd < 0 ? '#3b82f6' : '#94a3b8') : '';
-      const nxtClr  = isNxt ? (live.ud_rt > 0 ? '#ef4444' : live.ud_rt < 0 ? '#3b82f6' : '#94a3b8') : '';
-      const nxtHtml = hasNxt
-        ? `<span class="sd-ext">(${nxtLabel} ${_fmt(live.curr_prc)}원 <span style="color:${nxtClr}">${live.ud_rt >= 0 ? '+' : ''}${live.ud_rt.toFixed(2)}%</span>)</span>`
+      // NXT 등락률은 정규장 종가 대비(=정규장 이후 순수 변동분)로 산출
+      const nxtUd   = (hasNxt && close.curr_prc) ? (live.curr_prc - close.curr_prc) / close.curr_prc * 100 : null;
+      const nxtClr  = nxtUd != null ? (nxtUd > 0 ? '#ef4444' : nxtUd < 0 ? '#3b82f6' : '#94a3b8') : '';
+      const nxtHtml = (hasNxt && nxtUd != null)
+        ? `<span class="sd-ext">(${nxtLabel} <span style="color:${nxtClr}">${nxtUd >= 0 ? '+' : ''}${nxtUd.toFixed(2)}%</span>)</span>`
         : '';
       return `<div class="sd-item" data-cd="${r.cd}" data-nm="${r.nm.replace(/"/g,'&quot;')}" onclick="(function(el){closeSearchDropdown();document.getElementById('search-input').value='';openKrStock(el.dataset.cd,el.dataset.nm);})(this)">
         <span class="sd-cd">${r.cd}</span>
@@ -3167,6 +3185,7 @@ async function updateSearchDropdown(q) {
 function closeSearchDropdown() {
   const dd = document.getElementById('search-dropdown');
   if (dd) dd.classList.remove('open');
+  _krSelIdx = -1;
 }
 
 // ═══════════════════════════════════════
@@ -3275,10 +3294,22 @@ function handleGlSearch(e) {
 }
 
 function handleGlSearchInput() {
-  const q = document.getElementById('gl-search-input').value.trim();
+  const inp = document.getElementById('gl-search-input');
+  const q = inp.value.trim();
+  const cb = document.getElementById('gl-search-clear');
+  if (cb) cb.style.display = inp.value ? 'inline-flex' : 'none';
   clearTimeout(window._gsdTimer);
   if (!q) { closeGlSearchDropdown(); return; }
   window._gsdTimer = setTimeout(() => updateGlSearchDropdown(q), 180);
+}
+
+function clearGlSearch() {
+  const inp = document.getElementById('gl-search-input');
+  inp.value = '';
+  closeGlSearchDropdown();
+  const cb = document.getElementById('gl-search-clear');
+  if (cb) cb.style.display = 'none';
+  inp.focus();
 }
 
 async function updateGlSearchDropdown(q) {
@@ -3324,7 +3355,7 @@ async function updateGlSearchDropdown(q) {
       const hasExt = live && live.e != null && live.ep != null;
       const extClr = hasExt ? (live.e >= 0 ? '#ef4444' : '#3b82f6') : '';
       const extHtml = hasExt
-        ? `<span class="sd-ext">(시간외 ${Number(live.ep).toLocaleString()}${d.cur ? ' ' + d.cur : ''} <span style="color:${extClr}">${live.e >= 0 ? '+' : ''}${Number(live.e).toFixed(2)}%</span>)</span>`
+        ? `<span class="sd-ext">(시간외 <span style="color:${extClr}">${live.e >= 0 ? '+' : ''}${Number(live.e).toFixed(2)}%</span>)</span>`
         : '';
       return `<div class="sd-item" data-tk="${tk.replace(/"/g,'&quot;')}" onclick="(function(el){closeGlSearchDropdown();document.getElementById('gl-search-input').value='';glPopup(el.dataset.tk);})(this)">
         <span class="sd-cd">${tk.replace(/</g,'&lt;')}</span>
