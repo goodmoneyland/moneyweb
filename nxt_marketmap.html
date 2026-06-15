@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NXT 시간외 마켓맵</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; }
+body {
+  background: #070d1a;
+  color: #e2e8f0;
+  font-family: 'Noto Sans KR', sans-serif;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#header {
+  background: #0f1829;
+  border-bottom: 1px solid #1e2d47;
+  padding: 0 16px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subnote { font-size: 11px; color: #64748b; }
+.status-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.status-KRX    { background: #14532d; color: #4ade80; }
+.status-NXT_PRE,.status-NXT_EVE { background: #1e3a5f; color: #60a5fa; }
+.status-CLOSED { background: #2d1a1a; color: #94a3b8; }
+.updated-at { font-size: 11px; color: #64748b; }
+.spacer { flex: 1; }
+
+#mkt-nav {
+  background: #0a1525;
+  border-bottom: 1px solid #1e2d47;
+  padding: 5px 10px;
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.mkt-tab {
+  padding: 4px 16px; border-radius: 5px; font-size: 12px; font-weight: 700;
+  cursor: pointer; border: 1px solid #1e2d47; color: #94a3b8;
+  background: transparent; transition: all .15s; user-select: none;
+}
+.mkt-tab:hover { background: #162033; color: #e2e8f0; }
+.mkt-tab.active { background: #1e3a5f; color: #60a5fa; border-color: #2563eb; }
+
+.legend { display: flex; align-items: center; gap: 0; font-size: 10px; color: #64748b; }
+.legend-bar {
+  width: 120px; height: 10px; border-radius: 2px;
+  background: linear-gradient(to right, #1d4ed8, #3b82f6, #475569, #ef4444, #b91c1c);
+  margin: 0 4px;
+}
+
+#empty-msg {
+  display: none;
+  padding: 40px 24px; text-align: center; color: #64748b; font-size: 13px; line-height: 1.7;
+}
+
+#main { display: flex; flex-direction: column; gap: 4px; padding: 6px 24px; }
+.market-block { display: flex; flex-direction: column; }
+.market-block.kospi  { height: calc(100vh - 110px); }
+.market-block.kosdaq { height: calc(100vh - 62px); }
+.market-label { font-size: 11px; font-weight: 700; color: #94a3b8; padding: 2px 4px; letter-spacing: 0.05em; flex-shrink: 0; }
+.market-label span { color: #f59e0b; margin-left: 4px; font-weight: 500; font-size: 10px; }
+.treemap-wrap { flex: 1; width: 100%; position: relative; }
+svg { display: block; }
+
+#popup {
+  position: fixed; background: #ffffff; border-radius: 6px; padding: 10px 14px;
+  font-size: 12px; pointer-events: none; opacity: 0; transition: opacity .12s;
+  z-index: 999; width: 190px; box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+#popup .pp-sector { font-size: 10px; font-weight: 700; color: #64748b; margin-bottom: 2px; }
+#popup .pp-name   { font-size: 16px; font-weight: 900; color: #0f172a; line-height: 1.2; }
+#popup .pp-code   { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
+#popup .pp-price  { font-size: 18px; font-weight: 700; }
+#popup .pp-ud     { font-size: 12px; font-weight: 600; margin-top: 1px; }
+#popup .pp-base   { font-size: 11px; color: #475569; margin-top: 5px; padding-top: 5px; border-top: 1px solid #e2e8f0; }
+#popup .pp-mktcap { font-size: 10px; color: #64748b; margin-top: 3px; }
+#popup .up   { color: #dc2626; }
+#popup .down { color: #2563eb; }
+#popup .flat { color: #64748b; }
+
+#modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; align-items: center; justify-content: center; }
+#modal-overlay.open { display: flex; }
+#modal-box { background: #ffffff; border-radius: 12px; padding: 20px 22px 18px; width: 270px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); position: relative; }
+#modal-close { position: absolute; top: 10px; right: 12px; font-size: 18px; color: #94a3b8; cursor: pointer; line-height: 1; border: none; background: none; padding: 2px 4px; }
+#modal-close:hover { color: #475569; }
+.md-sector { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 3px; }
+.md-name   { font-size: 22px; font-weight: 900; color: #0f172a; line-height: 1.2; }
+.md-code   { font-size: 11px; color: #94a3b8; margin-bottom: 10px; }
+.md-price  { font-size: 26px; font-weight: 800; }
+.md-ud     { font-size: 14px; font-weight: 700; margin-top: 2px; }
+.md-base   { font-size: 12px; color: #475569; margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; }
+.md-mktcap { font-size: 11px; color: #64748b; margin-top: 3px; }
+.md-btn { display: block; margin-top: 14px; background: #1d4ed8; color: #fff; border: none; border-radius: 7px; padding: 9px 0; width: 100%; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; }
+.md-btn:hover { background: #1e40af; }
+.md-up   { color: #dc2626; }
+.md-down { color: #2563eb; }
+.md-flat { color: #64748b; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="title">NXT 시간외 마켓맵</div>
+  <span class="subnote">정규장 등락률 (NXT 시간외 등락률) · 색=NXT</span>
+  <span id="statusBadge" class="status-badge">-</span>
+  <span id="updatedAt" class="updated-at">-</span>
+  <div class="spacer"></div>
+  <div class="legend">
+    <span>-3%</span>
+    <div class="legend-bar"></div>
+    <span>+3%</span>
+  </div>
+</div>
+
+<div id="mkt-nav">
+  <div class="mkt-tab active" id="tabKospi" onclick="scrollToMarket('kospi')">KOSPI</div>
+  <div class="mkt-tab"        id="tabKosdaq" onclick="scrollToMarket('kosdaq')">KOSDAQ</div>
+</div>
+
+<div id="empty-msg"></div>
+
+<div id="main">
+  <div class="market-block kospi" id="sectionKospi">
+    <div class="market-label">KOSPI <span id="kospiStat"></span></div>
+    <div class="treemap-wrap" id="kospiWrap"></div>
+  </div>
+  <div class="market-block kosdaq" id="sectionKosdaq">
+    <div class="market-label">KOSDAQ <span id="kosdaqStat"></span></div>
+    <div class="treemap-wrap" id="kosdaqWrap"></div>
+  </div>
+</div>
+
+<div id="popup">
+  <div class="pp-sector" id="ppSector"></div>
+  <div class="pp-name"   id="ppName"></div>
+  <div class="pp-code"   id="ppCode"></div>
+  <div class="pp-price"  id="ppPrice"></div>
+  <div class="pp-ud"     id="ppUd"></div>
+  <div class="pp-base"   id="ppBase"></div>
+  <div class="pp-mktcap" id="ppMktcap"></div>
+</div>
+
+<div id="modal-overlay">
+  <div id="modal-box">
+    <button id="modal-close" onclick="closeModal()">✕</button>
+    <div class="md-sector" id="mdSector"></div>
+    <div class="md-name"   id="mdName"></div>
+    <div class="md-code"   id="mdCode"></div>
+    <div class="md-price"  id="mdPrice"></div>
+    <div class="md-ud"     id="mdUd"></div>
+    <div class="md-base"   id="mdBase"></div>
+    <div class="md-mktcap" id="mdMktcap"></div>
+    <a  class="md-btn"     id="mdTvLink" href="#" target="_blank">TradingView 차트 보기 →</a>
+  </div>
+</div>
+
+<script>
+const META_URL = 'api/nxt_marketmap.json';
+const REFRESH_MS = 60_000;
+
+const colorScale = d3.scaleLinear()
+  .domain([-3, -0.5, 0, 0.5, 3])
+  .range(["#1d4ed8", "#3b82f6", "#475569", "#ef4444", "#b91c1c"])
+  .clamp(true);
+
+const fmtMktcap = v => {
+  const jo = v / 1e12;
+  if (jo >= 1) return jo.toFixed(1) + '조';
+  return (v / 1e8).toFixed(0) + '억';
+};
+const won = v => v.toLocaleString('ko-KR') + '원';
+
+const popup = document.getElementById('popup');
+const POPUP_W = 190;
+const POPUP_H = 130;
+let _hlRect = null;
+
+function showPopup(svgEl, d) {
+  const s = d.data;
+  const ud = s.ud_rt;
+  const cls = ud > 0 ? 'up' : ud < 0 ? 'down' : 'flat';
+  const sign = ud > 0 ? '+' : '';
+
+  document.getElementById('ppSector').textContent = s.sector || '';
+  document.getElementById('ppName').textContent   = s.name;
+  document.getElementById('ppCode').textContent   = s.code;
+  const rcls = s.reg_rt > 0 ? 'up' : s.reg_rt < 0 ? 'down' : 'flat';
+  const rsign = s.reg_rt > 0 ? '+' : '';
+  document.getElementById('ppPrice').innerHTML    = `<span class="${cls}">${won(s.curr_prc)}</span>`;
+  document.getElementById('ppUd').innerHTML        = `시간외 <span class="${cls}">${sign}${ud.toFixed(2)}% (${sign}${s.ud_prc.toLocaleString('ko-KR')}원)</span>`;
+  document.getElementById('ppBase').innerHTML      = `본장 종가 ${won(s.base)} · 정규장 <span class="${rcls}">${rsign}${s.reg_rt.toFixed(2)}%</span>`;
+  document.getElementById('ppMktcap').textContent  = '시총 ' + fmtMktcap(s.mktcap);
+
+  const svgRect = svgEl.getBoundingClientRect();
+  const cellL = svgRect.left + d.x0;
+  const cellR = svgRect.left + d.x1;
+  const cellT = svgRect.top  + d.y0;
+  let px = cellR + 6;
+  if (px + POPUP_W > window.innerWidth - 4) px = cellL - POPUP_W - 6;
+  let py = cellT;
+  if (py + POPUP_H > window.innerHeight - 4) py = window.innerHeight - POPUP_H - 4;
+  popup.style.left = px + 'px';
+  popup.style.top = py + 'px';
+  popup.style.opacity = '1';
+
+  _clearHighlight();
+  const hl = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  hl.setAttribute('x', d.x0 + 1);
+  hl.setAttribute('y', d.y0 + 1);
+  hl.setAttribute('width',  Math.max(0, d.x1 - d.x0 - 2));
+  hl.setAttribute('height', Math.max(0, d.y1 - d.y0 - 2));
+  hl.setAttribute('fill', 'rgba(255,255,255,0.18)');
+  hl.setAttribute('stroke', '#ffffff');
+  hl.setAttribute('stroke-width', '2');
+  hl.setAttribute('rx', '1');
+  hl.style.pointerEvents = 'none';
+  svgEl.appendChild(hl);
+  _hlRect = { el: hl, svg: svgEl };
+}
+
+function hidePopup() { popup.style.opacity = '0'; _clearHighlight(); }
+
+function openModal(d) {
+  const s = d.data;
+  const ud = s.ud_rt;
+  const cls = ud > 0 ? 'md-up' : ud < 0 ? 'md-down' : 'md-flat';
+  const sign = ud > 0 ? '+' : '';
+  document.getElementById('mdSector').textContent = s.sector || '';
+  document.getElementById('mdName').textContent   = s.name;
+  document.getElementById('mdCode').textContent   = s.code;
+  const rcls = s.reg_rt > 0 ? 'md-up' : s.reg_rt < 0 ? 'md-down' : 'md-flat';
+  const rsign = s.reg_rt > 0 ? '+' : '';
+  document.getElementById('mdPrice').innerHTML    = `<span class="${cls}">${won(s.curr_prc)}</span>`;
+  document.getElementById('mdUd').innerHTML        = `시간외 <span class="${cls}">${sign}${ud.toFixed(2)}% (${sign}${s.ud_prc.toLocaleString('ko-KR')}원)</span>`;
+  document.getElementById('mdBase').innerHTML      = `본장 마감 종가 ${won(s.base)}<br>정규장 등락률 <span class="${rcls}">${rsign}${s.reg_rt.toFixed(2)}%</span>`;
+  document.getElementById('mdMktcap').textContent  = '시총 ' + fmtMktcap(s.mktcap);
+  document.getElementById('mdTvLink').href = `https://www.tradingview.com/chart/?symbol=KRX%3A${s.code}`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+function _clearHighlight() {
+  if (_hlRect) { try { _hlRect.svg.removeChild(_hlRect.el); } catch(e) {} _hlRect = null; }
+}
+
+const SECTOR_COLORS = [
+  '#1e3a5f','#1a3a2a','#3a1e3a','#3a2a14','#14283a',
+  '#2a1a3a','#3a1a1e','#1e3a2a','#283a14','#3a1a2a',
+  '#1a1e3a','#2a1e14','#1e2a3a','#3a2a1e','#143a14',
+];
+const _sectorColorMap = new Map();
+let _sectorColorIdx = 0;
+function getSectorColor(name) {
+  if (!_sectorColorMap.has(name))
+    _sectorColorMap.set(name, SECTOR_COLORS[_sectorColorIdx++ % SECTOR_COLORS.length]);
+  return _sectorColorMap.get(name);
+}
+
+function buildTreemap(container, stocks) {
+  const wrap = document.getElementById(container);
+  wrap.innerHTML = '';
+  const W = wrap.clientWidth;
+  const H = wrap.clientHeight;
+  if (!W || !H || !stocks.length) return;
+
+  const root = d3.hierarchy({
+    name: 'root',
+    children: Array.from(
+      d3.group(stocks, d => d.sector),
+      ([sector, items]) => ({ name: sector, children: items })
+    ),
+  }).sum(d => d.mktcap || 0).sort((a, b) => b.value - a.value);
+
+  const OUTER_PAD = 4;
+  const HEADER_H  = 20;
+  d3.treemap().size([W, H])
+    .paddingOuter(OUTER_PAD).paddingTop(OUTER_PAD + HEADER_H)
+    .paddingRight(OUTER_PAD).paddingBottom(OUTER_PAD).paddingLeft(OUTER_PAD)
+    .paddingInner(1).round(true)(root);
+
+  const svg = d3.create('svg').attr('width', W).attr('height', H).style('display', 'block');
+  const defs = svg.append('defs');
+  const sectorHighlights = {};
+
+  (root.children || []).forEach((sec, si) => {
+    const ix0 = sec.x0 + OUTER_PAD;
+    const iy0 = sec.y0 + OUTER_PAD;
+    const iw  = (sec.x1 - sec.x0) - OUTER_PAD * 2;
+    const ih  = (sec.y1 - sec.y0) - OUTER_PAD * 2;
+    if (iw < 2 || ih < 2) return;
+    const sc = getSectorColor(sec.data.name);
+
+    svg.append('rect').attr('x', ix0).attr('y', iy0).attr('width', iw).attr('height', ih)
+      .attr('fill', '#0b1a2e').attr('stroke', 'rgba(255,255,255,0.55)').attr('stroke-width', '2').attr('rx', 3);
+    svg.append('rect').attr('x', ix0).attr('y', iy0).attr('width', iw).attr('height', HEADER_H).attr('fill', sc).attr('rx', 3);
+    svg.append('rect').attr('x', ix0).attr('y', iy0 + HEADER_H - 4).attr('width', iw).attr('height', 4).attr('fill', sc);
+
+    if (iw > 16) {
+      const cid = `sc${si}-${container}`;
+      defs.append('clipPath').attr('id', cid).append('rect')
+        .attr('x', ix0 + 3).attr('y', iy0).attr('width', Math.max(0, iw - 6)).attr('height', HEADER_H);
+      const lfs = Math.min(13, Math.max(8, iw / 8));
+      svg.append('text').attr('x', ix0 + 5).attr('y', iy0 + HEADER_H / 2 + lfs * 0.38)
+        .attr('clip-path', `url(#${cid})`).attr('fill', '#ffffff')
+        .attr('font-size', lfs + 'px').attr('font-weight', '700').text(sec.data.name);
+    }
+
+    svg.append('rect').attr('x', ix0).attr('y', iy0).attr('width', iw).attr('height', HEADER_H)
+      .attr('fill', 'transparent').style('cursor', 'default')
+      .on('mouseenter', function() {
+        hidePopup();
+        Object.values(sectorHighlights).forEach(r => r.attr('opacity', 0));
+        sectorHighlights[sec.data.name]?.attr('opacity', 1);
+      })
+      .on('mouseleave', function() { sectorHighlights[sec.data.name]?.attr('opacity', 0); });
+  });
+
+  root.leaves().forEach((d, i) => {
+    const w = d.x1 - d.x0;
+    const h = d.y1 - d.y0;
+    if (w < 2 || h < 2) return;
+
+    const clipId = `cp-${container}-${i}`;
+    defs.append('clipPath').attr('id', clipId).append('rect')
+      .attr('x', d.x0 + 1).attr('y', d.y0 + 1).attr('width', Math.max(0, w - 2)).attr('height', Math.max(0, h - 2));
+
+    const g = svg.append('g').attr('clip-path', `url(#${clipId})`).style('cursor', 'pointer')
+      .on('mouseenter', function() {
+        showPopup(svg.node(), d);
+        Object.values(sectorHighlights).forEach(r => r.attr('opacity', 0));
+        sectorHighlights[d.data.sector]?.attr('opacity', 1);
+      })
+      .on('mouseleave', function() {
+        hidePopup();
+        Object.values(sectorHighlights).forEach(r => r.attr('opacity', 0));
+      })
+      .on('click', function(event) {
+        event.stopPropagation();
+        hidePopup();
+        if (window.parent !== window && typeof window.parent.openKrStock === 'function') {
+          window.parent.openKrStock(d.data.code, d.data.name);
+        } else {
+          openModal(d);
+        }
+      });
+
+    g.append('rect').attr('x', d.x0 + 0.5).attr('y', d.y0 + 0.5)
+      .attr('width', Math.max(0, w - 1)).attr('height', Math.max(0, h - 1))
+      .attr('fill', colorScale(d.data.ud_rt)).attr('rx', 1);
+
+    if (w < 10 || h < 8) return;
+
+    const reg = d.data.reg_rt, nxt = d.data.nxt_rt;
+    const regStr = `${reg > 0 ? '+' : ''}${reg.toFixed(2)}%`;
+    const nxtStr = `(${nxt > 0 ? '+' : ''}${nxt.toFixed(2)}%)`;
+    const name = d.data.name;
+    const CHAR_W = 0.88, PAD = 4;
+    const fsByW  = (w - PAD) / (name.length * CHAR_W);
+    const fsByH2 = (h - 8) / 1.82;
+    const fsByH1 = (h - 4) / 1.15;
+    let nameFs = Math.max(1, Math.min(24, Math.min(fsByW, fsByH2)));
+    // ud 라인: NXT 등락률(큼) + 정규장 등락률(작음)
+    let nxtFs = nameFs * 0.82;          // NXT — 더 크게
+    let regFs = nxtFs * 0.66;           // 정규장 — 더 작게
+    const showUd = (nameFs + nxtFs + 8) <= h && nxtFs >= 6;
+    if (!showUd) nameFs = Math.max(1, Math.min(24, Math.min(fsByW, fsByH1)));
+
+    // ud 라인 가로폭 맞춤 (정규장 + 공백 + NXT)
+    const estW = (regStr.length * regFs + regFs + nxtStr.length * nxtFs) * 0.6;
+    if (estW > w - PAD) { const k = (w - PAD) / estW; nxtFs *= k; regFs *= k; }
+
+    const blockH = showUd ? nameFs + nxtFs + 4 : nameFs;
+    const baseY  = d.y0 + (h - blockH) / 2 + nameFs * 0.82;
+    const cx     = d.x0 + w / 2;
+
+    g.append('text').attr('x', cx).attr('y', baseY).attr('text-anchor', 'middle')
+      .attr('fill', '#ffffff').attr('font-size', nameFs + 'px').attr('font-weight', '700').text(name);
+    if (showUd) {
+      const regColor = reg > 0 ? '#ff8a8a' : reg < 0 ? '#86b7ff' : 'rgba(255,255,255,0.7)';
+      const t = g.append('text').attr('x', cx).attr('y', baseY + nameFs * 0.22 + nxtFs + 2)
+        .attr('text-anchor', 'middle');
+      t.append('tspan').attr('fill', regColor).attr('font-size', regFs + 'px')
+        .attr('font-weight', '700').text(regStr + ' ');
+      t.append('tspan').attr('fill', '#ffffff').attr('font-size', nxtFs + 'px')
+        .attr('font-weight', '800').text(nxtStr);
+    }
+  });
+
+  (root.children || []).forEach(sec => {
+    const sw = sec.x1 - sec.x0;
+    const sh = sec.y1 - sec.y0;
+    const hl = svg.append('rect').attr('x', sec.x0 + 1).attr('y', sec.y0 + 1)
+      .attr('width', Math.max(0, sw - 2)).attr('height', Math.max(0, sh - 2))
+      .attr('fill', 'rgba(255,255,255,0.13)').attr('stroke', '#ffffff').attr('stroke-width', '2')
+      .attr('rx', 3).attr('opacity', 0).style('pointer-events', 'none');
+    sectorHighlights[sec.data.name] = hl;
+  });
+
+  wrap.appendChild(svg.node());
+}
+
+function calcStat(stocks) {
+  if (!stocks.length) return '';
+  const up   = stocks.filter(s => s.ud_rt > 0).length;
+  const down = stocks.filter(s => s.ud_rt < 0).length;
+  const flat = stocks.length - up - down;
+  return `${stocks.length}종목  ·  상승 ${up}  하락 ${down}  보합 ${flat}`;
+}
+
+function showEmpty(msg) {
+  document.getElementById('main').style.display = 'none';
+  const e = document.getElementById('empty-msg');
+  e.style.display = 'block';
+  e.innerHTML = msg;
+}
+function hideEmpty() {
+  document.getElementById('main').style.display = 'flex';
+  document.getElementById('empty-msg').style.display = 'none';
+}
+
+async function load() {
+  try {
+    const t = Date.now();
+    const [metaRes, liveRes, closeRes] = await Promise.all([
+      fetch(META_URL + '?t=' + t),
+      fetch('api/kr_prices_live.json?t=' + t),
+      fetch('api/kr_close_prices.json?t=' + t),
+    ]);
+    const meta  = await metaRes.json();
+    const live  = liveRes.ok ? await liveRes.json() : null;
+    const close = closeRes.ok ? await closeRes.json() : null;
+    const livePrices  = live?.prices || {};
+    const closePrices = close?.prices || {};
+    const status = live?.market_status || 'CLOSED';
+
+    // 본장 종가(close) 기준, NXT 시간외 현재가(live) 대비 등락률 계산
+    const stocks = [];
+    meta.stocks.forEach(m => {
+      const lp = livePrices[m.code];
+      const cp = closePrices[m.code];
+      const base = cp?.curr_prc;
+      const curr = lp?.curr_prc;
+      if (!base || base <= 0 || !curr || curr <= 0) return;  // 시세 없는 종목 제외
+      const ud_prc = curr - base;
+      const nxt_rt = base ? (ud_prc / base) * 100 : 0;  // NXT 시간외: 본장 종가 대비
+      const reg_rt = cp?.ud_rt ?? 0;                    // 정규장: 전일 종가 대비
+      stocks.push({
+        ...m, base, curr_prc: curr, ud_prc,
+        ud_rt:  Math.round(nxt_rt * 100) / 100,   // 셀 색상 기준 = NXT
+        nxt_rt: Math.round(nxt_rt * 100) / 100,
+        reg_rt: Math.round(reg_rt * 100) / 100,
+      });
+    });
+
+    const badge = document.getElementById('statusBadge');
+    badge.textContent = { KRX: '정규장', NXT_PRE: 'NXT 프리', NXT_EVE: 'NXT 야간', CLOSED: '장마감' }[status] || status;
+    badge.className = 'status-badge status-' + status;
+    const updTime = live?.updated_at || '';
+    document.getElementById('updatedAt').textContent = updTime ? '갱신 ' + updTime.slice(11, 16) : '';
+
+    if (!stocks.length) {
+      showEmpty('현재 NXT 시세가 없습니다.<br>NXT 프리마켓(07:50~08:50)·야간장(15:30~20:00) 시간에 본장 종가 대비 등락률이 표시됩니다.');
+      return;
+    }
+    hideEmpty();
+
+    const kospi  = stocks.filter(s => s.market === 'KOSPI');
+    const kosdaq = stocks.filter(s => s.market === 'KOSDAQ');
+    document.getElementById('kospiStat').textContent  = calcStat(kospi);
+    document.getElementById('kosdaqStat').textContent = calcStat(kosdaq);
+    buildTreemap('kospiWrap', kospi);
+    buildTreemap('kosdaqWrap', kosdaq);
+  } catch(e) {
+    console.error('데이터 로드 실패:', e);
+  }
+}
+
+// 부팅: 래퍼가 레이아웃 크기를 잡을 때까지 재시도 후 첫 렌더
+function _bootLoad(tries) {
+  tries = tries || 0;
+  const w = document.getElementById('kospiWrap');
+  if ((!w.clientWidth || !w.clientHeight) && tries < 20) {
+    return setTimeout(() => _bootLoad(tries + 1), 150);
+  }
+  load();
+}
+_bootLoad();
+setInterval(load, REFRESH_MS);
+
+let resizeTimer;
+window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(load, 200); });
+
+function scrollToMarket(market) {
+  const el = document.getElementById(market === 'kospi' ? 'sectionKospi' : 'sectionKosdaq');
+  if (!el) return;
+  const fixedH = document.getElementById('header').offsetHeight + document.getElementById('mkt-nav').offsetHeight;
+  const top = el.getBoundingClientRect().top + window.scrollY - fixedH - 4;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+function updateActiveTab() {
+  const fixedH = document.getElementById('header').offsetHeight + document.getElementById('mkt-nav').offsetHeight;
+  const kosdaqTop = document.getElementById('sectionKosdaq')?.getBoundingClientRect().top ?? Infinity;
+  const isKosdaq = kosdaqTop <= fixedH + 40;
+  document.getElementById('tabKospi').classList.toggle('active', !isKosdaq);
+  document.getElementById('tabKosdaq').classList.toggle('active', isKosdaq);
+}
+window.addEventListener('scroll', updateActiveTab, { passive: true });
+</script>
+</body>
+</html>
