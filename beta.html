@@ -1308,6 +1308,10 @@
 
   <!-- ── NXT & 시간외 ── -->
   <div class="page-inner" id="page-nxt" style="padding:20px 24px;overflow-y:auto;">
+    <div style="font-size:14px;font-weight:700;margin-bottom:10px;">🗺️ NXT 시간외 마켓맵 <span style="font-size:12px;color:var(--muted);font-weight:400;">본장 종가 대비 NXT 등락률</span></div>
+    <div id="nxt-map-wrap" style="height:74vh;min-height:480px;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:22px;">
+      <iframe id="nxt-map-frame" src="" style="width:100%;height:100%;border:none;display:block;"></iframe>
+    </div>
     <div id="nxt-content" style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>
   </div>
 
@@ -1661,7 +1665,7 @@ function switchTab(tab, el) {
   else if (tab === 'community') document.getElementById('page-community').classList.add('active');
   else if (tab === 'trump')    { document.getElementById('page-trump').classList.add('active'); loadTrumpPage(); }
   else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
-  else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); loadNxtPage(); }
+  else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); nxtInit(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
   // kr-theme(신고가) 진입 → 기본 서브탭(종목신고가). 인포스탁 iframe은 테마맵 메뉴로 이동.
@@ -4468,6 +4472,20 @@ function tgtprcRenderChart(itm_cd) {
 // ═══════════════════════════════════════
 var NXT_DATA = null;
 var nxt_loaded = false;
+var nxt_map_started = false;
+
+// NXT 탭 진입 — 상단 맵 + 하단 랭킹테이블 함께 로드
+function nxtInit() {
+  const fr = document.getElementById('nxt-map-frame');
+  if (!nxt_map_started) {  // iframe 최초 1회만 로드
+    fr.src = '/moneyweb/nxt_marketmap.html';
+    nxt_map_started = true;
+  } else {
+    // 탭 떠난 사이 리사이즈로 0크기 렌더됐을 수 있으니 돌아올 때 재렌더
+    try { fr.contentWindow && fr.contentWindow.load && fr.contentWindow.load(); } catch(e) {}
+  }
+  loadNxtPage();  // 하단 랭킹 테이블
+}
 
 async function loadNxtPage() {
   if (nxt_loaded && NXT_DATA) { renderNxtPage(); return; }
