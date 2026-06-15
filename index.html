@@ -3149,7 +3149,7 @@ async function updateSearchDropdown(q) {
       const udClr   = dispUd != null ? (dispUd > 0 ? '#ef4444' : dispUd < 0 ? '#3b82f6' : '#94a3b8') : '';
       const nxtClr  = isNxt ? (live.ud_rt > 0 ? '#ef4444' : live.ud_rt < 0 ? '#3b82f6' : '#94a3b8') : '';
       const nxtHtml = hasNxt
-        ? `<span class="sd-ext">(${nxtLabel} ${_fmt(live.curr_prc)}원 <span style="color:${nxtClr}">${live.ud_rt >= 0 ? '+' : ''}${live.ud_rt.toFixed(2)}%</span>)</span>`
+        ? `<span class="sd-ext">(${nxtLabel} <span style="color:${nxtClr}">${live.ud_rt >= 0 ? '+' : ''}${live.ud_rt.toFixed(2)}%</span>)</span>`
         : '';
       return `<div class="sd-item" data-cd="${r.cd}" data-nm="${r.nm.replace(/"/g,'&quot;')}" onclick="(function(el){closeSearchDropdown();document.getElementById('search-input').value='';openKrStock(el.dataset.cd,el.dataset.nm);})(this)">
         <span class="sd-cd">${r.cd}</span>
@@ -3325,7 +3325,7 @@ async function updateGlSearchDropdown(q) {
       const hasExt = live && live.e != null && live.ep != null;
       const extClr = hasExt ? (live.e >= 0 ? '#ef4444' : '#3b82f6') : '';
       const extHtml = hasExt
-        ? `<span class="sd-ext">(시간외 ${Number(live.ep).toLocaleString()}${d.cur ? ' ' + d.cur : ''} <span style="color:${extClr}">${live.e >= 0 ? '+' : ''}${Number(live.e).toFixed(2)}%</span>)</span>`
+        ? `<span class="sd-ext">(시간외 <span style="color:${extClr}">${live.e >= 0 ? '+' : ''}${Number(live.e).toFixed(2)}%</span>)</span>`
         : '';
       return `<div class="sd-item" data-tk="${tk.replace(/"/g,'&quot;')}" onclick="(function(el){closeGlSearchDropdown();document.getElementById('gl-search-input').value='';glPopup(el.dataset.tk);})(this)">
         <span class="sd-cd">${tk.replace(/</g,'&lt;')}</span>
