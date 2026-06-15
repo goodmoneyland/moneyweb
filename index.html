@@ -5079,8 +5079,9 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.search-wrap')) { closeSearchDropdown(); closeGlSearchDropdown(); }
 });
 
-// 해외 종목 데이터 사전 로딩 (검색 첫 타이밍 단축)
+// 해외 종목 데이터 사전 로딩 (검색 첫 타이밍 단축) — peer + 라이브 시세 모두 미리 받아둠
 ensureGlPeer();
+ensureGlLive();
 
 // 로그인 상태 반영 (아바타 이니셜)
 (function() {

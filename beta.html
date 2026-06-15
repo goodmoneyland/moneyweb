@@ -3358,19 +3358,24 @@ async function updateGlSearchDropdown(q) {
     results.map(({ tk, d }) => {
       const nm = (d.n || tk).replace(/</g, '&lt;');
       const live = GL_LIVE[tk];
-      const chg  = live && live.c != null ? live.c : d.chg;
-      const udClr = chg != null ? (chg > 0 ? '#ef4444' : chg < 0 ? '#3b82f6' : '#94a3b8') : '';
-      const hasExt = live && live.e != null && live.ep != null;
+      // 정규장 등락률은 항상 표시 (live.c → 없으면 정적 peer chg 폴백)
+      const chg  = (live && live.c != null) ? live.c : (d.chg != null ? d.chg : null);
+      const udClr = chg != null ? (chg > 0 ? '#ef4444' : chg < 0 ? '#3b82f6' : '#94a3b8') : '#94a3b8';
+      const hasExt = !!(live && live.e != null);
       const extClr = hasExt ? (live.e >= 0 ? '#ef4444' : '#3b82f6') : '';
       const extHtml = hasExt
         ? `<span class="sd-ext">(시간외 <span style="color:${extClr}">${live.e >= 0 ? '+' : ''}${Number(live.e).toFixed(2)}%</span>)</span>`
         : '';
+      // 정규장 줄을 항상 먼저(위) 렌더 → 시간외가 단독으로 뜨지 않게 보장
+      const regHtml = chg != null
+        ? `<span class="sd-tp" style="color:${udClr}">${chg > 0 ? '▲' : chg < 0 ? '▼' : ''}${Math.abs(chg).toFixed(2)}%</span>`
+        : `<span class="sd-tp" style="color:#94a3b8">—</span>`;
       return `<div class="sd-item" data-tk="${tk.replace(/"/g,'&quot;')}" onclick="(function(el){closeGlSearchDropdown();document.getElementById('gl-search-input').value='';glPopup(el.dataset.tk);})(this)">
         <span class="sd-cd">${tk.replace(/</g,'&lt;')}</span>
         <span class="sd-nm">${nm}</span>
         ${d.cur ? `<span class="sd-cur">${d.cur}</span>` : ''}
         <span class="sd-chgcol">
-          ${chg != null ? `<span class="sd-tp" style="color:${udClr}">${chg > 0 ? '▲' : chg < 0 ? '▼' : ''}${Math.abs(chg).toFixed(2)}%</span>` : ''}
+          ${regHtml}
           ${extHtml}
         </span>
       </div>`;
@@ -5074,8 +5079,9 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.search-wrap')) { closeSearchDropdown(); closeGlSearchDropdown(); }
 });
 
-// 해외 종목 데이터 사전 로딩 (검색 첫 타이밍 단축)
+// 해외 종목 데이터 사전 로딩 (검색 첫 타이밍 단축) — peer + 라이브 시세 모두 미리 받아둠
 ensureGlPeer();
+ensureGlLive();
 
 // 로그인 상태 반영 (아바타 이니셜)
 (function() {
