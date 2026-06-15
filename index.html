@@ -3263,6 +3263,7 @@ function renderGlNews(tk) {
 }
 
 let _glSelIdx = -1;
+let _glLastQuery = '';
 
 function _glHighlight(items) {
   items.forEach((el, i) => el.classList.toggle('sd-active', i === _glSelIdx));
@@ -3323,10 +3324,17 @@ function clearGlSearch() {
 async function updateGlSearchDropdown(q) {
   if (!q) { closeGlSearchDropdown(); return; }
   if (!GL_PEER) await ensureGlPeer();
-  ensureGlLive();
   const dd = document.getElementById('gl-search-dropdown');
   if (!dd) return;
+  _glLastQuery = q;
+  // 우선 현재 가진 데이터로 즉시 렌더 → 라이브 시세 도착 시 같은 검색어일 때만 다시 렌더
+  _renderGlSearch(q, dd);
+  ensureGlLive().then(() => {
+    if (_glLastQuery === q && dd.classList.contains('open')) _renderGlSearch(q, dd);
+  });
+}
 
+function _renderGlSearch(q, dd) {
   const ql = q.toLowerCase();
   const scored = [];
   for (const [tk, d] of Object.entries(GL_PEER)) {
@@ -3353,7 +3361,7 @@ async function updateGlSearchDropdown(q) {
     return;
   }
 
-  _glSelIdx = -1;
+  const prevSel = _glSelIdx;
   dd.innerHTML =
     results.map(({ tk, d }) => {
       const nm = (d.n || tk).replace(/</g, '&lt;');
@@ -3381,6 +3389,10 @@ async function updateGlSearchDropdown(q) {
       </div>`;
     }).join('');
   dd.classList.add('open');
+  // 재렌더(라이브 갱신) 시 기존 키보드 선택 유지
+  const items = Array.from(dd.querySelectorAll('.sd-item'));
+  _glSelIdx = (prevSel >= 0 && prevSel < items.length) ? prevSel : -1;
+  if (_glSelIdx >= 0) _glHighlight(items);
 }
 
 function closeGlSearchDropdown() {
