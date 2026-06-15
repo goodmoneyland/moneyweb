@@ -3167,6 +3167,7 @@ async function updateSearchDropdown(q) {
 function closeSearchDropdown() {
   const dd = document.getElementById('search-dropdown');
   if (dd) dd.classList.remove('open');
+  _krSelIdx = -1;
 }
 
 // ═══════════════════════════════════════
