@@ -1,47 +1,14 @@
 {
-  "trd_ymd": "20260615",
+  "trd_ymd": "20260616",
   "rows": [
     {
-      "itm_cd": "033780",
-      "itm_nm": "KT&G",
-      "sector": "담배",
-      "close_prc": 189100,
-      "ud_rt": 0.69,
-      "w52_hprc": 194900,
-      "is_alltime": 0,
-      "is_uplimit": 0,
-      "alrm_cnt": 1
-    },
-    {
-      "itm_cd": "039030",
-      "itm_nm": "이오테크닉스",
-      "sector": "반도체와반도체장비",
-      "close_prc": 537000,
-      "ud_rt": -12.25,
-      "w52_hprc": 628000,
-      "is_alltime": 0,
-      "is_uplimit": 0,
-      "alrm_cnt": 1
-    },
-    {
-      "itm_cd": "131290",
-      "itm_nm": "티에스이",
-      "sector": "반도체와반도체장비",
-      "close_prc": 257500,
-      "ud_rt": -4.81,
-      "w52_hprc": 290500,
-      "is_alltime": 0,
-      "is_uplimit": 0,
-      "alrm_cnt": 1
-    },
-    {
-      "itm_cd": "240810",
-      "itm_nm": "원익IPS",
-      "sector": "반도체와반도체장비",
-      "close_prc": 175300,
-      "ud_rt": -4.36,
-      "w52_hprc": 193800,
-      "is_alltime": 0,
+      "itm_cd": "009150",
+      "itm_nm": "삼성전기",
+      "sector": "전자장비와기기",
+      "close_prc": 2300000,
+      "ud_rt": null,
+      "w52_hprc": 2300000,
+      "is_alltime": 1,
       "is_uplimit": 0,
       "alrm_cnt": 1
     },
@@ -49,10 +16,10 @@
       "itm_cd": "281820",
       "itm_nm": "케이씨텍",
       "sector": "반도체와반도체장비",
-      "close_prc": 85500,
-      "ud_rt": -1.84,
-      "w52_hprc": 93000,
-      "is_alltime": 0,
+      "close_prc": 99400,
+      "ud_rt": 11.31,
+      "w52_hprc": 102400,
+      "is_alltime": 1,
       "is_uplimit": 0,
       "alrm_cnt": 1
     },
@@ -60,12 +27,113 @@
       "itm_cd": "402340",
       "itm_nm": "SK스퀘어",
       "sector": "복합기업",
-      "close_prc": 1399000,
-      "ud_rt": 3.02,
-      "w52_hprc": 1442000,
+      "close_prc": 1455000,
+      "ud_rt": 1.39,
+      "w52_hprc": 1463000,
+      "is_alltime": 1,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "005850",
+      "itm_nm": "에스엘",
+      "sector": "자동차부품",
+      "close_prc": 79600,
+      "ud_rt": null,
+      "w52_hprc": 80800,
+      "is_alltime": 1,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "003490",
+      "itm_nm": "대한항공",
+      "sector": "항공사",
+      "close_prc": 32300,
+      "ud_rt": null,
+      "w52_hprc": 32300,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "0015B0",
+      "itm_nm": "KoAct 미국나스닥성장기업액티브",
+      "sector": "미분류",
+      "close_prc": 25285,
+      "ud_rt": null,
+      "w52_hprc": 25300,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "097800",
+      "itm_nm": "윈팩",
+      "sector": "반도체와반도체장비",
+      "close_prc": 3185,
+      "ud_rt": null,
+      "w52_hprc": 3280,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "426030",
+      "itm_nm": "TIME 미국나스닥100액티브",
+      "sector": "미분류",
+      "close_prc": 59865,
+      "ud_rt": null,
+      "w52_hprc": 59870,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "456600",
+      "itm_nm": "TIME 글로벌AI인공지능액티브",
+      "sector": "미분류",
+      "close_prc": 71780,
+      "ud_rt": null,
+      "w52_hprc": 71780,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "486240",
+      "itm_nm": "DAISHIN343 AI반도체&인프라액티브",
+      "sector": "미분류",
+      "close_prc": 38000,
+      "ud_rt": null,
+      "w52_hprc": 38000,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "488290",
+      "itm_nm": "MIDAS 일본테크액티브",
+      "sector": "미분류",
+      "close_prc": 58590,
+      "ud_rt": null,
+      "w52_hprc": 58590,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "495230",
+      "itm_nm": "KoAct 코리아밸류업액티브",
+      "sector": "미분류",
+      "close_prc": 40990,
+      "ud_rt": null,
+      "w52_hprc": 41020,
       "is_alltime": 0,
       "is_uplimit": 0,
       "alrm_cnt": 1
     }
-  ]
+  ],
+  "nxt_rows": [],
+  "nxt_ymd": null
 }
