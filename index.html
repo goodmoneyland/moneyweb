@@ -973,6 +973,10 @@
   <div class="ntab" data-tab="global-marketmap" onclick="switchTab('global-marketmap',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></span> 글로벌 마켓맵
   </div>
+  <!-- 글로벌 테마맵 : 버블(지구) -->
+  <div class="ntab" data-tab="global-thememap" onclick="switchTab('global-thememap',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="10" r="3.5"/><circle cx="16.5" cy="15" r="4"/><circle cx="17" cy="6.5" r="2"/></svg></span> 글로벌 테마맵
+  </div>
   <!-- 테마맵 : 버블 -->
   <div class="ntab" data-tab="kr-thememap" onclick="switchTab('kr-thememap',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><circle cx="16.5" cy="14.5" r="4"/><circle cx="17" cy="6" r="2"/></svg></span> 테마맵
@@ -1208,6 +1212,11 @@
     <iframe id="page-global-marketmap" src="/moneyweb/world_marketmap.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
+  <!-- ── 글로벌 테마맵 (iframe) ── -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-global-thememap">
+    <iframe id="page-global-thememap" src="/moneyweb/world_thememap.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  </div>
+
   <!-- ── 수급 매트릭스 (iframe) ── -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-kr-sugup">
     <iframe id="page-kr-sugup" src="/moneyweb/sugup.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
@@ -1360,7 +1369,7 @@
   <!-- ── 글로벌 신고가 (미·일·중·홍·대만) ── -->
   <div class="page-inner" id="page-global-high" style="padding:20px 24px;overflow-y:auto;">
     <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;">
-      <div style="font-size:20px;font-weight:800;">🌐 글로벌 신고가 <span style="font-size:13px;color:var(--muted);font-weight:400;">미국·일본·중국·홍콩·대만 · 역사적/52주 · TradingView</span></div>
+      <div style="font-size:20px;font-weight:800;">🌐 글로벌 신고가 <span style="font-size:13px;color:var(--muted);font-weight:400;">미국·일본·중국·홍콩·대만 · 역사적/52주 · ★핵심종목 · 네이버</span></div>
       <div id="gh-updated" style="font-size:12px;color:var(--muted);"></div>
     </div>
     <div id="gh-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;"></div>
@@ -1656,7 +1665,7 @@ const TAB_KEY = {
   'kr-theme':   'kr-theme',
   'kr-thememap':'kr-thememap',
 };
-const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap', 'global-marketmap', 'kr-sugup'];
+const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap', 'global-marketmap', 'global-thememap', 'kr-sugup'];
 
 var currentTab = 'home';
 
@@ -1715,7 +1724,7 @@ function switchTab(tab, el) {
 
   // 모든 페이지 숨기기
   document.querySelectorAll('.page-inner').forEach(p => p.classList.remove('active'));
-  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','global-marketmap','kr-thememap','kr-sugup'].forEach(k => {
+  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','global-marketmap','global-thememap','kr-thememap','kr-sugup'].forEach(k => {
     const w = document.getElementById('wrap-' + k);
     if (w) w.style.display = 'none';
   });
@@ -1731,6 +1740,7 @@ function switchTab(tab, el) {
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); nxtInit(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
   else if (tab === 'global-marketmap') { document.getElementById('wrap-global-marketmap').style.display = 'block'; }
+  else if (tab === 'global-thememap') { document.getElementById('wrap-global-thememap').style.display = 'block'; }
   else if (tab === 'kr-sugup') { document.getElementById('wrap-kr-sugup').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
   // kr-theme(신고가) 진입 → 기본 서브탭(종목신고가). 인포스탁 iframe은 테마맵 메뉴로 이동.
@@ -3613,18 +3623,22 @@ async function glPopupLiteFB(tk, fb) {
 // 글로벌 신고가 (미·일·중·홍·대만) — TradingView
 // ═══════════════════════════════════════
 var GH_DATA = null;
-var GH_CUR  = 'US';
-const GH_ORDER = ['US','JP','CN','HK','TW'];
-const GH_FLAG  = {US:'🇺🇸',JP:'🇯🇵',CN:'🇨🇳',HK:'🇭🇰',TW:'🇹🇼'};
-const GH_KNM   = {US:'미국',JP:'일본',CN:'중국',HK:'홍콩',TW:'대만'};
+var GH_CUR  = 'USA';
+const GH_ORDER = ['USA','JPN','CHN','HKG','TWN','EUR'];
+const GH_FLAG  = {USA:'🇺🇸',JPN:'🇯🇵',CHN:'🇨🇳',HKG:'🇭🇰',TWN:'🇹🇼',EUR:'🇪🇺'};
+const GH_KNM   = {USA:'미국',JPN:'일본',CHN:'중국',HKG:'홍콩',TWN:'대만',EUR:'유럽'};
 
 async function loadGlobalHigh() {
   const box = document.getElementById('gh-list');
   if (GH_DATA) { renderGhTabs(); renderGlobalHigh(); return; }
   try {
-    const res = await fetch('/api/global_newhigh.json?t=' + Date.now());
+    const res = await fetch('/api/world_newhigh.json?t=' + Date.now());
     GH_DATA = await res.json();
   } catch(e) { box.innerHTML = '데이터 로드 실패'; return; }
+  const its = GH_DATA.items || {};
+  if (!(its[GH_CUR] && its[GH_CUR].length)) {
+    const f = GH_ORDER.find(c => its[c] && its[c].length); if (f) GH_CUR = f;
+  }
   try { await ensureGlPeer(); } catch(e){}
   renderGhTabs();
   renderGlobalHigh();
@@ -3633,12 +3647,13 @@ async function loadGlobalHigh() {
 function renderGhTabs() {
   const bar = document.getElementById('gh-tabs');
   if (!bar) return;
-  bar.innerHTML = GH_ORDER.map(code => {
-    const m = (GH_DATA.markets||{})[code] || {n52:0, nath:0};
+  const its = GH_DATA.items || {};
+  bar.innerHTML = GH_ORDER.filter(c => its[c] && its[c].length).map(code => {
+    const n = (its[code] || []).length;
     const act = (code === GH_CUR);
     return '<div onclick="switchGhCountry(\''+code+'\')" style="cursor:pointer;padding:7px 13px;border-radius:8px;font-weight:700;font-size:14px;white-space:nowrap;'
       + (act ? 'background:#14b8a6;color:#fff;' : 'background:var(--card2);color:var(--muted);border:1px solid var(--border);') + '">'
-      + GH_FLAG[code]+' '+GH_KNM[code]+' <span style="font-size:12px;opacity:.85;">'+m.n52+'</span></div>';
+      + GH_FLAG[code]+' '+GH_KNM[code]+' <span style="font-size:12px;opacity:.85;">'+n+'</span></div>';
   }).join('');
 }
 
@@ -3671,36 +3686,31 @@ function setGhKind(k) { GH_KIND = k; renderGlobalHigh(); }
 function renderGlobalHigh() {
   const box = document.getElementById('gh-list');
   const upd = document.getElementById('gh-updated');
-  if (upd && GH_DATA.updated_at) upd.textContent = '업데이트 ' + GH_DATA.updated_at.slice(5,16);
-  const m = (GH_DATA.markets||{})[GH_CUR];
-  if (!m) { box.innerHTML = '데이터 없음'; return; }
-  const all = m.items || [];
-  const stocks = all.filter(x => !x.is_etf);
-  const etfs   = all.filter(x =>  x.is_etf);
-  const sel = (GH_KIND === 'etf') ? etfs : stocks;
-  const byMcap = (a,b) => (b.mcap||0) - (a.mcap||0);          // 시총 내림차순
-  const ath = sel.filter(x=>x.is_ath).sort(byMcap);
-  const w52 = sel.filter(x=>!x.is_ath).sort(byMcap);
-  const kindTab = (k,lbl,n) =>
-      '<div onclick="setGhKind(\''+k+'\')" style="cursor:pointer;padding:6px 14px;border-radius:8px;font-weight:700;font-size:13px;white-space:nowrap;'
-    + ((GH_KIND===k) ? 'background:#0ea5e9;color:#fff;' : 'background:var(--card2);color:var(--muted);border:1px solid var(--border);') + '">'
-    + lbl+' <span style="font-size:11px;opacity:.85;">'+n+'</span></div>';
-  // 미국 탭: 거래일 + 장중/종가 상태 라벨
-  let usBadge = '';
-  if (GH_CUR === 'US' && GH_DATA.us_date) {
-    const live = (GH_DATA.us_status === 'live');
-    const md = GH_DATA.us_date.slice(5).replace('-','/');
-    usBadge = '<div style="display:flex;align-items:center;gap:6px;margin:0 0 8px;font-size:12px;color:var(--muted);">'
-      + '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+(live?'#22c55e':'#94a3b8')+';'+(live?'box-shadow:0 0 0 3px rgba(34,197,94,.2);':'')+'"></span>'
-      + '미국 '+md+' '+(live?'장중 실시간':'종가 기준') + '</div>';
-  }
-  box.innerHTML = usBadge
-    + '<div style="display:flex;gap:8px;margin:2px 0 12px;">'
-        + kindTab('stock','종목',stocks.length) + kindTab('etf','ETF',etfs.length) + '</div>'
-    + '<div style="font-size:14px;font-weight:800;color:#f59e0b;margin:4px 0 4px;">🏆 역사적 신고가 ('+ath.length+')</div>'
-    + _ghRows(ath, GH_CUR)
-    + '<div style="font-size:14px;font-weight:800;color:#22c55e;margin:16px 0 4px;">📈 52주 신고가 ('+w52.length+')</div>'
-    + _ghRows(w52, GH_CUR);
+  const ts = GH_DATA.updatedAt || GH_DATA.updated_at;
+  if (upd && ts) upd.textContent = '업데이트 ' + ts.slice(5,16);
+  const items = (GH_DATA.items || {})[GH_CUR] || [];
+  if (!items.length) { box.innerHTML = '<div style="padding:20px;color:var(--muted);">신고가 종목이 없습니다</div>'; return; }
+  const byVal = (a,b) => (b.value||0) - (a.value||0);          // 거래대금 내림차순
+  const isAth = x => (x.type||[]).includes('ath');
+  const ath = items.filter(isAth).sort(byVal);
+  const w52 = items.filter(x => !isAth(x)).sort(byVal);
+  box.innerHTML =
+      '<div style="font-size:14px;font-weight:800;color:#f59e0b;margin:4px 0 4px;">🏆 역사적 신고가 ('+ath.length+')</div>' + _ghRows2(ath)
+    + '<div style="font-size:14px;font-weight:800;color:#22c55e;margin:16px 0 4px;">📈 52주 신고가 ('+w52.length+')</div>' + _ghRows2(w52);
+}
+function _ghRows2(rows) {
+  if (!rows.length) return '<div style="color:var(--muted);font-size:13px;padding:4px 2px;">없음</div>';
+  const isUS = (GH_CUR === 'USA');
+  return '<div style="display:flex;flex-direction:column;gap:3px;">' + rows.map(x => {
+    const tk = isUS ? x.code.split('.')[0] : x.code;
+    const disp = x.name || tk;
+    const cr = (x.change == null) ? null : x.change;
+    const star = x.core ? '<span title="핵심종목" style="color:#fbbf24;">★</span> ' : '';
+    const key = isUS ? x.code.split('.')[0].toUpperCase() : x.code;
+    return '<div onclick="glPopup(\''+key+'\')" style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:var(--card2);border-radius:7px;cursor:pointer;">'
+      + '<span style="font-size:13.5px;">'+star+disp+' <span style="color:var(--muted);font-size:11px;">'+tk+'</span></span>'
+      + '<span style="font-weight:700;font-size:13px;color:'+((cr||0)>=0?'#f85149':'#58a6ff')+';">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span></div>';
+  }).join('') + '</div>';
 }
 
 function setGlOverview(it) {
