@@ -18,7 +18,7 @@ button.t{background:var(--panel);color:var(--mut);border:1px solid var(--line);
 padding:5px 12px;border-radius:7px;cursor:pointer;font-size:12px}
 button.t.on{background:#2a3140;color:#fff;border-color:#3a4250}
 .matrix{display:flex;gap:10px;overflow-x:auto;padding:16px 18px}
-.col{flex:0 0 250px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.col{flex:0 0 230px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .col h2{margin:0;font-size:13px;padding:7px 10px;background:#1d212a;border-bottom:1px solid var(--line)}
 table{width:100%;border-collapse:collapse}
 td,th{padding:3px 5px;font-size:12px;border-bottom:1px solid #1f2430;white-space:nowrap}
@@ -26,7 +26,7 @@ th{color:var(--mut);font-weight:600;font-size:11px;text-align:right}
 th.l,td.l{text-align:left}
 td.r{text-align:right;font-variant-numeric:tabular-nums}
 .rk{color:var(--mut);width:22px}
-.nm{font-weight:600;display:inline-block;max-width:130px;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom}
+.nm{font-weight:600;display:inline-block;width:6.6em;overflow:hidden;text-overflow:clip;white-space:nowrap;vertical-align:bottom}
 td.amt{font-weight:600}
 .unit{color:var(--mut);font-size:11px;font-weight:400}
 .net.buy{color:var(--buy)}.net.sell{color:var(--sell)}
@@ -56,7 +56,7 @@ const DATA = {"end_ymd": "20260616", "week_days": ["20260615", "20260616"], "inv
 const sel = {period:"DAY", crit:"AMOUNT", dir:"BUY"};
 
 function fmtPct(v){ if(v===null||v===undefined) return ""; const s=v>0?"+":""; return s+v.toFixed(2)+"%"; }
-function fmtMcap(eok){ return eok>=10000 ? (eok/10000).toFixed(eok>=100000?0:1)+"조" : eok.toLocaleString()+"억"; }
+function fmtMcap(eok){ return eok>=10000 ? (eok/10000).toFixed(1)+"조" : eok.toLocaleString()+"억"; }
 function render(){
   document.querySelectorAll("button.t").forEach(b=>b.classList.toggle("on", sel[b.dataset.k]===b.dataset.v));
   const wk = DATA.week_days;
@@ -78,8 +78,9 @@ function render(){
         h += `<tr>`
           + `<td class="rk">${r.rank}</td>`
           + `<td class="l"><span class="nm">${r.itm_nm}</span>`
-          + (r.rs_rank&&r.rs_rank<=300?`<span class="rs">RS${r.rs_rank}</span>`:``)
-          + `<br><span class="sub">시총 ${r.mcap_rank?("#"+r.mcap_rank):""} · ${fmtMcap(r.mcap_eok)}</span></td>`
+          + `<br><span class="sub">${r.mcap_rank?("#"+r.mcap_rank):""} · ${fmtMcap(r.mcap_eok)}</span>`
+          + (r.rs_rank&&r.rs_rank<=300?`<span class="rs">${r.rs_rank}</span>`:``)
+          + `</td>`
           + `<td class="r amt net ${sel.dir==="BUY"?"buy":"sell"}">${main}`
           + (sel.crit==="MCAP"?`<br><span class="sub">${(r.net_eok>=0?"+":"")+r.net_eok.toLocaleString()}</span>`:``)+`</td>`
           + `<td class="r ${ud>=0?"up":"dn"}">${fmtPct(ud)}</td>`
