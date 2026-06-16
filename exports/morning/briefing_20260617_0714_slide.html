@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국시장 모닝브리프 2026.06.17</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#eef1f6;--white:#ffffff;--card:#ffffff;
+  --text:#111827;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--up-border:#6ee7b7;
+  --down:#dc2626;--down-bg:#fee2e2;--down-border:#fca5a5;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --cyan:#0891b2;--cyan-bg:#cffafe;
+  --pink:#db2777;--pink-bg:#fce7f3;
+  --border:#d1d5db;--shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
+
+.update-badge{position:fixed;top:16px;right:20px;z-index:200;font-size:12px;color:#fbbf24;background:#1e3a8a;padding:5px 14px;border-radius:8px;font-weight:600;pointer-events:none;border:1px solid rgba(251,191,36,0.5);}
+
+.carousel{width:100%;height:100vh;}
+.slides-wrapper{display:flex;height:calc(100vh - 90px);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+.slide{min-width:100vw;height:100%;padding:28px 48px;overflow-y:auto;display:flex;flex-direction:column;}
+.slide-fill{flex:1;display:flex;flex-direction:column;}
+
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:90px;background:var(--white);border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+.progress-bar{position:fixed;bottom:90px;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.5s;z-index:101;}
+.slide-counter{font-size:15px;color:var(--text3);font-weight:600;min-width:70px;}
+.slide-counter span{color:var(--text);font-weight:800;font-size:20px;}
+.slide-dots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap;max-width:1100px;overflow:hidden;}
+.dot-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:6px;transition:all 0.2s;min-width:60px;}
+.dot-item:hover{background:var(--blue-bg);}
+.dot-bar{width:40px;height:4px;border-radius:2px;background:#d1d5db;transition:all 0.3s;margin-bottom:6px;}
+.dot-item.active .dot-bar{background:var(--blue);width:56px;}
+.dot-label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap;}
+.dot-item.active .dot-label{color:var(--blue);font-weight:800;}
+.nav-buttons{display:flex;gap:8px;align-items:center;min-width:180px;justify-content:flex-end;}
+.nav-btn{width:44px;height:44px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover{background:var(--blue-bg);border-color:var(--blue);}
+.auto-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--border);background:var(--white);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;}
+.auto-btn.on{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+.stag{font-size:20px;text-transform:uppercase;letter-spacing:3px;font-weight:800;padding:10px 22px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.stag.blue{background:var(--blue-bg);color:var(--blue);}
+.stag.green{background:var(--up-bg);color:var(--up);}
+.stag.red{background:var(--down-bg);color:var(--down);}
+.stag.purple{background:var(--purple-bg);color:var(--purple);}
+.stag.gold{background:var(--gold-bg);color:var(--gold);}
+.stag.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.stag.pink{background:var(--pink-bg);color:var(--pink);}
+.stitle{font-size:44px;font-weight:900;margin-bottom:20px;line-height:1.2;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.up{color:var(--up);}.dn{color:var(--down);}.fw8{font-weight:800;}.flex1{flex:1;}
+
+/* Title slide */
+.title-slide{background:linear-gradient(135deg,#e0e7ff 0%,#f3e8ff 40%,#d1fae5 100%);padding:20px 48px 20px;gap:14px;overflow:hidden;}
+.title-row{display:grid;grid-template-columns:2.6fr 0.6fr;gap:16px;flex:1;min-height:0;overflow:hidden;}
+
+.hero-card{background:var(--white);border-radius:18px;box-shadow:0 6px 20px rgba(30,58,138,0.08);padding:16px 40px;display:flex;align-items:center;justify-content:center;gap:28px;border:1px solid rgba(255,255,255,0.8);text-align:center;flex-shrink:0;height:106px;}
+.hero-date-chip{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 20px;border-radius:16px;font-size:20px;font-weight:700;flex-shrink:0;}
+.hero-title{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--text);line-height:1;}
+.hero-sub{font-size:22px;color:var(--text3);font-weight:500;flex-shrink:0;}
+
+.sum-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;flex:1;min-height:0;align-content:start;overflow-y:auto;}
+.sum-row{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-radius:14px;background:var(--white);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-family:inherit;text-align:left;width:100%;}
+.sum-row:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.12);}
+.sum-tag{font-size:26px;font-weight:900;padding:8px 18px;border-radius:16px;white-space:nowrap;align-self:flex-start;}
+.sum-tag.gd{background:var(--gold-bg);color:var(--gold);}
+.sum-tag.up{background:var(--up-bg);color:var(--up);}
+.sum-tag.pu{background:var(--purple-bg);color:var(--purple);}
+.sum-tag.pk{background:var(--pink-bg);color:var(--pink);}
+.sum-tag.bl{background:var(--blue-bg);color:var(--blue);}
+.sum-tag.cy{background:var(--cyan-bg);color:var(--cyan);}
+.sum-tag.dn{background:var(--down-bg);color:var(--down);}
+.sum-desc{font-size:24px;color:var(--text);line-height:1.4;font-weight:700;word-break:keep-all;}
+
+.tcard{background:var(--white);border-radius:20px;box-shadow:0 8px 28px rgba(30,58,138,0.10);padding:22px 28px;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.8);}
+.tcard.flex-main{flex:1;min-height:0;}
+.tcard-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px dashed var(--border);}
+.tcard-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tcard-icon.picks{background:linear-gradient(135deg,#fef3c7,#fbbf24);}
+.tcard-icon.sector{background:linear-gradient(135deg,#dbeafe,#7c3aed);color:#fff;}
+.tcard-title{font-size:28px;font-weight:900;color:var(--text);}.tcard-title br{display:block;}
+.tcard-sub{font-size:15px;color:var(--text3);font-weight:600;margin-top:3px;}
+
+.picks-grid{display:flex;flex-direction:column;gap:7px;flex:1;}
+.pick-pill{background:linear-gradient(135deg,#ffffff,#f1f5f9);border:2px solid #bfdbfe;border-radius:10px;padding:8px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.04);font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;justify-content:center;transition:all 0.15s;text-align:center;}
+.pick-pill:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,0.15);}
+
+.opinion-box{border-left:6px solid var(--blue);padding:26px 30px;border-radius:14px;background:var(--white);font-size:20px;color:var(--text);line-height:1.85;font-weight:500;box-shadow:var(--shadow);}
+.opinion-box p{margin-bottom:10px;}.opinion-box p:last-child{margin-bottom:0;}
+.highlight{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.news-body b,.opinion-box b,.sector-analysis b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+
+.kwsum-row{display:flex;align-items:flex-start;gap:14px;padding:12px 18px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;}
+.kwsum-tag{font-size:13px;font-weight:800;padding:5px 12px;border-radius:16px;white-space:nowrap;flex-shrink:0;min-width:110px;text-align:center;}
+.kwsum-desc{font-size:17px;color:var(--text2);line-height:1.55;font-weight:500;flex:1;}
+
+/* Market indicators bar */
+.mkt-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.mkt-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:120px;text-align:center;box-shadow:var(--shadow);}
+.mkt-label{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.mkt-val{font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.mkt-chg{font-size:13px;font-weight:700;margin-top:2px;}
+.op-sections{display:flex;flex-direction:column;gap:12px;flex:1;}
+.op-block{background:var(--white);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);border-left:5px solid var(--blue);}
+.op-block.positive{border-left-color:var(--up);padding:12px 18px;}
+.op-block.risk{border-left-color:var(--down);padding:12px 18px;}
+.op-block.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.op-block-title{font-size:22px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.op-block p{font-size:20px;color:var(--text);line-height:1.75;font-weight:500;margin-bottom:6px;}
+.op-block p:last-child{margin-bottom:0;}
+.op-sectors{display:flex;flex-wrap:wrap;gap:12px;}
+.op-sector-pill{padding:12px 24px;border-radius:20px;font-size:24px;font-weight:800;}
+
+.news-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 30px;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.news-headline{font-size:34px;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:14px;}
+.news-url{font-size:13px;color:var(--blue);text-decoration:none;word-break:break-all;margin-bottom:14px;display:inline-block;font-weight:500;opacity:0.85;}
+.news-url:hover{text-decoration:underline;opacity:1;}
+.news-body{font-size:24px;color:var(--text2);line-height:1.8;font-weight:400;flex:1;margin-bottom:18px;}
+.news-body p{margin-bottom:10px;}.news-body p:last-child{margin-bottom:0;}
+.news-stocks{border-top:1px dashed var(--border);padding-top:12px;}
+.stocks-toggle{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--pink-bg);color:var(--pink);padding:10px 22px;border-radius:20px;
+  font-size:17px;font-weight:800;border:2px solid var(--pink);transition:all 0.2s;
+  user-select:none;
+}
+.stocks-toggle:hover{background:var(--pink);color:#fff;}
+.stocks-toggle .arrow{transition:transform 0.3s;display:inline-block;}
+.stocks-toggle.open .arrow{transform:rotate(90deg);}
+.stocks-list{display:none;flex-wrap:wrap;gap:9px;margin-top:10px;}
+.stocks-list.show{display:flex;}
+.stock-pill{background:var(--pink-bg);color:var(--pink);padding:8px 18px;border-radius:18px;font-size:17px;font-weight:800;}
+.stock-pill.up,.stock-pill.dn,.stock-pill.gd,.stock-pill.pu,.stock-pill.cy,.stock-pill.pk{background:var(--pink-bg);color:var(--pink);}
+.news-single{padding:30px 36px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sec-count{font-size:14px;color:var(--text3);font-weight:700;padding:6px 14px;background:var(--bg);border-radius:20px;}
+</style>
+</head>
+<body>
+
+<div class="update-badge">업데이트: 2026-06-17 07:14</div>
+
+<div class="carousel">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slides-wrapper" id="slidesWrapper">
+
+
+<!-- S1: Title -->
+<div class="slide title-slide" data-label="타이틀">
+  <div class="hero-card">
+    <div class="hero-date-chip">&#128200; 2026.06.17 (수)</div>
+    <div class="hero-title">한국시장 모닝브리프</div>
+    <div class="hero-sub">Korea Market Morning Brief</div>
+  </div>
+  <div class="title-row">
+    <div class="tcard flex-main">
+      <div class="tcard-header">
+        <div class="tcard-icon sector">&#128204;</div>
+        <div>
+          <div class="tcard-title">핵심 키워드 및 이슈</div>
+          <div class="tcard-sub">섹터를 클릭하면 해당 페이지로 이동합니다</div>
+        </div>
+      </div>
+      <div class="sum-list">
+        <button class="sum-row" onclick="go(2)"><span class="sum-tag bl">피지컬 AI/휴머노이드 로봇</span><span class="sum-desc">[단독]보스턴다이내믹스 주주 바뀌나...소프트뱅크 지분 이달말 매각 가능</span></button>
+        <button class="sum-row" onclick="go(4)"><span class="sum-tag up">반도체</span><span class="sum-desc">엔비디아, 한국 AI 인프라 계약 체결</span></button>
+        <button class="sum-row" onclick="go(7)"><span class="sum-tag bl">방위산업</span><span class="sum-desc">李대통령 "캐나다 안보에 기여할 준비 돼"…잠수함 수주 지원(종합2보)</span></button>
+        <button class="sum-row" onclick="go(10)"><span class="sum-tag bl">제약바이오/신약</span><span class="sum-desc">한미약품, 근육 키우고 살 빼는 비만약 공개</span></button>
+        <button class="sum-row" onclick="go(11)"><span class="sum-tag cy">자동차</span><span class="sum-desc">유럽 자동차사, 중국 경쟁으로 인한 공매도 증가 - FT</span></button>
+        <button class="sum-row" onclick="go(12)"><span class="sum-tag bl">귀금속(금/은)</span><span class="sum-desc">더 많은 중앙은행이 금 보유 확대 계획 시사, WGC 조사</span></button>
+        <button class="sum-row" onclick="go(13)"><span class="sum-tag bl">에너지/신재생</span><span class="sum-desc">정부 "차세대 태양전지 기술, 2030년까지 확보"</span></button>
+        <button class="sum-row" onclick="go(15)"><span class="sum-tag bl">에너지/정유</span><span class="sum-desc">"MOU에 이란 석유 판매 허용 포함…유조선 이미 봉쇄선 통과"</span></button>
+        <button class="sum-row" onclick="go(16)"><span class="sum-tag bl">에너지/전력</span><span class="sum-desc">AI 전력난에 가스발전 재부상…두산에너빌, 전력 공급망 수혜주로</span></button>
+        <button class="sum-row" onclick="go(18)"><span class="sum-tag bl">전력설비</span><span class="sum-desc">AI 대호황 올라탔다… 전력인프라 7곳 1분기만 10조 수주</span></button>
+        <button class="sum-row" onclick="go(19)"><span class="sum-tag bl">IT</span><span class="sum-desc">"M7 시대에서 스페이스X·AI 더한 팹10 시대로"</span></button>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-header">
+        <div class="tcard-icon picks">&#11088;</div>
+        <div>
+          <div class="tcard-title">오늘의 이슈<br>TOP PICKs</div>
+          <div class="tcard-sub">핵심 종목 10선</div>
+        </div>
+      </div>
+      <div class="picks-grid">
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A012450" target="_blank" style="color:inherit;text-decoration:none;">한화에어로스페이스</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" style="color:inherit;text-decoration:none;">SK하이닉스</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A267260" target="_blank" style="color:inherit;text-decoration:none;">HD현대일렉트릭</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A298040" target="_blank" style="color:inherit;text-decoration:none;">효성중공업</a></div>
+        <div class="pick-pill">LS일렉트릭</div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A064350" target="_blank" style="color:inherit;text-decoration:none;">현대로템</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A034020" target="_blank" style="color:inherit;text-decoration:none;">두산에너빌리티</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A047810" target="_blank" style="color:inherit;text-decoration:none;">한국항공우주</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A010130" target="_blank" style="color:inherit;text-decoration:none;">고려아연</a></div>
+        <div class="pick-pill"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A020150" target="_blank" style="color:inherit;text-decoration:none;">롯데에너지머티리얼즈</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- S2: Opinion (structured) -->
+<div class="slide" data-label="의견·키워드">
+  <div class="slide-fill">
+
+    <div class="op-sections">
+      <div class="op-block" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;">
+        <div class="op-block-title" style="margin-bottom:0;font-size:22px;">&#128269; 오늘 주목할 섹터</div>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">피지컬 AI/휴머노이드 로봇</span>
+          <span class="op-sector-pill" style="background:var(--up-bg);color:var(--up);">반도체</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">방위산업</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">제약바이오/신약</span>
+          <span class="op-sector-pill" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span>
+          <span class="op-sector-pill" style="background:var(--blue-bg);color:var(--blue);">귀금속(금/은)</span>
+      </div>
+      <div class="op-block">
+        <div class="op-block-title" style="font-size:22px;">&#128202; 마켓 포인트</div>
+        <p>■ 전일 미국 시장은 NASDAQ이 기술주 중심으로 하락한 반면 DOW는 상승하며 성장주에서 전통 산업주로의 순환매 흐름이 뚜렷하게 나타났음.</p>
+        <p>■ <b>엔비디아</b>(<span class="highlight">-2.37%</span>), <b>테슬라</b>(<span class="highlight">-1.58%</span>), <b>마이크로소프트</b>(<span class="highlight">-1.48%</span>) 등 대형 기술주가 일제히 조정받은 반면 <b>방산</b>·인프라 중심 종목들이 <b>강세</b>를 보이며 시장의 무게중심 이동을 확인시켜줬음.</p>
+        <p>■ 첫 번째 주목 섹터는 방위산업임.</p>
+        <p>■ 이재명 대통령이 G7 정상회의 계기로 캐나다 총리와 직접 양자회담을 열고 60조원 규모 차세대 잠수함 <b>수주</b>를 지원했으며, <b>한화에어로스페이스</b>는 2분기 영업이익이 전분기 대비 <span class="highlight">58%</span> <b>급증</b>한 1조원을 <b>돌파</b>할 것으로 추산됨.</p>
+        <p>■ K-<b>방산</b> 빅4 합산 연간 영업이익이 6조원을 넘어설 전망이며 이는 실적 기반의 구조적 상승 국면임.</p>
+        <p>■ 두 번째 주목 섹터는 전력설비임.</p>
+        <p>■ AI <b>데이터센터</b> 전력 수요 <b>슈퍼사이클</b>이 장기화되면서 전력인프라 7개사가 1분기에만 10조원을 <b>수주</b>해 <b>사상 최대</b>치를 기록했음.</p>
+        <p>■ 여기에 이란 MOU 합의 이후 이란 재건 특수 기대감까지 가세하면서 HD현대일렉트릭, LS일렉트릭, 효성중공업 등의 추가 <b>수주</b> <b>모멘텀</b>이 강화되는 국면임.</p>
+        <p>■ 세 번째 주목 섹터는 반도체 및 소재임.</p>
+        <p>■ <b>SK하이닉스</b>가 자사주 40조원을 포함해 100조원 규모의 초대형 주주환원책을 추진하며 기업가치 재평가 트리거를 스스로 당겼음.</p>
+        <p>■ CCL 핵심 소재인 동박 수요가 AI 가속기 확산과 함께 구조적 호황 국면에 진입했으며, 롯데에너지머티리얼즈 등 소재 기업에도 실수요 기반의 <b>수혜</b>가 확인되는 중임.</p>
+        <p>■ 전체 시장 톤은 기술주보단 <b>방산</b>·전력인프라·반도체 소부장 중심의 실적 가시성 높은 종목에 집중하는 선별적 공격 전략이 유효한 국면임.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;">
+        <div class="op-block positive" style="flex:1;">
+          <div class="op-block-title" style="color:var(--up);font-size:22px;">&#9989; 긍정 포인트</div>
+        <p>■ <b>SK하이닉스</b> 100조원 주주환원 계획이 공개되며 글로벌 자본시장에서 기업가치 재평가 기대감이 확산됐고, 자사주 40조원 매입이 <b>HBM</b> 실적과 맞물려 주가 하단을 지지할 전망임.</p>
+        <p>■ G7 정상외교에서 한국 대통령이 캐나다 잠수함 <b>수주</b>를 직접 챙기며 <b>한화에어로스페이스</b>·현대로템·KAI 등 <b>방산</b> 빅4의 수출 <b>모멘텀</b>에 외교적 탄력이 추가됐음.</p>
+        <p>■ 전력인프라 7개사가 1분기에만 10조원을 <b>수주</b>하고 이란 재건 특수 기대감까지 더해지며 HD현대일렉트릭·LS일렉트릭·효성중공업의 <b>수주</b>잔고 사이클이 한층 장기화될 것으로 전망됨.</p>
+        <p>■ WGC 조사에서 더 많은 글로벌 중앙은행이 금 보유 확대 계획을 시사하면서 금값이 <b>상승세</b>를 이어갔고, 고려아연·영풍 등 귀금속 관련주의 <b>수혜</b>가 기대됨.</p>
+        </div>
+        <div class="op-block risk" style="flex:1;">
+          <div class="op-block-title" style="color:var(--down);font-size:22px;">&#9888;&#65039; 리스크 포인트</div>
+        <p>■ <b>엔비디아</b>가 전일 <span class="highlight">-2.37%</span> 하락하며 <b>HBM</b> 납품 기대감이 맞물려 있는 <b>SK하이닉스</b>·<b>삼성전자</b>의 단기 투자심리가 위축될 수 있는 환경이 조성됐음.</p>
+        <p>■ 미국과 이란의 MOU 합의로 이란 석유 판매 <b>제재</b>가 즉시 해제되면서 WTI가 <span class="highlight">-6.09%</span> <b>급락</b>했고, S-Oil·SK이노베이션 등 국내 정유사의 정제마진 악화 압박이 불가피할 전망임.</p>
+        <p>■ NASDAQ <span class="highlight">-1.15%</span> 기술주 전반 <b>약세</b>가 이어지며 <b>NAVER</b>·<b>카카오</b> 등 국내 플랫폼·IT 성장주에 대한 투자 심리 부담이 단기적으로 지속될 가능성이 있음.</p>
+        </div>
+      </div>
+      <div class="op-block summary">
+        <div class="op-block-title" style="color:var(--purple);font-size:22px;">&#128172; 종합 의견</div>
+        <p>■ 오늘장은 <b>피지컬 AI/휴머노이드 로봇·반도체·방위산업·제약바이오/신약</b> 섹터에 집중할 필요가 있음.</p>
+        <p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 피지컬 AI/휴머노이드 로봇 -->
+<div class="slide" data-label="피지컬 AI">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 피지컬 AI/휴머노이드 로봇</div>
+        <div class="stitle">[단독]보스턴다이내믹스 주주 바뀌나...소프트뱅크 지분 이달말 매각 가능성 - 매일경제</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[단독]보스턴다이내믹스 주주 바뀌나...소프트뱅크 지분 이달말 매각 가능성 - 매일경제</div>
+      <a href="https://www.mk.co.kr/news/business/12075246" target="_blank" class="news-url">mk.co.kr</a>
+      <div class="news-body">
+          <p>■ <b>삼성전자</b>가 현대자동차그룹이 소유한 미국 로봇 기업 보스턴다이내믹스 지분에 투자할 수 있는 가능성을 검토한 것으로 파악됐음.</p>
+          <p>■ 생성형 인공지능(AI)을 넘어 실제 산업 현장에서 움직이는 '피지컬 AI'가 차세대 AI 경쟁의 핵심 축으로 떠오르면서 삼성도 휴머노이드 로봇 생태계 진입을 본격적으로 모색하는 모습임.</p>
+          <p>■ 16일 업계에 따르면 <b>삼성전자</b>가 보스턴다이내믹스 지분 투자 타당성을 검토했다는 평가가 나온음.</p>
+          <p>■ 일본 투자회사 소프트뱅크가 보유한 약 <span class="highlight">10%</span>대 지분이 주요 검토 대상이란 추정도 나온음.</p>
+          <p>■ 보스턴다이내믹스는 세계 최고 수준의 로봇 기업으로 평가받는음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A011070" target="_blank" class="stock-pill" style="text-decoration:none;">LG이노텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A307950" target="_blank" class="stock-pill" style="text-decoration:none;">현대오토에버</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A066570" target="_blank" class="stock-pill" style="text-decoration:none;">LG전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A011210" target="_blank" class="stock-pill" style="text-decoration:none;">현대위아</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005380" target="_blank" class="stock-pill" style="text-decoration:none;">현대차</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A277810" target="_blank" class="stock-pill" style="text-decoration:none;">레인보우로보틱스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A012330" target="_blank" class="stock-pill" style="text-decoration:none;">현대모비스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A377480" target="_blank" class="stock-pill" style="text-decoration:none;">마음AI</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 피지컬 AI/휴머노이드 로봇 -->
+<div class="slide" data-label="피지컬 AI">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 피지컬 AI/휴머노이드 로봇</div>
+        <div class="stitle">[인터뷰] "손기술도 데이터가 된다"…원익로보틱스, 로봇핸드 피지컬 AI 승부수 [기술 속국 탈출기⑥]</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[인터뷰] "손기술도 데이터가 된다"…원익로보틱스, 로봇핸드 피지컬 AI 승부수 [기술 속국 탈출기⑥]</div>
+      <a href="https://m.etoday.co.kr/news/view/2593845" target="_blank" class="news-url">m.etoday.co.kr</a>
+      <div class="news-body">
+          <p>■ AI을 비롯한 첨단 산업이 빠르게 확장되며 반도체를 포함한 다양한 제조업 분야에서 새로운 성장 국면이 펼쳐지고 있음.</p>
+          <p>■ 표면적으로는 완제품 기업들이 주목받고 있지만, 그 기반에는 소재·부품·장비(소부장) 기업들의 기술력이 자리하고 있음.</p>
+          <p>■ 반도체는 물론 로봇, 디스플레이 등 산업 전반에서 소부장은 기술 한계를 <b>돌파</b>하는 출발점이자 방향을 제시하는 역할을 맡고 있음.</p>
+          <p>■ 본지는 다양한 산업의 소부장 기업 대표들을 릴레이로 만나 기술 변화의 흐름과 시장에 대한 진단을 들어본음.</p>
+          <p>■ 김학래 원익로보틱스 대표 인터뷰인구절벽 해법으로 공장 자동화 제시"<b>숙련공의 손기술, AI가 이어받아야</b>"MIT·스탠퍼드와 10년 데이터 생태계 구축 "대한민국 공장을 바꾸고 싶었음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A011070" target="_blank" class="stock-pill" style="text-decoration:none;">LG이노텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A307950" target="_blank" class="stock-pill" style="text-decoration:none;">현대오토에버</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A066570" target="_blank" class="stock-pill" style="text-decoration:none;">LG전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A011210" target="_blank" class="stock-pill" style="text-decoration:none;">현대위아</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005380" target="_blank" class="stock-pill" style="text-decoration:none;">현대차</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A277810" target="_blank" class="stock-pill" style="text-decoration:none;">레인보우로보틱스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A012330" target="_blank" class="stock-pill" style="text-decoration:none;">현대모비스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A377480" target="_blank" class="stock-pill" style="text-decoration:none;">마음AI</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">엔비디아, 한국 AI 인프라 계약 체결</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">엔비디아, 한국 AI 인프라 계약 체결</div>
+      <a href="https://finance.yahoo.com/technology/ai/articles/nvidia-corp-nvda-lands-ai-185652204.html" target="_blank" class="news-url">finance.yahoo.com</a>
+      <div class="news-body">
+          <p>■ <b>엔비디아</b>(NASDAQ:NVDA)는 억만장자 켄 피셔의 상위 고성장 주식 추천 종목 중 하나임.</p>
+          <p>■ <b>엔비디아</b> 주식은 올해 들어 <span class="highlight">10%</span> 이상 상승했으며 지난 1년간 <span class="highlight">45%</span> 이상 <b>급등</b>했음.</p>
+          <p>■ 분석가들은 현재 주가에서 약 <span class="highlight">50%</span> 상승할 것으로 예상하고 있음.</p>
+          <p>■ 6월 7일 <b>엔비디아</b>는 한국 기술 회사인 네이버와의 대규모 <b>AI 인프라</b> <b>계약</b>을 발표했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" class="stock-pill" style="text-decoration:none;">SK하이닉스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005930" target="_blank" class="stock-pill" style="text-decoration:none;">삼성전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A020150" target="_blank" class="stock-pill" style="text-decoration:none;">롯데에너지머티리얼즈</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A122640" target="_blank" class="stock-pill" style="text-decoration:none;">예스티</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A033160" target="_blank" class="stock-pill" style="text-decoration:none;">엠케이전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A067310" target="_blank" class="stock-pill" style="text-decoration:none;">하나마이크론</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">[단독] 최태원의 '빅픽처'…SK하닉, 100조 역대급 주주환원</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">[단독] 최태원의 '빅픽처'…SK하닉, 100조 역대급 주주환원</div>
+      <a href="https://n.news.naver.com/article/015/0005299425" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 자사주 매입·배당…신주발행 따른 주주 불만 불식 몸값 재평가 '자신감'…목표주가 500만원도 등장 이 기사는 6월 16일 오후 5시 30분 한국경제신문 투자정보 플랫폼 '한경 프리미엄9' 에 게재됐음.</p>
+          <p>■ <b>SK하이닉스</b>가 올해 최대 100조원 규모의 초대형 주주환원책을 추진함.</p>
+          <p>■ 16일 투자은행(IB) 및 반도체업계에 따르면 <b>SK하이닉스</b>는 올 4분기 자사주 매입, 현금 배당 등을 포함해 100조원 안팎의 주주환원책을 준비하고 있음.</p>
+          <p>■ 자사주 매입 규모는 40조원에 달할 전망임.</p>
+          <p>■ 전체 주식의 <span class="highlight">2%</span>대 초반 물량으로, 미국 주식예탁증서(ADR) 상장을 위해 발행하는 신주 물량과 비슷한 수준으로 알려졌음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" class="stock-pill" style="text-decoration:none;">SK하이닉스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005930" target="_blank" class="stock-pill" style="text-decoration:none;">삼성전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A020150" target="_blank" class="stock-pill" style="text-decoration:none;">롯데에너지머티리얼즈</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A122640" target="_blank" class="stock-pill" style="text-decoration:none;">예스티</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A033160" target="_blank" class="stock-pill" style="text-decoration:none;">엠케이전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A067310" target="_blank" class="stock-pill" style="text-decoration:none;">하나마이크론</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 반도체 -->
+<div class="slide" data-label="메모리·반도체">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag green">&#128190; 반도체</div>
+        <div class="stitle">"전기차 의존도 낮추자" 핸들 꺾었다...'AI·ESS'로 질주하는 동박업계</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"전기차 의존도 낮추자" 핸들 꺾었다...'AI·ESS'로 질주하는 동박업계</div>
+      <a href="https://v.daum.net/v/20260617060202772" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ <b>전기차</b> 시장 둔화로 어려움을 겪고 있는 국내 동박업계가 인공지능(AI) 산업 확대에 따른 <b>수혜</b>가 기대됨.</p>
+          <p>■ AI 가속기 성능을 좌우하는 핵심 소재인 동박적층판(CCL) 수요가 <b>급증</b>하면서 사업 구조 전환에 속도가 붙고 있음.</p>
+          <p>■ 16일 관련업계에 따르면 두산 전자BG의 전체 매출에서 하이엔드 CCL이 차지하는 비중은 2024년 <span class="highlight">73%</span>에서 지난해 <span class="highlight">82%</span>로 커졌음.</p>
+          <p>■ 글로벌 AI 가속기와 <b>데이터센터</b> 수요가 <b>급증</b>하면서 기판 핵심 소재인 CCL 시장이 구조적인 호황 국면에 진입한 영향임.</p>
+          <p>■ 글로벌 주요 CCL 제조업체들은 수요 증가에 힘입어 제품값 인상에 나섰으며, 두산의 하이엔드 CCL 가격 역시 <b>상승세</b>를 보이고 있는 것으로 전해졌음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" class="stock-pill" style="text-decoration:none;">SK하이닉스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005930" target="_blank" class="stock-pill" style="text-decoration:none;">삼성전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A020150" target="_blank" class="stock-pill" style="text-decoration:none;">롯데에너지머티리얼즈</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A122640" target="_blank" class="stock-pill" style="text-decoration:none;">예스티</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A033160" target="_blank" class="stock-pill" style="text-decoration:none;">엠케이전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A067310" target="_blank" class="stock-pill" style="text-decoration:none;">하나마이크론</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 방위산업 -->
+<div class="slide" data-label="방위산업">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 방위산업</div>
+        <div class="stitle">李대통령 "캐나다 안보에 기여할 준비 돼"…잠수함 수주 지원(종합2보)</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">李대통령 "캐나다 안보에 기여할 준비 돼"…잠수함 수주 지원(종합2보)</div>
+      <a href="https://n.news.naver.com/article/421/0009007434?sid=100" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ G7 계기 한-캐 양자회담…李 "<b>방산 강국 한국과 <b>협력</b>할게 많아</b>" 카니 "<b>한국과 관계 중시, 지속 협의</b>"…중동·공급망 <b>협력</b> 공감대 (에비앙·서울=뉴스1) 심언기 한재준 = 이재명 대통령은 16일(현지시간) 프랑스 에비앙에서 열린 주요 7개국(G7) 정상회의 계기로 마크 카니 캐나다 총리와 양자회담을 가졌음.</p>
+          <p>■ <b>60조</b> 원 규모의 캐나다 잠수함 프로젝트 사업자 선정이 임박한 가운데, 이 대통령은 카니 총리에게 적극적 구애로 방위산업 우회 지원에 두 팔을 걷어붙였음.</p>
+          <p>■ 이 대통령은 이날 오후 5시 50분쯤부터 20여 분간 진행된 한-캐나다 정상회담 모두발언에서 "<b>우리가 서로 <b>협력</b>할 게 많으니 오늘 어떤 <b>협력</b>을 더 구체적으로 할지 한번 논의해 보자</b>"고 제안했음.</p>
+          <p>■ 카니 총리는 지난해 경주 아시아태평양경제<b>협력</b>체(APEC) 정상회의에서의 첫 만남을 언급하며 "<b>그 이후 양국 <b>파트너십</b>은 계속해서 성장해 왔다</b>"며 "<b>(한-캐나다는) 국방, 투자, 문화 등 다양한 분야에서 <b>협력</b>을 강화해 왔다</b>"고 화답했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A079550" target="_blank" class="stock-pill" style="text-decoration:none;">LIG디펜스앤에어로스페이스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A012450" target="_blank" class="stock-pill" style="text-decoration:none;">한화에어로스페이스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A064350" target="_blank" class="stock-pill" style="text-decoration:none;">현대로템</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A047810" target="_blank" class="stock-pill" style="text-decoration:none;">한국항공우주</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A129920" target="_blank" class="stock-pill" style="text-decoration:none;">대성하이텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A474610" target="_blank" class="stock-pill" style="text-decoration:none;">RF시스템즈</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 방위산업 -->
+<div class="slide" data-label="방위산업">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 방위산업</div>
+        <div class="stitle">李대통령 "방산 강국 한국, 캐나다 안보 기여 준비"…60조 잠수함 수주전 힘 싣기</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">李대통령 "방산 강국 한국, 캐나다 안보 기여 준비"…60조 잠수함 수주전 힘 싣기</div>
+      <a href="https://v.daum.net/v/20260617061521102" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 이재명 대통령이 마크 카니 캐나다 총리에게 "<b>방산 강국인 한국이 신뢰에 기반해 캐나다의 안보 역량 강화에 적극 기여해 나갈 준비가 돼 있다</b>"고 밝혔음.</p>
+          <p>■ 캐나다가 추진 중인 최대 60조원 규모 차세대 잠수함 사업을 놓고 한국과 독일이 막판 경쟁을 벌이는 가운데 이 대통령이 정상외교 무대에서 한국 <b>방산</b>의 경쟁력과 <b>협력</b> 의지를 직접 부각한 것임.</p>
+          <p>■ 주요 7개국(G7) 정상회의 참석차 프랑스 에비앙을 방문 중인 이 대통령은 16일 오후(현지시간) 별도 회담장에서 카니 총리와 정상회담을 열고 국방·안보, 에너지, 핵심광물 등 주요 분야의 전략적 <b>협력</b> 강화 방안을 논의했음.</p>
+          <p>■ 청와대는 양 정상이 한·캐나다 관계가 다방면에서 진전을 이뤄오고 있다고 평가하고, 글로벌 질서 재편 속에서 양국 간 전략적 <b>협력</b>을 강화하는 것이 중요하다는 데 뜻을 같이했다고 보도자료를 통해 밝혔음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A079550" target="_blank" class="stock-pill" style="text-decoration:none;">LIG디펜스앤에어로스페이스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A012450" target="_blank" class="stock-pill" style="text-decoration:none;">한화에어로스페이스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A064350" target="_blank" class="stock-pill" style="text-decoration:none;">현대로템</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A047810" target="_blank" class="stock-pill" style="text-decoration:none;">한국항공우주</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A129920" target="_blank" class="stock-pill" style="text-decoration:none;">대성하이텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A474610" target="_blank" class="stock-pill" style="text-decoration:none;">RF시스템즈</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 방위산업 -->
+<div class="slide" data-label="방위산업">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 방위산업</div>
+        <div class="stitle">K-방산, 올해 최대 실적 쓰나…'빅4' 영업익 6조 정조준</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">K-방산, 올해 최대 실적 쓰나…'빅4' 영업익 6조 정조준</div>
+      <a href="https://v.daum.net/v/20260617051045269" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 16일 증권정보업체 에프앤가이드에 따르면 <b>방산</b> 빅4인 <b>한화에어로스페이스</b>, LIG D&A, 현대로템, <b>한국항공우주</b>(KAI)의 올해 연간 실적 전망치는 6조원을 넘을 것으로 추정됨.</p>
+          <p>■ 국내 <b>방산</b> 대표주자 <b>한화에어로스페이스</b>는 올해 2분기 1조105억원의 영업이익을 낼 것으로 추산됨.</p>
+          <p>■ 전년 동기와 비교해서는 <span class="highlight">16.9%</span>, 전 분기 대비해서는 <span class="highlight">58.2%</span> 늘어나는 수치음.</p>
+          <p>■ 1분기 다소 저조했던 지상<b>방산</b> 매출이 2분기부터 본격적으로 늘어날 것으로 기대됨.</p>
+          <p>■ 2분기 영업이익 추정치는 1052억원으로, 전년 대비 35.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A079550" target="_blank" class="stock-pill" style="text-decoration:none;">LIG디펜스앤에어로스페이스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A012450" target="_blank" class="stock-pill" style="text-decoration:none;">한화에어로스페이스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A064350" target="_blank" class="stock-pill" style="text-decoration:none;">현대로템</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A047810" target="_blank" class="stock-pill" style="text-decoration:none;">한국항공우주</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A129920" target="_blank" class="stock-pill" style="text-decoration:none;">대성하이텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A474610" target="_blank" class="stock-pill" style="text-decoration:none;">RF시스템즈</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 제약바이오/신약 -->
+<div class="slide" data-label="제약바이오/">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 제약바이오/신약</div>
+        <div class="stitle">한미약품, 근육 키우고 살 빼는 비만약 공개</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">한미약품, 근육 키우고 살 빼는 비만약 공개</div>
+      <a href="https://n.news.naver.com/mnews/article/011/0004631898?sid=101" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ [美 ADA서 전<b>임상</b> 결과 발표] 후보물질 기존 치료제 한계 극복 동물실험서 근육량 증가 효과 확인 한미약품이 근육 보존·증가를 목표로 한 차세대 비만치료제 후보물질을 공개했음.</p>
+          <p>■ 체중 감량 과정에서 근육 손실이 발생할 수 있는 기존 글루카곤유사펩타이드(GLP)-1 계열 비만치료제의 한계를 극복하기 위한 전략임.</p>
+          <p>■ 한미약품은 최근 미국 뉴올리언스에서 열린 미국당뇨병학회(ADA 2026)에서 근육 증가형 비만치료제 후보물질 'HM500197'의 전<b>임상</b> 연구 결과를 처음 공개했다고 16일 밝혔음.</p>
+          <p>■ HM500197은 근육 성장을 방해하는 단백질인 '마이오스타틴'을 차단해 근육량 증가를 유도하는 펩타이드 기반 후보물질임.</p>
+          <p>■ 현재 개발 중인 다수의 근육 보존 치료제가 항체나 Fc 융합단백질 기반인 것과 달리 펩타이드 플랫폼을 적용한 것이 특징임.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A128940" target="_blank" class="stock-pill" style="text-decoration:none;">한미약품</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A226950" target="_blank" class="stock-pill" style="text-decoration:none;">올릭스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A378800" target="_blank" class="stock-pill" style="text-decoration:none;">샤페론</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A051910" target="_blank" class="stock-pill" style="text-decoration:none;">LG화학</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A011000" target="_blank" class="stock-pill" style="text-decoration:none;">진원생명과학</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A068760" target="_blank" class="stock-pill" style="text-decoration:none;">셀트리온제약</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 자동차 -->
+<div class="slide" data-label="자동차·통상">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag cyan">&#128663; 자동차</div>
+        <div class="stitle">유럽 자동차사, 중국 경쟁으로 인한 공매도 증가 - FT</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">유럽 자동차사, 중국 경쟁으로 인한 공매도 증가 - FT</div>
+      <a href="https://www.agenzianova.com/en/news/Hedge-funds-are-betting-against-European-automakers-due-to-Chinese-competition./" target="_blank" class="news-url">agenzianova.com</a>
+      <div class="news-body">
+          <p>■ 펀드들이 중국 제조업체들의 경쟁으로 인해 스텔란티스, 폭스바겐, BMW, 메르세데스-벤츠의 장기 및 영구채에 대한 공매도 포지션을 강화했으며, 처음 두 그룹의 채권이 유럽에서 가장 공매도되는 채권들 중 하나임.</p>
+          <p>■ 영국 신문 '파이낸셜 타임즈'는 펀드들이 스텔란티스, 폭스바겐, BMW, 메르세데스-벤츠의 장기 및 영구채 공매도 포지션을 강화했으며, 처음 두 그룹의 채권이 유럽에서 가장 공매도되는 채권들 중 하나라고 보도했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005380" target="_blank" class="stock-pill" style="text-decoration:none;">현대차</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000270" target="_blank" class="stock-pill" style="text-decoration:none;">기아</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A012330" target="_blank" class="stock-pill" style="text-decoration:none;">현대모비스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A204320" target="_blank" class="stock-pill" style="text-decoration:none;">HL만도</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A011210" target="_blank" class="stock-pill" style="text-decoration:none;">현대위아</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A003620" target="_blank" class="stock-pill" style="text-decoration:none;">KG모빌리티</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 귀금속(금/은) -->
+<div class="slide" data-label="귀금속(금/">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 귀금속(금/은)</div>
+        <div class="stitle">더 많은 중앙은행이 금 보유 확대 계획 시사, WGC 조사</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">더 많은 중앙은행이 금 보유 확대 계획 시사, WGC 조사</div>
+      <a href="https://www.reuters.com/markets/asia/more-central-banks-signal-plans-increase-gold-holdings-wgc-survey-shows-2026-06-16/" target="_blank" class="news-url">reuters.com</a>
+      <div class="news-body">
+          <p>■ 글로벌 시장을 이해하기 위해 트레이딩 데이 뉴스레터를 구독하세요.</p>
+          <p>■ 폴리나 데빗의 보도 및 오로라 엘리스의 편집을 통해 제공됨.</p>
+          <p>■ 우리의 기준: Thomson Reuters 신뢰 원칙.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A010130" target="_blank" class="stock-pill" style="text-decoration:none;">고려아연</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000670" target="_blank" class="stock-pill" style="text-decoration:none;">영풍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A124500" target="_blank" class="stock-pill" style="text-decoration:none;">아이티센글로벌</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A037950" target="_blank" class="stock-pill" style="text-decoration:none;">엘컴텍</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/신재생 -->
+<div class="slide" data-label="에너지/신재">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/신재생</div>
+        <div class="stitle">정부 "차세대 태양전지 기술, 2030년까지 확보"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">정부 "차세대 태양전지 기술, 2030년까지 확보"</div>
+      <a href="https://v.daum.net/v/20260617003317655" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 16일 구윤철 부총리 겸 재정경제부 장관은 전남 해남군 솔라시도 현장을 찾아 기업혁신 지원 민관협의체 제3차 회의를 개최했음.</p>
+          <p>■ 해남 솔라시도는 국내 최대 규모의 재생에너지 도시음.</p>
+          <p>■ 지속 가능한 GX를 위해 10년간 재정투자를 늘리고 혁신적인 세제 인센티브를 제공할 방침임.</p>
+          <p>■ 2030년까지 초고효율 탠덤 셀을 <b>양산</b>할 예정임.</p>
+          <p>■ 페로브스카이트 기반 탠덤 셀은 빛 흡수율이 뛰어나 <b>우주</b> 인공지능(AI) <b>데이터센터</b> 시대의 핵심 기술로 꼽힌음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009830" target="_blank" class="stock-pill" style="text-decoration:none;">한화솔루션</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A010060" target="_blank" class="stock-pill" style="text-decoration:none;">OCI홀딩스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A112610" target="_blank" class="stock-pill" style="text-decoration:none;">씨에스윈드</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100090" target="_blank" class="stock-pill" style="text-decoration:none;">SK오션플랜트</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A044490" target="_blank" class="stock-pill" style="text-decoration:none;">태웅</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100130" target="_blank" class="stock-pill" style="text-decoration:none;">동국S&C</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A282720" target="_blank" class="stock-pill" style="text-decoration:none;">금양그린파워</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A475150" target="_blank" class="stock-pill" style="text-decoration:none;">SK이터닉스</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/신재생 -->
+<div class="slide" data-label="에너지/신재">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/신재생</div>
+        <div class="stitle">306조 해상풍력 시장 열린다…"매년 4GW씩 확대"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">306조 해상풍력 시장 열린다…"매년 4GW씩 확대"</div>
+      <a href="https://www.asiae.co.kr/article/2026061620372991846" target="_blank" class="news-url">asiae.co.kr</a>
+      <div class="news-body">
+          <p>■ 함께 보면 좋은 기사 [단독]진격의 삼양식품…'불닭'·'Buldak' 상표권 확보 완료 "<b>그냥 내가 굴리련다</b>"…'돈 빼가요' 심상찮은 퇴직연금 머니무브 [시장의 맥] ETF <b>500조</b> 시대의 빛과 그림자 [기자수첩]K-문샷 파격 인사 못 따라가는 행정 [기자수첩]수없이 경고했는데…'579억원' 개미의 분노 매혹적인 외모로 눈 깜빡였더니 주가 <span class="highlight">6%</span> <b>폭등</b>…"<b>67만원 주고 예약 불티</b>" "<b>택시 뒷좌석서 성폭행 당했다</b>" 고백한 유튜버…"<b>택시기사, 7년 구형</b>" 재판 결과 전해 "<b>실수로 '0' 하나 더?</b>"…<b>18억</b> 아파트, 172억에 낙찰된 사연 여친 성관계 영상을 다른 여성에게…'예능 출연' 유명 테니스 코치, 檢 송치 '잘 가라' 이혼 인증샷 공유하고 135만원 나홀로 결혼사진 '찰칵'…달라진 中 결혼관[중국.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009830" target="_blank" class="stock-pill" style="text-decoration:none;">한화솔루션</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A010060" target="_blank" class="stock-pill" style="text-decoration:none;">OCI홀딩스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A112610" target="_blank" class="stock-pill" style="text-decoration:none;">씨에스윈드</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100090" target="_blank" class="stock-pill" style="text-decoration:none;">SK오션플랜트</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A044490" target="_blank" class="stock-pill" style="text-decoration:none;">태웅</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100130" target="_blank" class="stock-pill" style="text-decoration:none;">동국S&C</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A282720" target="_blank" class="stock-pill" style="text-decoration:none;">금양그린파워</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A475150" target="_blank" class="stock-pill" style="text-decoration:none;">SK이터닉스</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/정유 -->
+<div class="slide" data-label="에너지/정유">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/정유</div>
+        <div class="stitle">"MOU에 이란 석유 판매 허용 포함…유조선 이미 봉쇄선 통과"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"MOU에 이란 석유 판매 허용 포함…유조선 이미 봉쇄선 통과"</div>
+      <a href="https://n.news.naver.com/article/020/0003727377" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ 미국과 이란의 <b>종전</b> 양해각서(MOU) 합의안에 이란에 대한 석유 판매 <b>제재</b> 면제 조항이 포함된 것으로 전해졌음.</p>
+          <p>■ 미국은 이란 핵 문제를 계기로 2012년부터 이란의 석유 수출을 겨냥한 <b>제재</b>를 가해왔음.</p>
+          <p>■ 이를 해제해 이란에 경제적 혜택을 주겠다는 것으로 풀이됨.</p>
+          <p>■ 미국 월스트리트저널(WSJ)는 16일(현지 시간) "이번 종식 합의에 따라 미국은 이란이 즉시 석유와 연료를 판매할 수 있도록 허용할 것이며, 이는 이란 정권에게 분쟁을 조기에 종식시키도록 하는 재정적 인센티브를 제공하는 것"이라고 소식통들을 인용해 보도했음.</p>
+          <p>■ 이어 "이번 주(19일) 협정 서명 즉시 석유 판매 <b>제재</b> 면제 조항이 발효되며 판매를 원활하게 진행하는 데 필요한 은행, 운송, 보험 등 필수 서비스도 (<b>제재</b> 면제에) 포함된다"고 전했음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A010950" target="_blank" class="stock-pill" style="text-decoration:none;">S-Oil</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A096770" target="_blank" class="stock-pill" style="text-decoration:none;">SK이노베이션</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A009830" target="_blank" class="stock-pill" style="text-decoration:none;">한화솔루션</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A047050" target="_blank" class="stock-pill" style="text-decoration:none;">포스코인터내셔널</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/전력 -->
+<div class="slide" data-label="에너지/전력">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/전력</div>
+        <div class="stitle">AI 전력난에 가스발전 재부상…두산에너빌, 전력 공급망 수혜주로</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">AI 전력난에 가스발전 재부상…두산에너빌, 전력 공급망 수혜주로</div>
+      <a href="https://www.econovill.com/news/articleView.html?idxno=742552" target="_blank" class="news-url">econovill.com</a>
+      <div class="news-body">
+          <p>■ AI(인공지능) <b>데이터센터</b>와 산업단지 확산으로 전력 수요가 빠르게 늘면서 두산에너빌리티의 발전 설비 <b>수주</b>가 잇따르고 있음.</p>
+          <p>■ 중동에선 가스복합·열병합발전소 EPC(설계·조달·시공)를 연달아 따냈으며 북미에선 <b>데이터센터</b> 전력 공급을 겨냥한 가스터빈과 스팀터빈 공급<b>계약</b>을 확대하고 있음.</p>
+          <p>■ 16일 업계에 따르면 두산에너빌리티는 전날 한국서부발전 컨소시엄과 오만 두큼 가스복합발전소 건설공사 <b>계약</b>을 체결했음.</p>
+          <p>■ <b>계약</b>금액은 약 5300억원 규모음.</p>
+          <p>■ 이번 프로젝트에서 두산에너빌리티는 발전소 건설 전문회사인 셉코3와 컨소시엄을 구성해 EPC를 일괄 수행함.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A034020" target="_blank" class="stock-pill" style="text-decoration:none;">두산에너빌리티</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100090" target="_blank" class="stock-pill" style="text-decoration:none;">SK오션플랜트</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100840" target="_blank" class="stock-pill" style="text-decoration:none;">SNT에너지</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A098070" target="_blank" class="stock-pill" style="text-decoration:none;">한텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A475150" target="_blank" class="stock-pill" style="text-decoration:none;">SK이터닉스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A388050" target="_blank" class="stock-pill" style="text-decoration:none;">지투파워</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A083650" target="_blank" class="stock-pill" style="text-decoration:none;">비에이치아이</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 에너지/전력 -->
+<div class="slide" data-label="에너지/전력">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 에너지/전력</div>
+        <div class="stitle">AI 시대 데이터센터 전력난 해법으로 떠오른 'LNG 냉열'</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">AI 시대 데이터센터 전력난 해법으로 떠오른 'LNG 냉열'</div>
+      <a href="http://www.e-platform.net/news/articleView.html?idxno=103042" target="_blank" class="news-url">e-platform.net</a>
+      <div class="news-body">
+          <p>■ [에너지플랫폼뉴스 ] AI 시대 <b>데이터센터</b> 전력난 해법으로 LNG 냉열 활용 기술이 주목받고 있음.</p>
+          <p>■ LNG가 기화되는 과정에서 발생하는 영하 162도의 초저온 냉열을 <b>데이터센터</b> 냉각에 활용해 냉방 전력을 크게 줄일 수 있기 때문임.</p>
+          <p>■ 업계에서는 생성형 AI 확산으로 <b>급증</b>하는 <b>데이터센터</b> 전력 수요에 대응할 수 있는 차세대 에너지 인프라로 LNG 냉열 <b>데이터센터</b>가 부상하고 있다고 보고 있음.</p>
+          <p>■ 이 같은 내용은 전국공공운수노동조합 한국가스분과협의회와 일본 전국가스노동조합연합회, 오사카가스노동조합, 도쿄가스노동조합, 홋카이도가스노동조합이 15일부터 17일까지 한국가스공사 서울지역본부에서 개최한 한일가스노조교류회에서 소개됐음.</p>
+          <p>■ 1988년 처음 시작된 한일가스노조교류회는 양국이 매년 번갈아 개최하며 가스산업 현안과 에너지 정책에 대한 정보를 교류해오고 있음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A034020" target="_blank" class="stock-pill" style="text-decoration:none;">두산에너빌리티</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100090" target="_blank" class="stock-pill" style="text-decoration:none;">SK오션플랜트</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A100840" target="_blank" class="stock-pill" style="text-decoration:none;">SNT에너지</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A098070" target="_blank" class="stock-pill" style="text-decoration:none;">한텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A475150" target="_blank" class="stock-pill" style="text-decoration:none;">SK이터닉스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A388050" target="_blank" class="stock-pill" style="text-decoration:none;">지투파워</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A083650" target="_blank" class="stock-pill" style="text-decoration:none;">비에이치아이</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 전력설비 -->
+<div class="slide" data-label="전력설비">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; 전력설비</div>
+        <div class="stitle">AI 대호황 올라탔다… 전력인프라 7곳 1분기만 10조 수주</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">AI 대호황 올라탔다… 전력인프라 7곳 1분기만 10조 수주</div>
+      <a href="https://n.news.naver.com/article/014/0005535750?sid=101" target="_blank" class="news-url">n.news.naver.com</a>
+      <div class="news-body">
+          <p>■ <b>데이터센터</b>용 인프라 확대에 美 노후전력망 교체 수요 <b>급증</b> HD현대일렉 등 신규<b>수주</b> 줄이어 업계는 이란 재건 특수 기대감도 국내 전력기기·전선 등 주요 전력 인프라 기업들이 올해 1·4분기 인공지능(AI) <b>데이터센터</b>용 전력 <b>슈퍼사이클</b>에 힘입어 <b>사상 최대</b> 신규 <b>수주</b>실적을 기록했음.</p>
+          <p>■ 전력기기 4사와 전선 3사의 <b>수주</b> 잔고는 1·4분기 47조원에 육박한 상태음.</p>
+          <p>■ 전력 <b>슈퍼사이클</b>이 장기화될 것이란 전망 속에 미국 현지 투자가 확대되는 양상임.</p>
+          <p>■ 여기에 향후 이란 재건 특수까지 더해질 경우, <b>수주</b> 확대에 탄력이 가해질 전망임.</p>
+          <p>■ ■주요 7개사, 1·4분기만 <b>10조</b> <b>수주</b> 16일 전력기기 각 사에 따르면 HD현대일렉트릭, LS일렉트릭, 효성중공업, 일진전기 등 4사의 올해 1·4분기 합산 신규<b>수주</b>는 8조3210억원으로 <b>역대 최고</b>치인 것으로 나타났음.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A298040" target="_blank" class="stock-pill" style="text-decoration:none;">효성중공업</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A034020" target="_blank" class="stock-pill" style="text-decoration:none;">두산에너빌리티</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A388050" target="_blank" class="stock-pill" style="text-decoration:none;">지투파워</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A006910" target="_blank" class="stock-pill" style="text-decoration:none;">보성파워텍</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A006340" target="_blank" class="stock-pill" style="text-decoration:none;">대원전선</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000500" target="_blank" class="stock-pill" style="text-decoration:none;">가온전선</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A103590" target="_blank" class="stock-pill" style="text-decoration:none;">일진전기</a>
+          <span class="stock-pill">LS일렉트릭</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IT -->
+<div class="slide" data-label="IT">
+  <div class="slide-fill">
+    <div class="sec-header">
+      <div>
+        <div class="stag blue">&#128196; IT</div>
+        <div class="stitle">"M7 시대에서 스페이스X·AI 더한 팹10 시대로"</div>
+      </div>
+    </div>
+    <div class="news-card news-single flex1">
+      <div class="news-headline">"M7 시대에서 스페이스X·AI 더한 팹10 시대로"</div>
+      <a href="https://v.daum.net/v/20260617024433319" target="_blank" class="news-url">v.daum.net</a>
+      <div class="news-body">
+          <p>■ 야후파이낸스는 16일(현지시간) 밴다 리서치의 분석 노트를 인용해 기존 M7에 오픈AI, 앤스로픽 등 프런티어 AI, 일론 머스크의 스페이스X를 더한 팹10이 시장 흐름을 주도하게 됐다고 보도했음.</p>
+          <p>■ 밴다는 "<b>스페이스X는 이제 세계에서 가장 중요한 기업들의 반열에 올랐다</b>"면서 "<b>지난 수년을 M7이 주도했지만 스페이스X 기업공개(IPO)로 투자자들은 이제 팹10에 집중하기 시작했다</b>"고 평가했음.</p>
+          <p>■ 밴다는 팹10이 "<b>M7에 스페이스X, 또 앞으로 상장될 오픈AI와 앤스로픽을 더한 것</b>"이라면서 "<b>이들 (10개) 기업은 향후 10년을 규정하게 될 AI와 기술의 미래를 대표한다</b>"고 설명했음.</p>
+          <p>■ <b>엔비디아</b>, 알파벳, <b>애플</b>, <b>마이크로소프트</b>(MS), <b>아마존</b>, <b>테슬라</b>, <b>메타</b>플랫폼스 등 M7과, 여기에 스페이스X와 앤스로픽, 오픈AI를 더한 팹10이 이제 증시 주도권을 쥐게 된다는 말임.</p>
+      </div>
+      <div class="news-stocks">
+        <span class="stocks-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 <span class="arrow">&#9654;</span></span>
+        <div class="stocks-list">
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" class="stock-pill" style="text-decoration:none;">SK하이닉스</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A005930" target="_blank" class="stock-pill" style="text-decoration:none;">삼성전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A066570" target="_blank" class="stock-pill" style="text-decoration:none;">LG전자</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A035420" target="_blank" class="stock-pill" style="text-decoration:none;">NAVER</a>
+          <a href="https://www.tradingview.com/chart/?symbol=KRX%3A035720" target="_blank" class="stock-pill" style="text-decoration:none;">카카오</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">20</span></div>
+    <div class="slide-dots" id="dots"></div>
+    <div class="nav-buttons">
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">&#9654; Auto 10s</button>
+      <button class="nav-btn" onclick="go(current-1)">&#9664;</button>
+      <button class="nav-btn" onclick="go(current+1)">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current=0,autoId=null;
+const w=document.getElementById('slidesWrapper'),
+      slides=w.children,
+      total=slides.length,
+      pb=document.getElementById('progressBar'),
+      dc=document.getElementById('dots');
+
+document.getElementById('tot').textContent=total;
+
+for(let i=0;i<total;i++){
+  const label=slides[i].getAttribute('data-label')||('S'+(i+1));
+  const d=document.createElement('div');
+  d.className='dot-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="dot-bar"></div><div class="dot-label">${label}</div>`;
+  d.onclick=()=>go(i);
+  dc.appendChild(d);
+}
+
+function go(i){
+  if(i<0)i=total-1;if(i>=total)i=0;
+  current=i;
+  w.style.transform=`translateX(-${current*100}vw)`;
+  document.getElementById('cur').textContent=current+1;
+  pb.style.width=`${((current+1)/total)*100}%`;
+  document.querySelectorAll('.dot-item').forEach((d,j)=>d.classList.toggle('active',j===current));
+}
+
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoId){clearInterval(autoId);autoId=null;b.classList.remove('on');b.innerHTML='&#9654; Auto 10s';}
+  else{autoId=setInterval(()=>go(current+1),10000);b.classList.add('on');b.innerHTML='&#9724; Stop';}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(current+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(current-1);}
+});
+
+go(0);
+</script>
+
+</body>
+</html>
