@@ -3270,6 +3270,17 @@ async function ensureGlPeer() {
   return GL_PEER;
 }
 
+var GL_OV = null;   // {yahoo_symbol: 기업개요} (네이버 worldstock)
+async function ensureGlOverview() {
+  if (GL_OV) return GL_OV;
+  GL_OV = {};
+  try {
+    const res = await fetch('/api/global_overview.json?t=' + Date.now());
+    GL_OV = (await res.json()).ov || {};
+  } catch(e) { console.warn('global_overview 로드 실패', e); }
+  return GL_OV;
+}
+
 async function ensureGlLive() {
   try {
     const res = await fetch('/api/global_prices_live.json?t=' + Date.now());
@@ -3514,6 +3525,12 @@ async function glPopup(tk) {
   const gm = document.getElementById('glmodal');
   gm.dataset.tk = tk;
   gm.classList.add('open');
+  // 기업개요 (네이버 worldstock) — 재무와 뉴스 사이 가운데 섹션
+  setGlOverview(null);
+  ensureGlOverview().then(ov => {
+    if (gm.classList.contains('open') && gm.dataset.tk === tk)
+      setGlOverview({ overview: ov[tk] || ov[d.tk] });
+  });
   // 최근 뉴스 (finviz, 1시간 스크랩) — 데이터 준비되면 채움
   renderGlNews(tk);
   ensureFinvizNews().then(() => {
