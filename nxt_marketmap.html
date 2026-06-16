@@ -127,9 +127,9 @@ svg { display: block; }
   <span id="updatedAt" class="updated-at">-</span>
   <div class="spacer"></div>
   <div class="legend">
-    <span>-3%</span>
+    <span>-1%</span>
     <div class="legend-bar"></div>
-    <span>+3%</span>
+    <span>+1%</span>
   </div>
 </div>
 
@@ -179,8 +179,9 @@ svg { display: block; }
 const META_URL = 'api/nxt_marketmap.json';
 const REFRESH_MS = 60_000;
 
+// NXT 시간외 등락률은 폭이 작아(평균 ±0.7%) 색 스케일을 ±1%로 좁혀 민감하게
 const colorScale = d3.scaleLinear()
-  .domain([-3, -0.5, 0, 0.5, 3])
+  .domain([-1, -0.3, 0, 0.3, 1])
   .range(["#1d4ed8", "#3b82f6", "#475569", "#ef4444", "#b91c1c"])
   .clamp(true);
 

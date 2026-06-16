@@ -969,6 +969,10 @@
   <div class="ntab" data-tab="global-high" onclick="switchTab('global-high',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg></span> 글로벌 신고가
   </div>
+  <!-- 글로벌 마켓맵 : 지도+지구본 -->
+  <div class="ntab" data-tab="global-marketmap" onclick="switchTab('global-marketmap',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></span> 글로벌 마켓맵
+  </div>
   <!-- 테마맵 : 버블 -->
   <div class="ntab" data-tab="kr-thememap" onclick="switchTab('kr-thememap',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><circle cx="16.5" cy="14.5" r="4"/><circle cx="17" cy="6" r="2"/></svg></span> 테마맵
@@ -1197,6 +1201,11 @@
   <!-- ── KR마켓맵 (iframe) ── -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-kr-marketmap">
     <iframe id="page-kr-marketmap" src="/moneyweb/marketmap_test.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  </div>
+
+  <!-- ── 글로벌 마켓맵 (iframe) ── -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-global-marketmap">
+    <iframe id="page-global-marketmap" src="/moneyweb/world_marketmap.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
   <!-- ── 수급 매트릭스 (iframe) ── -->
@@ -1647,7 +1656,7 @@ const TAB_KEY = {
   'kr-theme':   'kr-theme',
   'kr-thememap':'kr-thememap',
 };
-const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap', 'kr-sugup'];
+const NO_DATE_TABS = ['home', 'schedule', 'idea', 'community', 'tgtprc', 'nxt', 'kr-marketmap', 'global-marketmap', 'kr-sugup'];
 
 var currentTab = 'home';
 
@@ -1706,7 +1715,7 @@ function switchTab(tab, el) {
 
   // 모든 페이지 숨기기
   document.querySelectorAll('.page-inner').forEach(p => p.classList.remove('active'));
-  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','kr-thememap','kr-sugup'].forEach(k => {
+  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','global-marketmap','kr-thememap','kr-sugup'].forEach(k => {
     const w = document.getElementById('wrap-' + k);
     if (w) w.style.display = 'none';
   });
@@ -1721,6 +1730,7 @@ function switchTab(tab, el) {
   else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); nxtInit(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
+  else if (tab === 'global-marketmap') { document.getElementById('wrap-global-marketmap').style.display = 'block'; }
   else if (tab === 'kr-sugup') { document.getElementById('wrap-kr-sugup').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
   // kr-theme(신고가) 진입 → 기본 서브탭(종목신고가). 인포스탁 iframe은 테마맵 메뉴로 이동.
@@ -3501,9 +3511,10 @@ function _glf(v, suf, dec) {
   return (dec !== undefined ? Number(v).toFixed(dec) : v) + (suf || '');
 }
 
-async function glPopup(tk) {
+async function glPopup(tk, fb) {
   if (!GL_PEER) await ensureGlPeer();
-  const d = GL_PEER[tk]; if (!d) return;
+  const d = GL_PEER[tk];
+  if (!d) { glPopupLiteFB(tk, fb); return; }   // peer 외(마켓맵 등) → 경량 팝업
   const L = GL_LIVE[tk] || {};
   document.getElementById('gl-nm').textContent = d.n || tk;
   document.getElementById('gl-sub').textContent = (d.tk || tk) + (d.cur ? '  ·  ' + d.cur : '');
@@ -3573,6 +3584,31 @@ function glClose() {
   document.getElementById('glmodal').classList.remove('open');
 }
 
+// peer 외 종목(마켓맵 등) 경량 팝업 — 이름/등락 + 네이버 개요(있으면) + 외부 링크
+async function glPopupLiteFB(tk, fb) {
+  fb = fb || {};
+  const isUS = tk.indexOf('.') < 0;
+  document.getElementById('gl-nm').textContent = fb.name || tk;
+  document.getElementById('gl-sub').textContent = tk;
+  document.getElementById('gl-px').textContent = (fb.price != null) ? Number(fb.price).toLocaleString() : '';
+  const chgEl = document.getElementById('gl-chg');
+  if (fb.change != null) { chgEl.textContent = (fb.change >= 0 ? '▲ +' : '▼ ') + Number(fb.change).toFixed(2) + '%'; chgEl.className = 'gchg ' + (fb.change >= 0 ? 'up' : 'dn'); }
+  else chgEl.textContent = '';
+  document.getElementById('gl-ext').style.display = 'none';
+  document.getElementById('gl-mk').textContent = '';
+  document.getElementById('gl-metrics').innerHTML = '';
+  document.getElementById('gl-ratings').innerHTML = '<div class="rt-title">📋 상세</div><div class="empty" style="padding:6px 2px;">peer 미포함 종목 — 아래 링크 참고</div>';
+  document.getElementById('gl-links').innerHTML =
+    '<a href="https://finance.yahoo.com/quote/' + encodeURIComponent(tk) + '" target="_blank">Yahoo ↗</a>'
+    + (isUS ? '<a href="https://stockanalysis.com/stocks/' + tk.toLowerCase() + '/" target="_blank">StockAnalysis ↗</a>' : '')
+    + '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(tk)) + '" target="_blank">TradingView ↗</a>';
+  const gm = document.getElementById('glmodal'); gm.dataset.tk = tk; gm.classList.add('open');
+  setGlOverview(null);
+  ensureGlOverview().then(ov => { if (gm.classList.contains('open') && gm.dataset.tk === tk) setGlOverview({ overview: ov[tk] }); });
+  const nb = document.getElementById('gl-news'); if (nb) nb.innerHTML = '<div class="gnews-empty">peer 외 종목 — 뉴스 없음</div>';
+  const nu = document.getElementById('gl-news-upd'); if (nu) nu.textContent = '';
+}
+
 // ═══════════════════════════════════════
 // 글로벌 신고가 (미·일·중·홍·대만) — TradingView
 // ═══════════════════════════════════════
@@ -3629,17 +3665,30 @@ function _ghRows(items, code) {
   }).join('');
 }
 
+var GH_KIND = 'stock';   // 종목 / ETF 토글
+function setGhKind(k) { GH_KIND = k; renderGlobalHigh(); }
+
 function renderGlobalHigh() {
   const box = document.getElementById('gh-list');
   const upd = document.getElementById('gh-updated');
   if (upd && GH_DATA.updated_at) upd.textContent = '업데이트 ' + GH_DATA.updated_at.slice(5,16);
   const m = (GH_DATA.markets||{})[GH_CUR];
   if (!m) { box.innerHTML = '데이터 없음'; return; }
+  const all = m.items || [];
+  const stocks = all.filter(x => !x.is_etf);
+  const etfs   = all.filter(x =>  x.is_etf);
+  const sel = (GH_KIND === 'etf') ? etfs : stocks;
   const byMcap = (a,b) => (b.mcap||0) - (a.mcap||0);          // 시총 내림차순
-  const ath = m.items.filter(x=>x.is_ath).sort(byMcap);
-  const w52 = m.items.filter(x=>!x.is_ath).sort(byMcap);
+  const ath = sel.filter(x=>x.is_ath).sort(byMcap);
+  const w52 = sel.filter(x=>!x.is_ath).sort(byMcap);
+  const kindTab = (k,lbl,n) =>
+      '<div onclick="setGhKind(\''+k+'\')" style="cursor:pointer;padding:6px 14px;border-radius:8px;font-weight:700;font-size:13px;white-space:nowrap;'
+    + ((GH_KIND===k) ? 'background:#0ea5e9;color:#fff;' : 'background:var(--card2);color:var(--muted);border:1px solid var(--border);') + '">'
+    + lbl+' <span style="font-size:11px;opacity:.85;">'+n+'</span></div>';
   box.innerHTML =
-      '<div style="font-size:14px;font-weight:800;color:#f59e0b;margin:4px 0 4px;">🏆 역사적 신고가 ('+ath.length+')</div>'
+      '<div style="display:flex;gap:8px;margin:2px 0 12px;">'
+        + kindTab('stock','종목',stocks.length) + kindTab('etf','ETF',etfs.length) + '</div>'
+    + '<div style="font-size:14px;font-weight:800;color:#f59e0b;margin:4px 0 4px;">🏆 역사적 신고가 ('+ath.length+')</div>'
     + _ghRows(ath, GH_CUR)
     + '<div style="font-size:14px;font-weight:800;color:#22c55e;margin:16px 0 4px;">📈 52주 신고가 ('+w52.length+')</div>'
     + _ghRows(w52, GH_CUR);
