@@ -3644,11 +3644,13 @@ async function loadGlobalHigh() {
   renderGlobalHigh();
 }
 
+const GH_ALWAYS = ['USA','JPN','CHN','HKG','TWN'];   // 데이터 없어도 항상 노출하는 국가 버튼
 function renderGhTabs() {
   const bar = document.getElementById('gh-tabs');
   if (!bar) return;
   const its = GH_DATA.items || {};
-  bar.innerHTML = GH_ORDER.filter(c => its[c] && its[c].length).map(code => {
+  // 미·일·중·홍·대만은 항상, 그 외(유럽 등)는 데이터 있을 때만
+  bar.innerHTML = GH_ORDER.filter(c => GH_ALWAYS.includes(c) || (its[c] && its[c].length)).map(code => {
     const n = (its[code] || []).length;
     const act = (code === GH_CUR);
     return '<div onclick="switchGhCountry(\''+code+'\')" style="cursor:pointer;padding:7px 13px;border-radius:8px;font-weight:700;font-size:14px;white-space:nowrap;'
