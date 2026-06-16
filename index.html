@@ -689,12 +689,16 @@
              z-index:9990; align-items:center; justify-content:center; }
   #glmodal.open { display:flex; }
   #glmodal .gbox { background:#13233a; border:1px solid #2d4b6b; border-radius:12px;
-                   width:900px; max-width:94vw; max-height:92vh; overflow-y:auto;
+                   width:1180px; max-width:96vw; max-height:92vh; overflow-y:auto;
                    padding:18px 22px; }
-  #glmodal .gcols { display:flex; gap:20px; align-items:flex-start; }
-  #glmodal .gleft { flex:0 0 480px; max-width:480px; }
+  #glmodal .gcols { display:flex; flex-direction:row; gap:0; align-items:stretch; }
+  #glmodal .gleft { flex:0 0 380px; max-width:380px; padding-right:18px; }
   #glmodal .gright { flex:1; min-width:240px; border-left:1px solid #24395a; padding-left:18px; }
-  @media (max-width:820px){ #glmodal .gcols{flex-wrap:wrap;} #glmodal .gleft{flex:1 1 100%;max-width:100%;} #glmodal .gright{flex:1 1 100%;border-left:none;border-top:1px solid #24395a;padding-left:0;padding-top:14px;} }
+  @media (max-width:980px){
+    #glmodal .gcols{flex-direction:column;}
+    #glmodal .gleft{flex:1 1 100%;max-width:100%;padding-right:0;}
+    #glmodal .gright{flex:1 1 100%;border-left:none;border-top:1px solid #24395a;padding-left:0;padding-top:14px;margin-top:14px;}
+  }
   #glmodal .gx { float:right; cursor:pointer; color:#7f97b0; font-size:20px; }
   #glmodal .gnews-title { font-size:14px; font-weight:700; color:#cfe0f2; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
   #glmodal .gnews-title .upd { font-size:11px; color:#6f8398; font-weight:500; margin-left:auto; }
@@ -730,9 +734,12 @@
               text-decoration:none; font-size:12.5px; font-weight:600;
               background:#27405c; color:#cfe0f2; }
   #glmodal .glinks a:hover { background:#365a82; }
-  #glmodal .goverview { margin-bottom:14px; background:#0f1d30; border:1px solid #24395a; border-radius:8px; padding:11px 13px; }
-  #glmodal .goverview .gov-title { font-size:13px; font-weight:700; color:#cfe0f2; margin-bottom:6px; }
-  #glmodal .goverview .gov-body { font-size:12.5px; color:#b9cbe0; line-height:1.6; max-height:180px; overflow-y:auto; }
+  #glmodal .goverview { flex:0 0 250px; max-width:250px; border-left:1px solid #24395a; padding-left:18px; }
+  #glmodal .goverview .gov-title { font-size:14px; font-weight:700; color:#cfe0f2; margin-bottom:10px; }
+  #glmodal .goverview .gov-body { font-size:12.5px; color:#b9cbe0; line-height:1.6; max-height:520px; overflow-y:auto; }
+  @media (max-width:980px){
+    #glmodal .goverview{flex:1 1 100%;max-width:100%;border-left:none;border-top:1px solid #24395a;padding-left:0;padding-top:14px;margin-top:14px;}
+  }
 
   /* ── 유저 패널 ── */
   #up-overlay{position:fixed;inset:0;z-index:9900;display:none;}
@@ -1035,16 +1042,26 @@
 
     <div class="section-title">주요 지수</div>
 
-    <!-- 1행: 국내 + 미국 3대 지수 + 선물 + 환율 -->
+    <!-- 1행: 국내 지수 + 선물 + ETF(EWY/DRAM) + 야간선물 + 환율 -->
     <div class="dash-grid-8">
       <div class="idx-card" id="idx-KOSPI"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSPI','_blank')"><div class="name">KOSPI</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-KOSDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSDAQ','_blank')"><div class="name">KOSDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-K200F"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AK200F1%21','_blank')"><div class="name">K200선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-EWY"        onclick="window.open('https://www.tradingview.com/chart/?symbol=AMEX%3AEWY','_blank')"><div class="name">MSCI코리아(EWY)</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <div class="idx-card" id="idx-DRAM"       onclick="window.open('https://www.tradingview.com/chart/?symbol=NASDAQ%3ADRAM','_blank')"><div class="name">DRAM ETF</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-K200F_NIGHT"><div class="name">K200야간종가</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-USDKRW"><div class="name">원달러</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+    </div>
+
+    <!-- 2행: 아시아 지수 (다음줄) -->
+    <div class="dash-grid-8">
       <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+    </div>
+
+    <!-- 3행: 미국 3대 지수 + 선물 -->
+    <div class="dash-grid-8">
       <div class="idx-card" id="idx-DOW"        onclick="window.open('https://www.tradingview.com/chart/?symbol=DJI','_blank')"><div class="name">다우존스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-NASDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=IXIC','_blank')"><div class="name">나스닥</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="idx-SP500"      onclick="window.open('https://www.tradingview.com/chart/?symbol=SPX','_blank')"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
@@ -1054,8 +1071,8 @@
       <div class="idx-card" id="idx-SP500F"     onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3AES1%21','_blank')"><div class="name">S&amp;P 500 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
     </div>
 
-    <!-- 2행: 미국 지표 5개 -->
-    <div class="dash-grid-5">
+    <!-- 4행: 미국 지표 5개 (카드 크기 통일) -->
+    <div class="dash-grid-8">
       <div class="idx-card" id="idx-SOX"  onclick="window.open('https://www.tradingview.com/chart/?symbol=SOX','_blank')"><div class="name">필라델피아 반도체</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="ind-tny"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:US10Y','_blank')"><div class="name">10Y 국채금리</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
       <div class="idx-card" id="ind-dxy"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:DXY','_blank')"><div class="name">달러인덱스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
@@ -1427,9 +1444,9 @@
         <div class="gmk" id="gl-mk"></div>
         <div class="ggrid" id="gl-metrics"></div>
         <div class="gratings" id="gl-ratings"></div>
-        <div class="goverview" id="gl-overview" style="display:none;"></div>
         <div class="glinks" id="gl-links"></div>
       </div>
+      <div class="goverview" id="gl-overview" style="display:none;"></div>
       <div class="gright">
         <div class="gnews-title">📰 최근 뉴스 <span class="upd" id="gl-news-upd"></span></div>
         <div class="gnews-list" id="gl-news"></div>
@@ -3701,7 +3718,7 @@ async function fetchKrPricesLive() {
       statusEl.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${dot};margin-right:4px;vertical-align:middle;"></span>${msLabel} ${data.updated_at ? data.updated_at.slice(11,16) : ''}`;
     }
     // 지수 카드 갱신
-    const idMap = {'KOSPI':'idx-KOSPI','KOSDAQ':'idx-KOSDAQ','K200F':'idx-K200F','K200F_NIGHT':'idx-K200F_NIGHT','USDKRW':'idx-USDKRW','NIKKEI':'idx-NIKKEI','SHCOMP':'idx-SHCOMP','TWII':'idx-TWII','DOW':'idx-DOW','NASDAQ':'idx-NASDAQ','S&P 500':'idx-SP500'};
+    const idMap = {'KOSPI':'idx-KOSPI','KOSDAQ':'idx-KOSDAQ','K200F':'idx-K200F','EWY':'idx-EWY','DRAM':'idx-DRAM','K200F_NIGHT':'idx-K200F_NIGHT','USDKRW':'idx-USDKRW','NIKKEI':'idx-NIKKEI','SHCOMP':'idx-SHCOMP','TWII':'idx-TWII','DOW':'idx-DOW','NASDAQ':'idx-NASDAQ','S&P 500':'idx-SP500'};
     const indices = data.indices || {};
     for (const [nm, elId] of Object.entries(idMap)) {
       const el = document.getElementById(elId);
