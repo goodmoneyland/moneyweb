@@ -3995,10 +3995,11 @@ function _ghFmtVal(v, code) {
   return s + Math.round(v);
 }
 
-// 시간외 등락(미국) — world_marketmap_live(GL_MMLIVE)의 e. 종가 등락 밑에 작은 괄호로.
-function _ghExtHtml(code, rc) {
-  if (code !== 'USA' || !GL_MMLIVE) return '';
-  const e = (GL_MMLIVE[rc] || {}).e;
+// 시간외 등락(미국) — 팝업과 같은 소스(global_prices_live=GL_LIVE, 24h 신선)에서. 종가 등락 밑 작은 괄호.
+// 신고가 리스트는 종가 고정값이고 시간외만 라이브 오버레이라, 무거운 네이버 풀스캔(06시 멈춤) 대신 GL_LIVE 사용.
+function _ghExtHtml(code, tk) {
+  if (code !== 'USA' || !GL_LIVE) return '';
+  const e = (GL_LIVE[tk] || {}).e;
   if (e == null) return '';
   const col = e >= 0 ? '#e0726b' : '#7fb0e8';
   return '<div style="font-size:9.5px;font-weight:600;line-height:1.05;color:' + col + ';">('
