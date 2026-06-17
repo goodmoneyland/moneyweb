@@ -3339,15 +3339,25 @@ async function ensureGlPeer() {
   return GL_PEER;
 }
 
-var GL_OV = null;   // {yahoo_symbol: 기업개요} (네이버 worldstock)
-async function ensureGlOverview() {
-  if (GL_OV) return GL_OV;
-  GL_OV = {};
+var GL_OV = {};   // 시장별 캐시 {US|JP|HK|CN: {key: 기업개요}} (네이버 worldstock)
+function _ovMarket(tk) {           // 팝업 티커 접미사 → 시장 파일 (export_global_overview 와 일치)
+  if (!tk) return null;
+  if (tk.indexOf('.') < 0) return 'US';
+  const suf = tk.split('.').pop().toUpperCase();
+  if (suf === 'T')  return 'JP';
+  if (suf === 'HK') return 'HK';
+  if (suf === 'SS' || suf === 'SZ') return 'CN';
+  return null;                     // 대만(.TW)·유럽 등 — 개요 소스 없음
+}
+async function ensureGlOverview(tk) {
+  const m = _ovMarket(tk);
+  if (!m) return null;
+  if (GL_OV[m]) return GL_OV[m];
   try {
-    const res = await fetch('/api/global_overview.json?t=' + Date.now());
-    GL_OV = (await res.json()).ov || {};
-  } catch(e) { console.warn('global_overview 로드 실패', e); }
-  return GL_OV;
+    const res = await fetch('/api/global_overview_' + m + '.json?t=' + Date.now());
+    GL_OV[m] = (await res.json()).ov || {};
+  } catch(e) { GL_OV[m] = {}; console.warn('global_overview ' + m + ' 로드 실패', e); }
+  return GL_OV[m];
 }
 
 // 야후심볼 → TradingView 차트 심볼(거래소:티커). 미국은 티커 그대로.
@@ -3609,9 +3619,9 @@ async function glPopup(tk, fb) {
   gm.classList.add('open');
   // 기업개요 (네이버 worldstock) — 재무와 뉴스 사이 가운데 섹션
   setGlOverview(null);
-  ensureGlOverview().then(ov => {
+  ensureGlOverview(tk).then(ov => {
     if (gm.classList.contains('open') && gm.dataset.tk === tk)
-      setGlOverview({ overview: ov[tk] || ov[d.tk] });
+      setGlOverview({ overview: ov ? (ov[tk] || ov[d.tk]) : null });
   });
   // 최근 뉴스 (finviz, 1시간 스크랩) — 데이터 준비되면 채움
   renderGlNews(tk);
@@ -3644,7 +3654,7 @@ async function glPopupLiteFB(tk, fb) {
     + '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(tk)) + '" target="_blank">TradingView ↗</a>';
   const gm = document.getElementById('glmodal'); gm.dataset.tk = tk; gm.classList.add('open');
   setGlOverview(null);
-  ensureGlOverview().then(ov => { if (gm.classList.contains('open') && gm.dataset.tk === tk) setGlOverview({ overview: ov[tk] }); });
+  ensureGlOverview(tk).then(ov => { if (gm.classList.contains('open') && gm.dataset.tk === tk) setGlOverview({ overview: ov ? ov[tk] : null }); });
   const nb = document.getElementById('gl-news'); if (nb) nb.innerHTML = '<div class="gnews-empty">peer 외 종목 — 뉴스 없음</div>';
   const nu = document.getElementById('gl-news-upd'); if (nu) nu.textContent = '';
 }
@@ -3655,7 +3665,7 @@ async function glPopupLiteFB(tk, fb) {
 var GH_DATA = null;
 var GH_CUR  = 'USA';
 const GH_ORDER = ['USA','JPN','CHN','HKG','TWN','EUR'];
-const GH_FLAG  = {USA:'🇺🇸',JPN:'🇯🇵',CHN:'🇨🇳',HKG:'🇭🇰',TWN:'🇹🇼',EUR:'🇪🇺'};
+const GH_FCC   = {USA:'us',JPN:'jp',CHN:'cn',HKG:'hk',TWN:'tw',EUR:'eu'};   // flagcdn 국가코드(이모지 국기가 Windows서 'US'로 깨져 이미지로 대체)
 const GH_KNM   = {USA:'미국',JPN:'일본',CHN:'중국',HKG:'홍콩',TWN:'대만',EUR:'유럽'};
 
 var _ghTimer  = null;
@@ -3691,8 +3701,8 @@ function renderGhTabs() {
     const n = (its[code] || []).length;
     const act = (code === GH_CUR);
     return '<div onclick="switchGhCountry(\''+code+'\')" style="cursor:pointer;padding:7px 13px;border-radius:8px;font-weight:700;font-size:14px;white-space:nowrap;'
-      + (act ? 'background:#14b8a6;color:#fff;' : 'background:var(--card2);color:var(--muted);border:1px solid var(--border);') + '">'
-      + GH_FLAG[code]+' '+GH_KNM[code]+' <span style="font-size:12px;opacity:.85;">'+n+'</span></div>';
+      + (act ? 'background:#14b8a6;color:#fff;' : 'background:var(--card2);color:var(--muted);border:1px solid var(--border);') + 'display:inline-flex;align-items:center;gap:6px;">'
+      + '<img class="flag-img" src="https://flagcdn.com/w40/'+GH_FCC[code]+'.png" alt="">'+GH_KNM[code]+' <span style="font-size:12px;opacity:.85;">'+n+'</span></div>';
   }).join('');
 }
 
