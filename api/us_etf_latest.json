@@ -1,493 +1,477 @@
 {
-  "trd_ymd": "20260616",
+  "trd_ymd": "20260617",
   "rows": [
-    {
-      "TICKER": "SOXX",
-      "NAME": "반도체",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 628.45,
-      "CHG_AMT": 32.2,
-      "CHG_RT": 5.4
-    },
-    {
-      "TICKER": "ARKK",
-      "NAME": "글로벌 - 혁신 기술",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 79.63,
-      "CHG_AMT": 3.98,
-      "CHG_RT": 5.26
-    },
-    {
-      "TICKER": "ARKG",
-      "NAME": "글로벌 - 헬스케어",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 35.1,
-      "CHG_AMT": 1.63,
-      "CHG_RT": 4.87
-    },
-    {
-      "TICKER": "ARKW",
-      "NAME": "글로벌 - 차세대 인터넷",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 147.44,
-      "CHG_AMT": 6.16,
-      "CHG_RT": 4.36
-    },
-    {
-      "TICKER": "ARKF",
-      "NAME": "글로벌 - 핀텍",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 40.57,
-      "CHG_AMT": 1.66,
-      "CHG_RT": 4.27
-    },
-    {
-      "TICKER": "ARKX",
-      "NAME": "우주 개발",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 35.18,
-      "CHG_AMT": 1.4,
-      "CHG_RT": 4.14
-    },
-    {
-      "TICKER": "ARKQ",
-      "NAME": "글로벌 - 자율주행/로봇",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 134.69,
-      "CHG_AMT": 5.28,
-      "CHG_RT": 4.08
-    },
-    {
-      "TICKER": "BLOK",
-      "NAME": "글로벌 - 블록체인",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 66.63,
-      "CHG_AMT": 2.59,
-      "CHG_RT": 4.04
-    },
-    {
-      "TICKER": "BITQ",
-      "NAME": "글로벌 - 가상화폐",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 27.8,
-      "CHG_AMT": 1.02,
-      "CHG_RT": 3.81
-    },
-    {
-      "TICKER": "SLV",
-      "NAME": "은",
-      "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 63.47,
-      "CHG_AMT": 2.18,
-      "CHG_RT": 3.56
-    },
-    {
-      "TICKER": "QCLN",
-      "NAME": "미국 - 재생 에너지",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 63.52,
-      "CHG_AMT": 2.03,
-      "CHG_RT": 3.3
-    },
-    {
-      "TICKER": "QQQ",
-      "NAME": "Nasdaq 100",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 744.0,
-      "CHG_AMT": 22.66,
-      "CHG_RT": 3.14
-    },
-    {
-      "TICKER": "FDN",
-      "NAME": "인터넷",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 271.22,
-      "CHG_AMT": 6.85,
-      "CHG_RT": 2.59
-    },
-    {
-      "TICKER": "GLD",
-      "NAME": "금",
-      "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 396.55,
-      "CHG_AMT": 10.01,
-      "CHG_RT": 2.59
-    },
-    {
-      "TICKER": "IWF",
-      "NAME": "성장주",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 124.36,
-      "CHG_AMT": 2.75,
-      "CHG_RT": 2.26
-    },
-    {
-      "TICKER": "VWO",
-      "NAME": "신흥국",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 60.84,
-      "CHG_AMT": 1.29,
-      "CHG_RT": 2.17
-    },
-    {
-      "TICKER": "LIT",
-      "NAME": "글로벌 - 2차전지",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 84.08,
-      "CHG_AMT": 1.71,
-      "CHG_RT": 2.08
-    },
-    {
-      "TICKER": "SKYY",
-      "NAME": "글로벌 - 클라우드 컴퓨팅",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 136.73,
-      "CHG_AMT": 2.71,
-      "CHG_RT": 2.02
-    },
-    {
-      "TICKER": "SPY",
-      "NAME": "S&P 500",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 754.83,
-      "CHG_AMT": 13.08,
-      "CHG_RT": 1.76
-    },
-    {
-      "TICKER": "XLY",
-      "NAME": "재량 소비재",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 118.57,
-      "CHG_AMT": 1.97,
-      "CHG_RT": 1.69
-    },
-    {
-      "TICKER": "VTI",
-      "NAME": "주식종합",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 372.53,
-      "CHG_AMT": 6.17,
-      "CHG_RT": 1.68
-    },
-    {
-      "TICKER": "VT",
-      "NAME": "전세계",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 158.72,
-      "CHG_AMT": 2.43,
-      "CHG_RT": 1.55
-    },
-    {
-      "TICKER": "ITA",
-      "NAME": "항공우주/방위",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 237.4,
-      "CHG_AMT": 3.61,
-      "CHG_RT": 1.54
-    },
-    {
-      "TICKER": "VEU",
-      "NAME": "미국 제외 전세계",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 85.02,
-      "CHG_AMT": 1.23,
-      "CHG_RT": 1.47
-    },
-    {
-      "TICKER": "XLI",
-      "NAME": "산업재",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 178.68,
-      "CHG_AMT": 2.5,
-      "CHG_RT": 1.42
-    },
-    {
-      "TICKER": "VEA",
-      "NAME": "미국 제외 선진국",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 72.39,
-      "CHG_AMT": 0.84,
-      "CHG_RT": 1.17
-    },
-    {
-      "TICKER": "CIBR",
-      "NAME": "글로벌 - 사이버보안",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 86.27,
-      "CHG_AMT": 0.94,
-      "CHG_RT": 1.1
-    },
-    {
-      "TICKER": "IBB",
-      "NAME": "바이오텍",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 172.17,
-      "CHG_AMT": 1.51,
-      "CHG_RT": 0.88
-    },
-    {
-      "TICKER": "PAVE",
-      "NAME": "인프라",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 58.17,
-      "CHG_AMT": 0.41,
-      "CHG_RT": 0.71
-    },
     {
       "TICKER": "UNG",
       "NAME": "천연가스",
       "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 11.43,
-      "CHG_AMT": 0.08,
-      "CHG_RT": 0.7
-    },
-    {
-      "TICKER": "XLB",
-      "NAME": "기초 소재",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 52.5,
-      "CHG_AMT": 0.32,
-      "CHG_RT": 0.61
-    },
-    {
-      "TICKER": "IWM",
-      "NAME": "Russell 2000",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 294.64,
-      "CHG_AMT": 1.69,
-      "CHG_RT": 0.58
-    },
-    {
-      "TICKER": "DBA",
-      "NAME": "농산물",
-      "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 26.38,
-      "CHG_AMT": 0.14,
-      "CHG_RT": 0.53
-    },
-    {
-      "TICKER": "VTV",
-      "NAME": "가치주",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 218.24,
-      "CHG_AMT": 1.15,
-      "CHG_RT": 0.53
-    },
-    {
-      "TICKER": "VIG",
-      "NAME": "배당성장주",
-      "CATEGORY": "배당/채권ETF",
-      "CLOSE_PRC": 236.89,
-      "CHG_AMT": 1.16,
-      "CHG_RT": 0.49
-    },
-    {
-      "TICKER": "XLC",
-      "NAME": "통신",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 112.19,
-      "CHG_AMT": 0.54,
-      "CHG_RT": 0.48
-    },
-    {
-      "TICKER": "XLU",
-      "NAME": "유틸리티",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 44.74,
-      "CHG_AMT": 0.21,
-      "CHG_RT": 0.47
+      "CLOSE_PRC": 11.76,
+      "CHG_AMT": 0.33,
+      "CHG_RT": 2.89
     },
     {
       "TICKER": "XLF",
       "NAME": "금융",
       "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 53.56,
-      "CHG_AMT": 0.22,
-      "CHG_RT": 0.41
-    },
-    {
-      "TICKER": "PHO",
-      "NAME": "미국 - 수자원",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 67.08,
-      "CHG_AMT": 0.27,
-      "CHG_RT": 0.4
-    },
-    {
-      "TICKER": "CPER",
-      "NAME": "구리",
-      "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 39.65,
-      "CHG_AMT": 0.1,
-      "CHG_RT": 0.25
-    },
-    {
-      "TICKER": "PEJ",
-      "NAME": "레저",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 65.34,
-      "CHG_AMT": 0.14,
-      "CHG_RT": 0.21
-    },
-    {
-      "TICKER": "IJH",
-      "NAME": "S&P MidCap 400",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 76.16,
-      "CHG_AMT": 0.12,
-      "CHG_RT": 0.16
-    },
-    {
-      "TICKER": "XME",
-      "NAME": "금속/광산",
-      "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 120.63,
-      "CHG_AMT": 0.19,
-      "CHG_RT": 0.16
+      "CLOSE_PRC": 54.35,
+      "CHG_AMT": 0.79,
+      "CHG_RT": 1.47
     },
     {
       "TICKER": "ITB",
       "NAME": "주택 건설",
       "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 97.09,
-      "CHG_AMT": 0.14,
-      "CHG_RT": 0.14
+      "CLOSE_PRC": 98.26,
+      "CHG_AMT": 1.17,
+      "CHG_RT": 1.21
+    },
+    {
+      "TICKER": "PHO",
+      "NAME": "미국 - 수자원",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 67.83,
+      "CHG_AMT": 0.75,
+      "CHG_RT": 1.12
+    },
+    {
+      "TICKER": "DBA",
+      "NAME": "농산물",
+      "CATEGORY": "원자재ETF",
+      "CLOSE_PRC": 26.66,
+      "CHG_AMT": 0.28,
+      "CHG_RT": 1.06
+    },
+    {
+      "TICKER": "ITA",
+      "NAME": "항공우주/방위",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 239.52,
+      "CHG_AMT": 2.12,
+      "CHG_RT": 0.89
+    },
+    {
+      "TICKER": "XLU",
+      "NAME": "유틸리티",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 45.06,
+      "CHG_AMT": 0.32,
+      "CHG_RT": 0.72
+    },
+    {
+      "TICKER": "XLI",
+      "NAME": "산업재",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 179.85,
+      "CHG_AMT": 1.17,
+      "CHG_RT": 0.65
+    },
+    {
+      "TICKER": "PAVE",
+      "NAME": "인프라",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 58.5,
+      "CHG_AMT": 0.33,
+      "CHG_RT": 0.57
+    },
+    {
+      "TICKER": "IHI",
+      "NAME": "의료기기",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 49.91,
+      "CHG_AMT": 0.26,
+      "CHG_RT": 0.52
+    },
+    {
+      "TICKER": "PEJ",
+      "NAME": "레저",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 65.67,
+      "CHG_AMT": 0.33,
+      "CHG_RT": 0.51
+    },
+    {
+      "TICKER": "XLB",
+      "NAME": "기초 소재",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 52.72,
+      "CHG_AMT": 0.22,
+      "CHG_RT": 0.42
+    },
+    {
+      "TICKER": "GLD",
+      "NAME": "금",
+      "CATEGORY": "원자재ETF",
+      "CLOSE_PRC": 397.63,
+      "CHG_AMT": 1.08,
+      "CHG_RT": 0.27
+    },
+    {
+      "TICKER": "IEF",
+      "NAME": "미국 - 국채 (7-10년)",
+      "CATEGORY": "채권ETF",
+      "CLOSE_PRC": 94.52,
+      "CHG_AMT": 0.24,
+      "CHG_RT": 0.25
+    },
+    {
+      "TICKER": "VNQ",
+      "NAME": "부동산/REITs",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 98.06,
+      "CHG_AMT": 0.24,
+      "CHG_RT": 0.25
+    },
+    {
+      "TICKER": "BND",
+      "NAME": "미국 - 종합",
+      "CATEGORY": "채권ETF",
+      "CLOSE_PRC": 73.41,
+      "CHG_AMT": 0.11,
+      "CHG_RT": 0.15
+    },
+    {
+      "TICKER": "XLP",
+      "NAME": "필수 소비재",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 85.59,
+      "CHG_AMT": 0.11,
+      "CHG_RT": 0.13
+    },
+    {
+      "TICKER": "LQD",
+      "NAME": "미국 - 회사채 (투자등급)",
+      "CATEGORY": "채권ETF",
+      "CLOSE_PRC": 109.12,
+      "CHG_AMT": 0.13,
+      "CHG_RT": 0.12
+    },
+    {
+      "TICKER": "XLC",
+      "NAME": "통신",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 112.32,
+      "CHG_AMT": 0.13,
+      "CHG_RT": 0.12
+    },
+    {
+      "TICKER": "XLV",
+      "NAME": "헬스케어",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 152.94,
+      "CHG_AMT": 0.05,
+      "CHG_RT": 0.03
     },
     {
       "TICKER": "TIP",
       "NAME": "미국 - 물가연동국채",
       "CATEGORY": "채권ETF",
       "CLOSE_PRC": 109.76,
-      "CHG_AMT": 0.15,
-      "CHG_RT": 0.14
-    },
-    {
-      "TICKER": "HYG",
-      "NAME": "미국 - 회사채 (하이일드)",
-      "CATEGORY": "채권ETF",
-      "CLOSE_PRC": 80.04,
-      "CHG_AMT": 0.1,
-      "CHG_RT": 0.13
-    },
-    {
-      "TICKER": "IEF",
-      "NAME": "미국 - 국채 (7-10년)",
-      "CATEGORY": "채권ETF",
-      "CLOSE_PRC": 94.28,
-      "CHG_AMT": 0.1,
-      "CHG_RT": 0.11
-    },
-    {
-      "TICKER": "BND",
-      "NAME": "미국 - 종합",
-      "CATEGORY": "채권ETF",
-      "CLOSE_PRC": 73.3,
-      "CHG_AMT": 0.06,
-      "CHG_RT": 0.08
-    },
-    {
-      "TICKER": "VYM",
-      "NAME": "고배당주",
-      "CATEGORY": "배당/채권ETF",
-      "CLOSE_PRC": 160.46,
-      "CHG_AMT": 0.13,
-      "CHG_RT": 0.08
+      "CHG_AMT": 0.0,
+      "CHG_RT": 0.0
     },
     {
       "TICKER": "VNQI",
       "NAME": "글로벌 - 미국 외 부동산",
       "CATEGORY": "테마ETF",
       "CLOSE_PRC": 45.7,
-      "CHG_AMT": 0.01,
-      "CHG_RT": 0.02
-    },
-    {
-      "TICKER": "IYT",
-      "NAME": "운송/물류",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 86.51,
       "CHG_AMT": 0.0,
       "CHG_RT": 0.0
     },
     {
-      "TICKER": "LQD",
-      "NAME": "미국 - 회사채 (투자등급)",
+      "TICKER": "HYG",
+      "NAME": "미국 - 회사채 (하이일드)",
       "CATEGORY": "채권ETF",
-      "CLOSE_PRC": 108.99,
-      "CHG_AMT": -0.02,
+      "CLOSE_PRC": 80.03,
+      "CHG_AMT": -0.01,
+      "CHG_RT": -0.01
+    },
+    {
+      "TICKER": "VYM",
+      "NAME": "고배당주",
+      "CATEGORY": "배당/채권ETF",
+      "CLOSE_PRC": 160.42,
+      "CHG_AMT": -0.04,
       "CHG_RT": -0.02
     },
     {
-      "TICKER": "IHI",
-      "NAME": "의료기기",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 49.65,
-      "CHG_AMT": -0.02,
-      "CHG_RT": -0.04
+      "TICKER": "VIG",
+      "NAME": "배당성장주",
+      "CATEGORY": "배당/채권ETF",
+      "CLOSE_PRC": 236.81,
+      "CHG_AMT": -0.08,
+      "CHG_RT": -0.03
     },
     {
-      "TICKER": "XLP",
-      "NAME": "필수 소비재",
+      "TICKER": "XLY",
+      "NAME": "재량 소비재",
       "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 85.48,
-      "CHG_AMT": -0.34,
-      "CHG_RT": -0.4
+      "CLOSE_PRC": 118.46,
+      "CHG_AMT": -0.11,
+      "CHG_RT": -0.09
+    },
+    {
+      "TICKER": "VEA",
+      "NAME": "미국 제외 선진국",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 72.32,
+      "CHG_AMT": -0.07,
+      "CHG_RT": -0.1
+    },
+    {
+      "TICKER": "VTV",
+      "NAME": "가치주",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 218.03,
+      "CHG_AMT": -0.21,
+      "CHG_RT": -0.1
+    },
+    {
+      "TICKER": "SLV",
+      "NAME": "은",
+      "CATEGORY": "원자재ETF",
+      "CLOSE_PRC": 63.39,
+      "CHG_AMT": -0.08,
+      "CHG_RT": -0.13
+    },
+    {
+      "TICKER": "FDN",
+      "NAME": "인터넷",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 270.59,
+      "CHG_AMT": -0.63,
+      "CHG_RT": -0.23
+    },
+    {
+      "TICKER": "CPER",
+      "NAME": "구리",
+      "CATEGORY": "원자재ETF",
+      "CLOSE_PRC": 39.55,
+      "CHG_AMT": -0.1,
+      "CHG_RT": -0.25
+    },
+    {
+      "TICKER": "IJH",
+      "NAME": "S&P MidCap 400",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 75.93,
+      "CHG_AMT": -0.23,
+      "CHG_RT": -0.3
     },
     {
       "TICKER": "SCHD",
       "NAME": "배당주",
       "CATEGORY": "배당/채권ETF",
-      "CLOSE_PRC": 32.63,
-      "CHG_AMT": -0.19,
-      "CHG_RT": -0.58
-    },
-    {
-      "TICKER": "XLV",
-      "NAME": "헬스케어",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 152.89,
-      "CHG_AMT": -0.92,
-      "CHG_RT": -0.6
-    },
-    {
-      "TICKER": "VNQ",
-      "NAME": "부동산/REITs",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 97.82,
-      "CHG_AMT": -0.69,
-      "CHG_RT": -0.7
-    },
-    {
-      "TICKER": "AMLP",
-      "NAME": "고배당 MLP",
-      "CATEGORY": "배당/채권ETF",
-      "CLOSE_PRC": 51.24,
-      "CHG_AMT": -0.89,
-      "CHG_RT": -1.71
-    },
-    {
-      "TICKER": "MSOS",
-      "NAME": "미국 - 대마",
-      "CATEGORY": "테마ETF",
-      "CLOSE_PRC": 4.94,
+      "CLOSE_PRC": 32.53,
       "CHG_AMT": -0.1,
-      "CHG_RT": -1.98
-    },
-    {
-      "TICKER": "USO",
-      "NAME": "원유",
-      "CATEGORY": "원자재ETF",
-      "CLOSE_PRC": 121.21,
-      "CHG_AMT": -4.22,
-      "CHG_RT": -3.36
+      "CHG_RT": -0.31
     },
     {
       "TICKER": "XLE",
       "NAME": "에너지",
       "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 55.55,
-      "CHG_AMT": -2.0,
-      "CHG_RT": -3.48
+      "CLOSE_PRC": 55.36,
+      "CHG_AMT": -0.19,
+      "CHG_RT": -0.34
+    },
+    {
+      "TICKER": "VEU",
+      "NAME": "미국 제외 전세계",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 84.71,
+      "CHG_AMT": -0.31,
+      "CHG_RT": -0.36
+    },
+    {
+      "TICKER": "IBB",
+      "NAME": "바이오텍",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 171.44,
+      "CHG_AMT": -0.73,
+      "CHG_RT": -0.42
+    },
+    {
+      "TICKER": "VT",
+      "NAME": "전세계",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 157.99,
+      "CHG_AMT": -0.73,
+      "CHG_RT": -0.46
+    },
+    {
+      "TICKER": "IYT",
+      "NAME": "운송/물류",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 86.1,
+      "CHG_AMT": -0.41,
+      "CHG_RT": -0.47
+    },
+    {
+      "TICKER": "AMLP",
+      "NAME": "고배당 MLP",
+      "CATEGORY": "배당/채권ETF",
+      "CLOSE_PRC": 50.98,
+      "CHG_AMT": -0.26,
+      "CHG_RT": -0.51
+    },
+    {
+      "TICKER": "VTI",
+      "NAME": "주식종합",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 370.37,
+      "CHG_AMT": -2.16,
+      "CHG_RT": -0.58
+    },
+    {
+      "TICKER": "SPY",
+      "NAME": "S&P 500",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 750.33,
+      "CHG_AMT": -4.5,
+      "CHG_RT": -0.6
+    },
+    {
+      "TICKER": "ARKG",
+      "NAME": "글로벌 - 헬스케어",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 34.88,
+      "CHG_AMT": -0.22,
+      "CHG_RT": -0.63
+    },
+    {
+      "TICKER": "BLOK",
+      "NAME": "글로벌 - 블록체인",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 66.19,
+      "CHG_AMT": -0.44,
+      "CHG_RT": -0.66
+    },
+    {
+      "TICKER": "ARKK",
+      "NAME": "글로벌 - 혁신 기술",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 79.08,
+      "CHG_AMT": -0.55,
+      "CHG_RT": -0.69
+    },
+    {
+      "TICKER": "ARKF",
+      "NAME": "글로벌 - 핀텍",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 40.25,
+      "CHG_AMT": -0.32,
+      "CHG_RT": -0.79
+    },
+    {
+      "TICKER": "IWF",
+      "NAME": "성장주",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 123.35,
+      "CHG_AMT": -1.01,
+      "CHG_RT": -0.81
+    },
+    {
+      "TICKER": "IWM",
+      "NAME": "Russell 2000",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 292.08,
+      "CHG_AMT": -2.56,
+      "CHG_RT": -0.87
+    },
+    {
+      "TICKER": "ARKW",
+      "NAME": "글로벌 - 차세대 인터넷",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 145.95,
+      "CHG_AMT": -1.49,
+      "CHG_RT": -1.01
+    },
+    {
+      "TICKER": "SKYY",
+      "NAME": "글로벌 - 클라우드 컴퓨팅",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 135.32,
+      "CHG_AMT": -1.41,
+      "CHG_RT": -1.03
+    },
+    {
+      "TICKER": "XME",
+      "NAME": "금속/광산",
+      "CATEGORY": "원자재ETF",
+      "CLOSE_PRC": 119.33,
+      "CHG_AMT": -1.3,
+      "CHG_RT": -1.08
+    },
+    {
+      "TICKER": "VWO",
+      "NAME": "신흥국",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 60.16,
+      "CHG_AMT": -0.68,
+      "CHG_RT": -1.12
+    },
+    {
+      "TICKER": "ARKX",
+      "NAME": "우주 개발",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 34.75,
+      "CHG_AMT": -0.43,
+      "CHG_RT": -1.22
+    },
+    {
+      "TICKER": "CIBR",
+      "NAME": "글로벌 - 사이버보안",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 85.08,
+      "CHG_AMT": -1.19,
+      "CHG_RT": -1.38
+    },
+    {
+      "TICKER": "ARKQ",
+      "NAME": "글로벌 - 자율주행/로봇",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 132.35,
+      "CHG_AMT": -2.34,
+      "CHG_RT": -1.74
+    },
+    {
+      "TICKER": "QQQ",
+      "NAME": "Nasdaq 100",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 729.86,
+      "CHG_AMT": -14.14,
+      "CHG_RT": -1.9
+    },
+    {
+      "TICKER": "MSOS",
+      "NAME": "미국 - 대마",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 4.83,
+      "CHG_AMT": -0.11,
+      "CHG_RT": -2.23
+    },
+    {
+      "TICKER": "QCLN",
+      "NAME": "미국 - 재생 에너지",
+      "CATEGORY": "테마ETF",
+      "CLOSE_PRC": 61.67,
+      "CHG_AMT": -1.85,
+      "CHG_RT": -2.91
+    },
+    {
+      "TICKER": "USO",
+      "NAME": "원유",
+      "CATEGORY": "원자재ETF",
+      "CLOSE_PRC": 115.47,
+      "CHG_AMT": -5.74,
+      "CHG_RT": -4.74
+    },
+    {
+      "TICKER": "SOXX",
+      "NAME": "반도체",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 591.24,
+      "CHG_AMT": -37.21,
+      "CHG_RT": -5.92
     }
   ]
 }
