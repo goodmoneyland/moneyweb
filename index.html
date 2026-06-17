@@ -3927,6 +3927,7 @@ async function refreshGlobalHigh() {
   }
   _ghPicked = true;
   try { await ensureGlPeer(); } catch(e){}
+  try { await ensureMMLive(); } catch(e){}   // 시간외 등락(e) 소스 — 신고가 행에 괄호로 표시
   renderGhTabs();
   renderGlobalHigh();
 }
@@ -3994,6 +3995,16 @@ function _ghFmtVal(v, code) {
   return s + Math.round(v);
 }
 
+// 시간외 등락(미국) — world_marketmap_live(GL_MMLIVE)의 e. 종가 등락 밑에 작은 괄호로.
+function _ghExtHtml(code, rc) {
+  if (code !== 'USA' || !GL_MMLIVE) return '';
+  const e = (GL_MMLIVE[rc] || {}).e;
+  if (e == null) return '';
+  const col = e >= 0 ? '#e0726b' : '#7fb0e8';
+  return '<div style="font-size:9.5px;font-weight:600;line-height:1.05;color:' + col + ';">('
+    + (e > 0 ? '+' : '') + Number(e).toFixed(2) + '%)</div>';
+}
+
 // 장마감후 KR 신고가처럼: 섹터 요약 + 섹터별 컴팩트 카드(종목명·등락률·거래대금 인접)
 function _ghSectorView(items, code) {
   const isUS = (code === 'USA');
@@ -4034,10 +4045,10 @@ function _ghSectorView(items, code) {
     const lead = (isAth(x) ? '🏆' : '') + (x.core ? '<span title="핵심종목" style="color:#fbbf24;">★</span>' : '');
     return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;"'
       + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
-      + '<td style="padding:3px 8px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:var(--muted);font-size:10.5px;">'+tk+'</span></td>'
-      + '<td style="padding:3px 3px;text-align:right;font-size:12px;font-weight:800;color:'+c+';white-space:nowrap;">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</td>'
-      + '<td style="padding:3px 3px;text-align:right;font-size:11.5px;color:var(--muted);white-space:nowrap;">'+_ghFmtVal(x.value, code)+'</td>'
-      + '<td style="padding:3px 8px 3px 3px;text-align:right;font-size:11.5px;color:#9aa7b3;white-space:nowrap;">'+_ghFmtVal(x.mcap, code)+'</td>'
+      + '<td style="padding:3px 8px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:top;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:var(--muted);font-size:10.5px;">'+tk+'</span></td>'
+      + '<td style="padding:3px 3px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:12px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
+      + '<td style="padding:3px 3px;text-align:right;font-size:11.5px;color:var(--muted);white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.value, code)+'</td>'
+      + '<td style="padding:3px 8px 3px 3px;text-align:right;font-size:11.5px;color:#9aa7b3;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
   };
 
@@ -4090,10 +4101,10 @@ function openGhSector(s) {
     const lead = (isAth(x) ? '🏆' : '') + (x.core ? '<span title="핵심종목" style="color:#fbbf24;">★</span>' : '');
     return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;border-bottom:1px solid #1b2c42;"'
       + ' onmouseover="this.style.background=\'#16273c\'" onmouseout="this.style.background=\'\'">'
-      + '<td style="padding:5px 12px;font-size:13.5px;font-weight:600;color:#dbe6f2;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:#7f97b0;font-size:11px;">'+tk+'</span></td>'
-      + '<td style="padding:5px 8px;text-align:right;font-size:13px;font-weight:800;color:'+c+';white-space:nowrap;">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</td>'
-      + '<td style="padding:5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;">'+_ghFmtVal(x.value, code)+'</td>'
-      + '<td style="padding:5px 12px 5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;">'+_ghFmtVal(x.mcap, code)+'</td>'
+      + '<td style="padding:5px 12px;font-size:13.5px;font-weight:600;color:#dbe6f2;vertical-align:top;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:#7f97b0;font-size:11px;">'+tk+'</span></td>'
+      + '<td style="padding:5px 8px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:13px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
+      + '<td style="padding:5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.value, code)+'</td>'
+      + '<td style="padding:5px 12px 5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
   }).join('');
   // 이전/다음 섹터 이동
