@@ -1675,10 +1675,9 @@ fetch('/briefing_index.json?t=' + Date.now())
   .then(data => {
     BINDEX = data;
     updateStatBadge();
-    if (currentTab === 'home') loadHomeSummary();
-    else loadCurrentTab();
+    initialRoute();   // 주소 해시 기준으로 최초 탭 결정 (없으면 home)
   })
-  .catch(() => console.warn('briefing_index.json 로드 실패'));
+  .catch(() => { console.warn('briefing_index.json 로드 실패'); initialRoute(); });
 
 // stat-badge element removed — stub kept to avoid errors
 function updateStatBadge() {}
@@ -1791,6 +1790,60 @@ function switchTab(tab, el) {
     if (w) w.style.display = 'block';
     loadFrame(tab);
   }
+
+  // 주소(해시) 동기화 — 모든 탭 진입 경로(상단탭/드로어/뒤로가기)가 여기를 통과
+  syncHashFromTab(tab);
+}
+
+// ═══════════════════════════════════════
+// 해시 라우팅 (#peer, #kr-sugup …) — 뒤로가기·북마크·링크공유 지원
+// ═══════════════════════════════════════
+var _validTabs = null;
+function getValidTabs() {
+  if (!_validTabs) {
+    _validTabs = new Set();
+    document.querySelectorAll('[data-tab]').forEach(el => {
+      if (el.dataset.tab) _validTabs.add(el.dataset.tab);
+    });
+  }
+  return _validTabs;
+}
+
+// 현재 탭 → 주소 해시 반영 (home은 해시 없이 깔끔하게)
+function syncHashFromTab(tab) {
+  if (tab === 'home') {
+    // 다른 탭에서 홈으로 왔을 때만 깨끗한 주소로 히스토리 push (뒤로가기로 직전 탭 복귀)
+    if (location.hash) history.pushState(null, '', location.pathname + location.search);
+  } else if (location.hash.slice(1) !== tab) {
+    location.hash = tab;   // 히스토리 엔트리 생성 → 뒤로가기 가능
+  }
+}
+
+// 주소 해시 → 탭 전환 (뒤로/앞으로 가기, 최초 진입, 잘못된 해시 처리)
+function applyRoute(tab) {
+  if (!getValidTabs().has(tab)) tab = 'home';
+  const el = document.querySelector(`.ntab[data-tab="${tab}"], .ntab-home[data-tab="${tab}"]`);
+  // 드로어 탭 active 동기화
+  document.querySelectorAll('.drawer-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  switchTab(tab, el || { classList: { add(){}, remove(){} }, dataset: {} });
+}
+
+// 뒤로/앞으로 가기로 해시가 바뀌면 해당 탭으로
+window.addEventListener('hashchange', () => {
+  let tab = decodeURIComponent((location.hash || '').slice(1)) || 'home';
+  if (!getValidTabs().has(tab)) tab = 'home';
+  if (tab === currentTab) return;   // 우리가 방금 바꾼 해시(self-induced)는 무시
+  applyRoute(tab);
+});
+
+// 최초 진입 시 주소 해시 반영 (북마크/공유 링크로 특정 탭 바로 열기). BINDEX 로드 후 1회.
+var _routedInit = false;
+function initialRoute() {
+  if (_routedInit) return;
+  _routedInit = true;
+  let tab = decodeURIComponent((location.hash || '').slice(1)) || 'home';
+  if (!getValidTabs().has(tab)) tab = 'home';
+  applyRoute(tab);
 }
 
 function getFileSrc(tab) {
@@ -3776,6 +3829,7 @@ const _GH_CUR_SYM = {USA:'$', JPN:'¥', CHN:'¥', HKG:'HK$', TWN:'NT$'};
 function _ghFmtVal(v, code) {
   if (v == null || !v) return '';
   const s = _GH_CUR_SYM[code] || '';
+  if (v >= 1e12) return s + (v/1e12).toFixed(1) + 'T';
   if (v >= 1e9) return s + (v/1e9).toFixed(1) + 'B';
   if (v >= 1e6) return s + (v/1e6).toFixed(0) + 'M';
   if (v >= 1e3) return s + (v/1e3).toFixed(0) + 'K';
@@ -3797,7 +3851,8 @@ function _ghSectorView(items, code) {
     const bucket = (s !== '기타' && raw[s].length >= 2) ? s : '기타';
     (grp[bucket] = grp[bucket] || []).push(...raw[s]);
   });
-  Object.values(grp).forEach(a => a.sort((p,q) => (q.value||0) - (p.value||0)));
+  // 섹터 카드 안에서는 시총(mcap) 내림차순 정렬
+  Object.values(grp).forEach(a => a.sort((p,q) => (q.mcap||0) - (p.mcap||0)));
   const order = Object.keys(grp).filter(s => s !== '기타').sort((a,b) => grp[b].length - grp[a].length);
   if (grp['기타']) order.push('기타');
 
@@ -3806,38 +3861,44 @@ function _ghSectorView(items, code) {
     + '<span style="font-size:12.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">▣ '+s+'</span>'
     + '<span style="font-size:12.5px;font-weight:700;color:#f59e0b;">'+grp[s].length+'</span></div>';
 
-  // 한 행: 종목명 바로 뒤에 등락률·거래대금을 붙여 가운데 빈공간 제거(왼쪽 패킹)
+  // 한 행: 종목명(가변·말줄임) + 등락률/거래대금/시총(고정폭 세로정렬)
   const row = x => {
     const tk = isUS ? x.code.split('.')[0] : x.code;
     const key = isUS ? x.code.split('.')[0].toUpperCase() : x.code;
     const cr = x.change;
     const c = (cr||0) >= 0 ? '#f85149' : '#58a6ff';
     const lead = (isAth(x) ? '🏆' : '') + (x.core ? '<span title="핵심종목" style="color:#fbbf24;">★</span>' : '');
-    return '<div onclick="glPopup(\''+key+'\')" style="display:flex;align-items:baseline;gap:6px;padding:3px 9px;cursor:pointer;"'
+    return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;"'
       + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
-      + (lead ? '<span style="flex:none;font-size:12px;">'+lead+'</span>' : '')
-      + '<span style="flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;">'+(x.name||tk)
-      + ' <span style="color:var(--muted);font-size:10.5px;">'+tk+'</span></span>'
-      + '<span style="flex:none;font-size:12.5px;font-weight:800;color:'+c+';white-space:nowrap;">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span>'
-      + '<span style="flex:none;font-size:11.5px;color:var(--muted);white-space:nowrap;">'+_ghFmtVal(x.value, code)+'</span></div>';
+      + '<td style="padding:3px 8px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:var(--muted);font-size:10.5px;">'+tk+'</span></td>'
+      + '<td style="padding:3px 3px;text-align:right;font-size:12px;font-weight:800;color:'+c+';white-space:nowrap;">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</td>'
+      + '<td style="padding:3px 3px;text-align:right;font-size:11.5px;color:var(--muted);white-space:nowrap;">'+_ghFmtVal(x.value, code)+'</td>'
+      + '<td style="padding:3px 8px 3px 3px;text-align:right;font-size:11.5px;color:#9aa7b3;white-space:nowrap;">'+_ghFmtVal(x.mcap, code)+'</td>'
+      + '</tr>';
   };
 
+  const colgroup = '<colgroup><col/><col style="width:50px"/><col style="width:50px"/><col style="width:52px"/></colgroup>';
+  const headRow = '<tr style="color:var(--muted);font-size:10px;background:var(--card);">'
+    + '<td style="padding:2px 8px;"></td>'
+    + '<td style="padding:2px 3px;text-align:right;">등락</td>'
+    + '<td style="padding:2px 3px;text-align:right;">거래대금</td>'
+    + '<td style="padding:2px 8px 2px 3px;text-align:right;">시총</td></tr>';
   const card = s =>
     '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">'
     + '<div style="padding:4px 9px;background:var(--card2);font-size:13px;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">▣ '+s
     + ' <span style="color:var(--muted);font-weight:400;">('+grp[s].length+')</span></div>'
-    + grp[s].map(row).join('') + '</div>';
+    + '<table style="width:100%;border-collapse:collapse;table-layout:fixed;">'+colgroup+'<tbody>'+headRow+grp[s].map(row).join('')+'</tbody></table></div>';
 
-  return '<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;">'
+  return '<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;flex-wrap:wrap;">'
       + '<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
       + '<span style="font-size:13px;color:#22c55e;font-weight:700;">📈 52주 '+w52N+'</span>'
-      + '<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개</span></div>'
+      + '<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개 · 섹터 내 시총순</span></div>'
     + '<div style="display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;">'
       + '<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;">'
         + '<div style="font-size:14px;font-weight:800;margin-bottom:6px;">신고가 섹터</div>'
         + order.map(pill).join('')
       + '</div>'
-      + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;align-items:start;">'+order.map(card).join('')+'</div>'
+      + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:8px;align-items:start;">'+order.map(card).join('')+'</div>'
     + '</div>';
 }
 
