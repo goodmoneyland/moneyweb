@@ -7,7 +7,10 @@
 <style>
   body{margin:0;background:#0d1117;color:#c9d1d9;font-family:-apple-system,'Malgun Gothic',sans-serif}
   #bar{padding:10px 14px;display:flex;gap:12px;align-items:center;border-bottom:1px solid #21262d}
-  select{background:#161b22;color:#c9d1d9;border:1px solid #30363d;border-radius:6px;padding:6px 10px;font-size:14px}
+  #nattabs{display:flex;gap:6px}
+  #nattabs button{display:flex;align-items:center;gap:5px;background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:8px;padding:6px 12px;font-size:14px;font-weight:700;cursor:pointer}
+  #nattabs button.on{background:#1f6feb;color:#fff;border-color:#1f6feb}
+  #nattabs img{width:21px;height:15px;border-radius:2px;object-fit:cover;display:block}
   #meta{font-size:12px;color:#8b949e;margin-left:auto}
   #map{width:100vw;height:calc(100vh - 52px)}
   .sector-label{font-weight:700;fill:#e6edf3;font-size:13px}
@@ -19,7 +22,7 @@
 <body>
 <div id="bar">
   <strong>해외 마켓맵</strong>
-  <select id="nation"></select>
+  <div id="nattabs"></div>
   <span id="meta"></span>
 </div>
 <svg id="map"></svg>
@@ -106,11 +109,14 @@ function render(nat){
      .text((cr>0?'+':'')+(cr??'')+'%'); }
   });
 }
-const sel=document.getElementById('nation');
-Object.keys(DATA).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=DATA[n].nationName;sel.appendChild(o);});
-sel.onchange=()=>render(sel.value);
+const FCC={USA:'us',CHN:'cn',HKG:'hk',JPN:'jp',VNM:'vn'};
+const tabs=document.getElementById('nattabs');
+if(!curNat)curNat=Object.keys(DATA)[0];
+function renderNatTabs(){ tabs.innerHTML=Object.keys(DATA).map(n=>`<button class="${n===curNat?'on':''}" onclick="setNat('${n}')"><img src="https://flagcdn.com/w40/${FCC[n]||''}.png" alt="">${DATA[n].nationName}</button>`).join(''); }
+function setNat(n){ render(n); renderNatTabs(); }
+renderNatTabs();
 // 레이아웃 확정 후 렌더 (초기 innerWidth 미확정 방지)
-function draw(){render(sel.value);}
+function draw(){render(curNat);}
 // 미국 시간외 시세 로드(+3분 갱신) — 부모 SPA의 global_prices_live 재사용
 function loadLive(){ fetch('/moneyweb/api/world_marketmap_live.json?t='+Date.now())
   .then(r=>r.json()).then(j=>{LIVE=j.prices||{};LIVE_AT=j.updatedAt||j.updated_at||'';draw();}).catch(()=>{}); }
