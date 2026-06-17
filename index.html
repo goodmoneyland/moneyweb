@@ -1501,6 +1501,7 @@
         <div class="gext" id="gl-ext" style="display:none"></div>
         <div class="gmk" id="gl-mk"></div>
         <div class="ggrid" id="gl-metrics"></div>
+        <div class="gfin" id="gl-fin" style="margin-bottom:14px;"></div>
         <div class="gratings" id="gl-ratings"></div>
         <div class="glinks" id="gl-links"></div>
       </div>
@@ -3421,6 +3422,77 @@ async function ensureGlOverview(tk) {
   return GL_OV[m];
 }
 
+// 네이버 전종목 백본 지표 (export_global_metrics) — peer 외 종목 팝업용
+var GL_METRICS = {};   // 시장별 캐시 {US|JP|HK|CN: {key: 지표}}
+async function ensureGlMetrics(tk) {
+  const m = _ovMarket(tk);
+  if (!m) return null;
+  if (GL_METRICS[m]) return GL_METRICS[m];
+  try {
+    const res = await fetch('/api/global_metrics_' + m + '.json?t=' + Date.now());
+    GL_METRICS[m] = (await res.json()).metrics || {};
+  } catch(e) { GL_METRICS[m] = {}; console.warn('global_metrics ' + m + ' 로드 실패', e); }
+  return GL_METRICS[m];
+}
+var GL_MMLIVE = null;   // world_marketmap_live.json {reuters: {c:등락%, e:시간외%}} — 전종목 라이브 등락
+async function ensureMMLive() {
+  if (GL_MMLIVE) return GL_MMLIVE;
+  try {
+    const res = await fetch('/api/world_marketmap_live.json?t=' + Date.now());
+    GL_MMLIVE = (await res.json()).prices || {};
+  } catch(e) { GL_MMLIVE = {}; }
+  return GL_MMLIVE;
+}
+function _glMcap(v, cur){
+  if(v==null||isNaN(v)) return '-';
+  const a=Math.abs(v); cur = cur ? (' ' + cur) : '';
+  if(a>=1e12) return (v/1e12).toFixed(2)+'T'+cur;
+  if(a>=1e9)  return (v/1e9).toFixed(1)+'B'+cur;
+  if(a>=1e6)  return (v/1e6).toFixed(0)+'M'+cur;
+  return Number(v).toLocaleString()+cur;
+}
+
+// 네이버 전종목 재무제표(요약) — export_global_financials, 억원(원화환산)
+var GL_FIN = {};
+async function ensureGlFin(tk) {
+  const m = _ovMarket(tk);
+  if (!m) return null;
+  if (GL_FIN[m]) return GL_FIN[m];
+  try {
+    const res = await fetch('/api/global_financials_' + m + '.json?t=' + Date.now());
+    GL_FIN[m] = (await res.json()).fin || {};
+  } catch(e) { GL_FIN[m] = {}; }
+  return GL_FIN[m];
+}
+function _krwon(v){
+  if(v==null||isNaN(v)) return '-';
+  const a=Math.abs(v);
+  if(a>=10000) return (v/10000).toFixed(1)+'조';
+  return Math.round(v).toLocaleString()+'억';
+}
+async function _renderGlFin(tk){
+  const el = document.getElementById('gl-fin'); if(!el) return;
+  el.innerHTML = '';                       // 새 종목 로드 전 이전값 제거
+  if(_ovMarket(tk) == null) return;        // 대만·유럽 = 재무 소스 없음
+  const fin = await ensureGlFin(tk);
+  const gm = document.getElementById('glmodal');
+  if(!(gm.classList.contains('open') && gm.dataset.tk === tk)) return;
+  const rows = fin && fin[tk];
+  if(!rows || !rows.length) return;
+  const clr = v => v==null ? '#9fb2c8' : (v>=0 ? '#ff6b6b' : '#5b9dff');
+  let t = '<div class="rt-title" style="margin-bottom:6px;">📊 재무 <span style="font-size:11px;color:#6f8398;font-weight:500;">네이버 · 억원(원화환산)</span></div>'
+    + '<table style="width:100%;border-collapse:collapse;font-size:12px;">'
+    + '<tr style="color:#8aa0b8;"><td>연도</td><td style="text-align:right;">매출</td><td style="text-align:right;">영업익</td><td style="text-align:right;">순익</td></tr>';
+  rows.forEach(r => {
+    t += '<tr style="border-top:1px solid #1b2c42;">'
+      + '<td style="color:#cfe0f2;padding:3px 0;">' + r.y + '</td>'
+      + '<td style="text-align:right;color:#dfe8f2;">' + _krwon(r.rev) + '</td>'
+      + '<td style="text-align:right;color:' + clr(r.op)  + ';">' + _krwon(r.op)  + '</td>'
+      + '<td style="text-align:right;color:' + clr(r.net) + ';">' + _krwon(r.net) + '</td></tr>';
+  });
+  el.innerHTML = t + '</table>';
+}
+
 // 야후심볼 → TradingView 차트 심볼(거래소:티커). 미국은 티커 그대로.
 function tvSym(s) {
   s = String(s || '').toUpperCase();
@@ -3701,6 +3773,7 @@ async function glPopup(tk, fb) {
     if (gm.classList.contains('open') && gm.dataset.tk === tk)
       setGlOverview({ overview: ov ? (ov[tk] || ov[d.tk]) : null });
   });
+  _renderGlFin(tk);   // 재무제표(네이버) — 핵심종목도 표시
   // 최근 뉴스 — 미국=finviz(1시간), 그 외=world_news(야후 RSS) — 데이터 준비되면 채움
   renderGlNews(tk);
   (tk.indexOf('.') < 0 ? ensureFinvizNews() : ensureWorldNews()).then(() => {
@@ -3717,6 +3790,8 @@ async function glPopupLiteFB(tk, fb) {
   fb = fb || {};
   ensureGlNH();
   const isUS = tk.indexOf('.') < 0;
+  const gm = document.getElementById('glmodal'); gm.dataset.tk = tk; gm.classList.add('open');
+  // 즉시 기본표시 (네이버 백본 로드 전)
   document.getElementById('gl-nm').textContent = fb.name || tk;
   document.getElementById('gl-sub').innerHTML = tk + glNHb(tk);
   document.getElementById('gl-px').textContent = (fb.price != null) ? Number(fb.price).toLocaleString() : '';
@@ -3726,19 +3801,48 @@ async function glPopupLiteFB(tk, fb) {
   document.getElementById('gl-ext').style.display = 'none';
   document.getElementById('gl-mk').textContent = '';
   document.getElementById('gl-metrics').innerHTML = '';
-  document.getElementById('gl-ratings').innerHTML = '<div class="rt-title">📋 상세</div><div class="empty" style="padding:6px 2px;">peer 미포함 종목 — 아래 링크 참고</div>';
+  document.getElementById('gl-ratings').innerHTML = '<div class="rt-title">📋 애널리스트</div><div class="empty" style="padding:6px 2px;">핵심종목만 제공(SA) — 아래 링크 참고</div>';
   document.getElementById('gl-links').innerHTML =
     '<a href="https://finance.yahoo.com/quote/' + encodeURIComponent(tk) + '" target="_blank">Yahoo ↗</a>'
     + (isUS ? '<a href="https://stockanalysis.com/stocks/' + tk.toLowerCase() + '/" target="_blank">StockAnalysis ↗</a>' : '')
     + '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(tk)) + '" target="_blank">TradingView ↗</a>';
-  const gm = document.getElementById('glmodal'); gm.dataset.tk = tk; gm.classList.add('open');
   setGlOverview(null);
   ensureGlOverview(tk).then(ov => { if (gm.classList.contains('open') && gm.dataset.tk === tk) setGlOverview({ overview: ov ? ov[tk] : null }); });
+  _renderGlFin(tk);   // 재무제표(네이버)
+  // 네이버 전종목 백본 — 지표·시세·시총 채움 (peer 외 종목 깡통 해소)
+  Promise.all([ensureGlMetrics(tk), ensureMMLive()]).then(([mm]) => {
+    if (!(gm.classList.contains('open') && gm.dataset.tk === tk)) return;
+    const d = mm && mm[tk];
+    if (d) _fillGlBackbone(tk, d);   // 없으면(대만·유럽 등) 기본 유지
+  });
   // 뉴스 — 미국=finviz, 그 외=world_news(야후)
   renderGlNews(tk);
-  (tk.indexOf('.') < 0 ? ensureFinvizNews() : ensureWorldNews()).then(() => {
+  (isUS ? ensureFinvizNews() : ensureWorldNews()).then(() => {
     if (gm.classList.contains('open') && gm.dataset.tk === tk) renderGlNews(tk);
   });
+}
+
+// 네이버 백본 지표를 팝업 좌측에 채움 (global_metrics + world_marketmap_live)
+function _fillGlBackbone(tk, d) {
+  document.getElementById('gl-nm').textContent = d.nm || tk;
+  document.getElementById('gl-sub').innerHTML = tk + (d.ind ? '  ·  ' + d.ind : '') + (d.cur ? '  ·  ' + d.cur : '') + glNHb(tk);
+  if (d.px != null) document.getElementById('gl-px').textContent = Number(d.px).toLocaleString() + (d.cur ? (' ' + d.cur) : '');
+  // 등락률: world_marketmap_live(라이브) 우선, 없으면 네이버 일별(전일)
+  const live = GL_MMLIVE && d.rc && GL_MMLIVE[d.rc];
+  const chg = (live && live.c != null) ? live.c : (d.chg != null ? Number(d.chg) : null);
+  if (chg != null) {
+    const chgEl = document.getElementById('gl-chg');
+    chgEl.textContent = (chg >= 0 ? '▲ +' : '▼ ') + Math.abs(chg).toFixed(2) + '%' + (live ? '' : ' (전일)');
+    chgEl.className = 'gchg ' + (chg >= 0 ? 'up' : 'dn');
+  }
+  const w52 = (d.w52l && d.w52h) ? ('   ·   52주 ' + Number(d.w52l).toLocaleString() + '~' + Number(d.w52h).toLocaleString()) : '';
+  document.getElementById('gl-mk').textContent = '시가총액  ' + _glMcap(d.mcap, d.cur) + w52;
+  const cells = [
+    ['PER', d.per ? d.per + 'x' : '-'], ['PBR', d.pbr ? d.pbr + 'x' : '-'], ['EPS', d.eps || '-'],
+    ['BPS', d.bps || '-'], ['배당수익률', d.divy || '-'], ['거래량', d.vol ? Number(d.vol).toLocaleString() : '-']
+  ];
+  document.getElementById('gl-metrics').innerHTML = cells.map(c =>
+    '<div class="gcell"><span class="l">' + c[0] + '</span><span class="v">' + c[1] + '</span></div>').join('');
 }
 
 // ═══════════════════════════════════════
