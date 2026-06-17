@@ -855,18 +855,21 @@
   <div class="drawer-header">🏠 김형철의 마켓레이더</div>
   <div class="drawer-tab home-tab active" data-tab="home"         onclick="drawerNav('home')">🏠 홈</div>
   <div class="drawer-tab peer-tab" data-tab="peer"                onclick="drawerNav('peer')">⚖️ 한국vs글로벌</div>
-  <div class="drawer-tab" data-tab="us-morning"                   onclick="drawerNav('us-morning')">🇺🇸 US모닝브리핑</div>
+  <div class="drawer-tab" data-tab="global-high"                  onclick="drawerNav('global-high')">🌐 글로벌 신고가</div>
+  <div class="drawer-tab" data-tab="global-marketmap"             onclick="drawerNav('global-marketmap')">🌐 글로벌 마켓맵</div>
+  <div class="drawer-tab" data-tab="global-thememap"              onclick="drawerNav('global-thememap')">🌐 글로벌 테마맵</div>
+  <div class="drawer-tab" data-tab="us-morning"                   onclick="drawerNav('us-morning')">🇺🇸 US마감브리핑</div>
   <div class="drawer-tab" data-tab="nxt"                          onclick="drawerNav('nxt')">⚡ NXT&amp;시간외</div>
-  <div class="drawer-tab" data-tab="kr-morning"                   onclick="drawerNav('kr-morning')">🇰🇷 KR개장전이슈&amp;종목</div>
+  <div class="drawer-tab" data-tab="kr-morning"                   onclick="drawerNav('kr-morning')">🇰🇷 KR개장전이슈</div>
   <div class="drawer-tab" data-tab="report"                       onclick="drawerNav('report')">📋 오늘의주식리포트</div>
   <div class="drawer-tab" data-tab="tgtprc"                       onclick="drawerNav('tgtprc')">🎯 목표주가검색기</div>
-  <div class="drawer-tab" data-tab="trump"                        onclick="drawerNav('trump')">📢 트럼프SNS</div>
-  <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="per"                          onclick="drawerNav('per')">📊 PER 마켓&amp;종목</div>
-  <div class="drawer-tab" data-tab="kr-theme"                     onclick="drawerNav('kr-theme')">🔥 KR테마&amp;신고가</div>
+  <div class="drawer-tab" data-tab="kr-theme"                     onclick="drawerNav('kr-theme')">🔥 신고가</div>
   <div class="drawer-tab" data-tab="kr-thememap"                  onclick="drawerNav('kr-thememap')">🫧 테마맵</div>
-  <div class="drawer-tab" data-tab="kr-marketmap"                 onclick="drawerNav('kr-marketmap')">🗺️ KR마켓맵</div>
-  <div class="drawer-tab" data-tab="kr-sugup"                     onclick="drawerNav('kr-sugup')">💰 수급</div>
+  <div class="drawer-tab" data-tab="kr-marketmap"                 onclick="drawerNav('kr-marketmap')">🗺️ 마켓맵</div>
+  <div class="drawer-tab" data-tab="kr-sugup"                     onclick="drawerNav('kr-sugup')">💰 수급&amp;RS</div>
+  <div class="drawer-tab" data-tab="trump"                        onclick="drawerNav('trump')">📢 트럼프&amp;일론 SNS</div>
+  <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="idea"                         onclick="drawerNav('idea')">💡 투자아이디어</div>
   <div class="drawer-tab" data-tab="community"                    onclick="drawerNav('community')">💬 커뮤니티</div>
 </div>
@@ -946,6 +949,18 @@
   <div class="ntab ntab-peer" data-tab="peer" onclick="switchTab('peer',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 7h12"/><path d="M6 7l-3 6a3 3 0 006 0L6 7z"/><path d="M18 7l-3 6a3 3 0 006 0l-3-6z"/></svg></span> 한국vs글로벌
   </div>
+  <!-- 글로벌 신고가 : 지구본 -->
+  <div class="ntab" data-tab="global-high" onclick="switchTab('global-high',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg></span> 글로벌 신고가
+  </div>
+  <!-- 글로벌 마켓맵 : 지도+지구본 -->
+  <div class="ntab" data-tab="global-marketmap" onclick="switchTab('global-marketmap',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></span> 글로벌 마켓맵
+  </div>
+  <!-- 글로벌 테마맵 : 버블(지구) -->
+  <div class="ntab" data-tab="global-thememap" onclick="switchTab('global-thememap',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="10" r="3.5"/><circle cx="16.5" cy="15" r="4"/><circle cx="17" cy="6.5" r="2"/></svg></span> 글로벌 테마맵
+  </div>
   <!-- US 마감브리핑 -->
   <div class="ntab" data-tab="us-morning" onclick="switchTab('us-morning',this)">
     <img class="flag-img" src="https://flagcdn.com/w40/us.png" alt="US"> US마감브리핑
@@ -980,18 +995,6 @@
   <div class="ntab" data-tab="kr-theme" onclick="switchTab('kr-theme',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 3.5 3.5L21 5.5"/><path d="M15 5.5h6v6"/></svg></span> 신고가
   </div>
-  <!-- 글로벌 신고가 : 지구본 -->
-  <div class="ntab" data-tab="global-high" onclick="switchTab('global-high',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg></span> 글로벌 신고가
-  </div>
-  <!-- 글로벌 마켓맵 : 지도+지구본 -->
-  <div class="ntab" data-tab="global-marketmap" onclick="switchTab('global-marketmap',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/></svg></span> 글로벌 마켓맵
-  </div>
-  <!-- 글로벌 테마맵 : 버블(지구) -->
-  <div class="ntab" data-tab="global-thememap" onclick="switchTab('global-thememap',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="10" r="3.5"/><circle cx="16.5" cy="15" r="4"/><circle cx="17" cy="6.5" r="2"/></svg></span> 글로벌 테마맵
-  </div>
   <!-- 테마맵 : 버블 -->
   <div class="ntab" data-tab="kr-thememap" onclick="switchTab('kr-thememap',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><circle cx="16.5" cy="14.5" r="4"/><circle cx="17" cy="6" r="2"/></svg></span> 테마맵
@@ -1003,14 +1006,14 @@
 
   <!-- 수급 : 투자자 순매수 흐름 -->
   <div class="ntab" data-tab="kr-sugup" onclick="switchTab('kr-sugup',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v13M7 4l-3 3M7 4l3 3"/><path d="M17 20V7M17 20l3-3M17 20l-3-3"/></svg></span> 수급
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v13M7 4l-3 3M7 4l3 3"/><path d="M17 20V7M17 20l3-3M17 20l-3-3"/></svg></span> 수급&amp;RS
   </div>
 
   <div class="side-divider"></div>
 
   <!-- 트럼프SNS : 확성기(액센트) -->
   <div class="ntab" data-tab="trump" onclick="switchTab('trump',this)">
-    <span class="ico" style="color:#dc2626"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l4.5 3.5a.6.6 0 0 0 1-.5V7a.6.6 0 0 0-1-.5L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7 7 0 0 1 0 12"/></svg></span> 트럼프SNS
+    <span class="ico" style="color:#dc2626"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l4.5 3.5a.6.6 0 0 0 1-.5V7a.6.6 0 0 0-1-.5L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7 7 0 0 1 0 12"/></svg></span> 트럼프&amp;일론 SNS
   </div>
   <!-- 일정 : 달력 -->
   <div class="ntab" data-tab="schedule" onclick="switchTab('schedule',this)">
@@ -3324,8 +3327,10 @@ function closeSearchDropdown() {
 // ═══════════════════════════════════════
 var GL_PEER  = null;   // {ticker: {n,tk,cur,px,chg,perT,perF,...,rat,sa,fv}}
 var GL_LIVE  = {};     // global_prices_live.json prices {ticker: {c,p,e,ep,...}}
-var GL_NEWS  = null;   // finviz_news.json {ticker: [{dt,t,u,src}]} (1시간 스크랩)
+var GL_NEWS  = null;   // finviz_news.json {ticker: [{dt,t,u,src}]} (1시간 스크랩) — 미국
 var GL_NEWS_UPD = '';  // 뉴스 수집 시각
+var WORLD_NEWS = null; // world_news.json {ticker:[...]} — 비US(야후 RSS, 저장+증분)
+var WORLD_NEWS_UPD = '';
 var _glLiveTimer = null;
 var _glNewsTimer = null;
 
@@ -3394,15 +3399,31 @@ async function ensureFinvizNews(force) {
   return GL_NEWS;
 }
 
+async function ensureWorldNews() {       // 비US 뉴스 (야후 RSS, 저장+증분)
+  if (WORLD_NEWS) return WORLD_NEWS;
+  try {
+    const res = await fetch('/api/world_news.json?t=' + Date.now());
+    const d = await res.json();
+    WORLD_NEWS = d.news || {};
+    WORLD_NEWS_UPD = d.updated_at || '';
+  } catch(e) { if (!WORLD_NEWS) WORLD_NEWS = {}; }
+  return WORLD_NEWS;
+}
+
 function renderGlNews(tk) {
   const box = document.getElementById('gl-news');
   const upd = document.getElementById('gl-news-upd');
   if (!box) return;
-  const list = (GL_NEWS && GL_NEWS[tk]) || null;
-  upd.textContent = GL_NEWS_UPD ? ('업데이트 ' + GL_NEWS_UPD.slice(5, 16)) : '';
+  const isUS = (tk || '').indexOf('.') < 0;
+  // 미국=finviz, 그 외=world_news(야후)
+  const list = isUS ? ((GL_NEWS && GL_NEWS[tk]) || null)
+                    : ((WORLD_NEWS && WORLD_NEWS[tk]) || null);
+  const updSrc = isUS ? GL_NEWS_UPD : WORLD_NEWS_UPD;
+  const loading = isUS ? (GL_NEWS === null) : (WORLD_NEWS === null);
+  upd.textContent = updSrc ? ('업데이트 ' + updSrc.slice(5, 16)) : '';
   if (!list || !list.length) {
     box.innerHTML = '<div class="gnews-empty">' +
-      (GL_NEWS === null ? '뉴스 로딩 중...' : '수집된 뉴스가 없습니다') + '</div>';
+      (loading ? '뉴스 로딩 중...' : '수집된 뉴스가 없습니다') + '</div>';
     return;
   }
   box.innerHTML = list.slice(0, 10).map(x => {
@@ -3623,9 +3644,9 @@ async function glPopup(tk, fb) {
     if (gm.classList.contains('open') && gm.dataset.tk === tk)
       setGlOverview({ overview: ov ? (ov[tk] || ov[d.tk]) : null });
   });
-  // 최근 뉴스 (finviz, 1시간 스크랩) — 데이터 준비되면 채움
+  // 최근 뉴스 — 미국=finviz(1시간), 그 외=world_news(야후 RSS) — 데이터 준비되면 채움
   renderGlNews(tk);
-  ensureFinvizNews().then(() => {
+  (tk.indexOf('.') < 0 ? ensureFinvizNews() : ensureWorldNews()).then(() => {
     if (gm.classList.contains('open') && gm.dataset.tk === tk) renderGlNews(tk);
   });
 }
@@ -3655,8 +3676,11 @@ async function glPopupLiteFB(tk, fb) {
   const gm = document.getElementById('glmodal'); gm.dataset.tk = tk; gm.classList.add('open');
   setGlOverview(null);
   ensureGlOverview(tk).then(ov => { if (gm.classList.contains('open') && gm.dataset.tk === tk) setGlOverview({ overview: ov ? ov[tk] : null }); });
-  const nb = document.getElementById('gl-news'); if (nb) nb.innerHTML = '<div class="gnews-empty">peer 외 종목 — 뉴스 없음</div>';
-  const nu = document.getElementById('gl-news-upd'); if (nu) nu.textContent = '';
+  // 뉴스 — 미국=finviz, 그 외=world_news(야후)
+  renderGlNews(tk);
+  (tk.indexOf('.') < 0 ? ensureFinvizNews() : ensureWorldNews()).then(() => {
+    if (gm.classList.contains('open') && gm.dataset.tk === tk) renderGlNews(tk);
+  });
 }
 
 // ═══════════════════════════════════════
