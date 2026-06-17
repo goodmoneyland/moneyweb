@@ -1845,6 +1845,37 @@ function initialRoute() {
   let tab = decodeURIComponent((location.hash || '').slice(1)) || 'home';
   if (!getValidTabs().has(tab)) tab = 'home';
   applyRoute(tab);
+  // 종목 딥링크: ?s=NVDA / ?s=005930 / ?s=7203.T (슬라이드·공유용 — 해당 종목 팝업 자동 오픈)
+  try {
+    const s = new URLSearchParams(location.search).get('s');
+    if (s) openStockDeepLink(s.trim());
+  } catch (e) {}
+}
+
+// 종목 코드 → 알맞은 팝업: 6자리=한국 / 그 외=글로벌
+function openStockDeepLink(s) {
+  if (!s) return;
+  if (/^\d{6}$/.test(s)) {
+    if (window.openKrStock) openKrStock(s);
+  } else if (window.glPopup) {
+    glPopup(s.toUpperCase());
+  }
+}
+
+// 현재 종목의 공유 링크를 클립보드에 복사 (슬라이드에 붙여넣기용)
+function copyStockLink(s, btn) {
+  const url = location.origin + '/?s=' + encodeURIComponent(s);
+  const done = () => {
+    if (!btn) return;
+    const old = btn.innerHTML;
+    btn.innerHTML = '✅ 복사됨';
+    setTimeout(() => { btn.innerHTML = old; }, 1400);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done).catch(() => { prompt('링크 복사:', url); });
+  } else {
+    prompt('링크 복사:', url);
+  }
 }
 
 function getFileSrc(tab) {
@@ -3784,7 +3815,8 @@ async function glPopup(tk, fb) {
     (d.sa ? '<a href="' + d.sa + '" target="_blank">StockAnalysis ↗</a>' : '') +
     (d.fv ? '<a href="' + d.fv + '" target="_blank">Finviz ↗</a>' : '') +
     '<a href="https://finance.yahoo.com/quote/' + encodeURIComponent(d.tk || tk) + '" target="_blank">Yahoo ↗</a>' +
-    '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(d.tk || tk)) + '" target="_blank">TradingView ↗</a>';
+    '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(d.tk || tk)) + '" target="_blank">TradingView ↗</a>' +
+    '<a onclick="copyStockLink(\'' + tk + '\',this)" style="cursor:pointer;">🔗 링크복사</a>';
   const gm = document.getElementById('glmodal');
   gm.dataset.tk = tk;
   gm.classList.add('open');
@@ -3826,7 +3858,8 @@ async function glPopupLiteFB(tk, fb) {
   document.getElementById('gl-links').innerHTML =
     '<a href="https://finance.yahoo.com/quote/' + encodeURIComponent(tk) + '" target="_blank">Yahoo ↗</a>'
     + (isUS ? '<a href="https://stockanalysis.com/stocks/' + tk.toLowerCase() + '/" target="_blank">StockAnalysis ↗</a>' : '')
-    + '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(tk)) + '" target="_blank">TradingView ↗</a>';
+    + '<a href="https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSym(tk)) + '" target="_blank">TradingView ↗</a>'
+    + '<a onclick="copyStockLink(\'' + tk + '\',this)" style="cursor:pointer;">🔗 링크복사</a>';
   setGlOverview(null);
   ensureGlOverview(tk).then(ov => { if (gm.classList.contains('open') && gm.dataset.tk === tk) setGlOverview({ overview: ov ? ov[tk] : null }); });
   _renderGlFin(tk);   // 재무제표(네이버)
@@ -4589,7 +4622,8 @@ function _spRender(cd, d) {
   document.getElementById('sp-ext-links').innerHTML =
     `<a href="https://www.tradingview.com/chart/?symbol=KRX:${cd}" target="_blank" style="${_lnkS}">📈 TradingView</a>`+
     `<a href="https://finance.naver.com/item/main.naver?code=${cd}" target="_blank" style="${_lnkS}">📊 네이버</a>`+
-    `<a href="https://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A${cd}" target="_blank" style="${_lnkS}">🔍 컨센서스</a>`;
+    `<a href="https://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A${cd}" target="_blank" style="${_lnkS}">🔍 컨센서스</a>`+
+    `<a onclick="copyStockLink('${cd}',this)" style="${_lnkS}cursor:pointer;">🔗 링크복사</a>`;
 
   // 네이버 금융 차트 이미지 + 기간 탭
   document.getElementById('sp-chart-links').innerHTML =
