@@ -804,13 +804,28 @@
   .tp-data-td:first-child { text-align:left;color:var(--muted); }
   .tp-data-tr:hover td { background: var(--card2); }
 
-  /* ── 트럼프 SNS 카드 ── */
-  .trump-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-    flex-wrap:wrap; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
-  .trump-title { font-size:20px; font-weight:800; color:var(--text); }
-  .trump-meta { font-size:12.5px; color:var(--muted); }
+  /* ── SNS 탭 2열 레이아웃 (트럼프 | 머스크) ── */
+  #page-trump { padding:0; overflow:hidden; }
+  .sns-cols { display:flex; height:100%; }
+  .sns-col { flex:1 1 0; min-width:0; height:100%; overflow-y:auto; padding:18px 22px;
+    border-left:1px solid var(--border); }
+  .sns-col:first-child { border-left:none; }
+
+  /* ── SNS 카드 ── */
+  .trump-head { display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+    flex-wrap:wrap; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border);
+    position:sticky; top:-18px; background:var(--bg,#0a0e17); z-index:2; }
+  .trump-title { font-size:18px; font-weight:800; color:var(--text); }
+  .trump-meta { font-size:12px; color:var(--muted); }
   .trump-card { background:var(--card); border:1px solid var(--border); border-left:3px solid #dc2626;
-    border-radius:10px; padding:16px 18px; margin-bottom:14px; max-width:860px; }
+    border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+  .sns-col:nth-child(2) .trump-card { border-left-color:#1d9bf0; }
+  @media (max-width:768px){
+    .sns-cols { flex-direction:column; height:auto; }
+    .sns-col { height:auto; overflow:visible; border-left:none; border-top:1px solid var(--border); }
+    .sns-col:first-child { border-top:none; }
+    #page-trump { overflow-y:auto; }
+  }
   .trump-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px;
     font-size:12.5px; color:var(--muted); }
   .trump-flag { font-size:15px; }
@@ -1357,13 +1372,24 @@
     </div>
   </div>
 
-  <!-- ── 트럼프 SNS (Truth Social) ── -->
-  <div class="page-inner" id="page-trump" style="padding:20px 24px;overflow-y:auto;">
-    <div class="trump-head">
-      <div class="trump-title">📢 트럼프 SNS <span style="color:var(--muted);font-weight:400;font-size:14px;">Truth Social · 원문/번역</span></div>
-      <div class="trump-meta" id="trump-updated"></div>
+  <!-- ── SNS (트럼프 Truth Social · 머스크 X) 2열 ── -->
+  <div class="page-inner" id="page-trump">
+    <div class="sns-cols">
+      <div class="sns-col">
+        <div class="trump-head">
+          <div class="trump-title"><span style="color:#dc2626">📢</span> 트럼프 SNS <span style="color:var(--muted);font-weight:400;font-size:13px;">Truth Social</span></div>
+          <div class="trump-meta" id="trump-updated"></div>
+        </div>
+        <div id="trump-list" style="color:var(--muted);font-size:15px;">로딩 중...</div>
+      </div>
+      <div class="sns-col">
+        <div class="trump-head">
+          <div class="trump-title"><span style="color:#1d9bf0">𝕏</span> 머스크 SNS <span style="color:var(--muted);font-weight:400;font-size:13px;">X · @elonmusk</span></div>
+          <div class="trump-meta" id="elon-updated"></div>
+        </div>
+        <div id="elon-list" style="color:var(--muted);font-size:15px;">로딩 중...</div>
+      </div>
     </div>
-    <div id="trump-list" style="color:var(--muted);font-size:15px;">로딩 중...</div>
   </div>
 
   <!-- ── 글로벌 신고가 (미·일·중·홍·대만) ── -->
@@ -3045,57 +3071,61 @@ function fmtDoc(cmd) { document.getElementById('idea-body').focus(); document.ex
 function fmtHead(tag) { document.getElementById('idea-body').focus(); document.execCommand('formatBlock', false, tag); }
 
 // ═══════════════════════════════════════
-//  트럼프 SNS (Truth Social) — 원문/번역 카드
+//  SNS 탭 (트럼프 Truth Social · 머스크 X) — 원문/번역 2열 카드
 // ═══════════════════════════════════════
-let _trumpLoaded = false;
 function _esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-async function loadTrumpPage(force) {
-  const list = document.getElementById('trump-list');
+function _snsCardHtml(p, flag) {
+  const ko = _esc(p.korean).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(번역 없음)</span>';
+  const en = _esc(p.original).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(원문 없음)</span>';
+  const link = p.link ? `<a class="trump-link" href="${_esc(p.link)}" target="_blank" rel="noopener">원문 링크 ↗</a>` : '';
+  const media = (p.media || []).filter(Boolean);
+  let mediaHtml = '';
+  if (media.length) {
+    mediaHtml = '<div class="trump-media">' + media.map(u => {
+      const url = _esc(u);
+      if (/\.mp4($|\?)/i.test(u)) {
+        return `<video class="trump-media-item" src="${url}" controls preload="metadata"></video>`;
+      }
+      return `<a href="${url}" target="_blank" rel="noopener"><img class="trump-media-item" src="${url}" alt="첨부 이미지" onerror="this.closest('a').style.display='none'"></a>`;
+    }).join('') + '</div>';
+  }
+  return `<div class="trump-card">
+    <div class="trump-card-head">
+      <span class="trump-flag">${flag}</span>
+      <span class="trump-time">${_esc(p.kst)} (KST)</span>
+      ${link}
+    </div>
+    <div class="trump-ko">${ko}</div>
+    ${mediaHtml}
+    <div class="trump-en"><span class="trump-en-label">ORIGINAL</span>${en}</div>
+  </div>`;
+}
+
+async function _loadSnsColumn(jsonUrl, listId, updId, flag) {
+  const list = document.getElementById(listId);
   if (!list) return;
-  if (_trumpLoaded && !force) return;   // 탭 재진입 시 재요청 안 함
   list.innerHTML = '<div style="padding:16px 0;color:var(--muted);">로딩 중...</div>';
   try {
-    const res = await fetch('/api/trump_truth.json?t=' + Date.now());
+    const res = await fetch(jsonUrl + '?t=' + Date.now());
     const data = await res.json();
     const posts = data.posts || [];
-    const upd = document.getElementById('trump-updated');
+    const upd = document.getElementById(updId);
     if (upd) upd.textContent = '업데이트 ' + (data.updated_at || '') + ' · 최근 ' + posts.length + '건';
-    if (!posts.length) {
-      list.innerHTML = '<div style="padding:24px 0;color:var(--muted);">표시할 글이 없습니다.</div>';
-      _trumpLoaded = true;
-      return;
-    }
-    list.innerHTML = posts.map(p => {
-      const ko = _esc(p.korean).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(번역 없음)</span>';
-      const en = _esc(p.original).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(원문 없음)</span>';
-      const link = p.link ? `<a class="trump-link" href="${_esc(p.link)}" target="_blank" rel="noopener">원문 링크 ↗</a>` : '';
-      const media = (p.media || []).filter(Boolean);
-      let mediaHtml = '';
-      if (media.length) {
-        mediaHtml = '<div class="trump-media">' + media.map(u => {
-          const url = _esc(u);
-          if (/\.mp4($|\?)/i.test(u)) {
-            return `<video class="trump-media-item" src="${url}" controls preload="metadata"></video>`;
-          }
-          return `<a href="${url}" target="_blank" rel="noopener"><img class="trump-media-item" src="${url}" alt="첨부 이미지" onerror="this.closest('a').style.display='none'"></a>`;
-        }).join('') + '</div>';
-      }
-      return `<div class="trump-card">
-        <div class="trump-card-head">
-          <span class="trump-flag">🇺🇸</span>
-          <span class="trump-time">${_esc(p.kst)} (KST)</span>
-          ${link}
-        </div>
-        <div class="trump-ko">${ko}</div>
-        ${mediaHtml}
-        <div class="trump-en"><span class="trump-en-label">ORIGINAL</span>${en}</div>
-      </div>`;
-    }).join('');
-    _trumpLoaded = true;
+    list.innerHTML = posts.length
+      ? posts.map(p => _snsCardHtml(p, flag)).join('')
+      : '<div style="padding:24px 0;color:var(--muted);">표시할 글이 없습니다.</div>';
   } catch (e) {
     list.innerHTML = '<div style="padding:24px 0;color:var(--danger,#dc2626);">불러오기 실패: ' + _esc(String(e)) + '</div>';
   }
+}
+
+let _snsLoaded = false;
+function loadTrumpPage(force) {
+  if (_snsLoaded && !force) return;   // 탭 재진입 시 재요청 안 함
+  _loadSnsColumn('/api/trump_truth.json', 'trump-list', 'trump-updated', '🇺🇸');
+  _loadSnsColumn('/api/elon_x.json', 'elon-list', 'elon-updated', '𝕏');
+  _snsLoaded = true;
 }
 
 let ideas = JSON.parse(localStorage.getItem('ml_ideas') || '[]');
