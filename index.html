@@ -3856,15 +3856,12 @@ function _ghSectorView(items, code) {
   const order = Object.keys(grp).filter(s => s !== '기타').sort((a,b) => grp[b].length - grp[a].length);
   if (grp['기타']) order.push('기타');
 
-  // 섹터별 색상 — pill과 카드가 같은 섹터는 같은 색으로 매칭(구분감)
-  const SECT_PALETTE = ['#2dd4bf','#60a5fa','#f59e0b','#a78bfa','#f472b6','#4ade80',
-                        '#fb923c','#22d3ee','#e879f9','#facc15','#34d399','#fca5a5'];
-  const secCol = {};
-  order.forEach((s, i) => { secCol[s] = (s === '기타') ? '#8b949e' : SECT_PALETTE[i % SECT_PALETTE.length]; });
+  // 카드 헤더는 녹색 한 가지로 통일(섹터 구분감), 좌측 요약은 기본 흰색
+  const SECT_GREEN = '#4ade80';
 
   const pill = s =>
-    '<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);gap:6px;border-left:3px solid '+secCol[s]+';">'
-    + '<span style="font-size:12.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><span style="color:'+secCol[s]+';">▣</span> '+s+'</span>'
+    '<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);gap:6px;">'
+    + '<span style="font-size:12.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">▣ '+s+'</span>'
     + '<span style="font-size:12.5px;font-weight:700;color:#f59e0b;">'+grp[s].length+'</span></div>';
 
   // 한 행: 종목명(가변·말줄임) + 등락률/거래대금/시총(고정폭 세로정렬)
@@ -3889,13 +3886,11 @@ function _ghSectorView(items, code) {
     + '<td style="padding:2px 3px;text-align:right;">등락</td>'
     + '<td style="padding:2px 3px;text-align:right;">거래대금</td>'
     + '<td style="padding:2px 8px 2px 3px;text-align:right;">시총</td></tr>';
-  const card = s => {
-    const col = secCol[s];
-    return '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:8px;display:inline-block;width:100%;vertical-align:top;">'
-    + '<div style="padding:4px 9px;background:'+col+'22;font-size:13px;font-weight:700;color:'+col+';border-bottom:1px solid '+col+'55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">▣ '+s
+  const card = s =>
+    '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:8px;display:inline-block;width:100%;vertical-align:top;">'
+    + '<div style="padding:4px 9px;background:'+SECT_GREEN+'1f;font-size:13px;font-weight:700;color:'+SECT_GREEN+';border-bottom:1px solid '+SECT_GREEN+'40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">▣ '+s
     + ' <span style="color:var(--muted);font-weight:400;">('+grp[s].length+')</span></div>'
     + '<table style="width:100%;border-collapse:collapse;table-layout:fixed;">'+colgroup+'<tbody>'+headRow+grp[s].map(row).join('')+'</tbody></table></div>';
-  };
 
   return '<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;flex-wrap:wrap;">'
       + '<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
