@@ -3452,6 +3452,27 @@ function _glMcap(v, cur){
   return Number(v).toLocaleString()+cur;
 }
 
+// 출처 표시용 핵심명단(core_watch) — 팝업 티커 끝 색 원 (관리자페이지 나오면 숨김 예정)
+var CORE_SET = null;
+async function ensureCoreSet(){
+  if (CORE_SET) return CORE_SET;
+  try {
+    const r = await fetch('/api/core_tickers.json?t=' + Date.now());
+    CORE_SET = new Set((await r.json()).core || []);
+  } catch(e) { CORE_SET = new Set(); }
+  return CORE_SET;
+}
+// 종목 출처 색 원: 노랑=SA(핵심) / 회색=Finviz(미국 비핵심) / 녹색=네이버(그외 비핵심)
+function _srcDot(tk){
+  if (!CORE_SET) return '';
+  let c, t;
+  if (CORE_SET.has(tk))            { c = '#fbbf24'; t = 'SA · 핵심'; }
+  else if (tk.indexOf('.') < 0)    { c = '#9ca3af'; t = 'Finviz · 미국 비핵심'; }
+  else                             { c = '#3fb950'; t = '네이버 · 비핵심'; }
+  return ' <span title="' + t + '" style="display:inline-block;width:8px;height:8px;border-radius:50%;'
+       + 'background:' + c + ';vertical-align:middle;box-shadow:0 0 0 1px rgba(0,0,0,.35);"></span>';
+}
+
 // 네이버 전종목 재무제표(요약) — export_global_financials, 억원(원화환산)
 var GL_FIN = {};
 async function ensureGlFin(tk) {
@@ -3712,12 +3733,12 @@ function _glf(v, suf, dec) {
 
 async function glPopup(tk, fb) {
   if (!GL_PEER) await ensureGlPeer();
-  ensureGlNH();
+  ensureGlNH(); await ensureCoreSet();
   const d = GL_PEER[tk];
   if (!d) { glPopupLiteFB(tk, fb); return; }   // peer 외(마켓맵 등) → 경량 팝업
   const L = GL_LIVE[tk] || {};
   document.getElementById('gl-nm').textContent = d.n || tk;
-  document.getElementById('gl-sub').innerHTML = (d.tk || tk) + (d.cur ? '  ·  ' + d.cur : '') + glNHb(tk);
+  document.getElementById('gl-sub').innerHTML = (d.tk || tk) + _srcDot(tk) + (d.cur ? '  ·  ' + d.cur : '') + glNHb(tk);
   const pxv  = (L.p != null) ? L.p : d.px;
   const chgv = (L.c != null) ? L.c : d.chg;
   const px = pxv != null ? Number(pxv).toLocaleString() : '-';
@@ -3788,12 +3809,12 @@ function glClose() {
 // peer 외 종목(마켓맵 등) 경량 팝업 — 이름/등락 + 네이버 개요(있으면) + 외부 링크
 async function glPopupLiteFB(tk, fb) {
   fb = fb || {};
-  ensureGlNH();
+  ensureGlNH(); await ensureCoreSet();
   const isUS = tk.indexOf('.') < 0;
   const gm = document.getElementById('glmodal'); gm.dataset.tk = tk; gm.classList.add('open');
   // 즉시 기본표시 (네이버 백본 로드 전)
   document.getElementById('gl-nm').textContent = fb.name || tk;
-  document.getElementById('gl-sub').innerHTML = tk + glNHb(tk);
+  document.getElementById('gl-sub').innerHTML = tk + _srcDot(tk) + glNHb(tk);
   document.getElementById('gl-px').textContent = (fb.price != null) ? Number(fb.price).toLocaleString() : '';
   const chgEl = document.getElementById('gl-chg');
   if (fb.change != null) { chgEl.textContent = (fb.change >= 0 ? '▲ +' : '▼ ') + Number(fb.change).toFixed(2) + '%'; chgEl.className = 'gchg ' + (fb.change >= 0 ? 'up' : 'dn'); }
@@ -3825,7 +3846,7 @@ async function glPopupLiteFB(tk, fb) {
 // 네이버 백본 지표를 팝업 좌측에 채움 (global_metrics + world_marketmap_live)
 function _fillGlBackbone(tk, d) {
   document.getElementById('gl-nm').textContent = d.nm || tk;
-  document.getElementById('gl-sub').innerHTML = tk + (d.ind ? '  ·  ' + d.ind : '') + (d.cur ? '  ·  ' + d.cur : '') + glNHb(tk);
+  document.getElementById('gl-sub').innerHTML = tk + _srcDot(tk) + (d.ind ? '  ·  ' + d.ind : '') + (d.cur ? '  ·  ' + d.cur : '') + glNHb(tk);
   if (d.px != null) document.getElementById('gl-px').textContent = Number(d.px).toLocaleString() + (d.cur ? (' ' + d.cur) : '');
   // 등락률: world_marketmap_live(라이브) 우선, 없으면 네이버 일별(전일)
   const live = GL_MMLIVE && d.rc && GL_MMLIVE[d.rc];
