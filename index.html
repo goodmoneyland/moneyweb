@@ -3327,6 +3327,9 @@ function closeSearchDropdown() {
 // ═══════════════════════════════════════
 var GL_PEER  = null;   // {ticker: {n,tk,cur,px,chg,perT,perF,...,rat,sa,fv}}
 var GL_LIVE  = {};     // global_prices_live.json prices {ticker: {c,p,e,ep,...}}
+var GL_NH = null;      // world_newhigh {code/symbol: 'ath'|'52w'} — 신고가 뱃지
+async function ensureGlNH(){ if(GL_NH) return; GL_NH={}; try{ const r=await fetch('/api/world_newhigh.json?t='+Date.now()); const j=await r.json(); Object.values(j.items||{}).forEach(a=>a.forEach(x=>{const t=(x.type||[]).includes('ath')?'ath':'52w'; GL_NH[x.code]=t; GL_NH[x.code.split('.')[0].toUpperCase()]=t;})); }catch(e){} }
+function glNHb(tk){ const t=GL_NH&&(GL_NH[tk]||GL_NH[(tk||'').toUpperCase()]); return t==='ath'?' <span style="color:#fbbf24;font-weight:700;">🏆역대신고가</span>':(t==='52w'?' <span style="color:#3fb950;font-weight:700;">📈52주신고가</span>':''); }
 var GL_NEWS  = null;   // finviz_news.json {ticker: [{dt,t,u,src}]} (1시간 스크랩) — 미국
 var GL_NEWS_UPD = '';  // 뉴스 수집 시각
 var WORLD_NEWS = null; // world_news.json {ticker:[...]} — 비US(야후 RSS, 저장+증분)
@@ -3584,11 +3587,12 @@ function _glf(v, suf, dec) {
 
 async function glPopup(tk, fb) {
   if (!GL_PEER) await ensureGlPeer();
+  ensureGlNH();
   const d = GL_PEER[tk];
   if (!d) { glPopupLiteFB(tk, fb); return; }   // peer 외(마켓맵 등) → 경량 팝업
   const L = GL_LIVE[tk] || {};
   document.getElementById('gl-nm').textContent = d.n || tk;
-  document.getElementById('gl-sub').textContent = (d.tk || tk) + (d.cur ? '  ·  ' + d.cur : '');
+  document.getElementById('gl-sub').innerHTML = (d.tk || tk) + (d.cur ? '  ·  ' + d.cur : '') + glNHb(tk);
   const pxv  = (L.p != null) ? L.p : d.px;
   const chgv = (L.c != null) ? L.c : d.chg;
   const px = pxv != null ? Number(pxv).toLocaleString() : '-';
@@ -3658,9 +3662,10 @@ function glClose() {
 // peer 외 종목(마켓맵 등) 경량 팝업 — 이름/등락 + 네이버 개요(있으면) + 외부 링크
 async function glPopupLiteFB(tk, fb) {
   fb = fb || {};
+  ensureGlNH();
   const isUS = tk.indexOf('.') < 0;
   document.getElementById('gl-nm').textContent = fb.name || tk;
-  document.getElementById('gl-sub').textContent = tk;
+  document.getElementById('gl-sub').innerHTML = tk + glNHb(tk);
   document.getElementById('gl-px').textContent = (fb.price != null) ? Number(fb.price).toLocaleString() : '';
   const chgEl = document.getElementById('gl-chg');
   if (fb.change != null) { chgEl.textContent = (fb.change >= 0 ? '▲ +' : '▼ ') + Number(fb.change).toFixed(2) + '%'; chgEl.className = 'gchg ' + (fb.change >= 0 ? 'up' : 'dn'); }
@@ -3763,27 +3768,76 @@ function renderGlobalHigh() {
   if (upd && ts) upd.textContent = '업데이트 ' + ts.slice(5,16);
   const items = (GH_DATA.items || {})[GH_CUR] || [];
   if (!items.length) { box.innerHTML = '<div style="padding:20px;color:var(--muted);">신고가 종목이 없습니다</div>'; return; }
-  const byVal = (a,b) => (b.value||0) - (a.value||0);          // 거래대금 내림차순
-  const isAth = x => (x.type||[]).includes('ath');
-  const ath = items.filter(isAth).sort(byVal);
-  const w52 = items.filter(x => !isAth(x)).sort(byVal);
-  box.innerHTML =
-      '<div style="font-size:14px;font-weight:800;color:#f59e0b;margin:4px 0 4px;">🏆 역사적 신고가 ('+ath.length+')</div>' + _ghRows2(ath)
-    + '<div style="font-size:14px;font-weight:800;color:#22c55e;margin:16px 0 4px;">📈 52주 신고가 ('+w52.length+')</div>' + _ghRows2(w52);
+  box.innerHTML = _ghSectorView(items, GH_CUR);
 }
-function _ghRows2(rows) {
-  if (!rows.length) return '<div style="color:var(--muted);font-size:13px;padding:4px 2px;">없음</div>';
-  const isUS = (GH_CUR === 'USA');
-  return '<div style="display:flex;flex-direction:column;gap:3px;">' + rows.map(x => {
+
+// 거래대금 통화별 컴팩트 표기
+const _GH_CUR_SYM = {USA:'$', JPN:'¥', CHN:'¥', HKG:'HK$', TWN:'NT$'};
+function _ghFmtVal(v, code) {
+  if (v == null || !v) return '';
+  const s = _GH_CUR_SYM[code] || '';
+  if (v >= 1e9) return s + (v/1e9).toFixed(1) + 'B';
+  if (v >= 1e6) return s + (v/1e6).toFixed(0) + 'M';
+  if (v >= 1e3) return s + (v/1e3).toFixed(0) + 'K';
+  return s + Math.round(v);
+}
+
+// 장마감후 KR 신고가처럼: 섹터 요약 + 섹터별 컴팩트 카드(종목명·등락률·거래대금 인접)
+function _ghSectorView(items, code) {
+  const isUS = (code === 'USA');
+  const isAth = x => (x.type||[]).includes('ath');
+  const athN = items.filter(isAth).length;
+  const w52N = items.length - athN;
+
+  // 섹터 그룹핑 — 1종목짜리 섹터는 '기타'로 합쳐 카드 난립 방지
+  const raw = {};
+  items.forEach(x => { const s = x.sector || '기타'; (raw[s] = raw[s] || []).push(x); });
+  const grp = {};
+  Object.keys(raw).forEach(s => {
+    const bucket = (s !== '기타' && raw[s].length >= 2) ? s : '기타';
+    (grp[bucket] = grp[bucket] || []).push(...raw[s]);
+  });
+  Object.values(grp).forEach(a => a.sort((p,q) => (q.value||0) - (p.value||0)));
+  const order = Object.keys(grp).filter(s => s !== '기타').sort((a,b) => grp[b].length - grp[a].length);
+  if (grp['기타']) order.push('기타');
+
+  const pill = s =>
+    '<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);gap:6px;">'
+    + '<span style="font-size:12.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">▣ '+s+'</span>'
+    + '<span style="font-size:12.5px;font-weight:700;color:#f59e0b;">'+grp[s].length+'</span></div>';
+
+  const tr = x => {
     const tk = isUS ? x.code.split('.')[0] : x.code;
-    const disp = x.name || tk;
-    const cr = (x.change == null) ? null : x.change;
-    const star = x.core ? '<span title="핵심종목" style="color:#fbbf24;">★</span> ' : '';
     const key = isUS ? x.code.split('.')[0].toUpperCase() : x.code;
-    return '<div onclick="glPopup(\''+key+'\')" style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:var(--card2);border-radius:7px;cursor:pointer;">'
-      + '<span style="font-size:13.5px;">'+star+disp+' <span style="color:var(--muted);font-size:11px;">'+tk+'</span></span>'
-      + '<span style="font-weight:700;font-size:13px;color:'+((cr||0)>=0?'#f85149':'#58a6ff')+';">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span></div>';
-  }).join('') + '</div>';
+    const cr = x.change;
+    const c = (cr||0) >= 0 ? '#f85149' : '#58a6ff';
+    const mark = isAth(x) ? '🏆 ' : '';
+    const star = x.core ? ' <span title="핵심종목" style="color:#fbbf24;">★</span>' : '';
+    return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;"'
+      + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
+      + '<td style="padding:3px 8px;font-size:13.5px;font-weight:600;white-space:nowrap;">'+mark+(x.name||tk)+star+' <span style="color:var(--muted);font-size:11px;">'+tk+'</span></td>'
+      + '<td style="padding:3px 6px;text-align:right;font-size:13px;font-weight:800;color:'+c+';white-space:nowrap;">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</td>'
+      + '<td style="padding:3px 8px 3px 4px;text-align:right;font-size:12px;color:var(--muted);white-space:nowrap;">'+_ghFmtVal(x.value, code)+'</td>'
+      + '</tr>';
+  };
+
+  const card = s =>
+    '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;display:inline-block;vertical-align:top;">'
+    + '<div style="padding:4px 8px;background:var(--card2);font-size:13px;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap;">▣ '+s
+    + ' <span style="color:var(--muted);font-weight:400;">('+grp[s].length+')</span></div>'
+    + '<table style="border-collapse:collapse;"><tbody>'+grp[s].map(tr).join('')+'</tbody></table></div>';
+
+  return '<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;">'
+      + '<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
+      + '<span style="font-size:13px;color:#22c55e;font-weight:700;">📈 52주 '+w52N+'</span>'
+      + '<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개</span></div>'
+    + '<div style="display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;">'
+      + '<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;">'
+        + '<div style="font-size:14px;font-weight:800;margin-bottom:6px;">신고가 섹터</div>'
+        + order.map(pill).join('')
+      + '</div>'
+      + '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:start;">'+order.map(card).join('')+'</div>'
+    + '</div>';
 }
 
 function setGlOverview(it) {
