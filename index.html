@@ -3884,7 +3884,7 @@ function _ghSectorView(items, code) {
     + '<td style="padding:2px 3px;text-align:right;">거래대금</td>'
     + '<td style="padding:2px 8px 2px 3px;text-align:right;">시총</td></tr>';
   const card = s =>
-    '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">'
+    '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:8px;display:inline-block;width:100%;vertical-align:top;">'
     + '<div style="padding:4px 9px;background:var(--card2);font-size:13px;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">▣ '+s
     + ' <span style="color:var(--muted);font-weight:400;">('+grp[s].length+')</span></div>'
     + '<table style="width:100%;border-collapse:collapse;table-layout:fixed;">'+colgroup+'<tbody>'+headRow+grp[s].map(row).join('')+'</tbody></table></div>';
@@ -3898,7 +3898,7 @@ function _ghSectorView(items, code) {
         + '<div style="font-size:14px;font-weight:800;margin-bottom:6px;">신고가 섹터</div>'
         + order.map(pill).join('')
       + '</div>'
-      + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:8px;align-items:start;">'+order.map(card).join('')+'</div>'
+      + '<div style="column-width:258px;column-gap:8px;">'+order.map(card).join('')+'</div>'
     + '</div>';
 }
 
