@@ -3628,17 +3628,24 @@ const GH_ORDER = ['USA','JPN','CHN','HKG','TWN','EUR'];
 const GH_FLAG  = {USA:'🇺🇸',JPN:'🇯🇵',CHN:'🇨🇳',HKG:'🇭🇰',TWN:'🇹🇼',EUR:'🇪🇺'};
 const GH_KNM   = {USA:'미국',JPN:'일본',CHN:'중국',HKG:'홍콩',TWN:'대만',EUR:'유럽'};
 
+var _ghTimer  = null;
+var _ghPicked = false;   // GH_CUR 자동선택은 최초 1회만(이후 사용자 선택 보존)
 async function loadGlobalHigh() {
+  if (GH_DATA) { renderGhTabs(); renderGlobalHigh(); }   // 캐시 있으면 즉시 렌더(빈 화면 방지)
+  await refreshGlobalHigh();                             // 탭 열 때 항상 최신 재로드
+  if (!_ghTimer) _ghTimer = setInterval(refreshGlobalHigh, 180000);  // 3분 폴링(맵 loadLive와 동일) — 장중 신고가 갱신
+}
+async function refreshGlobalHigh() {
   const box = document.getElementById('gh-list');
-  if (GH_DATA) { renderGhTabs(); renderGlobalHigh(); return; }
   try {
     const res = await fetch('/api/world_newhigh.json?t=' + Date.now());
     GH_DATA = await res.json();
-  } catch(e) { box.innerHTML = '데이터 로드 실패'; return; }
+  } catch(e) { if (box && !box.innerHTML) box.innerHTML = '데이터 로드 실패'; return; }
   const its = GH_DATA.items || {};
-  if (!(its[GH_CUR] && its[GH_CUR].length)) {
+  if (!_ghPicked && !(its[GH_CUR] && its[GH_CUR].length)) {
     const f = GH_ORDER.find(c => its[c] && its[c].length); if (f) GH_CUR = f;
   }
+  _ghPicked = true;
   try { await ensureGlPeer(); } catch(e){}
   renderGhTabs();
   renderGlobalHigh();
