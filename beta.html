@@ -4046,7 +4046,7 @@ function _ghSectorView(items, code) {
     return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;"'
       + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
       + '<td style="padding:3px 8px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:top;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:var(--muted);font-size:10.5px;">'+tk+'</span></td>'
-      + '<td style="padding:3px 3px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:12px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
+      + '<td style="padding:3px 3px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:12px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+Number(cr).toFixed(2)+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
       + '<td style="padding:3px 3px;text-align:right;font-size:11.5px;color:var(--muted);white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.value, code)+'</td>'
       + '<td style="padding:3px 8px 3px 3px;text-align:right;font-size:11.5px;color:#9aa7b3;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
@@ -4102,7 +4102,7 @@ function openGhSector(s) {
     return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;border-bottom:1px solid #1b2c42;"'
       + ' onmouseover="this.style.background=\'#16273c\'" onmouseout="this.style.background=\'\'">'
       + '<td style="padding:5px 12px;font-size:13.5px;font-weight:600;color:#dbe6f2;vertical-align:top;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:#7f97b0;font-size:11px;">'+tk+'</span></td>'
-      + '<td style="padding:5px 8px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:13px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+cr+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
+      + '<td style="padding:5px 8px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:13px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+Number(cr).toFixed(2)+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
       + '<td style="padding:5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.value, code)+'</td>'
       + '<td style="padding:5px 12px 5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
