@@ -4049,11 +4049,11 @@ function _ghSectorView(items, code) {
     + '<td style="padding:2px 8px 2px 3px;text-align:right;">시총</td></tr>';
   const card = s =>
     '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:8px;display:inline-block;width:100%;vertical-align:top;">'
-    + '<div style="padding:4px 9px;background:'+SECT_GREEN+'1f;font-size:13px;font-weight:700;color:'+SECT_GREEN+';border-bottom:1px solid '+SECT_GREEN+'40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">▣ '+s
+    + '<div onclick="openGhSector(\''+_ghEsc(s)+'\')" title="섹터 전체 종목 보기" style="padding:4px 9px;background:'+SECT_GREEN+'1f;font-size:13px;font-weight:700;color:'+SECT_GREEN+';border-bottom:1px solid '+SECT_GREEN+'40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;">▣ '+s
     + ' <span style="color:var(--muted);font-weight:400;">('+grp[s].length+')</span></div>'
     + '<table style="width:100%;border-collapse:collapse;table-layout:fixed;">'+colgroup+'<tbody>'+headRow+grp[s].map(row).join('')+'</tbody></table></div>';
 
-  window._ghGrp = grp; window._ghCode = code;   // 섹터 팝업용
+  window._ghGrp = grp; window._ghCode = code; window._ghOrder = order;   // 섹터 팝업/이동용
 
   return '<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;flex-wrap:wrap;">'
       + '<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
@@ -4068,9 +4068,11 @@ function _ghSectorView(items, code) {
     + '</div>';
 }
 
-// 좌측 '신고가 섹터' 클릭 → 그 섹터 전체 종목 팝업(종목명 안잘림, 종목 클릭 시 해외종목 팝업)
+function _ghEsc(t){ return String(t).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+
+// 좌측 '신고가 섹터'·카드 헤더 클릭 → 그 섹터 전체 종목 팝업(종목명 안잘림, 이전/다음 이동, 종목 클릭 시 해외종목 팝업)
 function openGhSector(s) {
-  const grp = window._ghGrp || {}, code = window._ghCode;
+  const grp = window._ghGrp || {}, code = window._ghCode, ord = window._ghOrder || [];
   const rows = grp[s]; if (!rows || !rows.length) return;
   const isUS = code === 'USA';
   const isAth = x => (x.type||[]).includes('ath');
@@ -4094,18 +4096,29 @@ function openGhSector(s) {
       + '<td style="padding:5px 12px 5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
   }).join('');
+  // 이전/다음 섹터 이동
+  const idx = ord.indexOf(s);
+  const prevS = idx > 0 ? ord[idx-1] : null;
+  const nextS = (idx >= 0 && idx < ord.length-1) ? ord[idx+1] : null;
+  const navBtn = (label, target) => target
+    ? '<span onclick="openGhSector(\''+_ghEsc(target)+'\')" title="'+target+'" style="cursor:pointer;color:#9fb2c6;font-size:18px;padding:0 5px;user-select:none;border-radius:4px;" onmouseover="this.style.background=\'#1d3147\'" onmouseout="this.style.background=\'\'">'+label+'</span>'
+    : '<span style="color:#3a4a5e;font-size:18px;padding:0 5px;user-select:none;">'+label+'</span>';
   m.innerHTML =
     '<div onclick="event.stopPropagation()" style="background:#13233a;border:1px solid #2d4b6b;border-radius:12px;max-width:580px;width:100%;max-height:84vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.6);">'
-    + '<div style="position:sticky;top:0;background:#13233a;padding:12px 14px;border-bottom:1px solid #2d4b6b;display:flex;align-items:center;gap:8px;z-index:1;">'
+    + '<div style="position:sticky;top:0;background:#13233a;padding:10px 12px;border-bottom:1px solid #2d4b6b;display:flex;align-items:center;gap:6px;z-index:1;">'
+      + navBtn('‹', prevS)
       + '<span style="font-size:15px;font-weight:800;color:#4ade80;">▣ '+s+'</span>'
       + '<span style="font-size:12px;color:#7f97b0;">'+rows.length+'개 · 시총순</span>'
+      + navBtn('›', nextS)
+      + (ord.length ? '<span style="font-size:11px;color:#6f8398;margin-left:4px;">'+(idx+1)+'/'+ord.length+'</span>' : '')
       + '<span onclick="document.getElementById(\'gh-sec-modal\').style.display=\'none\'" style="margin-left:auto;cursor:pointer;color:#7f97b0;font-size:22px;line-height:1;">&times;</span></div>'
     + '<table style="width:100%;border-collapse:collapse;">'
-      + '<thead><tr style="color:#6f8398;font-size:11px;position:sticky;top:45px;background:#13233a;">'
+      + '<thead><tr style="color:#6f8398;font-size:11px;position:sticky;top:43px;background:#13233a;">'
         + '<td style="padding:4px 12px;">종목</td><td style="padding:4px 8px;text-align:right;">등락</td>'
         + '<td style="padding:4px 8px;text-align:right;">거래대금</td><td style="padding:4px 12px 4px 8px;text-align:right;">시총</td></tr></thead>'
       + '<tbody>'+trs+'</tbody></table></div>';
   m.style.display = 'flex';
+  m.scrollTop = 0;
 }
 
 function setGlOverview(it) {
