@@ -115,7 +115,7 @@
   #secmodal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:95;
               align-items:center; justify-content:center; }
   #secmodal .secbox { position:relative; background:#13233a; border:1px solid #2d4b6b; border-radius:12px;
-                      width:1020px; max-width:96vw; max-height:94vh; overflow-y:auto; padding:16px 20px; }
+                      width:1300px; max-width:96vw; max-height:94vh; overflow-y:auto; padding:16px 20px; }
   #secmodal .gx { float:right; cursor:pointer; color:#7f97b0; font-size:18px; }
   .sec-nav { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
   .sec-nav .nav-btn { cursor:pointer; color:#9fb2c8; background:#1d3047; border:1px solid #2d4b6b;
@@ -125,11 +125,16 @@
   .sec-nav #sec-title { font-size:17px; font-weight:700; }
   .sec-nav #sec-pos { font-size:11.5px; color:#7f97b0; }
   .sec-body { display:flex; gap:18px; align-items:flex-start; }
-  .sec-left { flex:0 0 360px; max-width:360px; }
-  .sec-right { flex:1; min-width:0; }
+  .sec-left { flex:0 0 560px; max-width:560px; }
+  .sec-right { flex:1; min-width:340px; }
   .sec-left .body { display:grid; grid-template-columns:1fr 1fr; border:1px solid #21374f;
                     border-radius:8px; overflow:hidden; }
   .sec-left .side { padding:8px 10px; } .sec-left .side:first-child { border-right:1px solid #21374f; }
+  /* 팝업에선 종목명 잘림 없이 전체 표시 (필요 시 줄바꿈) */
+  .sec-left .nm-t { white-space:normal; overflow:visible; text-overflow:clip; line-height:1.25; }
+  .sec-left .body .side:first-child .row { grid-template-columns:minmax(0,1fr) 46px 40px; }
+  .sec-left .body .side:last-child .row { grid-template-columns:minmax(0,1fr) 58px 42px; }
+  .sec-left .row { align-items:start; }
   .sec-toggle { display:flex; align-items:center; gap:6px; font-size:12px; color:#8aa0b8; margin-bottom:6px; }
   .sec-tg { cursor:pointer; padding:4px 10px; border-radius:5px; background:#1d3047;
             border:1px solid #2d4b6b; color:#9fb2c8; font-size:11.5px; }
@@ -146,7 +151,7 @@
 <body>
   <div class="topbar">
     <h1>한국 vs 글로벌 밸류에이션</h1>
-    <span class="sub">Forward PER (배) · 2026-06-18 14:35 기준</span>
+    <span class="sub">Forward PER (배) · 2026-06-18 14:43 기준</span>
     <span class="legend">
       <span><b style="color:#ff5b5b">■</b>&lt;10</span>
       <span><b style="color:#ffd33d">■</b>10–20</span>
