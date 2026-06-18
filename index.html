@@ -4958,7 +4958,7 @@ async function _ensureDartDisclosures() {
   if (_DART_LOADING) { await new Promise(r => { const t = setInterval(()=>{ if(_DART_DISCLOSURES){clearInterval(t);r();} },50); }); return; }
   _DART_LOADING = true;
   try {
-    const res = await fetch('/api/dart_disclosures.json');
+    const res = await fetch('/api/dart_disclosures.json?t=' + Date.now(), _NC);
     _DART_DISCLOSURES = await res.json();
   } catch(e) { _DART_DISCLOSURES = {}; }
   _DART_LOADING = false;
