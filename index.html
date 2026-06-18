@@ -1281,7 +1281,7 @@
 
   <!-- ── 한국vs글로벌 (iframe, 고정 src) ── -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-peer">
-    <iframe id="page-peer" src="/moneyweb/peer_kr_global.html" onload="_injectPeerPopup(this)" style="width:100%;height:100%;border:none;display:block;"></iframe>
+    <iframe id="page-peer" data-src="/moneyweb/peer_kr_global.html" onload="_injectPeerPopup(this)" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
   <!-- ── KR테마&신고가 (iframe) ── -->
@@ -1771,7 +1771,10 @@ function switchTab(tab, el) {
   else if (tab === 'global-marketmap') { document.getElementById('wrap-global-marketmap').style.display = 'block'; }
   else if (tab === 'global-thememap') { document.getElementById('wrap-global-thememap').style.display = 'block'; }
   else if (tab === 'kr-sugup') { document.getElementById('wrap-kr-sugup').style.display = 'block'; }
-  else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block'; }
+  else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block';
+    var _pf = document.getElementById('page-peer');
+    if (_pf && !_pf.src) { _pf.src = _pf.getAttribute('data-src') + '?v=' + Date.now(); }  // 캐시버스터: 최신 peer 페이지 로드
+  }
   // kr-theme(신고가) 진입 → 기본 서브탭(종목신고가). 인포스탁 iframe은 테마맵 메뉴로 이동.
   if (tab === 'kr-theme') {
     switchKrThemeTab('stk-high', document.getElementById('krt-stk-high'));
