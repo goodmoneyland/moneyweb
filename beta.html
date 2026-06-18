@@ -3465,14 +3465,23 @@ async function ensureGlMetrics(tk) {
   } catch(e) { GL_METRICS[m] = {}; console.warn('global_metrics ' + m + ' 로드 실패', e); }
   return GL_METRICS[m];
 }
-var GL_MMLIVE = null;   // world_marketmap_live.json {reuters: {c:등락%, e:시간외%}} — 전종목 라이브 등락
+var GL_MMLIVE = null;   // world_marketmap_live.json {reuters: {c:등락%, e:시간외%, ep:시간외가, v}} — 전종목 라이브
+var GL_MM_BYTK = null;  // 티커(접미사제거)→엔트리 인덱스 (팝업은 티커만 알아서 reuters 매칭용)
 async function ensureMMLive() {
   if (GL_MMLIVE) return GL_MMLIVE;
   try {
     const res = await fetch('/api/world_marketmap_live.json?t=' + Date.now());
     GL_MMLIVE = (await res.json()).prices || {};
   } catch(e) { GL_MMLIVE = {}; }
+  GL_MM_BYTK = {};
+  for (const k in GL_MMLIVE) { GL_MM_BYTK[k.split('.')[0].toUpperCase()] = GL_MMLIVE[k]; }
   return GL_MMLIVE;
+}
+// 시간외(네이버) 엔트리 조회 — reuters(rc) 우선, 없으면 티커 인덱스. {c,e,ep,v} 또는 null
+function _mmLive(rc, tk) {
+  if (rc && GL_MMLIVE && GL_MMLIVE[rc]) return GL_MMLIVE[rc];
+  const k = (tk || rc || '').split('.')[0].toUpperCase();
+  return (GL_MM_BYTK && GL_MM_BYTK[k]) || null;
 }
 function _glMcap(v, cur){
   if(v==null||isNaN(v)) return '-';
@@ -3780,11 +3789,12 @@ async function glPopup(tk, fb) {
     chgEl.className = 'gchg ' + (chgv >= 0 ? 'up' : 'dn');
   } else chgEl.textContent = '';
   const extEl = document.getElementById('gl-ext');
-  if (L.e != null && L.ep != null) {
-    const ec = L.e >= 0 ? '#ff6b6b' : '#5b9dff';
+  const _mx = _mmLive(d.rc, tk);   // 시간외: 네이버 전종목(신고가 행과 동일 소스)
+  if (_mx && _mx.e != null) {
+    const ec = _mx.e >= 0 ? '#ff6b6b' : '#5b9dff';
     extEl.style.display = 'block';
-    extEl.innerHTML = '시간외 <b>' + Number(L.ep).toLocaleString() + (d.cur ? (' ' + d.cur) : '') + '</b> ' +
-      '<span style="color:' + ec + '">(' + (L.e >= 0 ? '+' : '') + Number(L.e).toFixed(2) + '%)</span>';
+    extEl.innerHTML = '시간외 ' + (_mx.ep != null ? '<b>' + Number(_mx.ep).toLocaleString() + (d.cur ? (' ' + d.cur) : '') + '</b> ' : '') +
+      '<span style="color:' + ec + '">(' + (_mx.e >= 0 ? '+' : '') + Number(_mx.e).toFixed(2) + '%)</span>';
   } else extEl.style.display = 'none';
   const mk = d.mk != null ? (d.mk / 1e12).toFixed(1) + '조' : '-';
   const mu = d.mu != null ? '$' + (d.mu / 1e9).toFixed(1) + 'B' : '';
@@ -3851,12 +3861,12 @@ async function glPopupLiteFB(tk, fb) {
   const chgEl = document.getElementById('gl-chg');
   if (fb.change != null) { chgEl.textContent = (fb.change >= 0 ? '▲ +' : '▼ ') + Number(fb.change).toFixed(2) + '%'; chgEl.className = 'gchg ' + (fb.change >= 0 ? 'up' : 'dn'); }
   else chgEl.textContent = '';
-  // 시간외(미국) — 신고가 행과 동일 소스(GL_LIVE)로 일치 보장
-  const _Lx = (GL_LIVE || {})[tk], _extX = document.getElementById('gl-ext');
-  if (_Lx && _Lx.e != null && _Lx.ep != null) {
+  // 시간외(미국) — 신고가 행과 동일 소스(네이버 전종목 GL_MMLIVE)로 일치 보장
+  const _Lx = _mmLive(null, tk), _extX = document.getElementById('gl-ext');
+  if (_Lx && _Lx.e != null) {
     const _ecx = _Lx.e >= 0 ? '#ff6b6b' : '#5b9dff';
     _extX.style.display = 'block';
-    _extX.innerHTML = '시간외 <b>' + Number(_Lx.ep).toLocaleString() + '</b> <span style="color:' + _ecx + '">(' + (_Lx.e >= 0 ? '+' : '') + Number(_Lx.e).toFixed(2) + '%)</span>';
+    _extX.innerHTML = '시간외 ' + (_Lx.ep != null ? '<b>' + Number(_Lx.ep).toLocaleString() + '</b> ' : '') + '<span style="color:' + _ecx + '">(' + (_Lx.e >= 0 ? '+' : '') + Number(_Lx.e).toFixed(2) + '%)</span>';
   } else _extX.style.display = 'none';
   document.getElementById('gl-mk').textContent = '';
   document.getElementById('gl-metrics').innerHTML = '';
@@ -3933,7 +3943,7 @@ async function refreshGlobalHigh() {
   }
   _ghPicked = true;
   try { await ensureGlPeer(); } catch(e){}
-  try { await ensureGlLive(); } catch(e){}   // 시간외 등락(e) 소스(팝업과 동일, 24h 신선) — 신고가 행 괄호
+  try { await ensureMMLive(); } catch(e){}   // 시간외(네이버 전종목) 소스 — 신고가 행·팝업 공통
   renderGhTabs();
   renderGlobalHigh();
 }
@@ -4001,11 +4011,11 @@ function _ghFmtVal(v, code) {
   return s + Math.round(v);
 }
 
-// 시간외 등락(미국) — 팝업과 같은 소스(global_prices_live=GL_LIVE, 24h 신선)에서. 종가 등락 밑 작은 괄호.
-// 신고가 리스트는 종가 고정값이고 시간외만 라이브 오버레이라, 무거운 네이버 풀스캔(06시 멈춤) 대신 GL_LIVE 사용.
-function _ghExtHtml(code, tk) {
-  if (code !== 'USA' || !GL_LIVE) return '';
-  const e = (GL_LIVE[tk] || {}).e;
+// 시간외 등락(미국) — 네이버 전종목(GL_MMLIVE, reuters코드). 팝업도 같은 소스라 값 일치. 종가 등락 밑 작은 괄호.
+function _ghExtHtml(code, rc) {
+  if (code !== 'USA') return '';
+  const v = _mmLive(rc);
+  const e = v && v.e;
   if (e == null) return '';
   const col = e >= 0 ? '#e0726b' : '#7fb0e8';
   return '<div style="font-size:9.5px;font-weight:600;line-height:1.05;color:' + col + ';">('
@@ -4053,7 +4063,7 @@ function _ghSectorView(items, code) {
     return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;"'
       + ' onmouseover="this.style.background=\'var(--card2)\'" onmouseout="this.style.background=\'\'">'
       + '<td style="padding:3px 8px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:top;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:var(--muted);font-size:10.5px;">'+tk+'</span></td>'
-      + '<td style="padding:3px 3px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:12px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+Number(cr).toFixed(2)+'%'))+'</span>'+_ghExtHtml(code, key)+'</td>'
+      + '<td style="padding:3px 3px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:12px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+Number(cr).toFixed(2)+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
       + '<td style="padding:3px 3px;text-align:right;font-size:11.5px;color:var(--muted);white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.value, code)+'</td>'
       + '<td style="padding:3px 8px 3px 3px;text-align:right;font-size:11.5px;color:#9aa7b3;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
@@ -4109,7 +4119,7 @@ function openGhSector(s) {
     return '<tr onclick="glPopup(\''+key+'\')" style="cursor:pointer;border-bottom:1px solid #1b2c42;"'
       + ' onmouseover="this.style.background=\'#16273c\'" onmouseout="this.style.background=\'\'">'
       + '<td style="padding:5px 12px;font-size:13.5px;font-weight:600;color:#dbe6f2;vertical-align:top;">'+lead+(lead?' ':'')+(x.name||tk)+' <span style="color:#7f97b0;font-size:11px;">'+tk+'</span></td>'
-      + '<td style="padding:5px 8px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:13px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+Number(cr).toFixed(2)+'%'))+'</span>'+_ghExtHtml(code, key)+'</td>'
+      + '<td style="padding:5px 8px;text-align:right;white-space:nowrap;vertical-align:top;"><span style="font-size:13px;font-weight:800;color:'+c+';">'+(cr==null?'-':((cr>0?'+':'')+Number(cr).toFixed(2)+'%'))+'</span>'+_ghExtHtml(code, x.code)+'</td>'
       + '<td style="padding:5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.value, code)+'</td>'
       + '<td style="padding:5px 12px 5px 8px;text-align:right;font-size:12.5px;color:#9fb2c6;white-space:nowrap;vertical-align:top;">'+_ghFmtVal(x.mcap, code)+'</td>'
       + '</tr>';
