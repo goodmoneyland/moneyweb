@@ -89,6 +89,22 @@ td.amt{font-weight:600}
 .topcol h3{margin:0;font-size:12px;padding:7px 10px;background:#1d212a;border-bottom:1px solid var(--line)}
 .topcol table{width:100%;border-collapse:collapse}
 .topcol td{padding:3px 8px;font-size:12px;border-bottom:1px solid #1b1f27;white-space:nowrap}
+.fgn-wrap{padding:14px 18px 4px}
+.fgn-title{font-size:15px;font-weight:700;margin-bottom:9px}
+.fgn-ctrl{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:11px}
+.fgn-ctrl .seg{display:flex;gap:5px;align-items:center}
+.fgn-ctrl .lbl{color:var(--mut);font-size:11px}
+.fbtn{background:var(--panel);color:var(--mut);border:1px solid var(--line);padding:4px 11px;border-radius:7px;cursor:pointer;font-size:12px}
+.fbtn.on{background:#2a3140;color:#fff;border-color:#3a4250}
+.fbtn:disabled{opacity:.32;cursor:default}
+.fgn-cols{display:flex;gap:10px;overflow-x:auto}
+.fgn-col{flex:1 1 0;min-width:300px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.fgn-col h4{margin:0;font-size:12px;padding:7px 10px;background:#1d212a;border-bottom:1px solid var(--line)}
+.fgn-tbl{width:100%;border-collapse:collapse}
+.fgn-tbl th,.fgn-tbl td{padding:4px 8px;font-size:12px;border-bottom:1px solid #1b1f27;white-space:nowrap;text-align:right}
+.fgn-tbl th{color:var(--mut);font-size:11px;font-weight:600}
+.fgn-tbl th.l,.fgn-tbl td.l{text-align:left}
+.dys{font-variant-numeric:tabular-nums}
 </style></head><body>
 <header>
   <div class="viewtabs">
@@ -120,6 +136,7 @@ td.amt{font-weight:600}
       <button class="t" data-k="rsmode" data-v="IPO">신규상장</button></div>
   </div>
 </header>
+<div id="fgnview"></div>
 <div class="matrix" id="matrix"></div>
 <div class="rstbl-wrap" id="rsview" style="display:none"></div>
 <div id="flowview" style="display:none"></div>
@@ -133,6 +150,8 @@ function fmtPct(v){ if(v===null||v===undefined) return ""; const s=v>0?"+":""; r
 function fmtMcap(eok){ return eok>=10000 ? (eok/10000).toFixed(1)+"조" : eok.toLocaleString()+"억"; }
 
 let flowTimer = null, flowData = null, flowSeries = null;
+let fgnTimer = null, fgnData = null;
+const selFgn = {market:"KOSPI", period:"0", tab:"for", dir:"buy"};
 
 function setView(v){
   view = v;
@@ -140,12 +159,80 @@ function setView(v){
   document.getElementById("sugup-toggles").style.display = v==="sugup"?"flex":"none";
   document.getElementById("rs-toggles").style.display    = v==="rs"?"flex":"none";
   document.getElementById("matrix").style.display = v==="sugup"?"flex":"none";
+  document.getElementById("fgnview").style.display = v==="sugup"?"block":"none";
   document.getElementById("rsview").style.display = v==="rs"?"block":"none";
   document.getElementById("flowview").style.display = v==="flow"?"block":"none";
-  // 장중 시장수급: 진입 시 fetch + 60초 폴링, 이탈 시 폴링 중지
+  // 진입 시 fetch + 60초 폴링, 이탈 시 중지
   if(flowTimer){ clearInterval(flowTimer); flowTimer=null; }
+  if(fgnTimer){ clearInterval(fgnTimer); fgnTimer=null; }
   if(v==="flow"){ loadFlow(); flowTimer=setInterval(loadFlow, 60000); }
+  if(v==="sugup"){ loadFgn(); fgnTimer=setInterval(loadFgn, 60000); }
   render();
+}
+
+async function loadFgn(){
+  try{ fgnData = await fetch("/moneyweb/api/market_foreign_flow.json?_="+Date.now()).then(r=>r.json()); }
+  catch(e){ /* 유지 */ }
+  if(view==="sugup") renderFgn();
+}
+function fgnSet(k,v){ selFgn[k]=v; renderFgn(); }
+
+function fgnBtn(k,v,label,on,disabled){
+  return `<button class="fbtn${on?' on':''}"${disabled?' disabled':''} onclick="fgnSet('${k}','${v}')">${label}</button>`;
+}
+function fgnForCol(title,rows,dir){
+  rows=rows||[];
+  let h=`<div class="fgn-col"><h4>${title}</h4><table class="fgn-tbl"><tr><th class="rk"></th><th class="l">종목</th><th>순매수(주)</th><th>등락</th></tr>`;
+  if(!rows.length) h+='<tr><td colspan="4" style="text-align:center;color:var(--mut);padding:14px">데이터 없음</td></tr>';
+  rows.forEach((r,i)=>{ h+=`<tr><td class="rk">${i+1}</td><td class="l"><span class="nm">${r.nm}</span></td>`
+    +`<td class="r net ${dir}">${r.qty.toLocaleString()}</td>`
+    +`<td class="r ${r.rt>=0?'up':'dn'}">${fmtPct(r.rt)}</td></tr>`; });
+  return h+'</table></div>';
+}
+function fgnConsec(rows,dir){
+  rows=rows||[];
+  let h=`<div class="fgn-col" style="min-width:560px"><h4>외국인 ${dir==='buy'?'연속순매수':'연속순매도'} (3일추이·연속합)</h4>`
+    +`<table class="fgn-tbl"><tr><th class="rk"></th><th class="l">종목</th><th>3일전</th><th>2일전</th><th>전일</th><th>연속합</th><th>한도소진</th><th>등락</th></tr>`;
+  if(!rows.length) h+='<tr><td colspan="8" style="text-align:center;color:var(--mut);padding:14px">데이터 없음</td></tr>';
+  rows.forEach((r,i)=>{ h+=`<tr><td class="rk">${i+1}</td><td class="l"><span class="nm">${r.nm}</span></td>`
+    +`<td class="r">${r.d3.toLocaleString()}</td><td class="r">${r.d2.toLocaleString()}</td><td class="r">${r.d1.toLocaleString()}</td>`
+    +`<td class="r net ${dir}">${r.tot.toLocaleString()}</td><td class="r">${r.exh}%</td>`
+    +`<td class="r ${r.rt>=0?'up':'dn'}">${fmtPct(r.rt)}</td></tr>`; });
+  return h+'</table></div>';
+}
+function fgnInst(rows){
+  rows=rows||[];
+  let h=`<div class="fgn-col" style="min-width:580px"><h4>기관·외국인 연속매매 (종합 연속일수순)</h4>`
+    +`<table class="fgn-tbl"><tr><th class="rk"></th><th class="l">종목</th><th>기관연속</th><th>기관(억)</th><th>외인연속</th><th>외인(억)</th><th>종합연속</th><th>기간등락</th></tr>`;
+  if(!rows.length) h+='<tr><td colspan="8" style="text-align:center;color:var(--mut);padding:14px">데이터 없음</td></tr>';
+  rows.forEach((r,i)=>{ h+=`<tr><td class="rk">${i+1}</td><td class="l"><span class="nm">${r.nm}</span></td>`
+    +`<td class="r dys">${r.o_dys>0?'+':''}${r.o_dys}일</td><td class="r net ${r.o_amt>=0?'buy':'sell'}">${fEok(r.o_amt)}</td>`
+    +`<td class="r dys">${r.f_dys>0?'+':''}${r.f_dys}일</td><td class="r net ${r.f_amt>=0?'buy':'sell'}">${fEok(r.f_amt)}</td>`
+    +`<td class="r dys"><b>${r.t_dys>0?'+':''}${r.t_dys}일</b></td>`
+    +`<td class="r ${r.rt>=0?'up':'dn'}">${fmtPct(r.rt)}</td></tr>`; });
+  return h+'</table></div>';
+}
+function renderFgn(){
+  const host=document.getElementById("fgnview");
+  if(!fgnData||!fgnData.markets){ host.innerHTML=""; return; }
+  const mk=fgnData.markets[selFgn.market]; if(!mk){ host.innerHTML=""; return; }
+  const isConsec = selFgn.tab==="consec";
+  let h='<div class="fgn-wrap"><div class="fgn-title">외국인·기관 동향 <span class="unit">키움 잠정</span></div><div class="fgn-ctrl">';
+  h+='<div class="seg"><span class="lbl">시장</span>'+fgnBtn("market","KOSPI","코스피",selFgn.market==="KOSPI",false)+fgnBtn("market","KOSDAQ","코스닥",selFgn.market==="KOSDAQ",false)+'</div>';
+  h+='<div class="seg"><span class="lbl">기간</span>'+(fgnData.periods||["0","5","10","20","60"]).map(p=>fgnBtn("period",p,p==="0"?"당일":p+"일",selFgn.period===p,isConsec)).join("")+'</div>';
+  h+='<div class="seg">'+fgnBtn("tab","for","외국인 기간상위",selFgn.tab==="for",false)+fgnBtn("tab","consec","외국인 연속",selFgn.tab==="consec",false)+fgnBtn("tab","instfgn","기관·외국인 연속",selFgn.tab==="instfgn",false)+'</div>';
+  if(isConsec) h+='<div class="seg"><span class="lbl">방향</span>'+fgnBtn("dir","buy","순매수",selFgn.dir==="buy",false)+fgnBtn("dir","sell","순매도",selFgn.dir==="sell",false)+'</div>';
+  h+='</div>';
+  if(selFgn.tab==="for"){
+    const P=mk.periods[selFgn.period]||{};
+    h+='<div class="fgn-cols">'+fgnForCol("외국인 순매수 상위",P.for_buy,"buy")+fgnForCol("외국인 순매도 상위",P.for_sell,"sell")+'</div>';
+  }else if(isConsec){
+    h+='<div class="fgn-cols">'+fgnConsec(selFgn.dir==="buy"?mk.consec_buy:mk.consec_sell,selFgn.dir)+'</div>';
+  }else{
+    h+='<div class="fgn-cols">'+fgnInst((mk.periods[selFgn.period]||{}).inst_frgn)+'</div>';
+  }
+  h+='</div>';
+  host.innerHTML=h;
 }
 
 function render(){ if(view==="flow") return renderFlow(); return view==="rs" ? renderRS() : renderSugup(); }
