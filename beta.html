@@ -5104,27 +5104,46 @@ function _renderFinance(d, p) {
      ['CNS 변화', cns.cns_chg ? cns.cns_chg+'%' : '-']]
     .map(([l,v])=>`<div class="sp-card"><div class="lbl">${l}</div><div class="val">${v}</div></div>`).join('')+'</div>';
   const earEl=document.getElementById('sp-earnings-table');
-  if (!ear||!ear.length) { earEl.innerHTML='<div style="color:#64748b;font-size: 18px;">분기 실적 데이터 없음</div>'; return; }
-  const ths=ear.map(e=>`<th style="padding:8px 10px;font-size: 18px;color:#94a3b8;font-weight:600;text-align:right;">${e.year}.Q${(e.quarter||'').replace('Q','')}</th>`).join('');
-  const simpleRows2=['매출액','영업이익'].map(key=>{
-    const tds=ear.map(e=>{
-      const v=e[key],s=v!=null?Math.round(v/1e8).toLocaleString('ko-KR')+'억':'-';
-      const clr=key!=='매출액'&&v!=null?(v>=0?'#f1f5f9':'#f87171'):'#f1f5f9';
-      return `<td style="padding:8px 10px;font-size: 19.5px;color:${clr};text-align:right;">${s}</td>`;
-    }).join('');
-    return `<tr><td style="padding:8px 10px;font-size: 18px;color:#94a3b8;white-space:nowrap;">${key}</td>${tds}</tr>`;
-  }).join('');
-  const niTds2=ear.map(e=>{
-    const v=e['순이익'],s=v!=null?Math.round(v/1e8).toLocaleString('ko-KR')+'억':'-';
-    const clr=v!=null?(v>=0?'#f1f5f9':'#f87171'):'#94a3b8';
-    return `<td style="padding:8px 10px;font-size: 19.5px;color:${clr};text-align:right;">${s}</td>`;
-  }).join('');
-  const niLabel2=ear.map(e=>e['순이익_계정']).find(Boolean)||'순이익';
-  const rows=simpleRows2+`<tr><td style="padding:8px 10px;font-size: 18px;color:#94a3b8;white-space:nowrap;">${niLabel2}</td>${niTds2}</tr>`;
-  earEl.innerHTML=`<div style="font-size: 18px;color:#64748b;margin-bottom:8px;">분기 실적</div>
+  // 단위 헬퍼: _w(원→억) / _uk(억 그대로, 큰 값은 조)
+  const _w =v=> v==null?'-':Math.round(v/1e8).toLocaleString('ko-KR')+'억';
+  const _uk=v=> v==null?'-':(Math.abs(v)>=10000?(v/10000).toFixed(1)+'조':Math.round(v).toLocaleString('ko-KR')+'억');
+  const _hcell=t=>`<th style="padding:8px 10px;font-size:18px;color:#94a3b8;font-weight:600;text-align:right;">${t}</th>`;
+  const _rcell=(s,clr)=>`<td style="padding:8px 10px;font-size:19.5px;color:${clr||'#f1f5f9'};text-align:right;">${s}</td>`;
+  const _rlabel=t=>`<td style="padding:8px 10px;font-size:18px;color:#94a3b8;white-space:nowrap;">${t}</td>`;
+  const _T=(title,headers,body)=>`<div style="font-size:18px;color:#64748b;margin:14px 0 8px;">${title}</div>
     <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;background:#162033;border-radius:8px;overflow:hidden;border:1px solid #1e2d47;">
-    <thead><tr><th style="padding:8px 10px;font-size: 18px;color:#64748b;text-align:left;">항목</th>${ths}</tr></thead>
-    <tbody>${rows}</tbody></table></div>`;
+    <thead><tr><th style="padding:8px 10px;font-size:18px;color:#64748b;text-align:left;">항목</th>${headers}</tr></thead>
+    <tbody>${body}</tbody></table></div>`;
+  let out='';
+  // 분기 실적 (DART, 원→억)
+  if (ear && ear.length) {
+    const ths=ear.map(e=>_hcell(`${e.year}.Q${(e.quarter||'').replace('Q','')}`)).join('');
+    const niLabel2=ear.map(e=>e['순이익_계정']).find(Boolean)||'순이익';
+    const body=[['매출액','매출액'],['영업이익','영업이익'],[niLabel2,'순이익']].map(([lbl,k])=>{
+      const tds=ear.map(e=>{const v=e[k];const clr=(k!=='매출액'&&v!=null&&v<0)?'#f87171':'#f1f5f9';return _rcell(_w(v),clr);}).join('');
+      return `<tr>${_rlabel(lbl)}${tds}</tr>`;
+    }).join('');
+    out+=_T('분기 실적', ths, body);
+  }
+  // 연간 실적 (억 단위)
+  if (d.annual && d.annual.length) {
+    const ths=d.annual.map(a=>_hcell(a.year)).join('');
+    const body=['매출액','영업이익','순이익'].map(key=>{
+      const tds=d.annual.map(a=>{const v=a[key];const clr=(key!=='매출액'&&v!=null&&v<0)?'#f87171':'#f1f5f9';return _rcell(_uk(v),clr);}).join('');
+      return `<tr>${_rlabel(key)}${tds}</tr>`;
+    }).join('')+`<tr>${_rlabel('PER')}${d.annual.map(a=>_rcell(a.per!=null?a.per+'배':'-','#cbd5e1')).join('')}</tr>`;
+    out+=_T('연간 실적', ths, body);
+  }
+  // 컨센서스 추정 (억 단위, FnGuide)
+  if (d.estimates && d.estimates.length) {
+    const ths=d.estimates.map(e=>_hcell(e.type==='Y'?`${e.year}(E)`:`${e.year}.${e.quarter}(E)`)).join('');
+    const body=['매출액','영업이익','순이익'].map(key=>{
+      const tds=d.estimates.map(e=>{const v=e[key];const clr=(key!=='매출액'&&v!=null&&v<0)?'#f87171':'#f1f5f9';return _rcell(_uk(v),clr);}).join('');
+      return `<tr>${_rlabel(key)}${tds}</tr>`;
+    }).join('');
+    out+=_T('컨센서스 추정 (E)', ths, body);
+  }
+  earEl.innerHTML = out || '<div style="color:#64748b;font-size:18px;">실적 데이터 없음</div>';
 }
 
 // ═══════════════════════════════════════
