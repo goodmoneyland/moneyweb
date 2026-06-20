@@ -853,10 +853,14 @@
   .trump-card { background:var(--card); border:1px solid var(--border); border-left:3px solid #dc2626;
     border-radius:10px; padding:14px 16px; margin-bottom:12px; }
   .sns-col:nth-child(2) .trump-card { border-left-color:#1d9bf0; }
+  /* 합친(모바일) 피드: 일론 글 파란 테두리 + 작성자 칩 */
+  .trump-card.sns-elon { border-left-color:#1d9bf0; }
+  .sns-who { font-weight:700; color:var(--text); font-size:12.5px; }
+  #sns-merged { display:none; }
   @media (max-width:768px){
-    .sns-cols { flex-direction:column; height:auto; }
-    .sns-col { height:auto; overflow:visible; border-left:none; border-top:1px solid var(--border); }
-    .sns-col:first-child { border-top:none; }
+    /* 모바일: 2열 숨기고, 트럼프+일론 합쳐 최신순 단일 피드 */
+    .sns-cols { display:none; }
+    #sns-merged { display:block; padding:14px 14px 30px; }
     #page-trump { overflow-y:auto; }
   }
   .trump-card-head { display:flex; align-items:center; gap:10px; margin-bottom:10px;
@@ -1538,6 +1542,8 @@
         <div id="elon-list" style="color:var(--muted);font-size:15px;">로딩 중...</div>
       </div>
     </div>
+    <!-- 모바일 전용: 트럼프+일론 최신순 합친 피드 -->
+    <div id="sns-merged" style="color:var(--muted);font-size:15px;"></div>
   </div>
 
   <!-- ── 글로벌 신고가 (미·일·중·홍·대만) ── -->
@@ -3517,7 +3523,8 @@ function fmtHead(tag) { document.getElementById('idea-body').focus(); document.e
 // ═══════════════════════════════════════
 function _esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-function _snsCardHtml(p, flag) {
+function _snsCardHtml(p, flag, opts) {
+  opts = opts || {};
   const ko = _esc(p.korean).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(번역 없음)</span>';
   const en = _esc(p.original).replace(/\n/g,'<br>') || '<span style="color:var(--muted)">(원문 없음)</span>';
   const link = p.link ? `<a class="trump-link" href="${_esc(p.link)}" target="_blank" rel="noopener">원문 링크 ↗</a>` : '';
@@ -3532,9 +3539,11 @@ function _snsCardHtml(p, flag) {
       return `<a href="${url}" target="_blank" rel="noopener"><img class="trump-media-item" src="${url}" alt="첨부 이미지" onerror="this.closest('a').style.display='none'"></a>`;
     }).join('') + '</div>';
   }
-  return `<div class="trump-card">
+  const who = opts.name ? `<span class="sns-who">${opts.name}</span>` : '';
+  return `<div class="trump-card ${opts.cls || ''}">
     <div class="trump-card-head">
       <span class="trump-flag">${flag}</span>
+      ${who}
       <span class="trump-time">${_esc(p.kst)} (KST)</span>
       ${link}
     </div>
@@ -3544,30 +3553,45 @@ function _snsCardHtml(p, flag) {
   </div>`;
 }
 
-async function _loadSnsColumn(jsonUrl, listId, updId, flag) {
+async function _fetchSns(url) {
+  try { const r = await fetch(url + '?t=' + Date.now()); const d = await r.json(); return { posts: d.posts || [], updated_at: d.updated_at || '' }; }
+  catch (e) { return null; }
+}
+// PC 2열: 한 소스 = 한 열
+function _renderSnsColumn(listId, updId, data, flag) {
   const list = document.getElementById(listId);
   if (!list) return;
-  list.innerHTML = '<div style="padding:16px 0;color:var(--muted);">로딩 중...</div>';
-  try {
-    const res = await fetch(jsonUrl + '?t=' + Date.now());
-    const data = await res.json();
-    const posts = data.posts || [];
-    const upd = document.getElementById(updId);
-    if (upd) upd.textContent = '업데이트 ' + (data.updated_at || '') + ' · 최근 ' + posts.length + '건';
-    list.innerHTML = posts.length
-      ? posts.map(p => _snsCardHtml(p, flag)).join('')
-      : '<div style="padding:24px 0;color:var(--muted);">표시할 글이 없습니다.</div>';
-  } catch (e) {
-    list.innerHTML = '<div style="padding:24px 0;color:var(--danger,#dc2626);">불러오기 실패: ' + _esc(String(e)) + '</div>';
-  }
+  if (!data) { list.innerHTML = '<div style="padding:24px 0;color:#dc2626;">불러오기 실패</div>'; return; }
+  const upd = document.getElementById(updId);
+  if (upd) upd.textContent = '업데이트 ' + data.updated_at + ' · 최근 ' + data.posts.length + '건';
+  list.innerHTML = data.posts.length
+    ? data.posts.map(p => _snsCardHtml(p, flag)).join('')
+    : '<div style="padding:24px 0;color:var(--muted);">표시할 글이 없습니다.</div>';
+}
+// 모바일: 트럼프+일론을 작성 시간(kst) 최신순으로 합쳐 단일 피드
+function _renderSnsMerged(trump, elon) {
+  const box = document.getElementById('sns-merged');
+  if (!box) return;
+  const items = [];
+  if (trump) trump.posts.forEach(p => items.push({ p, flag: '🇺🇸', name: '트럼프', cls: '' }));
+  if (elon)  elon.posts.forEach(p => items.push({ p, flag: '𝕏', name: '머스크', cls: 'sns-elon' }));
+  items.sort((a, b) => String(b.p.kst || '').localeCompare(String(a.p.kst || '')));  // 최신순
+  box.innerHTML = items.length
+    ? items.map(t => _snsCardHtml(t.p, t.flag, { name: t.name, cls: t.cls })).join('')
+    : '<div style="padding:24px 0;color:var(--muted);">표시할 글이 없습니다.</div>';
 }
 
 let _snsLoaded = false;
-function loadTrumpPage(force) {
+async function loadTrumpPage(force) {
   if (_snsLoaded && !force) return;   // 탭 재진입 시 재요청 안 함
-  _loadSnsColumn('/api/trump_truth.json', 'trump-list', 'trump-updated', '🇺🇸');
-  _loadSnsColumn('/api/elon_x.json', 'elon-list', 'elon-updated', '𝕏');
   _snsLoaded = true;
+  const [trump, elon] = await Promise.all([
+    _fetchSns('/api/trump_truth.json'),
+    _fetchSns('/api/elon_x.json'),
+  ]);
+  _renderSnsColumn('trump-list', 'trump-updated', trump, '🇺🇸');  // PC 좌
+  _renderSnsColumn('elon-list', 'elon-updated', elon, '𝕏');       // PC 우
+  _renderSnsMerged(trump, elon);                                   // 모바일 합친 피드
 }
 
 let ideas = JSON.parse(localStorage.getItem('ml_ideas') || '[]');
