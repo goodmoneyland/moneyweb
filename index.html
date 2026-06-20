@@ -221,9 +221,13 @@
     cursor: pointer; transition: border-color .15s, background .15s; text-decoration: none; display: block;
   }
   .idx-card:hover { background: var(--card2); border-color: var(--accent); }
-  .idx-card .name  { font-size: 13px; color: var(--muted); margin-bottom: 3px; }
-  .idx-card .value { font-size: 22px; font-weight: 700; }
-  .idx-card .change { font-size: 14px; margin-top: 2px; }
+  .idx-card .name  { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .idx-card .idx-row { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+  .idx-card .value { font-size: 20px; font-weight: 700; line-height: 1.15; }
+  .idx-card .change { font-size: 13px; white-space: nowrap; }
+  .idx-card .spark { margin-top: 6px; height: 26px; }
+  .idx-card .spark svg { width: 100%; height: 26px; display: block; }
+  .idx-card .spark:empty { margin-top: 0; height: 0; }
   .up { color: var(--up); } .down { color: var(--down); }
 
   .card-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 4px; }
@@ -1074,42 +1078,32 @@
 
     <div class="section-title">주요 지수</div>
 
-    <!-- 1행: 국내 지수 + 선물 + ETF(EWY/DRAM) + 야간선물 + 환율 -->
+    <!-- 주요 지수: 야간세션(미국,1~13) → 아시아세션(한국영향,14~22) 단일 흐름. 각 카드 장중 흐름 스파크라인 포함 -->
     <div class="dash-grid-8">
-      <div class="idx-card" id="idx-KOSPI"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSPI','_blank')"><div class="name">KOSPI</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-KOSDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSDAQ','_blank')"><div class="name">KOSDAQ</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-K200F"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AK200F1%21','_blank')"><div class="name">K200선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-EWY"        onclick="window.open('https://www.tradingview.com/chart/?symbol=AMEX%3AEWY','_blank')"><div class="name">MSCI코리아(EWY)</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-DRAM"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOE%3ADRAM','_blank')"><div class="name">DRAM ETF</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-K200F_NIGHT"><div class="name">K200야간종가</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-USDKRW"><div class="name">원달러</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-    </div>
-
-    <!-- 2행: 아시아 지수 (다음줄) -->
-    <div class="dash-grid-8">
-      <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-    </div>
-
-    <!-- 3행: 미국 3대 지수 + 선물 -->
-    <div class="dash-grid-8">
-      <div class="idx-card" id="idx-DOW"        onclick="window.open('https://www.tradingview.com/chart/?symbol=DJI','_blank')"><div class="name">다우존스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-NASDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=IXIC','_blank')"><div class="name">나스닥</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-SP500"      onclick="window.open('https://www.tradingview.com/chart/?symbol=SPX','_blank')"><div class="name">S&amp;P 500</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-RUSSELL"    onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ARUT','_blank')"><div class="name">러셀2000</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-DOWF"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOT_MINI%3AYM1%21','_blank')"><div class="name">다우 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-NASDAQF"    onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3ANQ1%21','_blank')"><div class="name">나스닥 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="idx-SP500F"     onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3AES1%21','_blank')"><div class="name">S&amp;P 500 선물</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-    </div>
-
-    <!-- 4행: 미국 지표 5개 (카드 크기 통일) -->
-    <div class="dash-grid-8">
-      <div class="idx-card" id="idx-SOX"  onclick="window.open('https://www.tradingview.com/chart/?symbol=SOX','_blank')"><div class="name">필라델피아 반도체</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="ind-tny"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:US10Y','_blank')"><div class="name">10Y 국채금리</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="ind-dxy"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:DXY','_blank')"><div class="name">달러인덱스</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="ind-vix"  onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOE:VIX','_blank')"><div class="name">VIX</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
-      <div class="idx-card" id="ind-wti"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:USOIL','_blank')"><div class="name">WTI 원유</div><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div>
+      <!-- 🌙 야간 세션 (미국장) -->
+      <div class="idx-card" id="idx-DOW"        onclick="window.open('https://www.tradingview.com/chart/?symbol=DJI','_blank')"><div class="name">다우존스</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-NASDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=IXIC','_blank')"><div class="name">나스닥</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-SP500"      onclick="window.open('https://www.tradingview.com/chart/?symbol=SPX','_blank')"><div class="name">S&amp;P 500</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-RUSSELL"    onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ARUT','_blank')"><div class="name">러셀2000</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="ind-tny"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:US10Y','_blank')"><div class="name">10Y 국채금리</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="ind-dxy"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:DXY','_blank')"><div class="name">달러인덱스</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="ind-vix"  onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOE:VIX','_blank')"><div class="name">VIX</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="ind-wti"  onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC:USOIL','_blank')"><div class="name">WTI 원유</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-SOX"  onclick="window.open('https://www.tradingview.com/chart/?symbol=SOX','_blank')"><div class="name">필라델피아 반도체</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-EWY"        onclick="window.open('https://www.tradingview.com/chart/?symbol=AMEX%3AEWY','_blank')"><div class="name">MSCI코리아(EWY)</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-DRAM"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOE%3ADRAM','_blank')"><div class="name">DRAM ETF</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-K200F_NIGHT"><div class="name">K200야간종가</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-USDKRW"><div class="name">원달러</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <!-- ☀️ 아시아 세션 (한국 영향) -->
+      <div class="idx-card" id="idx-DOWF"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOT_MINI%3AYM1%21','_blank')"><div class="name">다우 선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-NASDAQF"    onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3ANQ1%21','_blank')"><div class="name">나스닥 선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-SP500F"     onclick="window.open('https://www.tradingview.com/chart/?symbol=CME_MINI%3AES1%21','_blank')"><div class="name">S&amp;P 500 선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-KOSPI"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSPI','_blank')"><div class="name">KOSPI</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-KOSDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSDAQ','_blank')"><div class="name">KOSDAQ</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-K200F"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AK200F1%21','_blank')"><div class="name">K200선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
     </div>
 
     <div class="section-title">오늘의 브리핑</div>
@@ -4336,8 +4330,54 @@ function _getPrice(cd) {
 function _startKrPricesPolling() {
   fetchKrClosePrices();
   fetchKrPricesLive();
+  renderIndexSparklines();
   if (_krPricesTimer) clearInterval(_krPricesTimer);
-  _krPricesTimer = setInterval(fetchKrPricesLive, 60 * 1000);
+  _krPricesTimer = setInterval(() => { fetchKrPricesLive(); renderIndexSparklines(); }, 60 * 1000);
+}
+
+// ── 주요 지수 카드 장중 흐름 스파크라인 ──
+// 카드 id → [history소스, history키]. kr=kr_index_history.json, us=us_index_history.json
+const _SPARK_MAP = {
+  'idx-DOW':['kr','DOW'], 'idx-NASDAQ':['kr','NASDAQ'], 'idx-SP500':['kr','S&P 500'],
+  'idx-RUSSELL':['us','RUT'], 'ind-tny':['us','TNX'], 'ind-dxy':['us','DXY'],
+  'ind-vix':['us','VIX'], 'ind-wti':['us','WTI'], 'idx-SOX':['us','SOX'],
+  'idx-EWY':['kr','EWY'], 'idx-DRAM':['kr','DRAM'], 'idx-K200F_NIGHT':['kr','K200F_NIGHT'],
+  'idx-USDKRW':['kr','USDKRW'], 'idx-DOWF':['us','YM_F'], 'idx-NASDAQF':['us','NQ_F'],
+  'idx-SP500F':['us','ES_F'], 'idx-KOSPI':['kr','KOSPI'], 'idx-KOSDAQ':['kr','KOSDAQ'],
+  'idx-K200F':['kr','K200F'], 'idx-NIKKEI':['kr','NIKKEI'], 'idx-SHCOMP':['kr','SHCOMP'],
+  'idx-TWII':['kr','TWII'],
+};
+
+function _sparkSvg(arr) {
+  if (!arr || arr.length < 2) return '';
+  const w = 100, h = 26, pad = 2;
+  let min = Math.min(...arr), max = Math.max(...arr);
+  const rng = (max - min) || 1;
+  const n = arr.length;
+  const pts = arr.map((v, i) => {
+    const x = pad + (w - 2 * pad) * i / (n - 1);
+    const y = pad + (h - 2 * pad) * (1 - (v - min) / rng);
+    return x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ');
+  const up = arr[arr.length - 1] >= arr[0];
+  const c = up ? '#ef4444' : '#3b82f6';   // 상승=빨강 / 하락=파랑 (국내 관례)
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">`
+       + `<polyline fill="none" stroke="${c}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" points="${pts}"/>`
+       + `</svg>`;
+}
+
+async function renderIndexSparklines() {
+  let kr = {}, us = {};
+  try { kr = (await fetch('/api/kr_index_history.json?t=' + Date.now()).then(r => r.json())).points || {}; } catch(e) {}
+  try { us = (await fetch('/api/us_index_history.json?t=' + Date.now()).then(r => r.json())).points || {}; } catch(e) {}
+  for (const [id, [src, key]] of Object.entries(_SPARK_MAP)) {
+    const card = document.getElementById(id);
+    if (!card) continue;
+    const holder = card.querySelector('.spark');
+    if (!holder) continue;
+    const arr = (src === 'kr' ? kr : us)[key];
+    holder.innerHTML = _sparkSvg(arr);
+  }
 }
 
 function _livePriceTag(cd) {
