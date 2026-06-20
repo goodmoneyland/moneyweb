@@ -1833,16 +1833,33 @@ fetch('/briefing_index.json?t=' + Date.now())
 // (HTTP 캐시는 origin no-store + Cloudflare DYNAMIC으로 이미 꺼져 있음 — 문제는 '열어둔 앱'이 안 바뀌는 것뿐)
 // ═══════════════════════════════════════
 var APP_BUILD = null;
+var _updatePending = false;   // 새 버전 감지됨(아직 새로고침 전)
 function _checkVersion() {
   fetch('/api/version.json?t=' + Date.now())
     .then(r => r.ok ? r.json() : null)
     .then(j => {
       if (!j || !j.build) return;
       if (APP_BUILD === null) { APP_BUILD = j.build; return; }   // 최초 1회: 현재 버전 기록
-      if (j.build > APP_BUILD) _showUpdateBanner();              // 이후 더 새 버전 배포 감지
+      if (j.build > APP_BUILD) {                                 // 이후 더 새 버전 배포 감지
+        _updatePending = true;
+        _showUpdateBanner();
+        // 화면을 안 보고 있으면(다른 탭/최소화) 지금 조용히 새로고침 — 사용자가 돌아오면 이미 최신
+        if (document.hidden) _applyUpdate();
+      }
     })
     .catch(() => {});
 }
+// 자동 적용: 사용자가 입력 중이 아니면 새로고침(해시 라우팅이라 보던 탭 유지)
+function _applyUpdate() {
+  if (!_updatePending) return;
+  var ae = document.activeElement;
+  var typing = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
+  if (typing) return;   // 글 작성 중이면 방해 안 함(배너는 남아 있음)
+  if (typeof hardReload === 'function') hardReload(); else location.reload(true);
+}
+// 사용자가 탭으로 돌아오는 순간(포커스 복귀) 새 버전 있으면 자동 새로고침 — 무동작·무방해
+document.addEventListener('visibilitychange', function () { if (!document.hidden) _applyUpdate(); });
+window.addEventListener('focus', _applyUpdate);
 function _showUpdateBanner() {
   if (document.getElementById('update-banner')) return;
   var b = document.createElement('div');
