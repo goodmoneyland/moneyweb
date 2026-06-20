@@ -5851,7 +5851,7 @@ async function loadNxtPage() {
   if (nxt_loaded && NXT_DATA) { renderNxtPage(); return; }
   document.getElementById('nxt-content').innerHTML = '<div style="color:var(--muted);font-size: 13px;">로딩 중...</div>';
   try {
-    const res = await fetch('/api/nxt_overtime.json', _NC);
+    const res = await fetch('/api/nxt_overtime.json?t=' + Date.now(), _NC);
     NXT_DATA = await res.json();
     nxt_loaded = true;
     renderNxtPage();

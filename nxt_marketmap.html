@@ -116,6 +116,22 @@ svg { display: block; }
 .md-up   { color: #dc2626; }
 .md-down { color: #2563eb; }
 .md-flat { color: #64748b; }
+/* 모바일 리스트(시간외) — 기본 숨김 */
+#nxtlist { display: none; padding: 6px 10px 40px; }
+.nl-sec { font-size: 14px; font-weight: 800; color: #e6edf3; padding: 12px 4px 6px; border-bottom: 1px solid #30363d; margin-top: 10px; position: sticky; top: 0; background: #0d1117; z-index: 1; }
+.nl-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 4px; border-bottom: 1px solid #1b2027; cursor: pointer; }
+.nl-row:active { background: #161b22; }
+.nl-nm { font-size: 14px; font-weight: 600; color: #c9d1d9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nl-v { font-size: 14px; font-weight: 800; flex-shrink: 0; }
+.nl-v.up { color: #ff6b6b; } .nl-v.dn { color: #5b9dff; }
+.nl-empty { color: #8b949e; font-size: 12px; padding: 8px 4px; }
+/* 모바일(≤768px): 트리맵 숨기고 리스트 표시. PC 무영향. (#main 인라인 display 덮기 위해 !important) */
+@media (max-width: 768px) {
+  #header { flex-wrap: wrap; height: auto; gap: 6px; }
+  #header .legend { display: none; }
+  #mkt-nav, #main { display: none !important; }
+  #nxtlist { display: block; }
+}
 </style>
 </head>
 <body>
@@ -150,6 +166,8 @@ svg { display: block; }
     <div class="treemap-wrap" id="kosdaqWrap"></div>
   </div>
 </div>
+
+<div id="nxtlist"></div>
 
 <div id="popup">
   <div class="pp-sector" id="ppSector"></div>
@@ -491,16 +509,45 @@ async function load() {
     const kosdaq = stocks.filter(s => s.market === 'KOSDAQ');
     document.getElementById('kospiStat').textContent  = calcStat(kospi);
     document.getElementById('kosdaqStat').textContent = calcStat(kosdaq);
-    buildTreemap('kospiWrap', kospi);
-    buildTreemap('kosdaqWrap', kosdaq);
+    if (window.innerWidth <= 768) {
+      renderNxtList(stocks);          // 모바일: 트리맵 대신 상승/하락 리스트
+    } else {
+      buildTreemap('kospiWrap', kospi);
+      buildTreemap('kosdaqWrap', kosdaq);
+    }
   } catch(e) {
     console.error('데이터 로드 실패:', e);
   }
 }
 
-// 부팅: 래퍼가 레이아웃 크기를 잡을 때까지 재시도 후 첫 렌더
+// 모바일 리스트: 괴리율 상위 상승 20 → 시간외 상승 → 시간외 하락 (종목명 + 등락률만)
+function nxtPopup(code, name) {
+  try { if (window.parent !== window && typeof window.parent.openKrStock === 'function') window.parent.openKrStock(code, name); } catch (e) {}
+}
+function renderNxtList(stocks) {
+  const box = document.getElementById('nxtlist');
+  if (!box) return;
+  const gap = s => (s.nxt_rt || 0) - (s.reg_rt || 0);   // 괴리율 = 시간외 - 정규장
+  const rows = (arr, valFn) => arr.length
+    ? arr.map(s => {
+        const v = valFn(s); const cls = v > 0 ? 'up' : v < 0 ? 'dn' : '';
+        const nm = String(s.name || '').replace(/'/g, '');
+        return `<div class="nl-row" onclick="nxtPopup('${s.code}','${nm}')"><span class="nl-nm">${s.name}</span><span class="nl-v ${cls}">${v > 0 ? '+' : ''}${v.toFixed(2)}%</span></div>`;
+      }).join('')
+    : '<div class="nl-empty">해당 종목 없음</div>';
+  const gapUp = stocks.filter(s => gap(s) > 0).sort((a, b) => gap(b) - gap(a)).slice(0, 20);
+  const nxtUp = stocks.filter(s => s.nxt_rt > 0).sort((a, b) => b.nxt_rt - a.nxt_rt).slice(0, 20);
+  const nxtDn = stocks.filter(s => s.nxt_rt < 0).sort((a, b) => a.nxt_rt - b.nxt_rt).slice(0, 20);
+  box.innerHTML =
+      `<div class="nl-sec">괴리율 상위 상승 20</div>` + rows(gapUp, gap)
+    + `<div class="nl-sec">시간외 상승</div>`      + rows(nxtUp, s => s.nxt_rt)
+    + `<div class="nl-sec">시간외 하락</div>`      + rows(nxtDn, s => s.nxt_rt);
+}
+
+// 부팅: 래퍼가 레이아웃 크기를 잡을 때까지 재시도 후 첫 렌더 (모바일은 트리맵 미사용→즉시 로드)
 function _bootLoad(tries) {
   tries = tries || 0;
+  if (window.innerWidth <= 768) return load();
   const w = document.getElementById('kospiWrap');
   if ((!w.clientWidth || !w.clientHeight) && tries < 20) {
     return setTimeout(() => _bootLoad(tries + 1), 150);
