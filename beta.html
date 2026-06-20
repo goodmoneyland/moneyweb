@@ -3791,7 +3791,7 @@ async function ensureGlPeer() {
   if (GL_PEER) return GL_PEER;
   GL_PEER = {};
   try {
-    const res = await fetch('/api/global_peer.json', _NC);
+    const res = await fetch('/api/global_peer.json?t=' + Date.now(), _NC);
     GL_PEER = await res.json();
   } catch(e) { console.warn('global_peer 로드 실패', e); }
   return GL_PEER;
@@ -4803,7 +4803,7 @@ async function ensureKrStockMeta() {
   if (KR_STOCK_META) return KR_STOCK_META;
   KR_STOCK_META = {};
   try {
-    const res = await fetch('/api/kr_stock_meta.json', _NC);
+    const res = await fetch('/api/kr_stock_meta.json?t=' + Date.now(), _NC);
     KR_STOCK_META = await res.json();
   } catch(e) { console.warn('kr_stock_meta 로드 실패', e); }
   return KR_STOCK_META;
@@ -4813,7 +4813,7 @@ async function ensureKrReports() {
   if (KR_REPORTS) return KR_REPORTS;
   KR_REPORTS = {};
   try {
-    const res = await fetch('/api/kr_reports.json', _NC);
+    const res = await fetch('/api/kr_reports.json?t=' + Date.now(), _NC);
     KR_REPORTS = await res.json();
   } catch(e) { console.warn('kr_reports 로드 실패', e); }
   return KR_REPORTS;
@@ -4823,7 +4823,7 @@ async function ensureErDates() {
   if (KR_ER_DATES) return KR_ER_DATES;
   KR_ER_DATES = {};
   try {
-    const res = await fetch('/api/kr_er_dates.json', _NC);
+    const res = await fetch('/api/kr_er_dates.json?t=' + Date.now(), _NC);
     KR_ER_DATES = await res.json();
   } catch(e) { console.warn('kr_er_dates 로드 실패', e); }
   return KR_ER_DATES;
@@ -4833,7 +4833,7 @@ async function ensureReportsEr() {
   if (KR_REPORTS_ER) return KR_REPORTS_ER;
   KR_REPORTS_ER = {};
   try {
-    const res = await fetch('/api/kr_reports_er.json', _NC);
+    const res = await fetch('/api/kr_reports_er.json?t=' + Date.now(), _NC);
     KR_REPORTS_ER = await res.json();
   } catch(e) { console.warn('kr_reports_er 로드 실패', e); }
   return KR_REPORTS_ER;
@@ -4843,7 +4843,7 @@ async function ensureReports1m() {
   if (KR_REPORTS_1M) return KR_REPORTS_1M;
   KR_REPORTS_1M = {};
   try {
-    const res = await fetch('/api/kr_reports_1m.json', _NC);
+    const res = await fetch('/api/kr_reports_1m.json?t=' + Date.now(), _NC);
     KR_REPORTS_1M = await res.json();
   } catch(e) { console.warn('kr_reports_1m 로드 실패', e); }
   return KR_REPORTS_1M;
@@ -4853,7 +4853,7 @@ async function ensureReports3m() {
   if (KR_REPORTS_3M) return KR_REPORTS_3M;
   KR_REPORTS_3M = {};
   try {
-    const res = await fetch('/api/kr_reports_3m.json', _NC);
+    const res = await fetch('/api/kr_reports_3m.json?t=' + Date.now(), _NC);
     KR_REPORTS_3M = await res.json();
   } catch(e) { console.warn('kr_reports_3m 로드 실패', e); }
   return KR_REPORTS_3M;
@@ -4863,7 +4863,7 @@ async function ensureReports6m() {
   if (KR_REPORTS_6M) return KR_REPORTS_6M;
   KR_REPORTS_6M = {};
   try {
-    const res = await fetch('/api/kr_reports_6m.json', _NC);
+    const res = await fetch('/api/kr_reports_6m.json?t=' + Date.now(), _NC);
     KR_REPORTS_6M = await res.json();
   } catch(e) { console.warn('kr_reports_6m 로드 실패', e); }
   return KR_REPORTS_6M;
