@@ -218,14 +218,14 @@
   .dash-grid-8 { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
 
   .idx-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
     cursor: pointer; transition: border-color .15s, background .15s; text-decoration: none; display: block;
   }
   .idx-card:hover { background: var(--card2); border-color: var(--accent); }
   .idx-card .name  { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
-  .idx-card .idx-row { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
-  .idx-card .value { font-size: 20px; font-weight: 700; line-height: 1.15; }
-  .idx-card .change { font-size: 13px; white-space: nowrap; }
+  .idx-card .idx-row { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; flex-wrap: nowrap; }
+  .idx-card .value { font-size: 18px; font-weight: 700; line-height: 1.15; white-space: nowrap; }
+  .idx-card .change { font-size: 12px; white-space: nowrap; flex-shrink: 0; }
   .idx-card .spark { margin-top: 6px; height: 26px; }
   .idx-card .spark svg { width: 100%; height: 26px; display: block; }
   .idx-card .spark:empty { margin-top: 0; height: 0; }
@@ -308,30 +308,31 @@
   }
   .bottom-card-body { padding: 10px 14px; flex: 1; }
 
-  /* ── 삼성·SK하이닉스 해외시세 카드 (지수 카드 2칸폭 · 미니 스파크라인) ── */
-  .dr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(312px, 1fr)); gap: 8px; margin-bottom: 8px; }
+  /* ── 삼성·SK하이닉스 해외시세 카드 (지수 그리드 내 2칸폭 · 미니 스파크라인) ── */
+  /* 주요 지수 그리드(dash-grid-8) 안에 삽입돼 대만가권 옆에 배치 — 2칸 폭 차지 */
+  .dash-grid-8 .dr-card { grid-column: span 2; }
   .dr-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 9px 13px;
-    transition: border-color .15s, background .15s;
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px;
+    cursor: pointer; transition: border-color .15s, background .15s;
   }
   .dr-card:hover { background: var(--card2); border-color: var(--accent); }
-  .dr-head { display: flex; align-items: baseline; gap: 6px; cursor: pointer; margin-bottom: 4px; }
-  .dr-name { font-size: 14.5px; font-weight: 800; }
-  .dr-code { font-size: 11px; color: var(--muted); }
-  .dr-krx  { margin-left: auto; font-size: 16.5px; font-weight: 800; }
-  .dr-krx small { font-size: 11.5px; font-weight: 700; margin-left: 4px; }
-  .dr-srow { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px solid var(--border); }
-  .dr-src { font-size: 12px; font-weight: 800; color: var(--text); width: 50px; flex-shrink: 0; line-height: 1.2; }
-  .dr-src span { display: block; font-size: 9px; font-weight: 500; color: var(--muted); }
+  .dr-head { display: flex; align-items: baseline; gap: 6px; cursor: pointer; margin-bottom: 3px; }
+  .dr-name { font-size: 13px; font-weight: 800; }
+  .dr-code { font-size: 10px; color: var(--muted); }
+  .dr-krx  { margin-left: auto; font-size: 14.5px; font-weight: 800; }
+  .dr-krx small { font-size: 10.5px; font-weight: 700; margin-left: 4px; }
+  .dr-srow { display: flex; align-items: center; gap: 7px; padding: 4px 0; border-top: 1px solid var(--border); }
+  .dr-src { font-size: 11px; font-weight: 800; color: var(--text); width: 46px; flex-shrink: 0; line-height: 1.2; }
+  .dr-src span { display: block; font-size: 8.5px; font-weight: 500; color: var(--muted); }
   .dr-vals { flex: 1; min-width: 0; }
-  .dr-krw { font-size: 14.5px; font-weight: 800; }
-  .dr-raw { font-size: 10px; color: var(--muted); margin-left: 4px; }
-  .dr-prems { font-size: 11px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dr-krw { font-size: 13px; font-weight: 800; }
+  .dr-raw { font-size: 9.5px; color: var(--muted); margin-left: 4px; }
+  .dr-prems { font-size: 10.5px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .dr-prems b { font-weight: 800; margin-right: 6px; }
   .dr-prem-lbl { color: var(--muted); }
-  .dr-spark { width: 52px; height: 26px; flex-shrink: 0; }
-  .dr-spark svg { width: 100%; height: 26px; display: block; }
-  .dr-na { color: var(--muted); font-size: 12px; }
+  .dr-spark { width: 48px; height: 24px; flex-shrink: 0; }
+  .dr-spark svg { width: 100%; height: 24px; display: block; }
+  .dr-na { color: var(--muted); font-size: 11px; }
 
   /* 일정 */
   .sch-row {
@@ -1236,23 +1237,20 @@
       <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
-    </div>
-
-    <div class="section-title">삼전·하이닉스 해외시세 <span style="font-size:12px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;">바이낸스 무기한선물 · 런던/프랑크푸르트 GDR · 원화환산 · 정규장 종가/실시간(NXT) 대비 괴리</span></div>
-    <div class="dr-grid" id="dr-binance-row">
+      <!-- 삼전·하이닉스 해외시세 (바이낸스 무기한선물 + GDR · 정규장/NXT 괴리) — 대만가권 옆 2칸폭 -->
       <div class="dr-card" id="dr-card-005930">
         <div class="dr-head" onclick="openKrStock('005930','삼성전자')">
           <span class="dr-name">삼성전자</span><span class="dr-code">005930</span>
           <span class="dr-krx">—</span>
         </div>
-        <div class="dr-body"><div class="dr-na" style="padding:10px 0;">로딩중…</div></div>
+        <div class="dr-body"><div class="dr-na" style="padding:8px 0;">로딩중…</div></div>
       </div>
       <div class="dr-card" id="dr-card-000660">
         <div class="dr-head" onclick="openKrStock('000660','SK하이닉스')">
           <span class="dr-name">SK하이닉스</span><span class="dr-code">000660</span>
           <span class="dr-krx">—</span>
         </div>
-        <div class="dr-body"><div class="dr-na" style="padding:10px 0;">로딩중…</div></div>
+        <div class="dr-body"><div class="dr-na" style="padding:8px 0;">로딩중…</div></div>
       </div>
     </div>
 
