@@ -324,7 +324,10 @@
   .dr-code { font-size: 10px; color: var(--muted); }
   .dr-krx  { margin-left: auto; font-size: 14.5px; font-weight: 800; }
   .dr-krx small { font-size: 10.5px; font-weight: 700; margin-left: 4px; }
-  .dr-srow { display: flex; align-items: center; gap: 7px; padding: 4px 0; border-top: 1px solid var(--border); }
+  .dr-srow { display: flex; align-items: center; gap: 7px; padding: 4px 0; border-top: 1px solid var(--border); border-radius: 6px; }
+  .dr-srow.dr-link { cursor: pointer; transition: background .12s; }
+  .dr-srow.dr-link:hover { background: rgba(59,130,246,.12); }
+  .dr-go { font-size: 8.5px; color: var(--accent); margin-left: 2px; vertical-align: top; }
   .dr-src { font-size: 11px; font-weight: 800; color: var(--text); width: 46px; flex-shrink: 0; line-height: 1.2; }
   .dr-src span { display: block; font-size: 8.5px; font-weight: 500; color: var(--muted); }
   .dr-vals { flex: 1; min-width: 0; }
@@ -2982,14 +2985,18 @@ function _drSparkFor(key) {
   if (!arr || arr.length < 2) return '';
   return _sparkSvg(arr, base, 'dr_' + key);   // 지수 카드와 동일 스파크라인 렌더러 재사용
 }
-function _drSrcRow(label, sub, o, sparkKey, liveLbl) {
+function _drSrcRow(label, sub, o, sparkKey, liveLbl, clickUrl, clickTitle) {
   if (!o || o.krw == null) {
     return `<div class="dr-srow"><div class="dr-src">${label}<span>${sub}</span></div>`
          + `<div class="dr-vals"><span class="dr-na">시세 없음</span></div></div>`;
   }
   const raw = o.price != null ? `${o.price.toLocaleString('en-US', {maximumFractionDigits: 2})} ${o.ccy}` : '';
-  return `<div class="dr-srow">
-    <div class="dr-src">${label}<span>${sub}</span></div>
+  const linkable = !!clickUrl;
+  const cls = linkable ? 'dr-srow dr-link' : 'dr-srow';
+  const onclk = linkable ? ` onclick="window.open('${clickUrl}','_blank')" title="${clickTitle || ''}"` : '';
+  const go = linkable ? '<span class="dr-go">↗</span>' : '';
+  return `<div class="${cls}"${onclk}>
+    <div class="dr-src">${label}${go}<span>${sub}</span></div>
     <div class="dr-vals">
       <span class="dr-krw">${Math.round(o.krw).toLocaleString('ko-KR')}원</span><span class="dr-raw">${raw}</span>
       <div class="dr-prems"><span class="dr-prem-lbl">정규장 </span>${_drChip(o.prem_close)}<span class="dr-prem-lbl">${liveLbl} </span>${_drChip(o.prem_live)}</div>
@@ -3015,8 +3022,12 @@ function renderDrCard(s, liveLbl) {
   }
   const body = el.querySelector('.dr-body');
   if (body) {
-    body.innerHTML = _drSrcRow('바이낸스', '선물', s.binance, s.code + '_bin', liveLbl)
-                   + _drSrcRow('GDR', (s.gdr && s.gdr.ticker) || '', s.gdr, s.code + '_gdr', liveLbl);
+    const binSym = (s.binance && s.binance.symbol) || '';
+    const binUrl = binSym ? `https://www.binance.com/en/futures/${binSym}` : '';
+    const tvSym = (s.gdr && s.gdr.tv) || '';
+    const tvUrl = tvSym ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(tvSym)}` : '';
+    body.innerHTML = _drSrcRow('바이낸스', '선물', s.binance, s.code + '_bin', liveLbl, binUrl, '바이낸스 선물 차트 열기')
+                   + _drSrcRow('GDR', (s.gdr && s.gdr.ticker) || '', s.gdr, s.code + '_gdr', liveLbl, tvUrl, '트레이딩뷰 차트 열기');
   }
 }
 async function loadDrBinance() {
