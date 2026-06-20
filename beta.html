@@ -2031,6 +2031,9 @@ function copyStockLink(s, btn) {
 function getFileSrc(tab) {
   const key = TAB_KEY[tab];
   if (!key || !BINDEX[key]) return null;
+  // PER(섹터별 Fwd PER)는 과거 이력이 아니라 '현재 스냅샷' → 날짜와 무관하게 항상 최신 파일 로드
+  // (주말엔 currentDate가 금요일로 가서 옛 CSS 파일을 띄우던 문제 해결)
+  if (tab === 'per' && BINDEX[key].length) return BINDEX[key][0].src;
   const ymd = toYMD(currentDate);
   // 현재 날짜와 정확히 맞는 항목 찾기 (label에 날짜 포함)
   const list = BINDEX[key];
