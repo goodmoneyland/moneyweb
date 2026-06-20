@@ -426,87 +426,13 @@
   .drawer-tab.peer-tab.active { color: #fff; background: linear-gradient(135deg, #155e75, #0e7490); }
 
   @media (max-width: 768px) {
-    /* ══ [모바일 1순위] 상단바 / 네비게이션 ══ */
     #sidebar { display: none; }
     #kr-theme-bar, #kr-thememap-bar, #subtab-bar, #content-area { margin-left: 0; }
-    .hamburger-btn { display: flex; order: 3; margin-left: auto; }
+    .hamburger-btn { display: flex; }
+    /* 모바일에서 로고 축소 */
+    .logo { font-size: 16px; }
+    /* 면책 문구 숨김 */
     .disclaimer-text { display: none; }
-
-    /* 상단바: 로고+햄버거를 첫 줄에 고정하고 검색창은 풀폭으로 아래에 스택.
-       (기존엔 320px 고정 검색창 2개가 햄버거를 화면 밖으로 밀어내 메뉴 접근 불가했음) */
-    #topbar { flex-wrap: wrap; height: auto; min-height: 50px; row-gap: 7px; padding: 7px 12px; }
-    .logo { font-size: 17px; order: 0; }
-    .v-divider { display: none; }
-    .search-wrap { order: 5; flex: 1 1 100%; }
-    .search-box { width: 100%; }
-    .search-dropdown { width: 100%; left: 0; right: auto; }
-
-    /* ══ [모바일 2순위] 공통 폰트·그리드 스케일 (인라인 페이지) ══ */
-    .page-inner { padding: 14px 13px; }
-    .section-title { font-size: 14px; margin-top: 14px; }
-
-    /* 홈 지수카드: 값/등락률 세로 스택 → % 잘림 제거 */
-    .idx-card { padding: 9px 11px; }
-    .idx-card .idx-row { flex-direction: column; align-items: flex-start; gap: 1px; }
-    .idx-card .value { font-size: 17px; }
-    .idx-card .change { font-size: 12px; }
-    .idx-card .name { font-size: 12px; }
-
-    /* 홈 브리핑/하단 카드 */
-    .brief-card-title { font-size: 16px; }
-    .brief-issue { font-size: 14.5px; }
-    .bottom-card-head { font-size: 14.5px; }
-
-    /* 일정 대시보드 */
-    .sched-dash-grid { grid-template-columns: 1fr; gap: 14px; }
-    .sched-dash-hd-title { font-size: 15.5px; }
-    .sched-dash-row { font-size: 14px; gap: 7px; padding: 6px 4px; }
-    .sched-dash-time { font-size: 12.5px; min-width: 56px; }
-    .sched-dash-tk { font-size: 14px; min-width: 40px; }
-    .sched-dash-co, .sched-dash-eps { font-size: 12.5px; }
-    .sched-dash-impact { font-size: 12.5px; padding-left: 0; }
-    .sched-dash-viewall { font-size: 12.5px; }
-    .sched-dash-empty { font-size: 14px; }
-
-    /* 일정 테이블 */
-    .schedule-table { font-size: 13.5px; }
-    .schedule-table th { font-size: 12px; padding: 7px 8px; }
-    .schedule-table td { padding: 8px 8px; }
-
-    /* evening 콘텐츠(주간이벤트/실적캘린더/포인트): 다열 그리드 → 1열 */
-    .eve-content .g2 { grid-template-columns: 1fr; }
-    .eve-content .earn-week { grid-template-columns: 1fr; }
-    .eve-loading { font-size: 15px; padding: 24px 0; }
-    .eve-content .event-name { font-size: 15px; }
-    .eve-content .event-detail, .eve-content .earn-co, .eve-content .earn-eps { font-size: 13px; }
-    .eve-content .stitle { font-size: 15.5px; }
-
-    /* 커뮤니티 게시판: 고정폭 축소 + 폰트 축소 (4열 구조 유지) */
-    .board-header-row, .board-row { grid-template-columns: 32px 1fr 64px 52px; padding: 9px 10px; font-size: 14px; }
-    .board-header-row { font-size: 11.5px; }
-    .board-author, .board-date { font-size: 12px; }
-
-    /* 투자아이디어 에디터 */
-    .idea-title-input { font-size: 18px; }
-    .idea-body { font-size: 15px; line-height: 1.7; padding: 12px; min-height: 220px; }
-    .tb-btn, .btn-primary, .btn-secondary { font-size: 14px; }
-
-    /* 유저 패널 폭 */
-    #up-panel { width: 88vw; }
-
-    /* ══ [모바일 2순위] KR 종목 팝업 ══ */
-    #sp-overlay { padding: 12px 6px; }
-    #sp-header { padding: 14px 14px 12px; }
-    .sp-tab { padding: 8px 11px; font-size: 14px; }
-    .sp-panel { padding: 14px 12px !important; }
-    #sp-price-cards { grid-template-columns: repeat(3, 1fr) !important; }
-    .sp-card .lbl { font-size: 10.5px; }
-    .sp-card .val { font-size: 13px; }
-    .sp-rprt { padding: 11px 12px; }
-    .sp-rprt .r-title, .sp-rprt .r-tp { font-size: 15px; }
-    .sp-rprt .r-smry, .sp-rprt .r-firm { font-size: 13.5px; }
-    .sp-rprt .r-dt, .sp-rprt .r-anlst, .sp-rprt .r-rcmd,
-    .sp-rprt .r-tracker span { font-size: 12.5px; }
   }
 
   /* 더보기 */
@@ -921,6 +847,91 @@
   .trump-en-label { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.5px;
     color:#94a3b8; background:var(--card2); border:1px solid var(--border); border-radius:4px;
     padding:1px 6px; margin-right:8px; vertical-align:1px; }
+
+  /* ══════════════════════════════════════════════════════════
+     모바일 전용 오버라이드 (≤768px) — PC 무영향.
+     ⚠️ 반드시 스타일시트 "맨 끝"에 위치할 것: 미디어쿼리는 specificity를
+        높이지 않으므로, 동일 selector를 가진 데스크톱 규칙들보다 뒤에 와야
+        소스 순서로 이김. (위쪽에 두면 뒤에 정의된 .board-row 등에 밀림)
+  ══════════════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    /* ── [1순위] 상단바: 로고+햄버거 한 줄 고정, 검색창은 풀폭으로 아래 스택 ──
+       (기존엔 320px 고정 검색창 2개가 햄버거를 화면 밖으로 밀어내 메뉴 접근 불가) */
+    #topbar { flex-wrap: wrap; height: auto; min-height: 50px; row-gap: 7px; padding: 7px 12px; }
+    .logo { font-size: 17px; order: 0; }
+    .v-divider { display: none; }
+    .hamburger-btn { order: 3; margin-left: auto; }
+    .search-wrap { order: 5; flex: 1 1 100%; }
+    .search-box { width: 100%; }
+    .search-dropdown { width: 100%; left: 0; right: auto; }
+
+    /* ── [2순위] 공통 폰트·그리드 스케일 ── */
+    .page-inner { padding: 14px 13px; }
+    .section-title { font-size: 14px; margin-top: 14px; }
+
+    /* 홈 지수카드: 값/등락률 세로 스택 → % 잘림 제거 */
+    .idx-card { padding: 9px 11px; }
+    .idx-card .idx-row { flex-direction: column; align-items: flex-start; gap: 1px; }
+    .idx-card .value { font-size: 17px; }
+    .idx-card .change { font-size: 12px; }
+    .idx-card .name { font-size: 12px; }
+
+    /* 홈 브리핑/하단 카드 */
+    .brief-card-title { font-size: 16px; }
+    .brief-issue { font-size: 14.5px; }
+    .bottom-card-head { font-size: 14.5px; }
+
+    /* 일정 대시보드 */
+    .sched-dash-grid { grid-template-columns: 1fr; gap: 14px; }
+    .sched-dash-hd-title { font-size: 15.5px; }
+    .sched-dash-row { font-size: 14px; gap: 7px; padding: 6px 4px; }
+    .sched-dash-time { font-size: 12.5px; min-width: 56px; }
+    .sched-dash-tk { font-size: 14px; min-width: 40px; }
+    .sched-dash-co, .sched-dash-eps { font-size: 12.5px; }
+    .sched-dash-impact { font-size: 12.5px; padding-left: 0; }
+    .sched-dash-viewall { font-size: 12.5px; }
+    .sched-dash-empty { font-size: 14px; }
+
+    /* 일정 테이블 */
+    .schedule-table { font-size: 13.5px; }
+    .schedule-table th { font-size: 12px; padding: 7px 8px; }
+    .schedule-table td { padding: 8px 8px; }
+
+    /* evening 콘텐츠(주간이벤트/실적캘린더/포인트): 다열 그리드 → 1열 */
+    .eve-content .g2 { grid-template-columns: 1fr; }
+    .eve-content .earn-week { grid-template-columns: 1fr; }
+    .eve-loading { font-size: 15px; padding: 24px 0; }
+    .eve-content .event-name { font-size: 15px; }
+    .eve-content .event-detail, .eve-content .earn-co, .eve-content .earn-eps { font-size: 13px; }
+    .eve-content .stitle { font-size: 15.5px; }
+
+    /* 커뮤니티 게시판: 고정폭 축소 + 폰트 축소 (4열 구조 유지) */
+    .board-header-row, .board-row { grid-template-columns: 32px 1fr 64px 52px; padding: 9px 10px; font-size: 14px; }
+    .board-header-row { font-size: 11.5px; }
+    .board-author, .board-date { font-size: 12px; }
+
+    /* 투자아이디어 에디터 */
+    .idea-title-input { font-size: 18px; }
+    .idea-body { font-size: 15px; line-height: 1.7; padding: 12px; min-height: 220px; }
+    .tb-btn, .btn-primary, .btn-secondary { font-size: 14px; }
+
+    /* 유저 패널 폭 */
+    #up-panel { width: 88vw; }
+
+    /* ── [2순위] KR 종목 팝업 ── */
+    #sp-overlay { padding: 12px 6px; }
+    #sp-header { padding: 14px 14px 12px; }
+    .sp-tab { padding: 8px 11px; font-size: 14px; }
+    .sp-panel { padding: 14px 12px; }
+    #sp-price-cards { grid-template-columns: repeat(3, 1fr) !important; }
+    .sp-card .lbl { font-size: 10.5px; }
+    .sp-card .val { font-size: 13px; }
+    .sp-rprt { padding: 11px 12px; }
+    .sp-rprt .r-title, .sp-rprt .r-tp { font-size: 15px; }
+    .sp-rprt .r-smry, .sp-rprt .r-firm { font-size: 13.5px; }
+    .sp-rprt .r-dt, .sp-rprt .r-anlst, .sp-rprt .r-rcmd,
+    .sp-rprt .r-tracker span { font-size: 12.5px; }
+  }
 </style>
 </head>
 <body>
