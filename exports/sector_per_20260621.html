@@ -50,11 +50,13 @@
   .sector-header { padding:12px 14px; font-size:16px; font-weight:900;
                     text-align:center; color:#fff; }
   .sector-row { padding:10px 14px; border-top:1px solid rgba(61,84,112,0.6);
-                 display:flex; justify-content:space-between; align-items:center; }
+                 display:flex; justify-content:space-between; align-items:center; gap:6px; }
   .sector-row:hover { background:rgba(255,255,255,0.04); }
-  .s-stock { font-size:17px; font-weight:700; color:var(--text); text-decoration:none; }
+  /* 종목명: 한 줄 고정 + 넘치면 말줄임(줄바꿈/깨짐 방지) */
+  .s-stock { font-size:17px; font-weight:700; color:var(--text); text-decoration:none;
+              white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
   .s-stock:hover { color:var(--cyan); }
-  .s-per { font-size:17px; font-weight:800; }
+  .s-per { font-size:17px; font-weight:800; flex-shrink:0; }
   .s-per.low { color:var(--up); }
   .s-per.mid { color:var(--gold); }
   .s-per.hi  { color:var(--down); }
@@ -76,7 +78,7 @@
 </style>
 </head>
 <body>
-<div style="position:fixed;top:14px;right:18px;z-index:300;font-size:11px;color:#fbbf24;background:#1e3a8a;padding:4px 12px;border-radius:8px;font-weight:600;pointer-events:none;border:1px solid rgba(251,191,36,0.4);">업데이트: 2026-06-21 00:18</div>
+<div style="position:fixed;top:14px;right:18px;z-index:300;font-size:11px;color:#fbbf24;background:#1e3a8a;padding:4px 12px;border-radius:8px;font-weight:600;pointer-events:none;border:1px solid rgba(251,191,36,0.4);">업데이트: 2026-06-21 00:57</div>
   <div class="page-header">
     <div class="section-tag blue">시총 상위 100 · FWD PER (KOSPI·KOSDAQ)</div>
     <div class="time-badge">stc_itm · MPRC_TAMT 기준 · 2026년 06월 21일</div>
