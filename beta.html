@@ -2021,6 +2021,13 @@ function onFrameLoad(tab) {
   frame.classList.add('active');
   _injectKrPopup(frame);
   if (tab === 'kr-theme') _injectKrThemeLayout(frame);
+  // 홈에서 특정 테마 pill을 눌러 진입한 경우: 인라인 스크립트의 기본 자동선택(가장 강한 테마)
+  // 이후에 요청 테마로 덮어쓰기 + loadLive 재렌더 대비 한 번 더 적용
+  if (tab === 'kr-thememap' && _pendingThemeFocus) {
+    const _nm = _pendingThemeFocus; _pendingThemeFocus = null;
+    _focusThemeInMap(frame, _nm);
+    setTimeout(() => _focusThemeInMap(frame, _nm), 300);
+  }
 }
 
 function _injectKrThemeLayout(frame) {
@@ -2908,7 +2915,8 @@ async function loadThemeToday() {
       const c  = up ? '#ef4444' : '#3b82f6';
       const s  = (up ? '+' : '') + Number(t.chg).toFixed(2) + '%';
       const bg = up ? 'rgba(239,68,68,0.12)' : 'rgba(59,130,246,0.12)';
-      return `<span class="theme-pill" style="background:${bg};">${t.name} <b style="color:${c}">${s}</b></span>`;
+      const nmAttr = String(t.name).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+      return `<span class="theme-pill" data-theme="${nmAttr}" onclick="openThemeBubble(this,event)" title="${nmAttr} 버블 보기" style="cursor:pointer;background:${bg};">${t.name} <b style="color:${c}">${s}</b></span>`;
     };
     let out = '';
     if (d.up && d.up.length) {
@@ -2923,6 +2931,34 @@ async function loadThemeToday() {
   } catch (e) {
     el.innerHTML = '<div style="color:var(--muted);font-size:18px;">로드 실패</div>';
   }
+}
+
+// ─── 홈 테마 pill 클릭 → 테마맵 버블차트에서 해당 테마 자동 선택(하이라이트) ───
+// (사이드메뉴/카드 전체 클릭은 기존대로 "가장 강한 테마 메인" 유지)
+var _pendingThemeFocus = null;
+function openThemeBubble(el, ev) {
+  if (ev) ev.stopPropagation();
+  const name = (el && el.dataset) ? el.dataset.theme : null;
+  if (!name) return;
+  _pendingThemeFocus = name;
+  switchTab('kr-thememap', document.querySelector('[data-tab="kr-thememap"]'));
+}
+// 테마맵 iframe(DOM)에서 이름으로 테마 카드를 찾아 selectByNo → 버블/차트/관련종목 선택
+function _focusThemeInMap(frame, name) {
+  try {
+    const doc = frame.contentDocument, win = frame.contentWindow;
+    if (!doc || !win || !win.selectByNo) return false;
+    const target = String(name).trim();
+    let found = null;
+    doc.querySelectorAll('#list .card[data-no]').forEach(c => {
+      const nm = c.querySelector('.nm');
+      if (nm && nm.textContent.trim() === target) found = c;
+    });
+    if (!found) return false;
+    win.selectByNo(+found.dataset.no);
+    found.scrollIntoView({ block: 'center' });
+    return true;
+  } catch (e) { return false; }
 }
 
 async function loadThemeSection(src) {
@@ -4433,35 +4469,51 @@ const _SPARK_MAP = {
   'idx-TWII':['kr','TWII'],
 };
 
-function _sparkSvg(arr) {
+// 기준가(전일 종가) 점선 기준 위=빨강/아래=파랑. base 없으면 첫점 대비 단색 폴백.
+function _sparkSvg(arr, base, uid) {
   if (!arr || arr.length < 2) return '';
   const w = 100, h = 26, pad = 2;
+  const RED = '#ef4444', BLUE = '#3b82f6';
+  const hasBase = (typeof base === 'number' && isFinite(base));
   let min = Math.min(...arr), max = Math.max(...arr);
+  if (hasBase) { min = Math.min(min, base); max = Math.max(max, base); }
   const rng = (max - min) || 1;
   const n = arr.length;
-  const pts = arr.map((v, i) => {
-    const x = pad + (w - 2 * pad) * i / (n - 1);
-    const y = pad + (h - 2 * pad) * (1 - (v - min) / rng);
-    return x.toFixed(1) + ',' + y.toFixed(1);
-  }).join(' ');
-  const up = arr[arr.length - 1] >= arr[0];
-  const c = up ? '#ef4444' : '#3b82f6';   // 상승=빨강 / 하락=파랑 (국내 관례)
+  const Y = v => pad + (h - 2 * pad) * (1 - (v - min) / rng);
+  const X = i => pad + (w - 2 * pad) * i / (n - 1);
+  const pts = arr.map((v, i) => X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join(' ');
+  if (!hasBase) {
+    const c = arr[arr.length - 1] >= arr[0] ? RED : BLUE;
+    return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">`
+         + `<polyline fill="none" stroke="${c}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" points="${pts}"/>`
+         + `</svg>`;
+  }
+  const bY = Y(base);
+  const idU = 'su_' + uid, idD = 'sd_' + uid;
+  // 기준선 위 구간=빨강 폴리라인을 위쪽 사각형으로 클립, 아래 구간=파랑 폴리라인을 아래 사각형으로 클립
   return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">`
-       + `<polyline fill="none" stroke="${c}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" points="${pts}"/>`
+       + `<defs>`
+       + `<clipPath id="${idU}"><rect x="0" y="0" width="${w}" height="${bY.toFixed(2)}"/></clipPath>`
+       + `<clipPath id="${idD}"><rect x="0" y="${bY.toFixed(2)}" width="${w}" height="${(h - bY).toFixed(2)}"/></clipPath>`
+       + `</defs>`
+       + `<line x1="0" y1="${bY.toFixed(2)}" x2="${w}" y2="${bY.toFixed(2)}" stroke="#9aa4b2" stroke-width="0.6" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/>`
+       + `<polyline fill="none" stroke="${RED}"  stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" points="${pts}" clip-path="url(#${idU})"/>`
+       + `<polyline fill="none" stroke="${BLUE}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" points="${pts}" clip-path="url(#${idD})"/>`
        + `</svg>`;
 }
 
 async function renderIndexSparklines() {
-  let kr = {}, us = {};
-  try { kr = (await fetch('/api/kr_index_history.json?t=' + Date.now()).then(r => r.json())).points || {}; } catch(e) {}
-  try { us = (await fetch('/api/us_index_history.json?t=' + Date.now()).then(r => r.json())).points || {}; } catch(e) {}
+  let kr = {}, us = {}, krB = {}, usB = {};
+  try { const j = await fetch('/api/kr_index_history.json?t=' + Date.now()).then(r => r.json()); kr = j.points || {}; krB = j.base || {}; } catch(e) {}
+  try { const j = await fetch('/api/us_index_history.json?t=' + Date.now()).then(r => r.json()); us = j.points || {}; usB = j.base || {}; } catch(e) {}
   for (const [id, [src, key]] of Object.entries(_SPARK_MAP)) {
     const card = document.getElementById(id);
     if (!card) continue;
     const holder = card.querySelector('.spark');
     if (!holder) continue;
-    const arr = (src === 'kr' ? kr : us)[key];
-    holder.innerHTML = _sparkSvg(arr);
+    const arr  = (src === 'kr' ? kr  : us )[key];
+    const base = (src === 'kr' ? krB : usB)[key];
+    holder.innerHTML = _sparkSvg(arr, base, id);
   }
 }
 
