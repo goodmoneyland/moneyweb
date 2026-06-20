@@ -1858,6 +1858,24 @@ function _showUpdateBanner() {
 _checkVersion();
 setInterval(_checkVersion, 120000);
 
+// 유령 서비스워커 제거 — 머니랜드는 SW를 안 쓰는데, 과거 버전이 등록해 둔 SW가
+// 크롬 등에 남아 옛 캐시를 응답하면 "엣지는 되는데 크롬만 안 바뀜" 증상이 난다.
+// 매 로드 시 등록된 SW를 모두 해제 + 캐시스토리지 비움(없으면 무해한 no-op).
+try {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (rs) {
+      rs.forEach(function (r) { r.unregister(); });
+    }).catch(function () {});
+  }
+  if ('caches' in window) {
+    caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }).catch(function () {});
+  }
+} catch (e) {}
+
+// bfcache(뒤로가기/탭복원) 복원 시 크롬은 네트워크 재요청 없이 메모리 스냅샷을 띄움
+// → 복원 즉시 버전 재확인해 새 배포면 배너 표시.
+window.addEventListener('pageshow', function (e) { if (e.persisted) _checkVersion(); });
+
 // stat-badge element removed — stub kept to avoid errors
 function updateStatBadge() {}
 
