@@ -2208,39 +2208,15 @@ function _injectKrThemeLayout(frame) {
     const iDoc = frame.contentDocument || frame.contentWindow.document;
     if (!iDoc || !iDoc.body) return;
 
+    // 카드 레이아웃은 생성기(generate_kr_theme.py)의 .km-grid가 자체 반응형으로 처리.
+    // SPA에서는 내부 페이지 헤더/네비만 숨기고 섹션 토글만 담당한다.
     const style = iDoc.createElement('style');
     style.textContent = `
-      .nav-bar, .nav-btn { display:none !important; }
-      .rw-split { display:grid; grid-template-columns:1fr 1fr; }
-      .rw-left  { border-right:1px solid var(--border); overflow-y:auto; }
-      .rw-right { overflow-y:auto; }
-      .rw-right .stock-section .stk-nm  { font-size: 19.5px !important; min-width:80px !important; font-weight:700 !important; }
-      .rw-right .stock-section .stk-tit { font-size: 19.5px !important; line-height:1.5 !important; }
-      .rw-right .stock-section .stk-row { padding:5px 0 !important; }
-      .rw-right .stock-section .mkt-label { font-size: 16.5px !important; margin-top:10px; }
+      .nav-bar, .nav-btn, .page-header, .update-badge { display:none !important; }
+      body { padding-bottom:20px; }
+      .section-card:first-of-type { margin-top:14px; }
     `;
     iDoc.head.appendChild(style);
-
-    ['sec-am', 'sec-pm'].forEach(secId => {
-      const sec = iDoc.getElementById(secId);
-      if (!sec) return;
-      const themeGrid   = sec.querySelector('.theme-grid');
-      const featSection = sec.querySelector('.feat-section');
-      const stockSec    = sec.querySelector('.stock-section');
-      if (!themeGrid || !stockSec) return;
-      const wrapper = iDoc.createElement('div');
-      wrapper.className = 'rw-split';
-      const left = iDoc.createElement('div');
-      left.className = 'rw-left';
-      left.appendChild(themeGrid);
-      if (featSection) left.appendChild(featSection);
-      const right = iDoc.createElement('div');
-      right.className = 'rw-right';
-      right.appendChild(stockSec);
-      wrapper.appendChild(left);
-      wrapper.appendChild(right);
-      sec.appendChild(wrapper);
-    });
 
     // 현재 선택된 섹션(오전/오후/특징주정리)에 맞게 표시 초기화
     _applyKrThemeSection(['am','pm','close'].includes(_krThemeTab) ? _krThemeTab : 'am');
