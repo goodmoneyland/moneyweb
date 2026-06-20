@@ -180,7 +180,9 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
   <a href="#issues">주요이슈</a>
   <a href="#movers">특징주</a>
   <a href="#sectors">섹터강도</a>
-  <a href="#assets">원자재·크립토</a>
+  <a href="#commodities">원자재</a>
+  <a href="#crypto">크립토</a>
+  <a href="#etf">ETF</a>
 </nav>
 
 <div class="wrap">
@@ -229,18 +231,22 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
     <div class="heat" id="heat"></div>
   </section>
 
-  <section id="assets">
+  <section id="commodities">
     <div class="sec-head"><span class="sec-tag gold">COMMODITIES</span><span class="sec-title">원자재</span></div>
     <div class="g3" id="commCards" style="margin-bottom:12px;"></div>
     <div class="card summary gold" id="commSummary"></div>
+  </section>
 
-    <div class="sec-head" style="margin-top:32px;"><span class="sec-tag" style="background:#cffafe;color:var(--cyan)">CRYPTO</span><span class="sec-title">크립토 마켓</span></div>
+  <section id="crypto">
+    <div class="sec-head"><span class="sec-tag" style="background:#cffafe;color:var(--cyan)">CRYPTO</span><span class="sec-title">크립토 마켓</span></div>
     <div class="g2">
       <div class="card" style="padding:8px" id="cryptoRows"></div>
       <div class="card summary cyan" id="cryptoSummary"></div>
     </div>
+  </section>
 
-    <div class="sec-head" style="margin-top:32px;"><span class="sec-tag">ETF</span><span class="sec-title">ETF 동향</span></div>
+  <section id="etf">
+    <div class="sec-head"><span class="sec-tag">ETF</span><span class="sec-title">ETF 동향</span></div>
     <div class="g2">
       <div class="card" style="padding:8px"><div class="mv-h up" style="padding:8px 12px">▲ 상승 ETF</div><div id="etfUp"></div></div>
       <div class="card" style="padding:8px"><div class="mv-h dn" style="padding:8px 12px">▼ 하락 ETF</div><div id="etfDn"></div></div>
