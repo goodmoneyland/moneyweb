@@ -218,14 +218,14 @@
   .dash-grid-8 { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
 
   .idx-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
     cursor: pointer; transition: border-color .15s, background .15s; text-decoration: none; display: block;
   }
   .idx-card:hover { background: var(--card2); border-color: var(--accent); }
   .idx-card .name  { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
-  .idx-card .idx-row { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
-  .idx-card .value { font-size: 20px; font-weight: 700; line-height: 1.15; }
-  .idx-card .change { font-size: 13px; white-space: nowrap; }
+  .idx-card .idx-row { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; flex-wrap: nowrap; }
+  .idx-card .value { font-size: 18px; font-weight: 700; line-height: 1.15; white-space: nowrap; }
+  .idx-card .change { font-size: 12px; white-space: nowrap; flex-shrink: 0; }
   .idx-card .spark { margin-top: 6px; height: 26px; }
   .idx-card .spark svg { width: 100%; height: 26px; display: block; }
   .idx-card .spark:empty { margin-top: 0; height: 0; }
@@ -307,6 +307,32 @@
     white-space: nowrap;
   }
   .bottom-card-body { padding: 10px 14px; flex: 1; }
+
+  /* ── 삼성·SK하이닉스 해외시세 카드 (지수 그리드 내 2칸폭 · 미니 스파크라인) ── */
+  /* 주요 지수 그리드(dash-grid-8) 안에 삽입돼 대만가권 옆에 배치 — 2칸 폭 차지 */
+  .dash-grid-8 .dr-card { grid-column: span 2; }
+  .dr-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px;
+    cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .dr-card:hover { background: var(--card2); border-color: var(--accent); }
+  .dr-head { display: flex; align-items: baseline; gap: 6px; cursor: pointer; margin-bottom: 3px; }
+  .dr-name { font-size: 13px; font-weight: 800; }
+  .dr-code { font-size: 10px; color: var(--muted); }
+  .dr-krx  { margin-left: auto; font-size: 14.5px; font-weight: 800; }
+  .dr-krx small { font-size: 10.5px; font-weight: 700; margin-left: 4px; }
+  .dr-srow { display: flex; align-items: center; gap: 7px; padding: 4px 0; border-top: 1px solid var(--border); }
+  .dr-src { font-size: 11px; font-weight: 800; color: var(--text); width: 46px; flex-shrink: 0; line-height: 1.2; }
+  .dr-src span { display: block; font-size: 8.5px; font-weight: 500; color: var(--muted); }
+  .dr-vals { flex: 1; min-width: 0; }
+  .dr-krw { font-size: 13px; font-weight: 800; }
+  .dr-raw { font-size: 9.5px; color: var(--muted); margin-left: 4px; }
+  .dr-prems { font-size: 10.5px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dr-prems b { font-weight: 800; margin-right: 6px; }
+  .dr-prem-lbl { color: var(--muted); }
+  .dr-spark { width: 48px; height: 24px; flex-shrink: 0; }
+  .dr-spark svg { width: 100%; height: 24px; display: block; }
+  .dr-na { color: var(--muted); font-size: 11px; }
 
   /* 일정 */
   .sch-row {
@@ -931,6 +957,28 @@
     .sp-rprt .r-smry, .sp-rprt .r-firm { font-size: 13.5px; }
     .sp-rprt .r-dt, .sp-rprt .r-anlst, .sp-rprt .r-rcmd,
     .sp-rprt .r-tracker span { font-size: 12.5px; }
+
+    /* ── [3순위] 목표주가검색기: 마스터-디테일 → 세로 토글(목록↔상세) ──
+       인라인 폭(380/430px)을 덮어야 해 !important 사용. PC는 이 블록 자체를 안 읽음. */
+    #tp-split { flex-direction: column; }
+    #tp-side { width: 100% !important; min-width: 0 !important; flex: 1 1 auto; min-height: 0; border-right: none; }
+    #tp-main { display: none !important; }                            /* 기본: 목록만 표시 (인라인 display:flex 덮기) */
+    #page-tgtprc.tp-detail #tp-side { display: none !important; }      /* 상세 모드: 목록 숨김 */
+    #page-tgtprc.tp-detail #tp-main { display: flex !important; min-height: 0; }
+    #tp-back { display: flex !important; }
+    /* 상세 내부: 차트(좌)+리포트(우) 가로분할 → 세로 스택 + 세로 스크롤 */
+    #tp-detail-row { flex-direction: column; overflow-y: auto !important; overflow-x: hidden; }
+    #tgtprc-rpt-wrap { width: 100% !important; min-width: 0 !important; flex: none; }
+    #tgtprc-chart-view, #tgtprc-table-view { min-height: 280px; }
+    #tgtprc-rpt-list { max-height: 60vh; }
+    #tgtprc-search { font-size: 15px !important; }
+    #tgtprc-header { padding: 12px 16px !important; }
+
+    /* ── [3순위] PER 탭: 밸류차트 2개 좌우 → 세로 스택 + 탭 전체 세로 스크롤 ── */
+    #wrap-per { overflow-y: auto; }
+    #wrap-valchart { padding: 10px 8px; }
+    #valchart-content { flex-direction: column; gap: 14px; }
+    #per-frame-box { flex: none; height: 72vh; min-height: 420px; }
   }
 </style>
 </head>
@@ -1189,6 +1237,21 @@
       <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <!-- 삼전·하이닉스 해외시세 (바이낸스 무기한선물 + GDR · 정규장/NXT 괴리) — 대만가권 옆 2칸폭 -->
+      <div class="dr-card" id="dr-card-005930">
+        <div class="dr-head" onclick="openKrStock('005930','삼성전자')">
+          <span class="dr-name">삼성전자</span><span class="dr-code">005930</span>
+          <span class="dr-krx">—</span>
+        </div>
+        <div class="dr-body"><div class="dr-na" style="padding:8px 0;">로딩중…</div></div>
+      </div>
+      <div class="dr-card" id="dr-card-000660">
+        <div class="dr-head" onclick="openKrStock('000660','SK하이닉스')">
+          <span class="dr-name">SK하이닉스</span><span class="dr-code">000660</span>
+          <span class="dr-krx">—</span>
+        </div>
+        <div class="dr-body"><div class="dr-na" style="padding:8px 0;">로딩중…</div></div>
+      </div>
     </div>
 
     <div class="section-title">오늘의 브리핑</div>
@@ -1344,13 +1407,13 @@
   </div>
 
   <!-- ── PER 마켓&종목 (상단: 차트 2개 좌우 / 하단: iframe) ── -->
-  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;" id="wrap-per">
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto;" id="wrap-per">
     <!-- 상단: 밸류차트 두 개 좌우 -->
     <div id="wrap-valchart" style="flex-shrink:0;border-bottom:1px solid var(--border);background:var(--bg);padding:10px 14px;">
       <div id="valchart-content" style="display:flex;gap:12px;"></div>
     </div>
     <!-- 하단: iframe -->
-    <div style="flex:1;min-width:0;position:relative;overflow:hidden;">
+    <div id="per-frame-box" style="flex:1;min-width:0;position:relative;overflow:hidden;">
       <div class="frame-placeholder" id="ph-per">
         <div class="icon">📊</div><div class="msg">파일 로딩중...</div><div class="sub" id="ph-per-sub"></div>
       </div>
@@ -1495,9 +1558,9 @@
 
   <!-- ── 목표주가 ── -->
   <div class="page-inner" id="page-tgtprc">
-    <div style="display:flex;width:100%;height:100%;overflow:hidden;">
+    <div id="tp-split" style="display:flex;width:100%;height:100%;overflow:hidden;">
       <!-- 사이드바 -->
-      <div style="width:380px;min-width:380px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;">
+      <div id="tp-side" style="width:380px;min-width:380px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;">
         <div style="padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0;">
           <input id="tgtprc-search" type="text" placeholder="종목명 검색..."
                  oninput="tgtprcRenderList()"
@@ -1517,7 +1580,9 @@
         <div id="tgtprc-list" style="overflow-y:auto;flex:1;"></div>
       </div>
       <!-- 메인 패널 -->
-      <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+      <div id="tp-main" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+        <!-- 모바일 전용 뒤로가기 (PC에선 CSS로 숨김) -->
+        <div id="tp-back" onclick="tgtprcMobileBack()" style="display:none;align-items:center;gap:6px;padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0;color:var(--accent);font-size:15px;font-weight:700;cursor:pointer;">← 목록으로</div>
         <div id="tgtprc-header" style="padding:16px 24px;border-bottom:1px solid var(--border);flex-shrink:0;">
           <div style="color:var(--muted);font-size: 19.5px;">← 왼쪽 목록에서 종목을 선택하세요</div>
         </div>
@@ -1525,7 +1590,7 @@
           <!-- 스탯 카드 -->
           <div id="tgtprc-stat-cards" style="display:none;padding:14px 20px 0;flex-shrink:0;"></div>
           <!-- 하단: 차트(좌) + 리포트 패널(우) -->
-          <div style="flex:1;display:flex;overflow:hidden;padding:12px 20px 16px;gap:14px;min-height:0;">
+          <div id="tp-detail-row" style="flex:1;display:flex;overflow:hidden;padding:12px 20px 16px;gap:14px;min-height:0;">
             <!-- 좌: 차트/테이블 -->
             <div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;">
               <div id="tgtprc-view-tabs" style="display:none;margin-bottom:8px;gap:6px;flex-shrink:0;"></div>
@@ -1844,7 +1909,7 @@ function switchTab(tab, el) {
   else if (tab === 'community') document.getElementById('page-community').classList.add('active');
   else if (tab === 'trump')    { document.getElementById('page-trump').classList.add('active'); loadTrumpPage(); }
   else if (tab === 'global-high') { document.getElementById('page-global-high').classList.add('active'); loadGlobalHigh(); }
-  else if (tab === 'tgtprc')   { document.getElementById('page-tgtprc').classList.add('active'); loadTgtprcPage(); }
+  else if (tab === 'tgtprc')   { const pg=document.getElementById('page-tgtprc'); pg.classList.add('active'); pg.classList.remove('tp-detail'); loadTgtprcPage(); }
   else if (tab === 'nxt')      { document.getElementById('page-nxt').classList.add('active'); nxtInit(); }
   else if (tab === 'kr-marketmap') { document.getElementById('wrap-kr-marketmap').style.display = 'block'; }
   else if (tab === 'global-marketmap') { document.getElementById('wrap-global-marketmap').style.display = 'block'; }
@@ -2028,7 +2093,34 @@ function onFrameLoad(tab) {
     _focusThemeInMap(frame, _nm);
     setTimeout(() => _focusThemeInMap(frame, _nm), 300);
   }
+  // PER 탭: iframe(섹터/종목 카드)을 콘텐츠 높이만큼 펼쳐 상단 밸류차트와 함께 한 번에 스크롤되게.
+  if (tab === 'per') { _sizePerFrame(); setTimeout(_sizePerFrame, 250); setTimeout(_sizePerFrame, 700); }
 }
+
+// PER iframe을 내부 콘텐츠 높이로 확장 → 부모(wrap-per)가 밸류차트+표를 통째로 스크롤.
+// 실패(미로드 등) 시 아무것도 안 바꿔 기존 동작(flex:1 내부 스크롤)으로 폴백.
+function _sizePerFrame() {
+  const box = document.getElementById('per-frame-box');
+  const f = document.getElementById('page-per');
+  if (!box || !f) return;
+  try {
+    const doc = f.contentDocument || f.contentWindow.document;
+    if (!doc || !doc.body) return;
+    const h = Math.max(doc.documentElement.scrollHeight || 0, doc.body.scrollHeight || 0);
+    if (h < 60) return;
+    f.style.position = 'relative';
+    f.style.height = h + 'px';
+    box.style.flex = 'none';
+    box.style.height = h + 'px';
+    box.style.overflow = 'visible';
+  } catch (e) {}
+}
+let _perRz;
+window.addEventListener('resize', () => {
+  const w = document.getElementById('wrap-per');
+  if (!w || w.style.display === 'none') return;
+  clearTimeout(_perRz); _perRz = setTimeout(_sizePerFrame, 200);
+});
 
 function _injectKrThemeLayout(frame) {
   try {
@@ -2789,6 +2881,78 @@ async function loadHomeSummary() {
   loadThemeToday();
 
   loadNewHighSection();
+
+  loadDrBinance();
+}
+
+// ── 삼전·하이닉스 해외시세 (바이낸스 선물 + GDR · 정규장/실시간 2기준 + 미니 스파크라인) ──
+let DR_HIST = null;
+function _drChip(p) {
+  if (p == null) return '<b style="color:#94a3b8">—</b>';
+  const clr = p > 0 ? '#ef4444' : p < 0 ? '#3b82f6' : '#94a3b8';
+  return `<b style="color:${clr}">${p > 0 ? '+' : ''}${p.toFixed(2)}%</b>`;
+}
+function _drLiveLabel(status) {
+  if (status === 'KRX') return '실시간';
+  if (status === 'NXT_PRE' || status === 'NXT_EVE') return 'NXT';
+  return 'NXT마감';
+}
+function _drSparkFor(key) {
+  if (!DR_HIST || !DR_HIST.points) return '';
+  const arr = DR_HIST.points[key];
+  const base = (DR_HIST.base || {})[key];
+  if (!arr || arr.length < 2) return '';
+  return _sparkSvg(arr, base, 'dr_' + key);   // 지수 카드와 동일 스파크라인 렌더러 재사용
+}
+function _drSrcRow(label, sub, o, sparkKey, liveLbl) {
+  if (!o || o.krw == null) {
+    return `<div class="dr-srow"><div class="dr-src">${label}<span>${sub}</span></div>`
+         + `<div class="dr-vals"><span class="dr-na">시세 없음</span></div></div>`;
+  }
+  const raw = o.price != null ? `${o.price.toLocaleString('en-US', {maximumFractionDigits: 2})} ${o.ccy}` : '';
+  return `<div class="dr-srow">
+    <div class="dr-src">${label}<span>${sub}</span></div>
+    <div class="dr-vals">
+      <span class="dr-krw">${Math.round(o.krw).toLocaleString('ko-KR')}원</span><span class="dr-raw">${raw}</span>
+      <div class="dr-prems"><span class="dr-prem-lbl">정규장 </span>${_drChip(o.prem_close)}<span class="dr-prem-lbl">${liveLbl} </span>${_drChip(o.prem_live)}</div>
+    </div>
+    <div class="dr-spark">${_drSparkFor(sparkKey)}</div>
+  </div>`;
+}
+function renderDrCard(s, liveLbl) {
+  const el = document.getElementById('dr-card-' + s.code);
+  if (!el) return;
+  // KRX 헤더 — 라이브 시세 우선(_getPrice), 없으면 수집시점값
+  const lp = (window._getPrice && _getPrice(s.code)) || null;
+  const krx = (lp && lp.curr_prc) ? lp.curr_prc : s.krx_live;
+  const chg = (lp && lp.ud_rt != null) ? lp.ud_rt : s.krx_live_chg;
+  const krxEl = el.querySelector('.dr-krx');
+  if (krxEl) {
+    let h = krx ? Math.round(krx).toLocaleString('ko-KR') + '원' : '—';
+    if (chg != null) {
+      const c = chg, clr = c > 0 ? '#ef4444' : c < 0 ? '#3b82f6' : '#94a3b8', arr = c > 0 ? '▲' : c < 0 ? '▼' : '';
+      h += `<small style="color:${clr}">${arr}${Math.abs(c).toFixed(2)}%</small>`;
+    }
+    krxEl.innerHTML = h;
+  }
+  const body = el.querySelector('.dr-body');
+  if (body) {
+    body.innerHTML = _drSrcRow('바이낸스', '선물', s.binance, s.code + '_bin', liveLbl)
+                   + _drSrcRow('GDR', (s.gdr && s.gdr.ticker) || '', s.gdr, s.code + '_gdr', liveLbl);
+  }
+}
+async function loadDrBinance() {
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch('/api/dr_binance.json?t=' + Date.now()),
+      fetch('/api/dr_binance_history.json?t=' + Date.now()),
+    ]);
+    if (!r1.ok) return;
+    const data = await r1.json();
+    DR_HIST = r2.ok ? await r2.json() : null;
+    const liveLbl = _drLiveLabel(data.market_status);
+    (data.stocks || []).forEach(s => renderDrCard(s, liveLbl));
+  } catch (e) { /* 무시 */ }
 }
 
 async function loadUSCard(src) {
@@ -4205,12 +4369,12 @@ function _ghSectorView(items, code) {
       + '<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
       + '<span style="font-size:13px;color:#22c55e;font-weight:700;">📈 52주 '+w52N+'</span>'
       + '<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개 · 섹터 내 시총순</span></div>'
-    + '<div style="display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;">'
+    + '<div style="display:grid;grid-template-columns:180px 1fr;gap:10px;align-items:start;">'
       + '<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;">'
         + '<div style="font-size:14px;font-weight:800;margin-bottom:6px;">신고가 섹터</div>'
         + order.map(pill).join('')
       + '</div>'
-      + '<div style="column-width:258px;column-gap:8px;">'+order.map(card).join('')+'</div>'
+      + '<div style="column-width:310px;column-gap:8px;">'+order.map(card).join('')+'</div>'
     + '</div>';
 }
 
@@ -4452,8 +4616,9 @@ function _startKrPricesPolling() {
   fetchKrClosePrices();
   fetchKrPricesLive();
   renderIndexSparklines();
+  loadDrBinance();
   if (_krPricesTimer) clearInterval(_krPricesTimer);
-  _krPricesTimer = setInterval(() => { fetchKrPricesLive(); renderIndexSparklines(); }, 60 * 1000);
+  _krPricesTimer = setInterval(() => { fetchKrPricesLive(); renderIndexSparklines(); loadDrBinance(); }, 60 * 1000);
 }
 
 // ── 주요 지수 카드 장중 흐름 스파크라인 ──
@@ -5440,7 +5605,7 @@ function tgtprcRenderList() {
       ? KR_ER_DATES[s.itm_cd].dt : null;
     const filterTag = tgtprc_filter !== 'all'
       ? `<span style="font-size: 9.5px;color:#3b82f6;background:rgba(59,130,246,.15);border-radius:3px;padding:1px 4px;margin-left:4px;">${FILTER_LABEL[tgtprc_filter]}${erDt ? ' ' + erDt : ''}</span>` : '';
-    return `<div class="tp-stk-row${tgtprc_stock === s.itm_cd ? ' active' : ''}" data-cd="${s.itm_cd}" onclick="tgtprcSelectStock('${s.itm_cd}')">
+    return `<div class="tp-stk-row${tgtprc_stock === s.itm_cd ? ' active' : ''}" data-cd="${s.itm_cd}" onclick="tgtprcSelectStock('${s.itm_cd}', true)">
       <div style="font-size: 13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
         <span style="cursor:pointer;text-decoration:underline;text-decoration-color:transparent;transition:.1s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color=''" onclick="event.stopPropagation();openKrStock('${s.itm_cd}','${(KR_STOCK_META&&KR_STOCK_META[s.itm_cd]&&KR_STOCK_META[s.itm_cd].nm)||s.itm_nm}')">${(KR_STOCK_META&&KR_STOCK_META[s.itm_cd]&&KR_STOCK_META[s.itm_cd].nm)||s.itm_nm}</span>
         <span style="font-size: 10.5px;color:var(--muted);font-weight:400">${s.itm_cd}</span>${filterTag}
@@ -5455,8 +5620,20 @@ function tgtprcRenderList() {
   }).join('');
 }
 
-function tgtprcSelectStock(itm_cd) {
+// 모바일 상세 → 목록으로 복귀
+function tgtprcMobileBack() {
+  const pg = document.getElementById('page-tgtprc');
+  if (pg) pg.classList.remove('tp-detail');
+}
+
+function tgtprcSelectStock(itm_cd, fromUser) {
   tgtprc_stock = itm_cd;
+  // 모바일: 사용자가 직접 종목을 탭했을 때만 상세 패널로 전환(자동선택은 목록 유지).
+  // PC(>768px)에선 .tp-detail 클래스가 미디어쿼리에서 무시되므로 영향 없음.
+  if (fromUser && window.innerWidth <= 768) {
+    const pg = document.getElementById('page-tgtprc');
+    if (pg) pg.classList.add('tp-detail');
+  }
   document.querySelectorAll('.tp-stk-row').forEach(r => r.classList.toggle('active', r.getAttribute('data-cd') === itm_cd));
   const s = TGTPRC_DATA && TGTPRC_DATA[itm_cd];
   if (!s) return;

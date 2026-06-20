@@ -56,6 +56,8 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3,.g2{grid-template-columns:1fr;}}
+/* 모바일(≤768px): 상단 지수카드(이미지1) 숨김 — 잘림 방지(홈 지수와 중복). PC 무영향. */
+@media(max-width:768px){#idxCards{display:none;}}
 
 /* index cards */
 .idx{padding:16px 18px;text-align:center;border-top:3px solid var(--up);}
