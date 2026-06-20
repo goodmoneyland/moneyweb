@@ -83,12 +83,16 @@ a.iss-row:hover .iss-desc{color:var(--blue);}
 .opblk.positive{border-left-color:var(--up);margin-bottom:0;}
 .opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
 .opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
-.opblk.watch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
 .opblk.watch .opblk-t{margin-bottom:0;}
 .opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
 .opblk p:last-child{margin-bottom:0;}
 .opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
 .opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
 .opblk .g2{margin:0;}
 
@@ -134,7 +138,8 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
 
 <nav class="nav" id="nav">
   <a href="#overview" class="active">요약</a>
-  <a href="#opinion">시장의견</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
   <a href="#news2">방위산업</a>
   <a href="#news6">반도체/메모리</a>
   <a href="#news8">반도체/파운드리</a>
@@ -169,8 +174,12 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
   </section>
 
   <section id="opinion">
-    <div class="sec-head"><span class="sec-tag purple">MARKET OPINION</span><span class="sec-title">시장 의견</span></div>
-    <div class="opblk watch"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">방위산업</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/메모리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/파운드리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/소재</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/부품</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">광통신</span></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 나스닥이 <span class="highlight">3%</span>대 <b>급등</b>을 이끈 전일 미국 시장은 단순 기술주 <b>반등</b>이 아니라 <b>AI 인프라</b> 투자 사이클의 재가속을 시장이 재평가한 흐름이었음.</p><p>■ <b>엔비디아</b>가 <span class="highlight">+3.54%</span> <b>급등</b>한 가운데 최소 <b>200억</b> 달러 규모 회사채 발행 계획까지 밝히면서 AI 설비투자에 대한 강한 자신감을 시장에 각인시켰음.</p><p>■ 첫 번째로 주목할 섹터는 방위산업임.</p><p>■ 이란전 <b>종전</b> <b>협상</b>이 오히려 역설적으로 한국 <b>방산</b>에 <b>호재</b>로 작용하는 구조가 확인됐음.</p><p>■ 중동 국가들이 전후 재무장에 나서면서 사우디·이라크의 한국산 무기 수요가 가시화되고 있고, 영국 핵잠수함 5척 전부 운용 불능이라는 유럽 방위력 공백까지 K-<b>방산</b>의 수출 논거를 강화시키고 있음.</p><p>■ 라인메탈과 LIG D&amp;A의 전략적 <b>파트너십</b> 체결은 유럽 NATO향 공급망 편입을 공식화한 것으로 <b>한화에어로스페이스</b>, 현대로템의 수출 파이프라인 가시성이 한층 높아진 상황임.</p><p>■ 두 번째 섹터는 반도체 소부장 및 부품임.</p><p>■ <b>엔비디아</b>의 대규모 채권 발행은 AI 서버 <b>투자 확대</b>를 전제로 한 것이며, 이는 MLCC 납기 24주·가격 <b>급등</b>이라는 현실과 직결됨.</p><p>■ 국내에서 삼성전기가 가장 직접적인 <b>수혜</b> 포지션이며, <b>삼성전자</b> 낸드 V8·V9 전환 <b>수혜</b>를 받는 삼양엔씨켐은 <b>EUV</b> 소재 확장 <b>모멘텀</b>까지 중첩돼 중장기 성장 가시성이 확인됐음.</p><p>■ <b>SK하이닉스</b>도 용인 2번째 클린룸 개방을 1년 앞당기며 <b>HBM</b> 생산능력 확보에 속도를 내고 있어 장비·소재 <b>협력</b>사 전반의 <b>수주</b> 가시성이 개선될 전망임.</p><p>■ 세 번째는 로봇·피지컬AI 섹터임.</p><p>■ 현대모비스가 아틀라스 액추에이터 사업 진입을 공식화했고, 삼현은 글로벌 로봇 기업의 프로토 개발 <b>수주</b>를 완료해 연내 <b>양산</b> <b>수주</b>가 예상되는 단계임.</p><p>■ 스페이스X IPO가 상장 이틀 만에 <span class="highlight">40%</span> 이상 <b>급등</b>하면서 하드웨어 <b>우주</b>·로봇 플랫폼 전반에 대한 글로벌 밸류에이션 프리미엄 재평가 흐름이 국내 관련주에도 투영될 전망임.</p><p>■ 전반적으로 오늘 시장은 <b>방산</b>·반도체 부품·로봇 등 뚜렷한 이슈 보유 섹터에 선택과 집중하는 공격적 순환매 전략이 유효한 장세로 판단됨.</p></div><div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 긍정 포인트</div><p>■ <b>엔비디아</b> <b>200억</b> 달러 회사채 발행은 <b>AI 인프라</b> 투자 사이클이 수요 둔화 없이 지속된다는 시장 신호로 작용해 국내 <b>HBM</b>·AI 서버 밸류체인 전반에 긍정적임</p><p>■ 이란전 <b>종전</b> 이후 중동 재무장 수요가 본격화되는 국면에서 <b>한화에어로스페이스</b>·현대로템의 사우디·이라크 수출 파이프라인이 구체화돼 <b>방산</b> 섹터의 실적 <b>모멘텀</b>이 재확인됐음</p><p>■ AI 서버 <b>급증</b>으로 MLCC 납기가 24주까지 늘어나고 가격이 오르는 공급 병목 구조는 삼성전기의 ASP 상승과 수익성 개선으로 직결될 전망임</p><p>■ 두산에너빌리티가 오만 가스복합발전소 <b>5,300억</b> <b>수주</b>를 확정하면서 중동 에너지 인프라 <b>수주</b> <b>모멘텀</b>이 재차 확인됐음</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ 중국 CXMT가 IPO를 통해 확보한 자금을 <b>HBM</b> 개발에 집중 투입할 계획으로 <b>삼성전자</b>·<b>SK하이닉스</b>의 중장기 메모리 프리미엄에 구조적 압력 요인이 될 수 있음</p><p>■ 유가가 <span class="highlight">4%</span> 이상 <b>급락</b>하면서 중동 산유국들의 재정 여력이 줄어들 경우 <b>방산</b> <b>수출 계약</b> 타이밍이 지연될 가능성을 배제하기 어려움</p><p>■ JTBC·콘텐트리중앙 등 중앙그룹 계열사의 회생절차 신청으로 미디어·엔터 섹터 전반에 신용 위험 재평가 압력이 확산될 수 있음</p></div></div><div class="opblk summary"><div class="opblk-t">💬 종합 의견</div><p>■ 오늘장은 <b>방위산업·반도체/메모리·반도체/파운드리·반도체/소재</b> 섹터에 집중할 필요가 있음.</p><p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div>
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">방위산업</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/메모리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/파운드리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/소재</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/부품</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">광통신</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>방위산업·반도체/메모리·반도체/파운드리·반도체/소재</b> 섹터에 집중할 필요가 있음.</p><p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 나스닥이 <span class="highlight">3%</span>대 <b>급등</b>을 이끈 전일 미국 시장은 단순 기술주 <b>반등</b>이 아니라 <b>AI 인프라</b> 투자 사이클의 재가속을 시장이 재평가한 흐름이었음.</p><p>■ <b>엔비디아</b>가 <span class="highlight">+3.54%</span> <b>급등</b>한 가운데 최소 <b>200억</b> 달러 규모 회사채 발행 계획까지 밝히면서 AI 설비투자에 대한 강한 자신감을 시장에 각인시켰음.</p><p>■ 첫 번째로 주목할 섹터는 방위산업임.</p><p>■ 이란전 <b>종전</b> <b>협상</b>이 오히려 역설적으로 한국 <b>방산</b>에 <b>호재</b>로 작용하는 구조가 확인됐음.</p><p>■ 중동 국가들이 전후 재무장에 나서면서 사우디·이라크의 한국산 무기 수요가 가시화되고 있고, 영국 핵잠수함 5척 전부 운용 불능이라는 유럽 방위력 공백까지 K-<b>방산</b>의 수출 논거를 강화시키고 있음.</p><p>■ 라인메탈과 LIG D&amp;A의 전략적 <b>파트너십</b> 체결은 유럽 NATO향 공급망 편입을 공식화한 것으로 <b>한화에어로스페이스</b>, 현대로템의 수출 파이프라인 가시성이 한층 높아진 상황임.</p><p>■ 두 번째 섹터는 반도체 소부장 및 부품임.</p><p>■ <b>엔비디아</b>의 대규모 채권 발행은 AI 서버 <b>투자 확대</b>를 전제로 한 것이며, 이는 MLCC 납기 24주·가격 <b>급등</b>이라는 현실과 직결됨.</p><p>■ 국내에서 삼성전기가 가장 직접적인 <b>수혜</b> 포지션이며, <b>삼성전자</b> 낸드 V8·V9 전환 <b>수혜</b>를 받는 삼양엔씨켐은 <b>EUV</b> 소재 확장 <b>모멘텀</b>까지 중첩돼 중장기 성장 가시성이 확인됐음.</p><p>■ <b>SK하이닉스</b>도 용인 2번째 클린룸 개방을 1년 앞당기며 <b>HBM</b> 생산능력 확보에 속도를 내고 있어 장비·소재 <b>협력</b>사 전반의 <b>수주</b> 가시성이 개선될 전망임.</p><p>■ 세 번째는 로봇·피지컬AI 섹터임.</p><p>■ 현대모비스가 아틀라스 액추에이터 사업 진입을 공식화했고, 삼현은 글로벌 로봇 기업의 프로토 개발 <b>수주</b>를 완료해 연내 <b>양산</b> <b>수주</b>가 예상되는 단계임.</p><p>■ 스페이스X IPO가 상장 이틀 만에 <span class="highlight">40%</span> 이상 <b>급등</b>하면서 하드웨어 <b>우주</b>·로봇 플랫폼 전반에 대한 글로벌 밸류에이션 프리미엄 재평가 흐름이 국내 관련주에도 투영될 전망임.</p><p>■ 전반적으로 오늘 시장은 <b>방산</b>·반도체 부품·로봇 등 뚜렷한 이슈 보유 섹터에 선택과 집중하는 공격적 순환매 전략이 유효한 장세로 판단됨.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ <b>엔비디아</b> <b>200억</b> 달러 회사채 발행은 <b>AI 인프라</b> 투자 사이클이 수요 둔화 없이 지속된다는 시장 신호로 작용해 국내 <b>HBM</b>·AI 서버 밸류체인 전반에 긍정적임</p><p>■ 이란전 <b>종전</b> 이후 중동 재무장 수요가 본격화되는 국면에서 <b>한화에어로스페이스</b>·현대로템의 사우디·이라크 수출 파이프라인이 구체화돼 <b>방산</b> 섹터의 실적 <b>모멘텀</b>이 재확인됐음</p><p>■ AI 서버 <b>급증</b>으로 MLCC 납기가 24주까지 늘어나고 가격이 오르는 공급 병목 구조는 삼성전기의 ASP 상승과 수익성 개선으로 직결될 전망임</p><p>■ 두산에너빌리티가 오만 가스복합발전소 <b>5,300억</b> <b>수주</b>를 확정하면서 중동 에너지 인프라 <b>수주</b> <b>모멘텀</b>이 재차 확인됐음</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ 중국 CXMT가 IPO를 통해 확보한 자금을 <b>HBM</b> 개발에 집중 투입할 계획으로 <b>삼성전자</b>·<b>SK하이닉스</b>의 중장기 메모리 프리미엄에 구조적 압력 요인이 될 수 있음</p><p>■ 유가가 <span class="highlight">4%</span> 이상 <b>급락</b>하면서 중동 산유국들의 재정 여력이 줄어들 경우 <b>방산</b> <b>수출 계약</b> 타이밍이 지연될 가능성을 배제하기 어려움</p><p>■ JTBC·콘텐트리중앙 등 중앙그룹 계열사의 회생절차 신청으로 미디어·엔터 섹터 전반에 신용 위험 재평가 압력이 확산될 수 있음</p></div></div>
   </section>
 
   <section id="news">

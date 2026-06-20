@@ -83,12 +83,16 @@ a.iss-row:hover .iss-desc{color:var(--blue);}
 .opblk.positive{border-left-color:var(--up);margin-bottom:0;}
 .opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
 .opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
-.opblk.watch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
 .opblk.watch .opblk-t{margin-bottom:0;}
 .opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
 .opblk p:last-child{margin-bottom:0;}
 .opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
 .opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
 .opblk .g2{margin:0;}
 
@@ -134,7 +138,8 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
 
 <nav class="nav" id="nav">
   <a href="#overview" class="active">요약</a>
-  <a href="#opinion">시장의견</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
   <a href="#news2">반도체/메모리</a>
   <a href="#news5">반도체/장비</a>
   <a href="#news6">반도체</a>
@@ -165,8 +170,12 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
   </section>
 
   <section id="opinion">
-    <div class="sec-head"><span class="sec-tag purple">MARKET OPINION</span><span class="sec-title">시장 의견</span></div>
-    <div class="opblk watch"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/메모리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/장비</span><span class="chip c-blue" style="background:var(--up-bg);color:var(--up);">반도체</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/원전</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/정유</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지</span></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 오늘 가장 주목할 섹터는 반도체·메모리, <b>반도체 장비</b>, <b>방산</b>으로 압축됨.</p><p>■ 반도체·메모리 섹터는 최태원 SK그룹 회장의 이달 말 머스크 회동 소식과 <b>SK하이닉스</b> ADR 상장이 7월 중 이루어질 것이란 관측이 동시에 부각되며 수급과 <b>모멘텀</b> 양면에서 강한 촉매가 형성됐음.</p><p>■ 특히 <b>애플</b>이 D램·낸드 가격 4배 <b>급등</b>을 이유로 제품 가격 인상 불가피를 공식 선언하면서 <b>삼성전자</b>·<b>SK하이닉스</b> 등 메모리 업체의 수익성 개선 기대가 한층 높아진 상황임.</p><p>■ <b>테슬라</b> 자체 AI5 칩용 맞춤형 <b>HBM</b> <b>수주</b> 가능성까지 거론되는 만큼 <b>HBM</b> 밸류체인 전반으로 온기가 확산될 전망임.</p><p>■ <b>반도체 장비</b> 섹터는 머스크의 테라팹(177조원 규모) 생태계에 HPSP가 파일럿 장비 공급 PO를 확보했고 한미반도체도 최종 협의를 진행 중임이 알려지며 실질적인 <b>수주</b> 신호가 나온 상태임.</p><p>■ 글로벌 최상위 장비사들과 경쟁하는 구도에서 국내 기업이 핵심 공급망에 진입한 것은 단순 기대를 넘어 매출 가시성이 생긴 사건으로 해석됨.</p><p>■ 파일럿 성공 시 본<b>수주</b>로 이어질 가능성이 높아 HPSP와 한미반도체 중심의 단기 재평가 국면 진입이 예상됨.</p><p>■ <b>방산</b> 섹터는 미 상원 군사위원회가 2027 회계연도 NDAA 보고서를 통해 한국 핵추진 잠수함 <b>협력</b>을 공식 지지했고 역내 안보 기여 가능성까지 인정하면서 정책 <b>모멘텀</b>이 구체화됐음.</p><p>■ 단순 외교적 선언이 아니라 NDAA 입법 과정에 포함된 것인 만큼 실질적인 사업 추진 가능성이 높아졌으며, <b>한화에어로스페이스</b>·한화시스템 등 수중전력 밸류체인 전반에 <b>수혜</b>가 집중될 전망임.</p><p>■ 오늘 장은 AI 반도체 <b>랠리</b>를 뒷받침하는 글로벌 수급 <b>모멘텀</b>과 지정학적 리스크 완화가 동시에 작용하는 만큼 반도체와 <b>방산</b>·<b>우주</b> 중심의 공격적 비중 확대 전략이 유효한 국면임.</p></div><div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 긍정 포인트</div><p>■ <b>엔비디아</b> <span class="highlight">+2.95%</span> 주도의 AI 반도체 <b>랠리</b>가 <b>SK하이닉스</b>·<b>삼성전자</b> <b>HBM</b> 수요 전망을 재확인하며 국내 메모리 밸류체인 전반의 <b>모멘텀</b>을 극대화했음.</p><p>■ SK 최태원-머스크 이달 말 회동으로 <b>HBM</b>4 공급 및 ESS·전력망 <b>협력</b>이 구체화될 경우 <b>SK하이닉스</b>를 축으로 한 반도체·에너지 밸류체인 전반의 재평가 트리거가 될 전망임.</p><p>■ 미국·이란 MOU 이후 이란이 호르무즈 해협 통항료 60일 전면 면제를 선언했고 사우디 초대형 유조선 3척이 해협을 통과하면서 공급망 정상화가 현실화되어 HMM·팬오션 등 해운주 <b>수혜</b>가 예상됨.</p><p>■ 미 상원 군사위의 한국 핵잠수함 <b>협력</b> 공식 지지는 <b>방산</b> <b>수주</b> 가시성을 높이는 입법 <b>모멘텀</b>으로 <b>한화에어로스페이스</b>·한화시스템의 <b>강세</b> 촉매로 작용할 전망임.</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ <b>아마존</b> 트레이니엄과 <b>구글</b> TPU 등 빅테크 자체 AI 칩의 외부 판매 확대는 중장기적으로 <b>엔비디아</b> 의존도를 낮추며 <b>HBM</b> 수요 분산 요인이 될 수 있어 메모리 업체들의 고객 다변화 전략 점검이 필요함.</p><p>■ <b>인텔</b>-<b>애플</b> 미국 내 칩 설계·제조 <b>협력</b> 공식화는 반도체 공급망 내재화 흐름을 가속화해 아시아 위탁생산 의존도를 낮추는 방향으로 작용할 수 있어 <b>파운드리</b> 관련 업체에는 중장기 리스크임.</p><p>■ 호르무즈 해협 통항이 재개됐지만 이란 SNSC가 여전히 안전 위험을 경고했고 60일 한시 면제 조건이 붙어 있어 지정학적 불확실성이 완전히 해소되지 않아 정유·해운 섹터의 변동성은 지속될 전망임.</p></div></div><div class="opblk summary"><div class="opblk-t">💬 종합 의견</div><p>■ 오늘장은 <b>반도체/메모리·반도체/장비·반도체·에너지/원전</b> 섹터에 집중할 필요가 있음.</p><p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div>
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/메모리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/장비</span><span class="chip c-blue" style="background:var(--up-bg);color:var(--up);">반도체</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/원전</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/정유</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>반도체/메모리·반도체/장비·반도체·에너지/원전</b> 섹터에 집중할 필요가 있음.</p><p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 오늘 가장 주목할 섹터는 반도체·메모리, <b>반도체 장비</b>, <b>방산</b>으로 압축됨.</p><p>■ 반도체·메모리 섹터는 최태원 SK그룹 회장의 이달 말 머스크 회동 소식과 <b>SK하이닉스</b> ADR 상장이 7월 중 이루어질 것이란 관측이 동시에 부각되며 수급과 <b>모멘텀</b> 양면에서 강한 촉매가 형성됐음.</p><p>■ 특히 <b>애플</b>이 D램·낸드 가격 4배 <b>급등</b>을 이유로 제품 가격 인상 불가피를 공식 선언하면서 <b>삼성전자</b>·<b>SK하이닉스</b> 등 메모리 업체의 수익성 개선 기대가 한층 높아진 상황임.</p><p>■ <b>테슬라</b> 자체 AI5 칩용 맞춤형 <b>HBM</b> <b>수주</b> 가능성까지 거론되는 만큼 <b>HBM</b> 밸류체인 전반으로 온기가 확산될 전망임.</p><p>■ <b>반도체 장비</b> 섹터는 머스크의 테라팹(177조원 규모) 생태계에 HPSP가 파일럿 장비 공급 PO를 확보했고 한미반도체도 최종 협의를 진행 중임이 알려지며 실질적인 <b>수주</b> 신호가 나온 상태임.</p><p>■ 글로벌 최상위 장비사들과 경쟁하는 구도에서 국내 기업이 핵심 공급망에 진입한 것은 단순 기대를 넘어 매출 가시성이 생긴 사건으로 해석됨.</p><p>■ 파일럿 성공 시 본<b>수주</b>로 이어질 가능성이 높아 HPSP와 한미반도체 중심의 단기 재평가 국면 진입이 예상됨.</p><p>■ <b>방산</b> 섹터는 미 상원 군사위원회가 2027 회계연도 NDAA 보고서를 통해 한국 핵추진 잠수함 <b>협력</b>을 공식 지지했고 역내 안보 기여 가능성까지 인정하면서 정책 <b>모멘텀</b>이 구체화됐음.</p><p>■ 단순 외교적 선언이 아니라 NDAA 입법 과정에 포함된 것인 만큼 실질적인 사업 추진 가능성이 높아졌으며, <b>한화에어로스페이스</b>·한화시스템 등 수중전력 밸류체인 전반에 <b>수혜</b>가 집중될 전망임.</p><p>■ 오늘 장은 AI 반도체 <b>랠리</b>를 뒷받침하는 글로벌 수급 <b>모멘텀</b>과 지정학적 리스크 완화가 동시에 작용하는 만큼 반도체와 <b>방산</b>·<b>우주</b> 중심의 공격적 비중 확대 전략이 유효한 국면임.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ <b>엔비디아</b> <span class="highlight">+2.95%</span> 주도의 AI 반도체 <b>랠리</b>가 <b>SK하이닉스</b>·<b>삼성전자</b> <b>HBM</b> 수요 전망을 재확인하며 국내 메모리 밸류체인 전반의 <b>모멘텀</b>을 극대화했음.</p><p>■ SK 최태원-머스크 이달 말 회동으로 <b>HBM</b>4 공급 및 ESS·전력망 <b>협력</b>이 구체화될 경우 <b>SK하이닉스</b>를 축으로 한 반도체·에너지 밸류체인 전반의 재평가 트리거가 될 전망임.</p><p>■ 미국·이란 MOU 이후 이란이 호르무즈 해협 통항료 60일 전면 면제를 선언했고 사우디 초대형 유조선 3척이 해협을 통과하면서 공급망 정상화가 현실화되어 HMM·팬오션 등 해운주 <b>수혜</b>가 예상됨.</p><p>■ 미 상원 군사위의 한국 핵잠수함 <b>협력</b> 공식 지지는 <b>방산</b> <b>수주</b> 가시성을 높이는 입법 <b>모멘텀</b>으로 <b>한화에어로스페이스</b>·한화시스템의 <b>강세</b> 촉매로 작용할 전망임.</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ <b>아마존</b> 트레이니엄과 <b>구글</b> TPU 등 빅테크 자체 AI 칩의 외부 판매 확대는 중장기적으로 <b>엔비디아</b> 의존도를 낮추며 <b>HBM</b> 수요 분산 요인이 될 수 있어 메모리 업체들의 고객 다변화 전략 점검이 필요함.</p><p>■ <b>인텔</b>-<b>애플</b> 미국 내 칩 설계·제조 <b>협력</b> 공식화는 반도체 공급망 내재화 흐름을 가속화해 아시아 위탁생산 의존도를 낮추는 방향으로 작용할 수 있어 <b>파운드리</b> 관련 업체에는 중장기 리스크임.</p><p>■ 호르무즈 해협 통항이 재개됐지만 이란 SNSC가 여전히 안전 위험을 경고했고 60일 한시 면제 조건이 붙어 있어 지정학적 불확실성이 완전히 해소되지 않아 정유·해운 섹터의 변동성은 지속될 전망임.</p></div></div>
   </section>
 
   <section id="news">

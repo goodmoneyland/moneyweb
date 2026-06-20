@@ -83,12 +83,16 @@ a.iss-row:hover .iss-desc{color:var(--blue);}
 .opblk.positive{border-left-color:var(--up);margin-bottom:0;}
 .opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
 .opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
-.opblk.watch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
 .opblk.watch .opblk-t{margin-bottom:0;}
 .opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
 .opblk p:last-child{margin-bottom:0;}
 .opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
 .opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
 .opblk .g2{margin:0;}
 
@@ -134,7 +138,8 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
 
 <nav class="nav" id="nav">
   <a href="#overview" class="active">요약</a>
-  <a href="#opinion">시장의견</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
   <a href="#news2">로봇</a>
   <a href="#news3">자동차</a>
   <a href="#news4">반도체/기판</a>
@@ -163,8 +168,12 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
   </section>
 
   <section id="opinion">
-    <div class="sec-head"><span class="sec-tag purple">MARKET OPINION</span><span class="sec-title">시장 의견</span></div>
-    <div class="opblk watch"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">로봇</span><span class="chip c-blue" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/기판</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">건설</span><span class="chip c-blue" style="background:var(--purple-bg);color:var(--purple);">AI</span></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 단기 변동성 완화와 함께 위험선호 심리가 재점화되는 국면으로 평가됨.</p><p>■ 🤖 로봇 섹터: <b>테슬라</b>가 옵티머스 초기 <b>양산</b>을 7~8월로 확정하고, <b>현대차</b>그룹이 8월 미국 RMAC를 공식 개소할 예정임에 따라 휴머노이드 공급망이 테마 단계를 넘어 실수요 단계로 격상됐음.</p><p>■ 단순 기대감 플레이가 아닌 실제 납품 레퍼런스가 확인되는 부품사 위주로 차별화가 진행될 전망임.</p><p>■ 감속기·액추에이터·제어시스템 등 핵심 부품 공급사에 선별적 접근이 유효한 시점임.</p><p>■ 💡 AI/소버린AI 섹터: 미국 정부가 클로드 최상위 모델의 해외 접근을 전면 차단하면서 외산 AI에 의존하지 않는 독자 AI 구축의 필요성이 전 세계적으로 급부상했음.</p><p>■ 이는 자체 AI 플랫폼과 보안 솔루션을 보유한 국내 기업들에게 직접적인 정책 <b>수혜</b> 요인으로 작용할 전망임.</p><p>■ AI 보안 취약점 자동 공격 우려가 현실화되면서 사이버보안 수요도 동반 확대될 가능성이 높음.</p><p>■ ⚡ 에너지/건설 섹터: 삼성그룹이 이재용 회장 주도 하에 에너지 TF를 결성하고 M&amp;A 대상 물색에 나선 것은 AI <b>데이터센터</b> 전력 수요가 단순 인프라 수준을 넘어 그룹 전략 사업으로 격상됐음을 의미함.</p><p>■ 동시에 주요 건설사들이 <b>데이터센터</b> 시공을 넘어 개발·운영 영역까지 확장하고 있어 전력 솔루션과 특수 건설 역량을 동시에 보유한 기업의 <b>수주</b> 기회가 구조적으로 확대될 전망임.</p><p>■ 전체 시장 톤은 공격적 스탠스가 유효한 국면으로, 실적 가시성이 확인되는 로봇 부품·<b>AI 인프라</b> 섹터 중심의 선별적 비중 확대 전략이 효과적으로 예상됨.</p></div><div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 긍정 포인트</div><p>■ <b>테슬라</b> 옵티머스 7~8월 <b>양산</b> 및 <b>현대차</b> RMAC 8월 개소 일정이 구체화되면서 로보티즈·에스비비테크 등 국내 로봇 부품 공급사의 실적 가시성이 테마에서 실수요로 격상됐음</p><p>■ 미 정부의 최상위 AI 모델 수출 통제가 소버린 AI 구축 수요를 전 세계로 확산시키면서 <b>NAVER</b>·삼성에스디에스 등 국내 독자 AI 플랫폼 기업의 정책 <b>수혜</b> 기대감이 높아졌음</p><p>■ 삼성 에너지 TF 결성 소식이 AI <b>데이터센터</b> 전력 인프라 <b>투자 확대</b> 신호로 해석되면서 LS ELECTRIC·한화솔루션 등 전력·에너지 인프라 기업의 <b>수주</b> <b>모멘텀</b>이 부각됐음</p><p>■ 탈모 건강보험 적용에 대한 정부 실무검토 완료 발표로 현대약품·안트로젠 등 탈모 치료 관련 기업에 단기 정책 <b>수혜</b> <b>모멘텀</b>이 발생했음</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ 미국의 AI 모델 수출 통제가 <b>반도체 장비</b>·첨단 패키징 분야의 추가 규제로 연동될 경우, 국내 <b>HBM</b>·고급 기판 수출에 간접적 제약이 발생할 가능성이 있음</p><p>■ 대만 PCB 업체들이 AI 서버·광모듈 공급망에 빠르게 진입하면서 심텍·대덕전자 등 국내 기판사의 점유율 방어 여부를 단기 실적으로 검증해야 하는 부담이 존재함</p><p>■ 한중 소장급 군사회의 재개 논의가 <b>방산</b> 수출 심리에 일시적 불확실성을 제공할 수 있으며, 지정학 완화 기대와 <b>방산</b> <b>수주</b> 사이클의 미스매치 가능성에 유의해야 함</p></div></div><div class="opblk summary"><div class="opblk-t">💬 종합 의견</div><p>■ 오늘장은 <b>로봇·자동차·반도체/기판·에너지</b> 섹터에 집중할 필요가 있음.</p><p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div>
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">로봇</span><span class="chip c-blue" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/기판</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">건설</span><span class="chip c-blue" style="background:var(--purple-bg);color:var(--purple);">AI</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>로봇·자동차·반도체/기판·에너지</b> 섹터에 집중할 필요가 있음.</p><p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 단기 변동성 완화와 함께 위험선호 심리가 재점화되는 국면으로 평가됨.</p><p>■ 🤖 로봇 섹터: <b>테슬라</b>가 옵티머스 초기 <b>양산</b>을 7~8월로 확정하고, <b>현대차</b>그룹이 8월 미국 RMAC를 공식 개소할 예정임에 따라 휴머노이드 공급망이 테마 단계를 넘어 실수요 단계로 격상됐음.</p><p>■ 단순 기대감 플레이가 아닌 실제 납품 레퍼런스가 확인되는 부품사 위주로 차별화가 진행될 전망임.</p><p>■ 감속기·액추에이터·제어시스템 등 핵심 부품 공급사에 선별적 접근이 유효한 시점임.</p><p>■ 💡 AI/소버린AI 섹터: 미국 정부가 클로드 최상위 모델의 해외 접근을 전면 차단하면서 외산 AI에 의존하지 않는 독자 AI 구축의 필요성이 전 세계적으로 급부상했음.</p><p>■ 이는 자체 AI 플랫폼과 보안 솔루션을 보유한 국내 기업들에게 직접적인 정책 <b>수혜</b> 요인으로 작용할 전망임.</p><p>■ AI 보안 취약점 자동 공격 우려가 현실화되면서 사이버보안 수요도 동반 확대될 가능성이 높음.</p><p>■ ⚡ 에너지/건설 섹터: 삼성그룹이 이재용 회장 주도 하에 에너지 TF를 결성하고 M&amp;A 대상 물색에 나선 것은 AI <b>데이터센터</b> 전력 수요가 단순 인프라 수준을 넘어 그룹 전략 사업으로 격상됐음을 의미함.</p><p>■ 동시에 주요 건설사들이 <b>데이터센터</b> 시공을 넘어 개발·운영 영역까지 확장하고 있어 전력 솔루션과 특수 건설 역량을 동시에 보유한 기업의 <b>수주</b> 기회가 구조적으로 확대될 전망임.</p><p>■ 전체 시장 톤은 공격적 스탠스가 유효한 국면으로, 실적 가시성이 확인되는 로봇 부품·<b>AI 인프라</b> 섹터 중심의 선별적 비중 확대 전략이 효과적으로 예상됨.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ <b>테슬라</b> 옵티머스 7~8월 <b>양산</b> 및 <b>현대차</b> RMAC 8월 개소 일정이 구체화되면서 로보티즈·에스비비테크 등 국내 로봇 부품 공급사의 실적 가시성이 테마에서 실수요로 격상됐음</p><p>■ 미 정부의 최상위 AI 모델 수출 통제가 소버린 AI 구축 수요를 전 세계로 확산시키면서 <b>NAVER</b>·삼성에스디에스 등 국내 독자 AI 플랫폼 기업의 정책 <b>수혜</b> 기대감이 높아졌음</p><p>■ 삼성 에너지 TF 결성 소식이 AI <b>데이터센터</b> 전력 인프라 <b>투자 확대</b> 신호로 해석되면서 LS ELECTRIC·한화솔루션 등 전력·에너지 인프라 기업의 <b>수주</b> <b>모멘텀</b>이 부각됐음</p><p>■ 탈모 건강보험 적용에 대한 정부 실무검토 완료 발표로 현대약품·안트로젠 등 탈모 치료 관련 기업에 단기 정책 <b>수혜</b> <b>모멘텀</b>이 발생했음</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ 미국의 AI 모델 수출 통제가 <b>반도체 장비</b>·첨단 패키징 분야의 추가 규제로 연동될 경우, 국내 <b>HBM</b>·고급 기판 수출에 간접적 제약이 발생할 가능성이 있음</p><p>■ 대만 PCB 업체들이 AI 서버·광모듈 공급망에 빠르게 진입하면서 심텍·대덕전자 등 국내 기판사의 점유율 방어 여부를 단기 실적으로 검증해야 하는 부담이 존재함</p><p>■ 한중 소장급 군사회의 재개 논의가 <b>방산</b> 수출 심리에 일시적 불확실성을 제공할 수 있으며, 지정학 완화 기대와 <b>방산</b> <b>수주</b> 사이클의 미스매치 가능성에 유의해야 함</p></div></div>
   </section>
 
   <section id="news">

@@ -83,12 +83,16 @@ a.iss-row:hover .iss-desc{color:var(--blue);}
 .opblk.positive{border-left-color:var(--up);margin-bottom:0;}
 .opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
 .opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
-.opblk.watch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
 .opblk.watch .opblk-t{margin-bottom:0;}
 .opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
 .opblk p:last-child{margin-bottom:0;}
 .opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
 .opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
 .opblk .g2{margin:0;}
 
@@ -134,7 +138,8 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
 
 <nav class="nav" id="nav">
   <a href="#overview" class="active">요약</a>
-  <a href="#opinion">시장의견</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
   <a href="#news2">피지컬 AI/휴머노이드 로봇</a>
   <a href="#news4">반도체</a>
   <a href="#news7">방위산업</a>
@@ -165,8 +170,12 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
   </section>
 
   <section id="opinion">
-    <div class="sec-head"><span class="sec-tag purple">MARKET OPINION</span><span class="sec-title">시장 의견</span></div>
-    <div class="opblk watch"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">피지컬 AI/휴머노이드 로봇</span><span class="chip c-blue" style="background:var(--up-bg);color:var(--up);">반도체</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">방위산업</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">제약바이오/신약</span><span class="chip c-blue" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">귀금속(금/은)</span></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 전일 미국 시장은 NASDAQ이 기술주 중심으로 하락한 반면 DOW는 상승하며 성장주에서 전통 산업주로의 순환매 흐름이 뚜렷하게 나타났음.</p><p>■ <b>엔비디아</b>(<span class="highlight">-2.37%</span>), <b>테슬라</b>(<span class="highlight">-1.58%</span>), <b>마이크로소프트</b>(<span class="highlight">-1.48%</span>) 등 대형 기술주가 일제히 조정받은 반면 <b>방산</b>·인프라 중심 종목들이 <b>강세</b>를 보이며 시장의 무게중심 이동을 확인시켜줬음.</p><p>■ 첫 번째 주목 섹터는 방위산업임.</p><p>■ 이재명 대통령이 G7 정상회의 계기로 캐나다 총리와 직접 양자회담을 열고 60조원 규모 차세대 잠수함 <b>수주</b>를 지원했으며, <b>한화에어로스페이스</b>는 2분기 영업이익이 전분기 대비 <span class="highlight">58%</span> <b>급증</b>한 1조원을 <b>돌파</b>할 것으로 추산됨.</p><p>■ K-<b>방산</b> 빅4 합산 연간 영업이익이 6조원을 넘어설 전망이며 이는 실적 기반의 구조적 상승 국면임.</p><p>■ 두 번째 주목 섹터는 전력설비임.</p><p>■ AI <b>데이터센터</b> 전력 수요 <b>슈퍼사이클</b>이 장기화되면서 전력인프라 7개사가 1분기에만 10조원을 <b>수주</b>해 <b>사상 최대</b>치를 기록했음.</p><p>■ 여기에 이란 MOU 합의 이후 이란 재건 특수 기대감까지 가세하면서 HD현대일렉트릭, LS일렉트릭, 효성중공업 등의 추가 <b>수주</b> <b>모멘텀</b>이 강화되는 국면임.</p><p>■ 세 번째 주목 섹터는 반도체 및 소재임.</p><p>■ <b>SK하이닉스</b>가 자사주 40조원을 포함해 100조원 규모의 초대형 주주환원책을 추진하며 기업가치 재평가 트리거를 스스로 당겼음.</p><p>■ CCL 핵심 소재인 동박 수요가 AI 가속기 확산과 함께 구조적 호황 국면에 진입했으며, 롯데에너지머티리얼즈 등 소재 기업에도 실수요 기반의 <b>수혜</b>가 확인되는 중임.</p><p>■ 전체 시장 톤은 기술주보단 <b>방산</b>·전력인프라·반도체 소부장 중심의 실적 가시성 높은 종목에 집중하는 선별적 공격 전략이 유효한 국면임.</p></div><div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 긍정 포인트</div><p>■ <b>SK하이닉스</b> 100조원 주주환원 계획이 공개되며 글로벌 자본시장에서 기업가치 재평가 기대감이 확산됐고, 자사주 40조원 매입이 <b>HBM</b> 실적과 맞물려 주가 하단을 지지할 전망임.</p><p>■ G7 정상외교에서 한국 대통령이 캐나다 잠수함 <b>수주</b>를 직접 챙기며 <b>한화에어로스페이스</b>·현대로템·KAI 등 <b>방산</b> 빅4의 수출 <b>모멘텀</b>에 외교적 탄력이 추가됐음.</p><p>■ 전력인프라 7개사가 1분기에만 10조원을 <b>수주</b>하고 이란 재건 특수 기대감까지 더해지며 HD현대일렉트릭·LS일렉트릭·효성중공업의 <b>수주</b>잔고 사이클이 한층 장기화될 것으로 전망됨.</p><p>■ WGC 조사에서 더 많은 글로벌 중앙은행이 금 보유 확대 계획을 시사하면서 금값이 <b>상승세</b>를 이어갔고, 고려아연·영풍 등 귀금속 관련주의 <b>수혜</b>가 기대됨.</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ <b>엔비디아</b>가 전일 <span class="highlight">-2.37%</span> 하락하며 <b>HBM</b> 납품 기대감이 맞물려 있는 <b>SK하이닉스</b>·<b>삼성전자</b>의 단기 투자심리가 위축될 수 있는 환경이 조성됐음.</p><p>■ 미국과 이란의 MOU 합의로 이란 석유 판매 <b>제재</b>가 즉시 해제되면서 WTI가 <span class="highlight">-6.09%</span> <b>급락</b>했고, S-Oil·SK이노베이션 등 국내 정유사의 정제마진 악화 압박이 불가피할 전망임.</p><p>■ NASDAQ <span class="highlight">-1.15%</span> 기술주 전반 <b>약세</b>가 이어지며 <b>NAVER</b>·<b>카카오</b> 등 국내 플랫폼·IT 성장주에 대한 투자 심리 부담이 단기적으로 지속될 가능성이 있음.</p></div></div><div class="opblk summary"><div class="opblk-t">💬 종합 의견</div><p>■ 오늘장은 <b>피지컬 AI/휴머노이드 로봇·반도체·방위산업·제약바이오/신약</b> 섹터에 집중할 필요가 있음.</p><p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div>
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">피지컬 AI/휴머노이드 로봇</span><span class="chip c-blue" style="background:var(--up-bg);color:var(--up);">반도체</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">방위산업</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">제약바이오/신약</span><span class="chip c-blue" style="background:var(--cyan-bg);color:var(--cyan);">자동차</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">귀금속(금/은)</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>피지컬 AI/휴머노이드 로봇·반도체·방위산업·제약바이오/신약</b> 섹터에 집중할 필요가 있음.</p><p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 전일 미국 시장은 NASDAQ이 기술주 중심으로 하락한 반면 DOW는 상승하며 성장주에서 전통 산업주로의 순환매 흐름이 뚜렷하게 나타났음.</p><p>■ <b>엔비디아</b>(<span class="highlight">-2.37%</span>), <b>테슬라</b>(<span class="highlight">-1.58%</span>), <b>마이크로소프트</b>(<span class="highlight">-1.48%</span>) 등 대형 기술주가 일제히 조정받은 반면 <b>방산</b>·인프라 중심 종목들이 <b>강세</b>를 보이며 시장의 무게중심 이동을 확인시켜줬음.</p><p>■ 첫 번째 주목 섹터는 방위산업임.</p><p>■ 이재명 대통령이 G7 정상회의 계기로 캐나다 총리와 직접 양자회담을 열고 60조원 규모 차세대 잠수함 <b>수주</b>를 지원했으며, <b>한화에어로스페이스</b>는 2분기 영업이익이 전분기 대비 <span class="highlight">58%</span> <b>급증</b>한 1조원을 <b>돌파</b>할 것으로 추산됨.</p><p>■ K-<b>방산</b> 빅4 합산 연간 영업이익이 6조원을 넘어설 전망이며 이는 실적 기반의 구조적 상승 국면임.</p><p>■ 두 번째 주목 섹터는 전력설비임.</p><p>■ AI <b>데이터센터</b> 전력 수요 <b>슈퍼사이클</b>이 장기화되면서 전력인프라 7개사가 1분기에만 10조원을 <b>수주</b>해 <b>사상 최대</b>치를 기록했음.</p><p>■ 여기에 이란 MOU 합의 이후 이란 재건 특수 기대감까지 가세하면서 HD현대일렉트릭, LS일렉트릭, 효성중공업 등의 추가 <b>수주</b> <b>모멘텀</b>이 강화되는 국면임.</p><p>■ 세 번째 주목 섹터는 반도체 및 소재임.</p><p>■ <b>SK하이닉스</b>가 자사주 40조원을 포함해 100조원 규모의 초대형 주주환원책을 추진하며 기업가치 재평가 트리거를 스스로 당겼음.</p><p>■ CCL 핵심 소재인 동박 수요가 AI 가속기 확산과 함께 구조적 호황 국면에 진입했으며, 롯데에너지머티리얼즈 등 소재 기업에도 실수요 기반의 <b>수혜</b>가 확인되는 중임.</p><p>■ 전체 시장 톤은 기술주보단 <b>방산</b>·전력인프라·반도체 소부장 중심의 실적 가시성 높은 종목에 집중하는 선별적 공격 전략이 유효한 국면임.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ <b>SK하이닉스</b> 100조원 주주환원 계획이 공개되며 글로벌 자본시장에서 기업가치 재평가 기대감이 확산됐고, 자사주 40조원 매입이 <b>HBM</b> 실적과 맞물려 주가 하단을 지지할 전망임.</p><p>■ G7 정상외교에서 한국 대통령이 캐나다 잠수함 <b>수주</b>를 직접 챙기며 <b>한화에어로스페이스</b>·현대로템·KAI 등 <b>방산</b> 빅4의 수출 <b>모멘텀</b>에 외교적 탄력이 추가됐음.</p><p>■ 전력인프라 7개사가 1분기에만 10조원을 <b>수주</b>하고 이란 재건 특수 기대감까지 더해지며 HD현대일렉트릭·LS일렉트릭·효성중공업의 <b>수주</b>잔고 사이클이 한층 장기화될 것으로 전망됨.</p><p>■ WGC 조사에서 더 많은 글로벌 중앙은행이 금 보유 확대 계획을 시사하면서 금값이 <b>상승세</b>를 이어갔고, 고려아연·영풍 등 귀금속 관련주의 <b>수혜</b>가 기대됨.</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ <b>엔비디아</b>가 전일 <span class="highlight">-2.37%</span> 하락하며 <b>HBM</b> 납품 기대감이 맞물려 있는 <b>SK하이닉스</b>·<b>삼성전자</b>의 단기 투자심리가 위축될 수 있는 환경이 조성됐음.</p><p>■ 미국과 이란의 MOU 합의로 이란 석유 판매 <b>제재</b>가 즉시 해제되면서 WTI가 <span class="highlight">-6.09%</span> <b>급락</b>했고, S-Oil·SK이노베이션 등 국내 정유사의 정제마진 악화 압박이 불가피할 전망임.</p><p>■ NASDAQ <span class="highlight">-1.15%</span> 기술주 전반 <b>약세</b>가 이어지며 <b>NAVER</b>·<b>카카오</b> 등 국내 플랫폼·IT 성장주에 대한 투자 심리 부담이 단기적으로 지속될 가능성이 있음.</p></div></div>
   </section>
 
   <section id="news">
