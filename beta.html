@@ -1827,6 +1827,37 @@ fetch('/briefing_index.json?t=' + Date.now())
   })
   .catch(() => { console.warn('briefing_index.json 로드 실패'); initialRoute(); });
 
+// ═══════════════════════════════════════
+// 새 버전 자동 감지 — SPA는 한 번 열면 메모리에 남아 배포를 못 보므로,
+// 배포 시 갱신되는 version.json(build 시각)을 2분마다 확인 → 바뀌면 새로고침 배너.
+// (HTTP 캐시는 origin no-store + Cloudflare DYNAMIC으로 이미 꺼져 있음 — 문제는 '열어둔 앱'이 안 바뀌는 것뿐)
+// ═══════════════════════════════════════
+var APP_BUILD = null;
+function _checkVersion() {
+  fetch('/api/version.json?t=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if (!j || !j.build) return;
+      if (APP_BUILD === null) { APP_BUILD = j.build; return; }   // 최초 1회: 현재 버전 기록
+      if (j.build > APP_BUILD) _showUpdateBanner();              // 이후 더 새 버전 배포 감지
+    })
+    .catch(() => {});
+}
+function _showUpdateBanner() {
+  if (document.getElementById('update-banner')) return;
+  var b = document.createElement('div');
+  b.id = 'update-banner';
+  b.textContent = '🔄 새 버전이 배포되었어요 — 탭하여 새로고침';
+  b.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:99999;'
+    + 'background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;font-weight:700;font-size:14px;'
+    + 'padding:11px 22px;border-radius:30px;box-shadow:0 8px 28px rgba(0,0,0,.5);cursor:pointer;'
+    + "font-family:'Noto Sans KR',sans-serif;white-space:nowrap;";
+  b.onclick = function () { if (typeof hardReload === 'function') hardReload(); else location.reload(true); };
+  document.body.appendChild(b);
+}
+_checkVersion();
+setInterval(_checkVersion, 120000);
+
 // stat-badge element removed — stub kept to avoid errors
 function updateStatBadge() {}
 
