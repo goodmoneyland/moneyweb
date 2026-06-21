@@ -586,6 +586,15 @@
   .eve-content .earn-co { font-size: 16.5px; color:var(--text3); }
   .eve-content .earn-nums { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   .eve-content .earn-eps { font-size: 16.5px; font-weight:700; color:var(--text2); }
+  /* 실적 캘린더 종목 바로가기 칩 (PER / StockAnalysis / Finviz) */
+  .eve-content .earn-tk { cursor:pointer; }
+  .eve-content .earn-co { cursor:pointer; }
+  .eve-content .earn-sf { display:inline-flex; gap:4px; margin-left:auto; }
+  .eve-content .earn-sf-chip { display:inline-flex; align-items:center; justify-content:center; min-width:21px; height:21px; padding:0 6px; border-radius:5px; font-size: 13px; font-weight:800; line-height:1; text-decoration:none; border:1px solid var(--border); }
+  .eve-content .earn-sf-chip.per { background:var(--purple-bg); color:var(--purple); }
+  .eve-content .earn-sf-chip.sa  { background:var(--cyan-bg);   color:var(--cyan);   }
+  .eve-content .earn-sf-chip.fv  { background:var(--gold-bg);   color:var(--gold);   }
+  .eve-content .earn-sf-chip:hover { filter:brightness(1.25); }
   /* 실적 포인트 */
   .eve-content .sector-tag { background:var(--gold-bg); color:var(--gold); font-size: 15px; font-weight:800; padding:1px 7px; border-radius:10px; }
   .eve-content .sector-impact { font-size: 17.2px; color:var(--text3); line-height:1.65; margin-top:3px; }
@@ -3496,7 +3505,45 @@ async function loadEveningTab(sectionTagText, targetElId) {
   wrapper.innerHTML = targetSlide.innerHTML;
   el.innerHTML = '';
   el.appendChild(wrapper);
+  if (sectionTagText.includes('실적 캘린더')) enhanceEarnCalendar(wrapper);
   el.dataset.loaded = '1';
+}
+
+// 실적 캘린더 종목 후처리: 종목 클릭 → 팝업(국내 openKrStock / 해외 glPopup)
+//                          + PER·StockAnalysis(S)·Finviz(F) 바로가기 칩
+function enhanceEarnCalendar(root) {
+  root.querySelectorAll('.earn-item').forEach(item => {
+    const tkEl = item.querySelector('.earn-tk');
+    if (!tkEl) return;
+    const sym = (tkEl.textContent || '').trim();
+    if (!sym) return;
+    const coEl = item.querySelector('.earn-co');
+    const nm   = coEl ? coEl.textContent.trim() : sym;
+    const isKR = /^\d{6}$/.test(sym);   // 6자리 숫자 = 국내 종목코드
+    const openFn = isKR ? () => openKrStock(sym, nm) : () => glPopup(sym);
+
+    // 1) 티커·종목명 클릭 → 팝업 (기존 finviz 외부링크 → 팝업으로 전환)
+    tkEl.removeAttribute('href');
+    tkEl.removeAttribute('target');
+    tkEl.addEventListener('click', e => { e.preventDefault(); openFn(); });
+    if (coEl) coEl.addEventListener('click', openFn);
+
+    // 2) PER / S / F 바로가기 칩 (헤더 우측)
+    const top   = item.querySelector('.earn-top') || item;
+    const saUrl = isKR
+      ? 'https://stockanalysis.com/quote/krx/' + sym + '/'
+      : 'https://stockanalysis.com/stocks/' + sym.toLowerCase() + '/';
+    const sf = document.createElement('span');
+    sf.className = 'earn-sf';
+    let html = '<a class="earn-sf-chip per" title="한국·글로벌 PER 비교" onclick="event.stopPropagation()">PER</a>'
+             + '<a class="earn-sf-chip sa" href="' + saUrl + '" target="_blank" rel="noopener" title="StockAnalysis ↗" onclick="event.stopPropagation()">S</a>';
+    if (!isKR) html += '<a class="earn-sf-chip fv" href="https://finviz.com/quote.ashx?t=' + encodeURIComponent(sym) + '" target="_blank" rel="noopener" title="Finviz ↗" onclick="event.stopPropagation()">F</a>';
+    sf.innerHTML = html;
+    top.appendChild(sf);
+    // PER 칩 → 팝업(한국·글로벌 PER 지표 표시)
+    const perChip = sf.querySelector('.per');
+    if (perChip) { perChip.style.cursor = 'pointer'; perChip.addEventListener('click', openFn); }
+  });
 }
 
 // ═══════════════════════════════════════
