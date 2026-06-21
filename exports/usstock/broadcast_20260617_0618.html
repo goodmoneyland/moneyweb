@@ -174,8 +174,8 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
   <a href="#overview" class="active">요약</a>
   <a href="#flow">시장흐름</a>
   <a href="#issues">주요이슈</a>
-  <a href="#movers">특징주</a>
   <a href="#sectors">섹터강도</a>
+  <a href="#movers">특징주</a>
   <a href="#commodities">원자재</a>
   <a href="#crypto">크립토</a>
   <a href="#etf">ETF</a>
@@ -202,14 +202,6 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
     <div id="issCards"></div>
   </section>
 
-  <section id="movers">
-    <div class="sec-head"><span class="sec-tag green">TOP MOVERS</span><span class="sec-title">특징주 TOP 10</span></div>
-    <div class="g2">
-      <div class="card mv collapsed"><div class="mv-h up tog" onclick="this.parentNode.classList.toggle('collapsed')">▲ 상승 특징주<span class="mv-x">▾</span></div><div class="mv-body"><div id="mvUp"></div></div></div>
-      <div class="card mv collapsed"><div class="mv-h dn tog" onclick="this.parentNode.classList.toggle('collapsed')">▼ 하락 특징주<span class="mv-x">▾</span></div><div class="mv-body"><div id="mvDn"></div></div></div>
-    </div>
-  </section>
-
   <section id="sectors">
     <div class="sec-head"><span class="sec-tag gold">SECTOR STRENGTH</span><span class="sec-title">섹터 강도 보드</span>
       <span style="font-size:13px;color:var(--text3);font-weight:600;">전체 47개 · 셀 클릭 시 종목 상세</span></div>
@@ -225,6 +217,14 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
       </select>
     </div>
     <div class="heat" id="heat"></div>
+  </section>
+
+  <section id="movers">
+    <div class="sec-head"><span class="sec-tag green">TOP MOVERS</span><span class="sec-title">특징주 TOP 10</span></div>
+    <div class="g2">
+      <div class="card mv collapsed"><div class="mv-h up tog" onclick="this.parentNode.classList.toggle('collapsed')">▲ 상승 특징주<span class="mv-x">▾</span></div><div class="mv-body"><div id="mvUp"></div></div></div>
+      <div class="card mv collapsed"><div class="mv-h dn tog" onclick="this.parentNode.classList.toggle('collapsed')">▼ 하락 특징주<span class="mv-x">▾</span></div><div class="mv-body"><div id="mvDn"></div></div></div>
+    </div>
   </section>
 
   <section id="commodities">
@@ -276,7 +276,7 @@ $('#flowCards').innerHTML = DATA.flow.map(f=>
 
 // issues
 $('#issCards').innerHTML = DATA.issues.map((s,i)=>
-  `<div class="card iss${i===0?' open':''}"><div class="iss-h" onclick="this.parentNode.classList.toggle('open')">
+  `<div class="card iss${i<3?' open':''}"><div class="iss-h" onclick="this.parentNode.classList.toggle('open')">
    <div class="iss-num">${s.num}</div><div class="iss-t">${s.title}</div><div class="iss-x">+</div></div>
    <div class="iss-b">${s.paras.map(p=>`<p>${p}</p>`).join('')}</div></div>`).join('');
 
