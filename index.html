@@ -3561,11 +3561,11 @@ function _fixEarnEps(item) {
   const surpEl = actEl.querySelector('span');
   let label = surpEl ? surpEl.textContent.trim() : '';
   if (/전환/.test(label)) return;   // 흑자/적자전환은 그대로 둔다
-  let color = null;
-  if (/상회/.test(label)) color = RED;          // 예상 상회 → 빨강
-  else if (/하회/.test(label)) color = GREEN;   // 예상 하회 → 녹색
+  let color = null, estimate = false;
+  if (/상회/.test(label)) color = RED;          // 공식 서프라이즈 존재 → 빨강(정확)
+  else if (/하회/.test(label)) color = GREEN;   // 공식 서프라이즈 존재 → 녹색(정확)
   else {
-    // 라벨 없음 / '집계중'(surprise=N/A) → 실제 vs 예상 직접 비교
+    // '집계중'(surprise=N/A) → 실제·예상 EPS 직접 비교 = 추정값(공식값 오면 자동 대체)
     const actNum = _parseEpsNum(actEl.firstChild ? actEl.firstChild.nodeValue : actEl.textContent);
     let fcNum = null;
     item.querySelectorAll('.earn-eps').forEach(e => {
@@ -3576,18 +3576,29 @@ function _fixEarnEps(item) {
       label = '예상 없음'; color = GRAY;
     } else if (fcNum !== 0) {
       const pct = (actNum - fcNum) / Math.abs(fcNum) * 100;
-      if (actNum > fcNum)      { label = '▲ +' + pct.toFixed(1) + '% 상회'; color = RED; }
-      else if (actNum < fcNum) { label = '▼ ' + pct.toFixed(1) + '% 하회'; color = GREEN; }
+      if (actNum > fcNum)      { label = '▲ ≈+' + pct.toFixed(1) + '% 상회'; color = RED;   estimate = true; }
+      else if (actNum < fcNum) { label = '▼ ≈'  + pct.toFixed(1) + '% 하회'; color = GREEN; estimate = true; }
       else                     { label = '— 부합'; color = GRAY; }
     } else {
-      if (actNum > 0)      { label = '▲ 상회'; color = RED; }
-      else if (actNum < 0) { label = '▼ 하회'; color = GREEN; }
+      if (actNum > 0)      { label = '▲ ≈상회'; color = RED;   estimate = true; }
+      else if (actNum < 0) { label = '▼ ≈하회'; color = GREEN; estimate = true; }
       else                 { label = '— 부합'; color = GRAY; }
     }
     if (surpEl) surpEl.textContent = label;
     else { const s = document.createElement('span'); s.style.fontSize = '11px'; s.textContent = '  ' + label; actEl.appendChild(s); }
   }
   if (color) actEl.style.color = color;
+  if (estimate) {
+    // 직접 계산값임을 명시(회색 '추정' 마커 + 안내 title) — GAAP/non-GAAP 기준차로 공식값과 다를 수 있음
+    const sp = actEl.querySelector('span');
+    if (sp) {
+      sp.title = '실제·예상 EPS 직접계산 추정값 — 공식 서프라이즈 집계 시 자동 대체 (회계기준 차이로 공식값과 다를 수 있음)';
+      const tag = document.createElement('span');
+      tag.textContent = ' 추정';
+      tag.style.cssText = 'color:#94a3b8;font-size:9.5px;font-weight:600;';
+      sp.appendChild(tag);
+    }
+  }
 }
 
 // ═══════════════════════════════════════
