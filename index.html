@@ -586,15 +586,14 @@
   .eve-content .earn-co { font-size: 16.5px; color:var(--text3); }
   .eve-content .earn-nums { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   .eve-content .earn-eps { font-size: 16.5px; font-weight:700; color:var(--text2); }
-  /* 실적 캘린더 종목 바로가기 칩 (PER / StockAnalysis / Finviz) */
+  /* 실적 캘린더 종목 바로가기 칩 (StockAnalysis S / Finviz F) — 한국vs글로벌 .lk 스타일 동일 */
   .eve-content .earn-tk { cursor:pointer; }
   .eve-content .earn-co { cursor:pointer; }
-  .eve-content .earn-sf { display:inline-flex; gap:4px; margin-left:auto; }
-  .eve-content .earn-sf-chip { display:inline-flex; align-items:center; justify-content:center; min-width:21px; height:21px; padding:0 6px; border-radius:5px; font-size: 13px; font-weight:800; line-height:1; text-decoration:none; border:1px solid var(--border); }
-  .eve-content .earn-sf-chip.per { background:var(--purple-bg); color:var(--purple); }
-  .eve-content .earn-sf-chip.sa  { background:var(--cyan-bg);   color:var(--cyan);   }
-  .eve-content .earn-sf-chip.fv  { background:var(--gold-bg);   color:var(--gold);   }
-  .eve-content .earn-sf-chip:hover { filter:brightness(1.25); }
+  .eve-content .earn-sf { display:inline-flex; gap:3px; margin-left:auto; }
+  .eve-content .earn-sf-chip { display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:3px; font-size:10px; font-weight:700; line-height:1; text-decoration:none; background:#27405c; color:#9fc3e8; }
+  .eve-content .earn-sf-chip:hover { background:#3a5d82; color:#fff; }
+  .eve-content .earn-sf-chip.fv { background:#3a3320; color:#e8c87a; }
+  .eve-content .earn-sf-chip.fv:hover { background:#5a4e2e; color:#fff; }
   /* 실적 포인트 */
   .eve-content .sector-tag { background:var(--gold-bg); color:var(--gold); font-size: 15px; font-weight:800; padding:1px 7px; border-radius:10px; }
   .eve-content .sector-impact { font-size: 17.2px; color:var(--text3); line-height:1.65; margin-top:3px; }
@@ -3528,22 +3527,67 @@ function enhanceEarnCalendar(root) {
     tkEl.addEventListener('click', e => { e.preventDefault(); openFn(); });
     if (coEl) coEl.addEventListener('click', openFn);
 
-    // 2) PER / S / F 바로가기 칩 (헤더 우측)
+    // 2) S / F 바로가기 칩 (한국vs글로벌 .lk 스타일 동일)
     const top   = item.querySelector('.earn-top') || item;
     const saUrl = isKR
       ? 'https://stockanalysis.com/quote/krx/' + sym + '/'
       : 'https://stockanalysis.com/stocks/' + sym.toLowerCase() + '/';
     const sf = document.createElement('span');
     sf.className = 'earn-sf';
-    let html = '<a class="earn-sf-chip per" title="한국·글로벌 PER 비교" onclick="event.stopPropagation()">PER</a>'
-             + '<a class="earn-sf-chip sa" href="' + saUrl + '" target="_blank" rel="noopener" title="StockAnalysis ↗" onclick="event.stopPropagation()">S</a>';
-    if (!isKR) html += '<a class="earn-sf-chip fv" href="https://finviz.com/quote.ashx?t=' + encodeURIComponent(sym) + '" target="_blank" rel="noopener" title="Finviz ↗" onclick="event.stopPropagation()">F</a>';
+    let html = '<a class="earn-sf-chip sa" href="' + saUrl + '" target="_blank" rel="noopener" title="StockAnalysis" onclick="event.stopPropagation()">S</a>';
+    if (!isKR) html += '<a class="earn-sf-chip fv" href="https://finviz.com/quote.ashx?t=' + encodeURIComponent(sym) + '" target="_blank" rel="noopener" title="Finviz" onclick="event.stopPropagation()">F</a>';
     sf.innerHTML = html;
     top.appendChild(sf);
-    // PER 칩 → 팝업(한국·글로벌 PER 지표 표시)
-    const perChip = sf.querySelector('.per');
-    if (perChip) { perChip.style.cursor = 'pointer'; perChip.addEventListener('click', openFn); }
+
+    // 3) 실적 색상 보정(상회=빨강·하회=녹색) + '집계중' 직접 비교
+    _fixEarnEps(item);
   });
+}
+
+// 실제 EPS 표시 보정: 상회→빨강 / 하회→녹색, surprise N/A('집계중')는 실제·예상 직접 비교로 산출
+function _parseEpsNum(s) {
+  if (s == null) return null;
+  const m = String(s).replace(/,/g, '').match(/\(?\s*\$?\s*-?\d+(?:\.\d+)?\s*\)?/);
+  if (!m) return null;
+  let t = m[0]; const neg = /\(/.test(t);
+  t = t.replace(/[()$\s]/g, ''); const v = parseFloat(t);
+  if (isNaN(v)) return null;
+  return neg ? -v : v;
+}
+function _fixEarnEps(item) {
+  const RED = '#f87171', GREEN = '#10b981', GRAY = '#94a3b8';
+  const actEl = item.querySelector('.earn-actual');
+  if (!actEl) return;
+  const surpEl = actEl.querySelector('span');
+  let label = surpEl ? surpEl.textContent.trim() : '';
+  if (/전환/.test(label)) return;   // 흑자/적자전환은 그대로 둔다
+  let color = null;
+  if (/상회/.test(label)) color = RED;          // 예상 상회 → 빨강
+  else if (/하회/.test(label)) color = GREEN;   // 예상 하회 → 녹색
+  else {
+    // 라벨 없음 / '집계중'(surprise=N/A) → 실제 vs 예상 직접 비교
+    const actNum = _parseEpsNum(actEl.firstChild ? actEl.firstChild.nodeValue : actEl.textContent);
+    let fcNum = null;
+    item.querySelectorAll('.earn-eps').forEach(e => {
+      if (e !== actEl && /예상/.test(e.textContent)) fcNum = _parseEpsNum(e.textContent);
+    });
+    if (actNum == null) return;                    // 실제값 파싱 불가 → 그대로
+    if (fcNum == null) {                            // 컨센서스(예상치) 자체가 없는 종목 → 비교 대상 없음
+      label = '예상 없음'; color = GRAY;
+    } else if (fcNum !== 0) {
+      const pct = (actNum - fcNum) / Math.abs(fcNum) * 100;
+      if (actNum > fcNum)      { label = '▲ +' + pct.toFixed(1) + '% 상회'; color = RED; }
+      else if (actNum < fcNum) { label = '▼ ' + pct.toFixed(1) + '% 하회'; color = GREEN; }
+      else                     { label = '— 부합'; color = GRAY; }
+    } else {
+      if (actNum > 0)      { label = '▲ 상회'; color = RED; }
+      else if (actNum < 0) { label = '▼ 하회'; color = GREEN; }
+      else                 { label = '— 부합'; color = GRAY; }
+    }
+    if (surpEl) surpEl.textContent = label;
+    else { const s = document.createElement('span'); s.style.fontSize = '11px'; s.textContent = '  ' + label; actEl.appendChild(s); }
+  }
+  if (color) actEl.style.color = color;
 }
 
 // ═══════════════════════════════════════
