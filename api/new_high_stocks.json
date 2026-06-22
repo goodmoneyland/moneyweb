@@ -9,8 +9,19 @@
       "ud_rt": 12.34,
       "w52_hprc": 19500,
       "is_alltime": 0,
-      "is_uplimit": 0,
-      "alrm_cnt": 4
+      "is_uplimit": 1,
+      "alrm_cnt": 5
+    },
+    {
+      "itm_cd": "000890",
+      "itm_nm": "보해양조",
+      "sector": "음료",
+      "close_prc": 2580,
+      "ud_rt": 31.43,
+      "w52_hprc": 2765,
+      "is_alltime": 0,
+      "is_uplimit": 1,
+      "alrm_cnt": 3
     },
     {
       "itm_cd": "079650",
@@ -118,17 +129,6 @@
       "close_prc": 42950,
       "ud_rt": null,
       "w52_hprc": 42950,
-      "is_alltime": 0,
-      "is_uplimit": 0,
-      "alrm_cnt": 1
-    },
-    {
-      "itm_cd": "000890",
-      "itm_nm": "보해양조",
-      "sector": "음료",
-      "close_prc": 2580,
-      "ud_rt": 31.43,
-      "w52_hprc": 2765,
       "is_alltime": 0,
       "is_uplimit": 0,
       "alrm_cnt": 1
@@ -294,6 +294,17 @@
       "close_prc": 16020,
       "ud_rt": null,
       "w52_hprc": 16140,
+      "is_alltime": 0,
+      "is_uplimit": 0,
+      "alrm_cnt": 1
+    },
+    {
+      "itm_cd": "080220",
+      "itm_nm": "제주반도체",
+      "sector": "반도체와반도체장비",
+      "close_prc": 136800,
+      "ud_rt": null,
+      "w52_hprc": 138000,
       "is_alltime": 0,
       "is_uplimit": 0,
       "alrm_cnt": 1
