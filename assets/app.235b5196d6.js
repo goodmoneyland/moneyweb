@@ -223,7 +223,7 @@ function switchTab(tab, el) {
 
   // 모든 페이지 숨기기
   document.querySelectorAll('.page-inner').forEach(p => p.classList.remove('active'));
-  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','global-marketmap','global-thememap','kr-thememap','kr-sugup'].forEach(k => {
+  ['us-morning','kr-morning','report','per','peer','kr-theme','kr-marketmap','global-marketmap','global-thememap','kr-thememap','kr-sugup','dram'].forEach(k => {
     const w = document.getElementById('wrap-' + k);
     if (w) w.style.display = 'none';
   });
@@ -241,6 +241,7 @@ function switchTab(tab, el) {
   else if (tab === 'global-marketmap') { document.getElementById('wrap-global-marketmap').style.display = 'block'; }
   else if (tab === 'global-thememap') { document.getElementById('wrap-global-thememap').style.display = 'block'; }
   else if (tab === 'kr-sugup') { document.getElementById('wrap-kr-sugup').style.display = 'block'; }
+  else if (tab === 'dram') { document.getElementById('wrap-dram').style.display = 'block'; }
   else if (tab === 'peer') { document.getElementById('wrap-peer').style.display = 'block';
     var _pf = document.getElementById('page-peer');
     if (_pf && !_pf.src) { _pf.src = _pf.getAttribute('data-src') + '?v=' + Date.now(); }  // 캐시버스터: 최신 peer 페이지 로드

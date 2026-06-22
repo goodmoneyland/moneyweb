@@ -176,6 +176,11 @@
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v13M7 4l-3 3M7 4l3 3"/><path d="M17 20V7M17 20l3-3M17 20l-3-3"/></svg></span> 수급&amp;RS
   </div>
 
+  <!-- 메모리가격 : DRAM 현물·ETF -->
+  <div class="ntab" data-tab="dram" onclick="switchTab('dram',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="8" rx="1"/><path d="M8 8V5M12 8V5M16 8V5M8 19v-3M12 19v-3M16 19v-3M2 11h3M2 14h3M19 11h3M19 14h3"/></svg></span> 메모리가격
+  </div>
+
   <div class="side-divider"></div>
 
   <!-- 트럼프SNS : 확성기(액센트) -->
@@ -410,6 +415,11 @@
   <!-- ── 수급 매트릭스 (iframe) ── -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;" id="wrap-kr-sugup">
     <iframe id="page-kr-sugup" src="/moneyweb/sugup.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  </div>
+
+  <!-- ── 메모리가격 DRAM (iframe) ── -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;overflow:auto;" id="wrap-dram">
+    <iframe id="page-dram" src="/moneyweb/dram.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
   <!-- ── US모닝브리핑 (iframe) ── -->
@@ -772,6 +782,6 @@
 </div>
 </div>
 
-<script src="/assets/app.4c795ebe0e.js"></script>
+<script src="/assets/app.d1bc28b9e3.js"></script>
 </body>
 </html>
