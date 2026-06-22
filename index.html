@@ -1846,7 +1846,11 @@ fetch('/briefing_index.json?t=' + Date.now())
 
 // ═══════════════════════════════════════
 // 새 버전 자동 감지 — SPA는 한 번 열면 메모리에 남아 배포를 못 보므로,
-// 배포 시 갱신되는 version.json(build 시각)을 2분마다 확인 → 바뀌면 새로고침 배너.
+// 배포 시 갱신되는 version.json(build = SPA 콘텐츠 해시)을 2분마다 확인.
+//   • build는 '배포 시각'이 아니라 'index.html 콘텐츠 해시'(deploy_briefing.py) →
+//     브리핑/시세 JSON만 바뀐 배포에선 build가 그대로라 아무 신호도 안 남.
+//   • 진짜 SPA 셸이 바뀐 배포에서만 build가 달라짐 → 그때도 배너로 조르지 않고
+//     '안전한 순간'(탭 전환·포커스 복귀·화면 숨김·장시간 무동작)에 무음 새로고침.
 // (HTTP 캐시는 origin no-store + Cloudflare DYNAMIC으로 이미 꺼져 있음 — 문제는 '열어둔 앱'이 안 바뀌는 것뿐)
 // ═══════════════════════════════════════
 var APP_BUILD = null;
@@ -1857,38 +1861,36 @@ function _checkVersion() {
     .then(j => {
       if (!j || !j.build) return;
       if (APP_BUILD === null) { APP_BUILD = j.build; return; }   // 최초 1회: 현재 버전 기록
-      if (j.build > APP_BUILD) {                                 // 이후 더 새 버전 배포 감지
+      if (j.build !== APP_BUILD) {                               // 콘텐츠 해시가 바뀜 = 진짜 새 SPA
         _updatePending = true;
-        _showUpdateBanner();
-        // 화면을 안 보고 있으면(다른 탭/최소화) 지금 조용히 새로고침 — 사용자가 돌아오면 이미 최신
-        if (document.hidden) _applyUpdate();
+        _applyUpdate();   // 지금이 안전하면 즉시, 아니면 안전한 순간까지 대기
       }
     })
     .catch(() => {});
 }
-// 자동 적용: 사용자가 입력 중이 아니면 새로고침(해시 라우팅이라 보던 탭 유지)
+// 무음 자동 적용: 입력 중이 아니면 조용히 새로고침(해시 라우팅이라 보던 탭 유지). 배너 없음.
 function _applyUpdate() {
   if (!_updatePending) return;
   var ae = document.activeElement;
   var typing = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
-  if (typing) return;   // 글 작성 중이면 방해 안 함(배너는 남아 있음)
+  if (typing) return;   // 글 작성·검색 중이면 방해 안 함 — 다음 안전한 순간에 다시 시도
   if (typeof hardReload === 'function') hardReload(); else location.reload(true);
 }
-// 사용자가 탭으로 돌아오는 순간(포커스 복귀) 새 버전 있으면 자동 새로고침 — 무동작·무방해
-document.addEventListener('visibilitychange', function () { if (!document.hidden) _applyUpdate(); });
+// 안전한 순간 트리거 — 사용자가 자리를 비우거나(숨김) 돌아오거나(포커스/복귀),
+// 앱 안에서 탭을 옮기는 순간(해시 변경)에 새 버전이 있으면 무음 적용.
+document.addEventListener('visibilitychange', _applyUpdate);   // 숨김/복귀 양쪽 모두
 window.addEventListener('focus', _applyUpdate);
-function _showUpdateBanner() {
-  if (document.getElementById('update-banner')) return;
-  var b = document.createElement('div');
-  b.id = 'update-banner';
-  b.textContent = '🔄 새 버전이 배포되었어요 — 탭하여 새로고침';
-  b.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:99999;'
-    + 'background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;font-weight:700;font-size:14px;'
-    + 'padding:11px 22px;border-radius:30px;box-shadow:0 8px 28px rgba(0,0,0,.5);cursor:pointer;'
-    + "font-family:'Noto Sans KR',sans-serif;white-space:nowrap;";
-  b.onclick = function () { if (typeof hardReload === 'function') hardReload(); else location.reload(true); };
-  document.body.appendChild(b);
+window.addEventListener('hashchange', _applyUpdate);
+// 장시간 무동작 폴백 — 화면을 보고 있어도 60초간 아무 입력/스크롤이 없으면 조용히 갱신.
+var _idleTimer = null;
+function _resetIdle() {
+  if (_idleTimer) clearTimeout(_idleTimer);
+  _idleTimer = setTimeout(function () { _applyUpdate(); }, 60000);
 }
+['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'wheel'].forEach(function (ev) {
+  window.addEventListener(ev, _resetIdle, { passive: true });
+});
+_resetIdle();
 _checkVersion();
 setInterval(_checkVersion, 120000);
 
@@ -3094,29 +3096,68 @@ async function loadKRCard(src) {
     const html = await res.text();
     const doc = new DOMParser().parseFromString(html, 'text/html');
 
-    const sumRows = doc.querySelectorAll('.sum-row');
     let out = '';
 
-    if (sumRows.length > 0) {
-      const firstTag = sumRows[0].querySelector('.sum-tag');
-      const firstDesc = sumRows[0].querySelector('.sum-desc');
-      const title = firstTag ? firstTag.textContent.trim() : '';
-      const desc = firstDesc ? firstDesc.textContent.trim() : '';
-      if (title || desc) out += `<div class="brief-issue">${title}${title && desc ? ': ' : ''}${desc}</div>`;
-    }
+    // ① v2 웹포털 양식: 뉴스카드(.ncard: .nkick 섹터 / .nhead 헤드라인 / openPopup 관련주)
+    const cards = Array.from(doc.querySelectorAll('.ncard'));
+    if (cards.length > 0) {
+      const headOf = c => { const h = c.querySelector('.nhead'); return h ? h.textContent.trim() : ''; };
+      const kickOf = c => { const k = c.querySelector('.nkick'); return k ? k.textContent.trim() : ''; };
+      const stockOf = c => {
+        const p = c.querySelector('[onclick*="openPopup"]');
+        if (!p) return null;
+        const m = (p.getAttribute('onclick') || '').match(/openPopup\('([^']*)','([^']*)'\)/);
+        if (m) return { code: m[1], name: m[2] };
+        const t = p.textContent.trim();
+        return t ? { code: '', name: t } : null;
+      };
 
-    if (sumRows.length > 0) {
+      // 첫 카드 헤드라인 = 핵심 이슈 줄
+      const firstHead = headOf(cards[0]);
+      if (firstHead) {
+        const k = kickOf(cards[0]);
+        out += `<div class="brief-issue">${k ? k + ': ' : ''}${firstHead}</div>`;
+      }
+
+      // 이후 카드 = 관련종목 + 헤드라인 행 (최대 3개)
       out += '<div class="brief-stocks">';
-      for (let i = 1; i < Math.min(4, sumRows.length); i++) {
-        const tag = sumRows[i].querySelector('.sum-tag');
-        const desc = sumRows[i].querySelector('.sum-desc');
-        if (tag) {
-          const nm = tag.textContent.trim();
-          const newsText = desc ? desc.textContent.trim() : '';
-          out += `<div class="brief-stock-row"><span class="brief-stock-name kr-stock" style="flex-shrink:0;" onclick="openKrStockByName('${nm}');event.stopPropagation();">${nm}</span>${newsText ? `<span style="font-size:16.5px;color:var(--text);font-weight:600;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-left:8px;">${newsText}</span>` : ''}</div>`;
-        }
+      let n = 0;
+      for (let i = 1; i < cards.length && n < 3; i++) {
+        const st = stockOf(cards[i]);
+        if (!st) continue;
+        const hd = headOf(cards[i]);
+        const safeNm = st.name.replace(/'/g, "\\'");
+        const click = st.code
+          ? `openKrStock('${st.code}','${safeNm}')`
+          : `openKrStockByName('${safeNm}')`;
+        out += `<div class="brief-stock-row"><span class="brief-stock-name kr-stock" style="flex-shrink:0;" onclick="${click};event.stopPropagation();">${st.name}</span>${hd ? `<span style="font-size:16.5px;color:var(--text);font-weight:600;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-left:8px;">${hd}</span>` : ''}</div>`;
+        n++;
       }
       out += '</div>';
+    }
+
+    // ② v1 슬라이드(구 .sum-row 양식) 폴백
+    if (!out) {
+      const sumRows = doc.querySelectorAll('.sum-row');
+      if (sumRows.length > 0) {
+        const firstTag = sumRows[0].querySelector('.sum-tag');
+        const firstDesc = sumRows[0].querySelector('.sum-desc');
+        const title = firstTag ? firstTag.textContent.trim() : '';
+        const desc = firstDesc ? firstDesc.textContent.trim() : '';
+        if (title || desc) out += `<div class="brief-issue">${title}${title && desc ? ': ' : ''}${desc}</div>`;
+
+        out += '<div class="brief-stocks">';
+        for (let i = 1; i < Math.min(4, sumRows.length); i++) {
+          const tag = sumRows[i].querySelector('.sum-tag');
+          const d = sumRows[i].querySelector('.sum-desc');
+          if (tag) {
+            const nm = tag.textContent.trim();
+            const newsText = d ? d.textContent.trim() : '';
+            out += `<div class="brief-stock-row"><span class="brief-stock-name kr-stock" style="flex-shrink:0;" onclick="openKrStockByName('${nm}');event.stopPropagation();">${nm}</span>${newsText ? `<span style="font-size:16.5px;color:var(--text);font-weight:600;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-left:8px;">${newsText}</span>` : ''}</div>`;
+          }
+        }
+        out += '</div>';
+      }
     }
 
     body.innerHTML = out || '<div style="color:var(--muted);font-size: 18px;">데이터 없음</div>';
