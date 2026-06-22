@@ -1,0 +1,155 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메모리 가격 · DRAM</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1d212a;--line:#262b36;--txt:#e6e9ef;--mut:#8b93a3;
+--up:#ff5b5b;--dn:#3b82f6;--teal:#1ea97c;--purple:#8b7ff0;--gray:#6b7280;--amber:#d99a2b;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:13px/1.5 -apple-system,"Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px 18px 60px}
+.hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.hd h1{margin:0;font-size:18px;font-weight:700}
+.hd .as{color:var(--mut);font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .l{color:var(--mut);font-size:12px;margin-bottom:6px}
+.kpi .v{font-size:21px;font-weight:700;line-height:1.1}
+.kpi .s{font-size:12px;margin-top:5px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-bottom:14px}
+.sec{font-size:15px;font-weight:700;margin:0}
+.secd{color:var(--mut);font-size:12px;margin:4px 0 12px}
+.btn{background:var(--panel2);color:var(--mut);border:1px solid var(--line);padding:5px 11px;border-radius:7px;cursor:pointer;font-size:12px}
+.btn.on{background:#2a3140;color:#fff;border-color:#3a4250}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--mut);margin:2px 0 8px}
+.legend span{display:flex;align-items:center;gap:5px}.legend i{width:11px;height:11px;border-radius:3px}
+table{width:100%;border-collapse:collapse}
+.tbl td{padding:8px 6px;border-bottom:1px solid #1f2430;font-size:13px}
+.tbl tr.row{cursor:pointer}.tbl tr.row:hover{background:#1b1f27}.tbl tr.sel{background:#1e2738}
+.tbl .px{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.tbl .chg{text-align:right;width:78px}
+.tbl .ar{width:16px;color:var(--mut);text-align:center}
+.grp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--mut);padding:12px 6px 4px}
+.new{font-size:10px;color:#7fdca0;background:#1c3026;border-radius:4px;padding:1px 5px;margin-left:6px}
+.hbar{height:7px;border-radius:4px;background:#222732;overflow:hidden}.hbar>i{display:block;height:100%;border-radius:4px}
+.up{color:var(--up)}.dn{color:var(--dn)}.mut{color:var(--mut)}
+.loading{padding:40px;text-align:center;color:var(--mut)}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body>
+<div class="wrap" id="root"><div class="loading">불러오는 중…</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const UP="#ff5b5b",DN="#3b82f6",MUT="#8b93a3",GRID="rgba(255,255,255,.06)";
+const fmtPx=p=>'$'+(p>=100?p.toLocaleString(undefined,{maximumFractionDigits:2}):(+p).toFixed(p<20?3:2));
+const badge=ch=>{if(ch==null)return '<span class="mut" style="font-size:12px">—</span>';
+  const up=ch>=0,c=up?UP:DN,bg=up?'rgba(255,91,91,.12)':'rgba(59,130,246,.12)';
+  return `<span style="color:${c};background:${bg};padding:2px 7px;border-radius:6px;font-size:12px;font-weight:600;white-space:nowrap">${up?'▲':'▼'} ${Math.abs(ch).toFixed(2)}%</span>`;};
+
+function render(d){
+  const root=document.getElementById('root');
+  const dxi=d.dxi||{value:0,chg:0};
+  const find=tid=>{for(const g of d.spot)for(const r of g[2])if(r[3]==tid)return r;return null;};
+  const ddr4=find(471)||[,35.9,0],ddr5=find(475)||[,46,0];
+  const mDram=(d.monthly.dram||d.monthly.ddr4_8gb||{v:[]});
+  const etf=d.etf||{};
+  root.innerHTML=`
+    <div class="hd"><h1>메모리 가격 · DRAM</h1><div class="as"><span class="mut">기준일</span> ${d.as_of||''}</div></div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">DXI 지수</div><div class="v">${Math.round(dxi.value).toLocaleString()}</div><div class="s ${dxi.chg>=0?'up':'dn'}">${dxi.chg>=0?'▲':'▼'} ${Math.abs(dxi.chg).toFixed(2)}%</div></div>
+      <div class="kpi"><div class="l">DDR4 8Gb</div><div class="v">${fmtPx(ddr4[1])}</div><div class="s">${badge(ddr4[2])}</div></div>
+      <div class="kpi"><div class="l">DDR5 16Gb</div><div class="v">${fmtPx(ddr5[1])}</div><div class="s">${badge(ddr5[2])}</div></div>
+      <div class="kpi"><div class="l">월 평균 현물</div><div class="v">$${(mDram.v.slice(-1)[0]||0).toFixed(2)}</div><div class="s mut">${(mDram.m||[]).slice(-1)[0]||''}</div></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div><div class="sec" id="chT">현물가 장기 추이</div><div class="secd" id="chS">월별 DRAM·NAND · 종목 클릭 시 일별 전환</div></div>
+        <button class="btn on" id="bOv">개요</button>
+      </div>
+      <div class="legend" id="chL"></div>
+      <div style="position:relative;height:250px"><canvas id="c1"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="sec">현물가 상세 <span class="mut" style="font-size:12px;font-weight:400">· 클릭 시 위 차트 전환</span></div>
+      <div class="secd">TrendForce 공개 현물 · 매일 자동 갱신</div>
+      <table class="tbl"><tbody id="spot"></tbody></table>
+    </div>
+    <div class="card">
+      <div class="sec">Roundhill Memory ETF <span class="mut" style="font-size:12px;font-weight:400">· ${etf.meta?etf.meta.ticker:'DRAM'} · 상장 ${etf.meta?etf.meta.inception:''}</span></div>
+      <div class="secd">발행사 공식 데이터 · 종가 Yahoo Finance</div>
+      <div class="kpis" style="margin-bottom:13px">
+        <div class="kpi"><div class="l">AUM</div><div class="v">$${(etf.aum/1e9).toFixed(2)}B</div><div class="s mut">NAV $${(+etf.nav).toFixed(2)}</div></div>
+        <div class="kpi"><div class="l">순유입(주)</div><div class="v ${etf.net_flow>=0?'up':'dn'}">${etf.net_flow>=0?'+':''}${(etf.net_flow/1e4).toFixed(0)}만</div><div class="s mut">발행 ${(etf.shares/1e6).toFixed(1)}M</div></div>
+        <div class="kpi"><div class="l">시장 종가</div><div class="v">$${(+etf.price).toFixed(2)}</div><div class="s mut">괴리 ${(((etf.price-etf.nav)/etf.nav)*100).toFixed(2)}%</div></div>
+        <div class="kpi"><div class="l">보유종목</div><div class="v">${etf.holdings.length}종</div><div class="s mut">${etf.as_of||''}</div></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--teal)"></i>AUM ($B,좌)</span><span><i style="background:${UP}"></i>종가 ($,우)</span></div>
+      <div style="position:relative;height:230px"><canvas id="c2"></canvas></div>
+      <div style="font-size:13px;font-weight:700;margin:18px 0 10px">구성종목 <span class="mut" style="font-weight:400">· 비중순</span></div>
+      <div id="hold"></div>
+    </div>`;
+
+  // 현물 테이블
+  let html='';
+  for(const g of d.spot){html+=`<tr><td class="grp" colspan="4">${g[1]}</td></tr>`;
+    for(const r of g[2]){
+      html+=`<tr class="row" data-tid="${r[3]}"><td>${r[0]}</td><td class="px">${fmtPx(r[1])}</td><td class="chg">${badge(r[2])}</td><td class="ar">›</td></tr>`;}}
+  document.getElementById('spot').innerHTML=html;
+  document.querySelectorAll('#spot tr.row').forEach(tr=>tr.onclick=()=>{
+    document.querySelectorAll('#spot tr.sel').forEach(x=>x.classList.remove('sel'));tr.classList.add('sel');
+    showSku(d,+tr.dataset.tid);});
+  document.getElementById('bOv').onclick=()=>overview(d);
+
+  // 보유종목 막대
+  const mx=Math.max(...etf.holdings.map(h=>h[2]).filter(w=>w>0));
+  document.getElementById('hold').innerHTML=etf.holdings.filter(h=>h[2]>0).map(h=>{
+    const sw=(h[1]||'').includes('TRS'),cash=h[3]===1;
+    const col=sw?'var(--purple)':(cash?'var(--gray)':'var(--teal)'),tag=sw?'스왑':(cash?'현금성':'주식');
+    return `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px"><span>${h[0]} <span class="mut" style="font-size:11px">${tag}</span></span><span style="font-weight:600">${h[2].toFixed(2)}%</span></div><div class="hbar"><i style="width:${h[2]/mx*100}%;background:${col}"></i></div></div>`;
+  }).join('');
+
+  drawEtf(etf);
+  overview(d);
+}
+
+let c1,c2;
+function baseOpts(){return{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.dataset.label?c.dataset.label+': ':'')+'$'+(+c.parsed.y).toFixed(2)}}},
+  scales:{x:{ticks:{autoSkip:true,maxTicksLimit:10,color:MUT,font:{size:10}},grid:{display:false}},
+          y:{ticks:{callback:v=>'$'+v,color:MUT,font:{size:11}},grid:{color:GRID}}}};}
+function setC1(cfg){if(c1)c1.destroy();c1=new Chart(document.getElementById('c1'),cfg);}
+function overview(d){
+  document.getElementById('chT').textContent='현물가 장기 추이';
+  document.getElementById('chS').innerHTML='월별 DRAM·NAND · <span class="mut">종목 클릭 시 일별 전환</span>';
+  document.getElementById('chL').innerHTML=`<span><i style="background:${UP}"></i>DRAM 현물</span><span><i style="background:var(--amber)"></i>NAND 웨이퍼</span>`;
+  document.getElementById('bOv').classList.add('on');
+  document.querySelectorAll('#spot tr.sel').forEach(x=>x.classList.remove('sel'));
+  const dr=d.monthly.dram||d.monthly.ddr4_8gb||{m:[],v:[]}, na=d.monthly.nand||{m:[],v:[]};
+  setC1({type:'line',data:{labels:dr.m,datasets:[
+    {label:'DRAM',data:dr.v,borderColor:UP,backgroundColor:'rgba(255,91,91,.08)',fill:true,borderWidth:2,pointRadius:0,tension:.2},
+    {label:'NAND',data:na.v,borderColor:'#d99a2b',borderDash:[5,4],borderWidth:1.8,pointRadius:0,tension:.2}]},options:baseOpts()});
+}
+function showSku(d,tid){
+  document.getElementById('bOv').classList.remove('on');
+  const s=d.series[tid];const r=(()=>{for(const g of d.spot)for(const x of g[2])if(x[3]==tid)return x;})()||[];
+  const name=(s&&s.name)||r[0]||('#'+tid);
+  document.getElementById('chT').textContent=name;
+  document.getElementById('chL').innerHTML=`<span><i style="background:${UP}"></i>${name}</span>`;
+  if(s){document.getElementById('chS').textContent=`일별 현물 추이 · ${s.d[0]} ~ ${s.d.slice(-1)[0]} (${s.d.length}p)`;
+    setC1({type:'line',data:{labels:s.d.map(x=>x.slice(5)),datasets:[{label:name,data:s.v,borderColor:UP,backgroundColor:'rgba(255,91,91,.08)',fill:true,borderWidth:2,pointRadius:0,tension:.18}]},options:baseOpts()});}
+  else{document.getElementById('chS').innerHTML=`현재 ${fmtPx(r[1])} · <span class="mut">일별 데이터 누적 중</span>`;
+    setC1({type:'line',data:{labels:[(r[4]||'').slice(5)||'now'],datasets:[{label:name,data:[r[1]],borderColor:UP,pointRadius:5,pointBackgroundColor:UP}]},options:baseOpts()});}
+}
+function drawEtf(etf){const s=etf.series;
+  c2=new Chart(document.getElementById('c2'),{data:{labels:s.d,datasets:[
+    {type:'bar',label:'AUM',data:s.aum,backgroundColor:'rgba(30,169,124,.45)',yAxisID:'y',order:2},
+    {type:'line',label:'종가',data:s.px,borderColor:UP,borderWidth:2,pointRadius:0,tension:.2,yAxisID:'y1',order:1}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+(c.dataset.label==='AUM'?': $'+c.parsed.y+'B':': $'+(+c.parsed.y).toFixed(2))}}},
+      scales:{x:{ticks:{autoSkip:true,maxTicksLimit:8,color:MUT,font:{size:10}},grid:{display:false}},
+              y:{position:'left',ticks:{callback:v=>'$'+v+'B',color:MUT,font:{size:11}},grid:{color:GRID}},
+              y1:{position:'right',ticks:{callback:v=>'$'+v,color:MUT,font:{size:11}},grid:{display:false}}}}});
+}
+
+fetch('/moneyweb/api/dram_dashboard.json?_='+Date.now()).then(r=>r.json()).then(render)
+  .catch(e=>{document.getElementById('root').innerHTML='<div class="loading">데이터를 불러오지 못했습니다.<br>'+e+'</div>';});
+</script></body></html>
