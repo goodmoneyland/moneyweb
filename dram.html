@@ -73,6 +73,12 @@ function render(d){
       <div class="secd">TrendForce 공개 현물 · 매일 자동 갱신</div>
       <table class="tbl"><tbody id="spot"></tbody></table>
     </div>
+    <div class="card" id="customsCard" style="display:none">
+      <div class="sec">메모리 수출단가 <span class="mut" style="font-size:12px;font-weight:400">· 관세청 · 계약 ASP 프록시</span></div>
+      <div class="secd">HS 854232 월별 수출금액÷중량 ($천/kg) · 2018~ · 대량수출=사실상 계약물량 반영</div>
+      <div class="legend"><span><i style="background:${UP}"></i>DRAM(디램)</span><span><i style="background:#d99a2b"></i>NAND(플래시)</span></div>
+      <div style="position:relative;height:230px"><canvas id="c3"></canvas></div>
+    </div>
     <div class="card">
       <div class="sec">Roundhill Memory ETF <span class="mut" style="font-size:12px;font-weight:400">· ${etf.meta?etf.meta.ticker:'DRAM'} · 상장 ${etf.meta?etf.meta.inception:''}</span></div>
       <div class="secd">발행사 공식 데이터 · 종가 Yahoo Finance</div>
@@ -108,7 +114,19 @@ function render(d){
   }).join('');
 
   drawEtf(etf);
+  drawCustoms(d.customs);
   overview(d);
+}
+function drawCustoms(cs){
+  if(!cs||!cs.dram||!cs.dram.v.length)return;
+  document.getElementById('customsCard').style.display='block';
+  new Chart(document.getElementById('c3'),{type:'line',data:{labels:cs.dram.m,datasets:[
+    {label:'DRAM',data:cs.dram.v,borderColor:UP,backgroundColor:'rgba(255,91,91,.06)',fill:true,borderWidth:2,pointRadius:0,tension:.2},
+    {label:'NAND',data:cs.nand?cs.nand.v:[],borderColor:'#d99a2b',borderDash:[5,4],borderWidth:1.8,pointRadius:0,tension:.2}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y+'k/kg'}}},
+      scales:{x:{ticks:{autoSkip:true,maxTicksLimit:10,color:MUT,font:{size:10}},grid:{display:false}},
+              y:{ticks:{callback:v=>'$'+v+'k',color:MUT,font:{size:11}},grid:{color:GRID}}}}});
 }
 
 let c1,c2;
