@@ -492,7 +492,11 @@ async function load() {
       const curr = lp?.curr_prc;
       if (!base || base <= 0 || !curr || curr <= 0) return;  // 시세 없는 종목 제외
       const ud_prc = curr - base;
-      const nxt_rt = base ? (ud_prc / base) * 100 : 0;  // NXT 시간외: 본장 종가 대비
+      // NXT 등락률: NXT 거래종목은 NXT API 자체 등락률(prdy_ctrt)을 그대로 사용 → NXT 화면과 정확히 일치.
+      // 그 외(종가 스냅샷만 있는 미거래 종목)는 본장 종가 대비 역산(curr==base → 0%).
+      const nxt_rt = (lp?.src === 'NXT' && lp?.ud_rt != null)
+        ? lp.ud_rt
+        : (base ? (ud_prc / base) * 100 : 0);
       const reg_rt = cp?.ud_rt ?? 0;                    // 정규장: 전일 종가 대비
       stocks.push({
         ...m, base, curr_prc: curr, ud_prc,
