@@ -3033,29 +3033,44 @@ async function loadUSCard(src) {
   try {
     const res = await fetch(src);
     const html = await res.text();
-    const doc = new DOMParser().parseFromString(html, 'text/html');
 
-    // 이슈 3개
-    const issueEls = doc.querySelectorAll('.issue-title');
-    const issues = Array.from(issueEls).slice(0, 3);
+    // 이슈 3개 / 상승 종목 3개
+    let issues = [];   // [문자열]
+    let stocks = [];   // [{name, pct}]
 
-    // 상승 종목 3개 (가로)
-    const upRows = doc.querySelectorAll('.mover-row.up-row');
-    const stocks = [];
-    for (let i = 0; i < Math.min(3, upRows.length); i++) {
-      const nm = upRows[i].querySelector('.m-name');
-      const pct = upRows[i].querySelector('.m-pct');
-      if (nm && pct) {
-        const nameText = (nm.firstChild && nm.firstChild.nodeType === 3)
-          ? nm.firstChild.textContent.trim() : nm.textContent.trim();
-        stocks.push({ name: nameText, pct: pct.textContent.trim() });
+    // ① v2 웹포털 양식: 페이지에 const DATA = {...}; (issues / movers_up) 임베드
+    //    (JSON 안에는 세미콜론이 없으므로 첫 "};" 가 DATA 종료점)
+    const dm = html.match(/const\s+DATA\s*=\s*(\{[\s\S]*?\})\s*;/);
+    if (dm) {
+      try {
+        const DATA = JSON.parse(dm[1]);
+        issues = (DATA.issues || []).slice(0, 3).map(it => (it.title || '').trim()).filter(Boolean);
+        stocks = (DATA.movers_up || []).slice(0, 3)
+          .map(s => ({ name: (s.name || '').trim(), pct: (s.pct || '').trim() }))
+          .filter(s => s.name);
+      } catch (e) { /* DATA 파싱 실패 → 아래 v1 폴백 */ }
+    }
+
+    // ② v1 슬라이드(구 양식) 폴백
+    if (issues.length === 0 && stocks.length === 0) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      issues = Array.from(doc.querySelectorAll('.issue-title')).slice(0, 3).map(el => el.textContent.trim());
+      const upRows = doc.querySelectorAll('.mover-row.up-row');
+      for (let i = 0; i < Math.min(3, upRows.length); i++) {
+        const nm = upRows[i].querySelector('.m-name');
+        const pct = upRows[i].querySelector('.m-pct');
+        if (nm && pct) {
+          const nameText = (nm.firstChild && nm.firstChild.nodeType === 3)
+            ? nm.firstChild.textContent.trim() : nm.textContent.trim();
+          stocks.push({ name: nameText, pct: pct.textContent.trim() });
+        }
       }
     }
 
     let out = '';
     if (issues.length > 0) {
-      issues.forEach((el, i) => {
-        out += `<div class="brief-issue-row"><span class="issue-num">${i+1}</span><span class="brief-issue">${el.textContent.trim()}</span></div>`;
+      issues.forEach((t, i) => {
+        out += `<div class="brief-issue-row"><span class="issue-num">${i+1}</span><span class="brief-issue">${t}</span></div>`;
       });
     }
     if (stocks.length > 0) {
