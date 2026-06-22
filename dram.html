@@ -43,6 +43,13 @@ table{width:100%;border-collapse:collapse}
 <div class="wrap" id="root"><div class="loading">불러오는 중…</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+// 머니랜드 워터마크 — 모든 차트 공통
+const ML_WM={id:'mlwm',afterDraw(c){const x=c.ctx,a=c.chartArea;if(!a)return;
+  x.save();x.globalAlpha=0.07;x.fillStyle='#fff';
+  x.font='700 '+Math.max(13,Math.min(34,(a.right-a.left)/12))+'px sans-serif';
+  x.textAlign='center';x.textBaseline='middle';
+  x.fillText('moneyland.co.kr',(a.left+a.right)/2,(a.top+a.bottom)/2);x.restore();}};
+Chart.register(ML_WM);
 const UP="#ff5b5b",DN="#3b82f6",MUT="#8b93a3",GRID="rgba(255,255,255,.06)";
 const fmtPx=p=>'$'+(p>=100?p.toLocaleString(undefined,{maximumFractionDigits:2}):(+p).toFixed(p<20?3:2));
 const badge=ch=>{if(ch==null)return '<span class="mut" style="font-size:12px">—</span>';

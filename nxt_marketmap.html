@@ -437,6 +437,15 @@ function buildTreemap(container, stocks) {
     sectorHighlights[sec.data.name] = hl;
   });
 
+  // ── 머니랜드 워터마크 ──
+  svg.append('text')
+    .attr('x', W / 2).attr('y', H / 2)
+    .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+    .attr('fill', '#ffffff').attr('opacity', 0.06)
+    .attr('font-size', Math.max(24, W / 12) + 'px').attr('font-weight', '700')
+    .attr('letter-spacing', '0.1em').style('pointer-events', 'none')
+    .text('moneyland.co.kr');
+
   wrap.appendChild(svg.node());
 }
 
