@@ -9,7 +9,7 @@
 <title>윈올 리포트 2026-06-22</title>
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:#070d1a; color:#e2e8f0; font-family:"Noto Sans KR",sans-serif; font-size:12px; }
+  body { background:#070d1a; color:#e2e8f0; font-family:"Noto Sans KR",sans-serif; font-size:12px; position:relative; }
   .header { background:#0f1829; border-bottom:1px solid #1e2d47; padding:14px 20px; display:flex; align-items:center; gap:16px; }
   .header-title { font-size:16px; font-weight:800; color:#fbbf24; }
   .header-sub { font-size:12px; color:#64748b; }
@@ -38,19 +38,19 @@
     .table-wrap { display:none; }
     .report-cards { display:block; padding:8px 10px 30px; }
   }
-  .ml-wm-fixed { position:fixed; left:0; right:0; top:50%; transform:translateY(-50%);
-    text-align:center; font:800 8vw/1 sans-serif; color:#fff; opacity:.11;
-    letter-spacing:.15em; pointer-events:none; z-index:9; white-space:nowrap; overflow:hidden; }
+  .ml-wm-tile { position:absolute; inset:0; z-index:9; pointer-events:none; overflow:hidden;
+    background-repeat:repeat; background-position:center;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='340'%3E%3Ctext x='310' y='180' fill='%23ffffff' fill-opacity='0.11' font-size='38' font-weight='700' text-anchor='middle' font-family='sans-serif' transform='rotate(-18 310 180)'%3Emoneyland.co.kr%3C/text%3E%3C/svg%3E"); }
 </style>
 </head>
 <body>
-<div class="ml-wm-fixed">moneyland.co.kr</div>
+<div class="ml-wm-tile"></div>
 <div class="header">
   <div class="header-title">📋 윈올 리포트</div>
   <div class="header-sub">2026-06-22</div>
   <div class="badge">총 40건</div>
   <div style="margin-left:auto;font-size:11px;color:#64748b;">목표가 상향률 높은 순</div>
-  <div style="margin-left:16px;font-size:11px;color:#94a3b8;">업데이트: 2026-06-22 19:25</div>
+  <div style="margin-left:16px;font-size:11px;color:#94a3b8;">업데이트: 2026-06-22 19:41</div>
 </div>
 <div class="table-wrap">
 <table>
