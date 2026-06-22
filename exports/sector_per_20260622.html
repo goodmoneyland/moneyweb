@@ -17,7 +17,7 @@
   * { box-sizing:border-box; margin:0; padding:0; }
   html,body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif;
                min-height:100vh; }
-  body { padding:20px; }
+  body { padding:20px; position:relative; }
   .page-header { display:flex; align-items:center; justify-content:space-between;
                   margin-bottom:14px; }
   .section-tag { display:inline-block; padding:5px 14px; border-radius:6px;
@@ -75,14 +75,14 @@
     .section-tag { font-size:11px; padding:4px 9px; }
     .time-badge { font-size:11px; }
   }
-  .ml-wm-fixed { position:fixed; left:0; right:0; top:50%; transform:translateY(-50%);
-    text-align:center; font:800 8vw/1 sans-serif; color:#fff; opacity:.11;
-    letter-spacing:.15em; pointer-events:none; z-index:9; white-space:nowrap; overflow:hidden; }
+  .ml-wm-tile { position:absolute; inset:0; z-index:9; pointer-events:none; overflow:hidden;
+    background-repeat:repeat; background-position:center;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='340'%3E%3Ctext x='310' y='180' fill='%23ffffff' fill-opacity='0.11' font-size='38' font-weight='700' text-anchor='middle' font-family='sans-serif' transform='rotate(-18 310 180)'%3Emoneyland.co.kr%3C/text%3E%3C/svg%3E"); }
 </style>
 </head>
 <body>
-<div class="ml-wm-fixed">moneyland.co.kr</div>
-<div style="position:fixed;top:14px;right:18px;z-index:300;font-size:11px;color:#fbbf24;background:#1e3a8a;padding:4px 12px;border-radius:8px;font-weight:600;pointer-events:none;border:1px solid rgba(251,191,36,0.4);">업데이트: 2026-06-22 19:28</div>
+<div class="ml-wm-tile"></div>
+<div style="position:fixed;top:14px;right:18px;z-index:300;font-size:11px;color:#fbbf24;background:#1e3a8a;padding:4px 12px;border-radius:8px;font-weight:600;pointer-events:none;border:1px solid rgba(251,191,36,0.4);">업데이트: 2026-06-22 19:41</div>
   <div class="page-header">
     <div class="section-tag blue">시총 상위 100 · FWD PER (KOSPI·KOSDAQ)</div>
     <div class="time-badge">stc_itm · MPRC_TAMT 기준 · 2026년 06월 22일</div>
