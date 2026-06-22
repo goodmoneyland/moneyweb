@@ -45,7 +45,7 @@ table{width:100%;border-collapse:collapse}
 <script>
 // 머니랜드 워터마크 — 모든 차트 공통
 const ML_WM={id:'mlwm',afterDraw(c){const x=c.ctx,a=c.chartArea;if(!a)return;
-  x.save();x.globalAlpha=0.11;x.fillStyle='#fff';
+  x.save();x.globalAlpha=0.17;x.fillStyle='#fff';
   x.font='700 '+Math.max(13,Math.min(34,(a.right-a.left)/12))+'px sans-serif';
   x.textAlign='center';x.textBaseline='middle';
   x.fillText('moneyland.co.kr',(a.left+a.right)/2,(a.top+a.bottom)/2);x.restore();}};
