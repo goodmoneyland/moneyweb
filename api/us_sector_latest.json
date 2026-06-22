@@ -1,12 +1,12 @@
 {
-  "trd_ymd": "20260619",
+  "trd_ymd": "20260620",
   "rows": [
     {
       "SECTOR_NM": "연료전지",
-      "AVG_CHG_RT": 10.07,
-      "TOP_STOCKS": "[{\"ticker\": \"FCEL\", \"pct\": 19.96}, {\"ticker\": \"BE\", \"pct\": 15.41}, {\"ticker\": \"BLDP\", \"pct\": 5.05}, {\"ticker\": \"CMI\", \"pct\": -0.13}]",
+      "AVG_CHG_RT": 9.57,
+      "TOP_STOCKS": "[{\"ticker\": \"FCEL\", \"pct\": 19.96}, {\"ticker\": \"BE\", \"pct\": 15.41}, {\"ticker\": \"PLUG\", \"pct\": 7.55}, {\"ticker\": \"BLDP\", \"pct\": 5.05}, {\"ticker\": \"CMI\", \"pct\": -0.13}]",
       "DIRECTION": "up",
-      "UP_CNT": 3,
+      "UP_CNT": 4,
       "DOWN_CNT": 1,
       "CATEGORY": "fixed"
     },
@@ -20,6 +20,15 @@
       "CATEGORY": "fixed"
     },
     {
+      "SECTOR_NM": "2차전지(전고체)",
+      "AVG_CHG_RT": 7.76,
+      "TOP_STOCKS": "[{\"ticker\": \"QS\", \"pct\": 16.52}, {\"ticker\": \"SLDP\", \"pct\": 6.3}, {\"ticker\": \"ENVX\", \"pct\": 5.83}, {\"ticker\": \"MVST\", \"pct\": 2.38}]",
+      "DIRECTION": "up",
+      "UP_CNT": 4,
+      "DOWN_CNT": 0,
+      "CATEGORY": "theme"
+    },
+    {
       "SECTOR_NM": "파운드리",
       "AVG_CHG_RT": 7.41,
       "TOP_STOCKS": "[{\"ticker\": \"UMC\", \"pct\": 10.66}, {\"ticker\": \"ASX\", \"pct\": 8.33}, {\"ticker\": \"TSM\", \"pct\": 6.94}, {\"ticker\": \"GFS\", \"pct\": 6.44}, {\"ticker\": \"AMKR\", \"pct\": 4.66}]",
@@ -29,18 +38,9 @@
       "CATEGORY": "fixed"
     },
     {
-      "SECTOR_NM": "2차전지(전고체)",
-      "AVG_CHG_RT": 6.95,
-      "TOP_STOCKS": "[{\"ticker\": \"QS\", \"pct\": 16.52}, {\"ticker\": \"SLDP\", \"pct\": 6.3}, {\"ticker\": \"ENVX\", \"pct\": 5.83}, {\"ticker\": \"SES\", \"pct\": 3.74}, {\"ticker\": \"MVST\", \"pct\": 2.38}]",
-      "DIRECTION": "up",
-      "UP_CNT": 5,
-      "DOWN_CNT": 0,
-      "CATEGORY": "theme"
-    },
-    {
       "SECTOR_NM": "반도체 장비(2)",
-      "AVG_CHG_RT": 6.38,
-      "TOP_STOCKS": "[{\"ticker\": \"ACMR\", \"pct\": 14.22}, {\"ticker\": \"ICHR\", \"pct\": 10.24}, {\"ticker\": \"CAMT\", \"pct\": 9.55}, {\"ticker\": \"UCTT\", \"pct\": 8.66}, {\"ticker\": \"PLAB\", \"pct\": 8.45}, {\"ticker\": \"PDFS\", \"pct\": 7.02}, {\"ticker\": \"ACLS\", \"pct\": 6.89}, {\"ticker\": \"COHU\", \"pct\": 6.04}, {\"ticker\": \"VECO\", \"pct\": 5.11}, {\"ticker\": \"KLIC\", \"pct\": 4.6}]",
+      "AVG_CHG_RT": 6.39,
+      "TOP_STOCKS": "[{\"ticker\": \"ACMR\", \"pct\": 14.22}, {\"ticker\": \"ICHR\", \"pct\": 10.24}, {\"ticker\": \"CAMT\", \"pct\": 9.55}, {\"ticker\": \"UCTT\", \"pct\": 8.66}, {\"ticker\": \"PLAB\", \"pct\": 8.45}, {\"ticker\": \"PDFS\", \"pct\": 7.02}, {\"ticker\": \"ACLS\", \"pct\": 6.89}, {\"ticker\": \"COHU\", \"pct\": 6.04}, {\"ticker\": \"VECO\", \"pct\": 5.11}, {\"ticker\": \"KLIC\", \"pct\": 4.78}]",
       "DIRECTION": "up",
       "UP_CNT": 14,
       "DOWN_CNT": 0,
@@ -74,21 +74,21 @@
       "CATEGORY": "fixed"
     },
     {
+      "SECTOR_NM": "반도체",
+      "AVG_CHG_RT": 5.73,
+      "TOP_STOCKS": "[{\"ticker\": \"ALAB\", \"pct\": 11.31}, {\"ticker\": \"LSCC\", \"pct\": 9.91}, {\"ticker\": \"DIOD\", \"pct\": 9.8}, {\"ticker\": \"ALGM\", \"pct\": 9.3}, {\"ticker\": \"RMBS\", \"pct\": 8.51}, {\"ticker\": \"AXTI\", \"pct\": -8.19}, {\"ticker\": \"MPWR\", \"pct\": 7.97}, {\"ticker\": \"POWI\", \"pct\": 7.9}, {\"ticker\": \"VSH\", \"pct\": 7.75}, {\"ticker\": \"ON\", \"pct\": 7.7}]",
+      "DIRECTION": "up",
+      "UP_CNT": 29,
+      "DOWN_CNT": 1,
+      "CATEGORY": "fixed"
+    },
+    {
       "SECTOR_NM": "메모리/플래시/SSD/HDD",
       "AVG_CHG_RT": 5.72,
       "TOP_STOCKS": "[{\"ticker\": \"SNDK\", \"pct\": 11.54}, {\"ticker\": \"MU\", \"pct\": 8.7}, {\"ticker\": \"WDC\", \"pct\": 4.79}, {\"ticker\": \"NTAP\", \"pct\": 3.17}, {\"ticker\": \"STX\", \"pct\": 0.39}]",
       "DIRECTION": "up",
       "UP_CNT": 5,
       "DOWN_CNT": 0,
-      "CATEGORY": "fixed"
-    },
-    {
-      "SECTOR_NM": "반도체",
-      "AVG_CHG_RT": 5.72,
-      "TOP_STOCKS": "[{\"ticker\": \"ALAB\", \"pct\": 11.31}, {\"ticker\": \"LSCC\", \"pct\": 9.91}, {\"ticker\": \"DIOD\", \"pct\": 9.8}, {\"ticker\": \"ALGM\", \"pct\": 9.3}, {\"ticker\": \"RMBS\", \"pct\": 8.51}, {\"ticker\": \"AXTI\", \"pct\": -8.19}, {\"ticker\": \"MPWR\", \"pct\": 7.97}, {\"ticker\": \"POWI\", \"pct\": 7.9}, {\"ticker\": \"ON\", \"pct\": 7.7}, {\"ticker\": \"SITM\", \"pct\": 7.65}]",
-      "DIRECTION": "up",
-      "UP_CNT": 29,
-      "DOWN_CNT": 1,
       "CATEGORY": "fixed"
     },
     {
@@ -174,8 +174,8 @@
     },
     {
       "SECTOR_NM": "건설자재",
-      "AVG_CHG_RT": 3.05,
-      "TOP_STOCKS": "[{\"ticker\": \"HNI\", \"pct\": 7.56}, {\"ticker\": \"QXO\", \"pct\": 7.25}, {\"ticker\": \"BLDR\", \"pct\": 5.84}, {\"ticker\": \"WMS\", \"pct\": 5.72}, {\"ticker\": \"BCC\", \"pct\": 5.44}, {\"ticker\": \"EXP\", \"pct\": 5.32}, {\"ticker\": \"TTAM\", \"pct\": 4.43}, {\"ticker\": \"MHK\", \"pct\": 3.94}, {\"ticker\": \"WLK\", \"pct\": -3.83}, {\"ticker\": \"FERG\", \"pct\": 3.8}]",
+      "AVG_CHG_RT": 3.06,
+      "TOP_STOCKS": "[{\"ticker\": \"HNI\", \"pct\": 7.56}, {\"ticker\": \"QXO\", \"pct\": 7.25}, {\"ticker\": \"BLDR\", \"pct\": 5.84}, {\"ticker\": \"WMS\", \"pct\": 5.72}, {\"ticker\": \"BCC\", \"pct\": 5.44}, {\"ticker\": \"EXP\", \"pct\": 5.32}, {\"ticker\": \"TTAM\", \"pct\": 4.67}, {\"ticker\": \"MHK\", \"pct\": 3.94}, {\"ticker\": \"WLK\", \"pct\": -3.83}, {\"ticker\": \"FERG\", \"pct\": 3.8}]",
       "DIRECTION": "up",
       "UP_CNT": 27,
       "DOWN_CNT": 3,
@@ -210,8 +210,8 @@
     },
     {
       "SECTOR_NM": "비만치료제",
-      "AVG_CHG_RT": 2.18,
-      "TOP_STOCKS": "[{\"ticker\": \"HIMS\", \"pct\": 11.23}, {\"ticker\": \"WVE\", \"pct\": 3.53}, {\"ticker\": \"ALT\", \"pct\": 2.27}, {\"ticker\": \"GPCR\", \"pct\": -1.09}, {\"ticker\": \"GUTS\", \"pct\": 0.98}, {\"ticker\": \"ARWR\", \"pct\": 0.96}, {\"ticker\": \"NVO\", \"pct\": -0.76}, {\"ticker\": \"VKTX\", \"pct\": 0.3}]",
+      "AVG_CHG_RT": 2.17,
+      "TOP_STOCKS": "[{\"ticker\": \"HIMS\", \"pct\": 11.23}, {\"ticker\": \"WVE\", \"pct\": 3.53}, {\"ticker\": \"ALT\", \"pct\": 2.27}, {\"ticker\": \"GPCR\", \"pct\": -1.09}, {\"ticker\": \"ARWR\", \"pct\": 0.96}, {\"ticker\": \"GUTS\", \"pct\": 0.94}, {\"ticker\": \"NVO\", \"pct\": -0.76}, {\"ticker\": \"VKTX\", \"pct\": 0.3}]",
       "DIRECTION": "up",
       "UP_CNT": 6,
       "DOWN_CNT": 2,
@@ -237,8 +237,8 @@
     },
     {
       "SECTOR_NM": "로봇/스마트팩토리",
-      "AVG_CHG_RT": 1.84,
-      "TOP_STOCKS": "[{\"ticker\": \"SSII\", \"pct\": 5.47}, {\"ticker\": \"KITT\", \"pct\": 5.34}, {\"ticker\": \"SERV\", \"pct\": 4.48}, {\"ticker\": \"AMR\", \"pct\": -3.93}, {\"ticker\": \"SYM\", \"pct\": 3.76}, {\"ticker\": \"ROK\", \"pct\": 3.29}, {\"ticker\": \"KSCP\", \"pct\": 3.08}, {\"ticker\": \"RR\", \"pct\": 2.88}, {\"ticker\": \"ARBE\", \"pct\": -2.28}, {\"ticker\": \"ZBRA\", \"pct\": 1.29}]",
+      "AVG_CHG_RT": 1.85,
+      "TOP_STOCKS": "[{\"ticker\": \"SSII\", \"pct\": 5.47}, {\"ticker\": \"KITT\", \"pct\": 5.34}, {\"ticker\": \"SERV\", \"pct\": 4.48}, {\"ticker\": \"AMR\", \"pct\": -3.93}, {\"ticker\": \"SYM\", \"pct\": 3.76}, {\"ticker\": \"ROK\", \"pct\": 3.29}, {\"ticker\": \"KSCP\", \"pct\": 3.08}, {\"ticker\": \"RR\", \"pct\": 2.88}, {\"ticker\": \"ARBE\", \"pct\": -2.26}, {\"ticker\": \"ZBRA\", \"pct\": 1.29}]",
       "DIRECTION": "up",
       "UP_CNT": 12,
       "DOWN_CNT": 2,
@@ -353,21 +353,21 @@
       "CATEGORY": "fixed"
     },
     {
+      "SECTOR_NM": "은행",
+      "AVG_CHG_RT": 0.32,
+      "TOP_STOCKS": "[{\"ticker\": \"SMFG\", \"pct\": 2.81}, {\"ticker\": \"JPM\", \"pct\": -2.47}, {\"ticker\": \"UBS\", \"pct\": 2.15}, {\"ticker\": \"MUFG\", \"pct\": 1.59}, {\"ticker\": \"SAN\", \"pct\": 1.28}, {\"ticker\": \"MS\", \"pct\": -0.8}, {\"ticker\": \"TD\", \"pct\": 0.67}, {\"ticker\": \"BAC\", \"pct\": -0.58}, {\"ticker\": \"C\", \"pct\": -0.5}, {\"ticker\": \"RY\", \"pct\": 0.43}]",
+      "DIRECTION": "up",
+      "UP_CNT": 7,
+      "DOWN_CNT": 6,
+      "CATEGORY": "fixed"
+    },
+    {
       "SECTOR_NM": "전력",
       "AVG_CHG_RT": 0.28,
       "TOP_STOCKS": "[{\"ticker\": \"SO\", \"pct\": 0.61}, {\"ticker\": \"D\", \"pct\": 0.57}, {\"ticker\": \"EXC\", \"pct\": 0.55}, {\"ticker\": \"AEP\", \"pct\": -0.45}, {\"ticker\": \"DUK\", \"pct\": 0.11}]",
       "DIRECTION": "up",
       "UP_CNT": 4,
       "DOWN_CNT": 1,
-      "CATEGORY": "fixed"
-    },
-    {
-      "SECTOR_NM": "은행",
-      "AVG_CHG_RT": 0.16,
-      "TOP_STOCKS": "[{\"ticker\": \"SMFG\", \"pct\": 2.81}, {\"ticker\": \"JPM\", \"pct\": -2.47}, {\"ticker\": \"UBS\", \"pct\": 2.15}, {\"ticker\": \"WFC\", \"pct\": -1.92}, {\"ticker\": \"MUFG\", \"pct\": 1.59}, {\"ticker\": \"SAN\", \"pct\": 1.28}, {\"ticker\": \"MS\", \"pct\": -0.8}, {\"ticker\": \"TD\", \"pct\": 0.67}, {\"ticker\": \"BAC\", \"pct\": -0.58}, {\"ticker\": \"C\", \"pct\": -0.5}]",
-      "DIRECTION": "up",
-      "UP_CNT": 7,
-      "DOWN_CNT": 7,
       "CATEGORY": "fixed"
     },
     {
@@ -395,15 +395,6 @@
       "DIRECTION": "down",
       "UP_CNT": 2,
       "DOWN_CNT": 3,
-      "CATEGORY": "fixed"
-    },
-    {
-      "SECTOR_NM": "산업재/기계/방위",
-      "AVG_CHG_RT": -0.12,
-      "TOP_STOCKS": "[{\"ticker\": \"LMT\", \"pct\": -4.01}, {\"ticker\": \"CAT\", \"pct\": 3.13}, {\"ticker\": \"BA\", \"pct\": -1.29}, {\"ticker\": \"MMM\", \"pct\": 0.86}, {\"ticker\": \"GE\", \"pct\": 0.17}, {\"ticker\": \"HON\", \"pct\": 0.17}, {\"ticker\": \"DE\", \"pct\": 0.13}]",
-      "DIRECTION": "down",
-      "UP_CNT": 5,
-      "DOWN_CNT": 2,
       "CATEGORY": "fixed"
     },
     {
@@ -444,8 +435,8 @@
     },
     {
       "SECTOR_NM": "통신장비",
-      "AVG_CHG_RT": -0.3,
-      "TOP_STOCKS": "[{\"ticker\": \"ASTS\", \"pct\": -5.58}, {\"ticker\": \"CABO\", \"pct\": -4.83}, {\"ticker\": \"IDCC\", \"pct\": 3.47}, {\"ticker\": \"ASNS\", \"pct\": 2.78}, {\"ticker\": \"SBAC\", \"pct\": -2.45}, {\"ticker\": \"SHEN\", \"pct\": -2.21}, {\"ticker\": \"EXTR\", \"pct\": 1.78}, {\"ticker\": \"ITRN\", \"pct\": 1.71}, {\"ticker\": \"HLIT\", \"pct\": 1.55}, {\"ticker\": \"IHS\", \"pct\": -0.73}]",
+      "AVG_CHG_RT": -0.42,
+      "TOP_STOCKS": "[{\"ticker\": \"ASTS\", \"pct\": -5.58}, {\"ticker\": \"CABO\", \"pct\": -4.83}, {\"ticker\": \"IDCC\", \"pct\": 3.47}, {\"ticker\": \"SBAC\", \"pct\": -2.45}, {\"ticker\": \"SHEN\", \"pct\": -2.21}, {\"ticker\": \"EXTR\", \"pct\": 1.78}, {\"ticker\": \"ITRN\", \"pct\": 1.71}, {\"ticker\": \"HLIT\", \"pct\": 1.55}, {\"ticker\": \"ASNS\", \"pct\": 1.39}, {\"ticker\": \"IHS\", \"pct\": -0.73}]",
       "DIRECTION": "down",
       "UP_CNT": 7,
       "DOWN_CNT": 5,
@@ -461,6 +452,15 @@
       "CATEGORY": "fixed"
     },
     {
+      "SECTOR_NM": "산업재/기계/방위",
+      "AVG_CHG_RT": -0.56,
+      "TOP_STOCKS": "[{\"ticker\": \"LMT\", \"pct\": -4.01}, {\"ticker\": \"RTX\", \"pct\": -3.62}, {\"ticker\": \"CAT\", \"pct\": 3.13}, {\"ticker\": \"BA\", \"pct\": -1.29}, {\"ticker\": \"MMM\", \"pct\": 0.86}, {\"ticker\": \"GE\", \"pct\": 0.17}, {\"ticker\": \"HON\", \"pct\": 0.17}, {\"ticker\": \"DE\", \"pct\": 0.13}]",
+      "DIRECTION": "down",
+      "UP_CNT": 5,
+      "DOWN_CNT": 3,
+      "CATEGORY": "fixed"
+    },
+    {
       "SECTOR_NM": "보험",
       "AVG_CHG_RT": -0.63,
       "TOP_STOCKS": "[{\"ticker\": \"AON\", \"pct\": -2.74}, {\"ticker\": \"FG\", \"pct\": 2.61}, {\"ticker\": \"WTW\", \"pct\": -1.86}, {\"ticker\": \"UNM\", \"pct\": -1.79}, {\"ticker\": \"CNA\", \"pct\": -1.7}, {\"ticker\": \"JXN\", \"pct\": -1.46}, {\"ticker\": \"CB\", \"pct\": -1.39}, {\"ticker\": \"WRB\", \"pct\": -1.34}, {\"ticker\": \"MKL\", \"pct\": -1.14}, {\"ticker\": \"MRSH\", \"pct\": -1.1}]",
@@ -472,7 +472,7 @@
     {
       "SECTOR_NM": "우주항공산업",
       "AVG_CHG_RT": -1.2,
-      "TOP_STOCKS": "[{\"ticker\": \"LHX\", \"pct\": -5.86}, {\"ticker\": \"ASTS\", \"pct\": -5.58}, {\"ticker\": \"VSEC\", \"pct\": 5.31}, {\"ticker\": \"NOC\", \"pct\": -5.21}, {\"ticker\": \"MSS\", \"pct\": -5.1}, {\"ticker\": \"KTOS\", \"pct\": -3.47}, {\"ticker\": \"GILT\", \"pct\": -2.87}, {\"ticker\": \"SATL\", \"pct\": -2.27}, {\"ticker\": \"SPCE\", \"pct\": 2.01}, {\"ticker\": \"BKSY\", \"pct\": -1.8}]",
+      "TOP_STOCKS": "[{\"ticker\": \"LHX\", \"pct\": -5.86}, {\"ticker\": \"ASTS\", \"pct\": -5.58}, {\"ticker\": \"VSEC\", \"pct\": 5.31}, {\"ticker\": \"NOC\", \"pct\": -5.21}, {\"ticker\": \"MSS\", \"pct\": -5.06}, {\"ticker\": \"KTOS\", \"pct\": -3.47}, {\"ticker\": \"GILT\", \"pct\": -2.87}, {\"ticker\": \"SATL\", \"pct\": -2.27}, {\"ticker\": \"SPCE\", \"pct\": 2.01}, {\"ticker\": \"BKSY\", \"pct\": -1.8}]",
       "DIRECTION": "down",
       "UP_CNT": 7,
       "DOWN_CNT": 13,
@@ -525,11 +525,11 @@
     },
     {
       "SECTOR_NM": "통신",
-      "AVG_CHG_RT": -1.78,
-      "TOP_STOCKS": "[{\"ticker\": \"CHTR\", \"pct\": -4.37}, {\"ticker\": \"T\", \"pct\": -1.92}, {\"ticker\": \"VZ\", \"pct\": -1.03}, {\"ticker\": \"TMUS\", \"pct\": 0.2}]",
+      "AVG_CHG_RT": -2.03,
+      "TOP_STOCKS": "[{\"ticker\": \"CHTR\", \"pct\": -4.37}, {\"ticker\": \"T\", \"pct\": -1.92}, {\"ticker\": \"TMUS\", \"pct\": 0.2}]",
       "DIRECTION": "down",
       "UP_CNT": 1,
-      "DOWN_CNT": 3,
+      "DOWN_CNT": 2,
       "CATEGORY": "fixed"
     },
     {
@@ -570,8 +570,8 @@
     },
     {
       "SECTOR_NM": "LNG(액화천연가스)",
-      "AVG_CHG_RT": -3.32,
-      "TOP_STOCKS": "[{\"ticker\": \"NFE\", \"pct\": -15.08}, {\"ticker\": \"NEXT\", \"pct\": -5.77}, {\"ticker\": \"NGL\", \"pct\": 1.91}, {\"ticker\": \"DVN\", \"pct\": -1.08}, {\"ticker\": \"EE\", \"pct\": 0.35}, {\"ticker\": \"VG\", \"pct\": -0.27}]",
+      "AVG_CHG_RT": -3.33,
+      "TOP_STOCKS": "[{\"ticker\": \"NFE\", \"pct\": -15.1}, {\"ticker\": \"NEXT\", \"pct\": -5.77}, {\"ticker\": \"NGL\", \"pct\": 1.91}, {\"ticker\": \"DVN\", \"pct\": -1.08}, {\"ticker\": \"EE\", \"pct\": 0.35}, {\"ticker\": \"VG\", \"pct\": -0.27}]",
       "DIRECTION": "down",
       "UP_CNT": 2,
       "DOWN_CNT": 4,

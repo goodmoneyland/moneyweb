@@ -1,5 +1,5 @@
 {
-  "trd_ymd": "20260619",
+  "trd_ymd": "20260620",
   "rows": [
     {
       "TICKER": "SOXX",
@@ -82,20 +82,20 @@
       "CHG_RT": 1.82
     },
     {
+      "TICKER": "VWO",
+      "NAME": "신흥국",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 60.77,
+      "CHG_AMT": 1.03,
+      "CHG_RT": 1.73
+    },
+    {
       "TICKER": "BLOK",
       "NAME": "글로벌 - 블록체인",
       "CATEGORY": "테마ETF",
       "CLOSE_PRC": 66.78,
       "CHG_AMT": 1.08,
       "CHG_RT": 1.64
-    },
-    {
-      "TICKER": "VWO",
-      "NAME": "신흥국",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 60.77,
-      "CHG_AMT": 0.96,
-      "CHG_RT": 1.61
     },
     {
       "TICKER": "UNG",
@@ -138,6 +138,30 @@
       "CHG_RT": 1.31
     },
     {
+      "TICKER": "VEU",
+      "NAME": "미국 제외 전세계",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 84.92,
+      "CHG_AMT": 1.0,
+      "CHG_RT": 1.2
+    },
+    {
+      "TICKER": "VT",
+      "NAME": "전세계",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 157.66,
+      "CHG_AMT": 1.81,
+      "CHG_RT": 1.16
+    },
+    {
+      "TICKER": "VTI",
+      "NAME": "주식종합",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 369.99,
+      "CHG_AMT": 4.23,
+      "CHG_RT": 1.16
+    },
+    {
       "TICKER": "FDN",
       "NAME": "인터넷",
       "CATEGORY": "섹터ETF",
@@ -162,6 +186,14 @@
       "CHG_RT": 1.07
     },
     {
+      "TICKER": "SPY",
+      "NAME": "S&P 500",
+      "CATEGORY": "섹터ETF",
+      "CLOSE_PRC": 746.74,
+      "CHG_AMT": 7.68,
+      "CHG_RT": 1.04
+    },
+    {
       "TICKER": "PAVE",
       "NAME": "인프라",
       "CATEGORY": "섹터ETF",
@@ -178,28 +210,20 @@
       "CHG_RT": 0.98
     },
     {
+      "TICKER": "VEA",
+      "NAME": "미국 제외 선진국",
+      "CATEGORY": "글로벌ETF",
+      "CLOSE_PRC": 72.31,
+      "CHG_AMT": 0.69,
+      "CHG_RT": 0.96
+    },
+    {
       "TICKER": "PHO",
       "NAME": "미국 - 수자원",
       "CATEGORY": "테마ETF",
       "CLOSE_PRC": 67.36,
       "CHG_AMT": 0.59,
       "CHG_RT": 0.88
-    },
-    {
-      "TICKER": "VT",
-      "NAME": "전세계",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 157.66,
-      "CHG_AMT": 1.25,
-      "CHG_RT": 0.8
-    },
-    {
-      "TICKER": "SPY",
-      "NAME": "S&P 500",
-      "CATEGORY": "섹터ETF",
-      "CLOSE_PRC": 746.74,
-      "CHG_AMT": 5.78,
-      "CHG_RT": 0.78
     },
     {
       "TICKER": "IYT",
@@ -216,14 +240,6 @@
       "CLOSE_PRC": 180.91,
       "CHG_AMT": 1.31,
       "CHG_RT": 0.73
-    },
-    {
-      "TICKER": "VEU",
-      "NAME": "미국 제외 전세계",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 84.92,
-      "CHG_AMT": 0.61,
-      "CHG_RT": 0.72
     },
     {
       "TICKER": "XLU",
@@ -248,14 +264,6 @@
       "CLOSE_PRC": 114.87,
       "CHG_AMT": 0.64,
       "CHG_RT": 0.56
-    },
-    {
-      "TICKER": "VEA",
-      "NAME": "미국 제외 선진국",
-      "CATEGORY": "글로벌ETF",
-      "CLOSE_PRC": 72.31,
-      "CHG_AMT": 0.31,
-      "CHG_RT": 0.43
     },
     {
       "TICKER": "CIBR",
@@ -354,6 +362,14 @@
       "CHG_RT": 0.12
     },
     {
+      "TICKER": "VYM",
+      "NAME": "고배당주",
+      "CATEGORY": "배당/채권ETF",
+      "CLOSE_PRC": 158.21,
+      "CHG_AMT": 0.11,
+      "CHG_RT": 0.07
+    },
+    {
       "TICKER": "SKYY",
       "NAME": "글로벌 - 클라우드 컴퓨팅",
       "CATEGORY": "테마ETF",
@@ -408,14 +424,6 @@
       "CLOSE_PRC": 83.3,
       "CHG_AMT": -0.38,
       "CHG_RT": -0.45
-    },
-    {
-      "TICKER": "VYM",
-      "NAME": "고배당주",
-      "CATEGORY": "배당/채권ETF",
-      "CLOSE_PRC": 158.21,
-      "CHG_AMT": -0.87,
-      "CHG_RT": -0.55
     },
     {
       "TICKER": "DBA",
