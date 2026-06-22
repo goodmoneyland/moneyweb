@@ -4876,6 +4876,17 @@ const _SPARK_MAP = {
 };
 
 // 기준가(전일 종가) 점선 기준 위=빨강/아래=파랑. base 없으면 첫점 대비 단색 폴백.
+// 지수 스파크라인 전처리: 맨 앞 '개장 전 직전종가 반복(평평)' 구간을 잘라내고
+// 시작점을 base(전일 종가=점선 기준선)에 앵커링 → 장 시작점부터 폭 전체로 그려짐.
+function _prepSparkArr(arr, base) {
+  if (!arr || !arr.length) return arr;
+  let s = 0;                                   // 첫 변화 지점까지의 평평 구간 스킵
+  while (s < arr.length - 1 && arr[s] === arr[0]) s++;
+  let out = arr.slice(s);
+  if (typeof base === 'number' && isFinite(base)) out = [base, ...out];
+  return out;
+}
+
 function _sparkSvg(arr, base, uid) {
   if (!arr || arr.length < 2) return '';
   const w = 100, h = 26, pad = 2;
@@ -4909,17 +4920,27 @@ function _sparkSvg(arr, base, uid) {
 }
 
 async function renderIndexSparklines() {
-  let kr = {}, us = {}, krB = {}, usB = {};
-  try { const j = await fetch('/api/kr_index_history.json?t=' + Date.now()).then(r => r.json()); kr = j.points || {}; krB = j.base || {}; } catch(e) {}
-  try { const j = await fetch('/api/us_index_history.json?t=' + Date.now()).then(r => r.json()); us = j.points || {}; usB = j.base || {}; } catch(e) {}
+  let kr = {}, us = {}, krB = {}, usB = {}, krLS = {}, usLS = {};
+  try { const j = await fetch('/api/kr_index_history.json?t=' + Date.now()).then(r => r.json()); kr = j.points || {}; krB = j.base || {}; krLS = j.last_session || {}; } catch(e) {}
+  try { const j = await fetch('/api/us_index_history.json?t=' + Date.now()).then(r => r.json()); us = j.points || {}; usB = j.base || {}; usLS = j.last_session || {}; } catch(e) {}
   for (const [id, [src, key]] of Object.entries(_SPARK_MAP)) {
     const card = document.getElementById(id);
     if (!card) continue;
     const holder = card.querySelector('.spark');
     if (!holder) continue;
-    const arr  = (src === 'kr' ? kr  : us )[key];
-    const base = (src === 'kr' ? krB : usB)[key];
-    holder.innerHTML = _sparkSvg(arr, base, id);
+    const pts = (src === 'kr' ? kr : us)[key];
+    const ls  = (src === 'kr' ? krLS : usLS)[key];
+    let arr, base;
+    if (pts && new Set(pts).size >= 2) {
+      // 오늘 라이브에 실제 움직임이 있으면 그걸 그림
+      arr = pts; base = (src === 'kr' ? krB : usB)[key];
+    } else if (ls && ls.curve && ls.curve.length >= 2) {
+      // 휴장(오늘 평평) → 직전 세션 장중 곡선
+      arr = ls.curve; base = ls.base;
+    } else {
+      arr = pts; base = (src === 'kr' ? krB : usB)[key];
+    }
+    holder.innerHTML = _sparkSvg(_prepSparkArr(arr, base), base, id);
   }
 }
 
