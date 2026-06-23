@@ -551,12 +551,12 @@ function _ghSectorView(items,code){const isUS=(code==='USA');const isAth=x=>(x.t
 +'<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
 +'<span style="font-size:13px;color:#22c55e;font-weight:700;">📈 52주 '+w52N+'</span>'
 +'<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개 · 섹터 내 시총순</span></div>'
-+'<div style="display:grid;grid-template-columns:180px 1fr;gap:10px;align-items:start;">'
++'<div class="gh-sec-grid" style="display:grid;grid-template-columns:180px 1fr;gap:10px;align-items:start;">'
 +'<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;">'
 +'<div style="font-size:14px;font-weight:800;margin-bottom:6px;">신고가 섹터</div>'
 +order.map(pill).join('')
 +'</div>'
-+'<div style="column-width:310px;column-gap:8px;">'+order.map(card).join('')+'</div>'
++'<div class="gh-sec-cards" style="column-width:310px;column-gap:8px;">'+order.map(card).join('')+'</div>'
 +'</div>';}
 function _ghEsc(t){return String(t).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
 function openGhSector(s){const grp=window._ghGrp||{},code=window._ghCode,ord=window._ghOrder||[];const rows=grp[s];if(!rows||!rows.length)return;const isUS=code==='USA';const isAth=x=>(x.type||[]).includes('ath');let m=document.getElementById('gh-sec-modal');if(!m){m=document.createElement('div');m.id='gh-sec-modal';m.style.cssText='display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9980;align-items:flex-start;justify-content:center;overflow:auto;padding:48px 16px;';m.addEventListener('click',e=>{if(e.target===m)m.style.display='none';});document.body.appendChild(m);}
