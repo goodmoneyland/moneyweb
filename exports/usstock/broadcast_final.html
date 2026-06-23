@@ -51,20 +51,6 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3,.g2{grid-template-columns:1fr;}}
-/* 모바일(≤768px): 상단 지수카드(3대지수+필반) 노출·축소 + 시장지표(.mac) 한 줄 정리. PC 무영향. */
-@media(max-width:768px){
-  #idxCards{display:grid;}
-  .idx{padding:11px 10px;}
-  .idx .v{font-size:18px;letter-spacing:-.5px;}
-  .idx .n{font-size:11.5px;margin-bottom:3px;}
-  .idx .c{font-size:11px;}
-  .mac{gap:9px;padding:11px 12px;}
-  .mac .ic{width:32px;height:32px;font-size:16px;}
-  .mac .l{font-size:11px;}
-  .mac .v{font-size:14px;white-space:nowrap;}
-  .mac .v span{font-size:11.5px !important;}
-}
-
 /* index cards */
 .idx{padding:16px 18px;text-align:center;border-top:3px solid var(--up);}
 .idx.dn{border-top-color:var(--dn);}
@@ -123,8 +109,8 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 .filt.on{background:var(--text);color:#fff;border-color:var(--text);}
 .sort-sel{margin-left:auto;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--text2);}
 .heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:8px;}
-/* 모바일: 섹터명 전체 표시(이모지 숨김·줄바꿈 허용) + 등락률 작게 우측, 종목수(.ct) 숨김 — PC(>520px) 무영향 */
-@media(max-width:520px){.heat{grid-template-columns:1fr 1fr;}.cell{padding:9px 10px;display:flex;align-items:flex-start;gap:5px;}.cell .ce{display:none;}.cell .cn{font-size:11.5px;line-height:1.25;word-break:keep-all;flex:1 1 auto;min-width:0;}.cell .cp{font-size:13px;margin-top:0;margin-left:auto;flex:0 0 auto;white-space:nowrap;}.cell .ct{display:none;}}
+/* 모바일: 섹터명 가로 한 줄(이모지 숨김) → 그 아래 등락률(세로 스택, 겹침 제거), 종목수(.ct) 숨김 — PC(>520px) 무영향 */
+@media(max-width:520px){.heat{grid-template-columns:1fr 1fr;}.cell{padding:9px 11px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;}.cell .ce{display:none;}.cell .cn{font-size:11.5px;line-height:1.2;word-break:keep-all;}.cell .cp{font-size:14px;font-weight:900;margin-top:1px;}.cell .ct{display:none;}}
 .cell{border-radius:11px;padding:12px 14px;cursor:pointer;border:1px solid transparent;transition:transform .1s,box-shadow .12s;position:relative;overflow:hidden;}
 .cell:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(15,23,42,.12);}
 .cell .cn{font-size:13.5px;font-weight:800;line-height:1.3;}
@@ -172,6 +158,31 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 
 .note{margin:30px 0 0;padding:14px 18px;border-radius:10px;background:#fffbeb;border:1px solid #fde68a;font-size:12.5px;color:#92400e;line-height:1.7;}
 footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
+
+/* ===== 모바일(≤768px) 오버라이드 — 반드시 스타일시트 맨 끝(모든 데스크톱 규칙 뒤). 미디어쿼리는 specificity 안 올림 → 소스 뒤에 와야 이김. PC 무영향. ===== */
+@media(max-width:768px){
+  /* ⑤ 지수4+지표4 = 8카드 동일 크기(2열·동일 높이) */
+  #idxCards, #macCards{grid-template-columns:1fr 1fr !important;gap:8px;}
+  .idx, .mac{min-height:56px;height:56px;box-sizing:border-box;}
+  /* ③ 지수카드: 1줄[지수명 + 포인트] / 2줄[등락포인트 + 등락률]. 긴 지수명도 한 줄 유지(nowrap) → 8카드 높이 동일 */
+  #idxCards{display:grid;}
+  .idx{padding:9px 11px;text-align:left;white-space:nowrap;overflow:hidden;}
+  .idx .n{display:inline;font-size:10.5px;margin:0;}
+  .idx .v{display:inline;font-size:13.5px;letter-spacing:-.3px;margin-left:4px;}
+  .idx .c{display:block;font-size:10.5px;margin-top:3px;}
+  /* ④ 시장지표: 이모지 제거 + 1줄[지표명] / 2줄[값·등락] */
+  .mac{gap:0;padding:9px 11px;align-items:center;}
+  .mac .ic{display:none;}
+  .mac .l{font-size:11px;}
+  .mac .v{font-size:15px;white-space:nowrap;}
+  .mac .v span{font-size:12px !important;}
+  /* ① ETF 동향: 1줄[섹터 + 티커 + 등락률] / 2줄[이유 코멘트] — 세로쪼개짐 제거 */
+  .etf{flex-wrap:wrap;gap:5px 8px;padding:9px 12px;}
+  .etf .nm{min-width:0;flex:0 1 auto;}
+  .etf .tk{width:auto;}
+  .etf .pc{min-width:0;margin-left:auto;}
+  .etf .ds{flex:1 1 100%;order:5;font-size:12px;}
+}
 </style>
 </head>
 <body>
@@ -222,7 +233,8 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
       <button class="filt" data-f="up" style="color:var(--up)">▲ 상승 26</button>
       <button class="filt" data-f="dn" style="color:var(--dn)">▼ 하락 30</button>
       <select class="sort-sel" id="sortSel">
-        <option value="mag">정렬: 등락폭 큰 순</option>
+        <option value="pin">정렬: 시총·반도체 우선</option>
+        <option value="mag">등락폭 큰 순</option>
         <option value="up">상승률 높은 순</option>
         <option value="dn">하락률 큰 순</option>
         <option value="orig">원본 순서</option>
@@ -303,6 +315,10 @@ function pctNum(s){const m=String(s).match(/-?\d+(\.\d+)?/);return m?parseFloat(
 DATA.sectors.forEach((s,i)=>{s._v=pctNum(s.pct);s._i=i;});
 function level(v){const a=Math.abs(v);const t=v>=0?'u':'d';let n=1;if(a>=6)n=4;else if(a>=3)n=3;else if(a>=1)n=2;return t+n;}
 let curFilter='all';
+// 기본 정렬: 시총상위·반도체 공급망 고정 순서 → 나머지는 등락률 내림차순
+var PIN_ORDER=['미국 시총 TOP10','미국 시총 11','시스템 반도체','메모리/플래시/SSD/HDD','파운드리','반도체 장비(1)','반도체 장비(2)','전력반도체','반도체','네트워크 장비','광통신','냉각시스템'];
+function _pinNm(n){return String(n).replace(/^[^\w가-힣]+/,'').trim();}
+function _pinRank(s){var i=PIN_ORDER.indexOf(_pinNm(s.name));return i<0?999:i;}
 function renderHeat(){
   let arr=DATA.sectors.slice();
   if(curFilter==='up')arr=arr.filter(s=>s.dir==='up');
@@ -311,7 +327,8 @@ function renderHeat(){
   if(sort==='mag')arr.sort((a,b)=>Math.abs(b._v)-Math.abs(a._v));
   else if(sort==='up')arr.sort((a,b)=>b._v-a._v);
   else if(sort==='dn')arr.sort((a,b)=>a._v-b._v);
-  else arr.sort((a,b)=>a._i-b._i);
+  else if(sort==='orig')arr.sort((a,b)=>a._i-b._i);
+  else arr.sort((a,b)=>{const ra=_pinRank(a),rb=_pinRank(b);if(ra!==rb)return ra-rb;return b._v-a._v;}); // pin(기본)
   $('#heat').innerHTML=arr.map(s=>
     `<div class="cell ${level(s._v)}" onclick="openSec(${s._i})">
       <div class="cn">${String(s.name).replace(/^([^\w가-힣]+?)\s+/, '<span class="ce">$1 </span>')}</div><div class="cp">${s.pct}</div>
