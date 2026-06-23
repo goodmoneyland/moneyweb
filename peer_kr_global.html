@@ -614,24 +614,33 @@
   setInterval(_pollKrReg, 60000);   // 정규장 등락 1분 폴링
 
   // ── 해외 종목 등락률: 야후 폴링 json (전일종가 대비 + 미국 시간외) ──
-  var _GLIVE = {};
+  var _GLIVE = {}, _MMBYTK = {};
   function _applyGlChg() {
-    fetch('api/global_prices_live.json?t=' + Date.now()).then(function(r){ return r.json(); })
-    .then(function(d) {
-      _GLIVE = d.prices || {};
+    // 정규장(c)=global_prices_live, 시간외(e)=world_marketmap_live → 앱 본체 glPopup/마켓맵/신고가와 동일 소스로 통일.
+    Promise.all([
+      fetch('api/global_prices_live.json?t=' + Date.now()).then(function(r){ return r.json(); }).catch(function(){ return null; }),
+      fetch('api/world_marketmap_live.json?t=' + Date.now()).then(function(r){ return r.json(); }).catch(function(){ return null; })
+    ]).then(function(arr) {
+      _GLIVE = (arr[0] && arr[0].prices) || {};
+      var mp = (arr[1] && arr[1].prices) || {};
+      _MMBYTK = {};
+      for (var k in mp) { _MMBYTK[k.split('.')[0].toUpperCase()] = mp[k]; }
       document.querySelectorAll('.gl-chg').forEach(function(el) {
-        var q = _GLIVE[el.getAttribute('data-tk')];
-        if (!q) return;
+        var tk = el.getAttribute('data-tk');
+        var q  = _GLIVE[tk];
+        var mx = _MMBYTK[tk];
+        var cVal = (q && q.c != null) ? q.c : null;
+        var eVal = (mx && mx.e != null) ? mx.e : null;   // 시간외: world_marketmap_live(공통 소스)
         var main = '', ext = '';
-        if (q.c != null) {   // 정규장(전일종가 대비)
-          var col = q.c>=0 ? '#ff5b5b' : '#5b9dff';
-          main = '<span style="color:'+col+'">' + (q.c>=0?'+':'') + Number(q.c).toFixed(2) + '%</span>';
+        if (cVal != null) {   // 정규장(전일종가 대비)
+          var col = cVal>=0 ? '#ff5b5b' : '#5b9dff';
+          main = '<span style="color:'+col+'">' + (cVal>=0?'+':'') + Number(cVal).toFixed(2) + '%</span>';
         }
-        if (q.e != null) {   // 미국/유럽 시간외 → 정규장 오른쪽 칸에 괄호 등락률
-          var ecol = q.e>=0 ? '#ff5b5b' : '#5b9dff';
-          ext = '<span style="color:'+ecol+'">(' + (q.e>=0?'+':'') + Number(q.e).toFixed(2) + '%)</span>';
+        if (eVal != null) {   // 미국/유럽 시간외 → 정규장 오른쪽 칸에 괄호 등락률
+          var ecol = eVal>=0 ? '#ff5b5b' : '#5b9dff';
+          ext = '<span style="color:'+ecol+'">(' + (eVal>=0?'+':'') + Number(eVal).toFixed(2) + '%)</span>';
         }
-        if (q.c != null || q.e != null)
+        if (cVal != null || eVal != null)
           el.innerHTML = '<span class="c-main">'+main+'</span><span class="c-ext">'+ext+'</span>';
       });
     }).catch(function(){});
