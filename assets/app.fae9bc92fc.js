@@ -531,6 +531,8 @@ box.innerHTML=_ghSectorView(items,GH_CUR);}
 const _GH_CUR_SYM={USA:'$',JPN:'¥',CHN:'¥',HKG:'HK$',TWN:'NT$'};function _ghFmtVal(v,code){if(v==null||!v)return'';const s=_GH_CUR_SYM[code]||'';if(v>=1e12)return s+(v/1e12).toFixed(1)+'T';if(v>=1e9)return s+(v/1e9).toFixed(1)+'B';if(v>=1e6)return s+(v/1e6).toFixed(0)+'M';if(v>=1e3)return s+(v/1e3).toFixed(0)+'K';return s+Math.round(v);}
 function _ghExtHtml(code,rc){if(code!=='USA')return'';const v=_mmLive(rc);const e=v&&v.e;if(e==null)return'';const col=e>=0?'#e0726b':'#7fb0e8';return'<div style="font-size:9.5px;font-weight:600;line-height:1.05;color:'+col+';">('
 +(e>0?'+':'')+Number(e).toFixed(2)+'%)</div>';}
+function _usSession(){const et=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));const dow=et.getDay(),hm=et.getHours()*60+et.getMinutes();const wd=dow>=1&&dow<=5;const open=wd&&hm>=570&&hm<960;const d=new Date(et);if(!(open||(wd&&hm>=960))){do{d.setDate(d.getDate()-1);}while(d.getDay()===0||d.getDay()===6);}
+return{open,md:(d.getMonth()+1)+'/'+d.getDate()};}
 function _ghSectorView(items,code){const isUS=(code==='USA');const isAth=x=>(x.type||[]).includes('ath');const athN=items.filter(isAth).length;const w52N=items.length-athN;const raw={};items.forEach(x=>{const s=x.sector||'기타';(raw[s]=raw[s]||[]).push(x);});const grp={};Object.keys(raw).forEach(s=>{const bucket=(s!=='기타'&&raw[s].length>=2)?s:'기타';(grp[bucket]=grp[bucket]||[]).push(...raw[s]);});Object.values(grp).forEach(a=>a.sort((p,q)=>(q.mcap||0)-(p.mcap||0)));const order=Object.keys(grp).filter(s=>s!=='기타').sort((a,b)=>grp[b].length-grp[a].length);if(grp['기타'])order.push('기타');const SECT_GREEN='#4ade80';const pill=s=>{const sj=s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return'<div onclick="openGhSector(\''+sj+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:3px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);gap:6px;cursor:pointer;"'
 +' onmouseover="this.style.background=\'var(--border)\'" onmouseout="this.style.background=\'var(--card2)\'">'
 +'<span style="font-size:12.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">▣ '+s+'</span>'
@@ -547,10 +549,12 @@ function _ghSectorView(items,code){const isUS=(code==='USA');const isAth=x=>(x.t
 +'<td style="padding:2px 8px 2px 3px;text-align:right;">시총</td></tr>';const card=s=>'<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:8px;display:inline-block;width:100%;vertical-align:top;">'
 +'<div onclick="openGhSector(\''+_ghEsc(s)+'\')" title="섹터 전체 종목 보기" style="padding:4px 9px;background:'+SECT_GREEN+'1f;font-size:13px;font-weight:700;color:'+SECT_GREEN+';border-bottom:1px solid '+SECT_GREEN+'40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;">▣ '+s
 +' <span style="color:var(--muted);font-weight:400;">('+grp[s].length+')</span></div>'
-+'<table style="width:100%;border-collapse:collapse;table-layout:fixed;">'+colgroup+'<tbody>'+headRow+grp[s].map(row).join('')+'</tbody></table></div>';window._ghGrp=grp;window._ghCode=code;window._ghOrder=order;return'<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;flex-wrap:wrap;">'
++'<table style="width:100%;border-collapse:collapse;table-layout:fixed;">'+colgroup+'<tbody>'+headRow+grp[s].map(row).join('')+'</tbody></table></div>';window._ghGrp=grp;window._ghCode=code;window._ghOrder=order;let sessBadge='';if(code==='USA'){const us=_usSession();sessBadge=us.open?'<span style="font-size:12px;color:#22c55e;font-weight:700;">🟢 미국 '+us.md+' 장중 실시간</span>':'<span style="font-size:12px;color:var(--muted);font-weight:700;background:var(--card2);padding:2px 8px;border-radius:6px;">미국 '+us.md+' 종가 기준</span>';}
+return'<div style="display:flex;align-items:center;gap:12px;margin:2px 0 10px;flex-wrap:wrap;">'
 +'<span style="font-size:13px;color:#f59e0b;font-weight:700;">🏆 역사적 '+athN+'</span>'
 +'<span style="font-size:13px;color:#22c55e;font-weight:700;">📈 52주 '+w52N+'</span>'
-+'<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개 · 섹터 내 시총순</span></div>'
++'<span style="font-size:12px;color:var(--muted);">· 총 '+items.length+'개 · 섹터 내 시총순</span>'
++sessBadge+'</div>'
 +'<div class="gh-sec-grid" style="display:grid;grid-template-columns:180px 1fr;gap:10px;align-items:start;">'
 +'<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;">'
 +'<div style="font-size:14px;font-weight:800;margin-bottom:6px;">신고가 섹터</div>'
