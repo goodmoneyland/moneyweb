@@ -9,7 +9,7 @@
 <title>윈올 리포트 2026-06-23</title>
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:#070d1a; color:#e2e8f0; font-family:"Noto Sans KR",sans-serif; font-size:12px; }
+  body { background:#070d1a; color:#e2e8f0; font-family:"Noto Sans KR",sans-serif; font-size:12px; position:relative; }
   .header { background:#0f1829; border-bottom:1px solid #1e2d47; padding:14px 20px; display:flex; align-items:center; gap:16px; }
   .header-title { font-size:16px; font-weight:800; color:#fbbf24; }
   .header-sub { font-size:12px; color:#64748b; }
@@ -21,15 +21,36 @@
   tr:hover td { background:#1a2540 !important; }
   .th-group { background:#0f1829; color:#64748b; font-size:17px; }
   ::-webkit-scrollbar { height:4px; width:4px; } ::-webkit-scrollbar-thumb { background:#1e2d47; border-radius:4px; }
+  /* 모바일 카드(4줄) — 기본 숨김(PC는 표) */
+  .report-cards { display:none; }
+  .rcard { background:#0f1829; border:1px solid #1e2d47; border-radius:10px; padding:11px 13px; margin-bottom:9px; }
+  .rc-l1 { display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+  .rc-num { color:#64748b; font-size:12px; font-weight:700; }
+  .rc-tit { color:#93c5fd; font-weight:600; font-size:14px; line-height:1.4; word-break:keep-all; flex:1 1 100%; }
+  .rc-l2 { font-size:13px; color:#94a3b8; line-height:1.55; word-break:break-all; margin-bottom:7px; }
+  .rc-l3, .rc-l4 { font-size:13px; color:#cbd5e1; display:flex; align-items:center; gap:5px; flex-wrap:wrap; padding-top:6px; border-top:1px solid #1a2540; }
+  .rc-k { color:#64748b; font-size:11.5px; }
+  .rc-sep { color:#334155; margin:0 3px; }
+  /* 모바일(≤768px): 표 숨기고 카드 표시. PC 무영향. */
+  @media (max-width:768px){
+    .header { padding:10px 12px; gap:8px; flex-wrap:wrap; }
+    .header-title { font-size:14px; }
+    .table-wrap { display:none; }
+    .report-cards { display:block; padding:8px 10px 30px; }
+  }
+  .ml-wm-tile { position:absolute; inset:0; z-index:9; pointer-events:none; overflow:hidden;
+    background-repeat:repeat; background-position:center;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='340'%3E%3Ctext x='310' y='180' fill='%23ffffff' fill-opacity='0.11' font-size='38' font-weight='700' text-anchor='middle' font-family='sans-serif' transform='rotate(-18 310 180)'%3Emoneyland.co.kr%3C/text%3E%3C/svg%3E"); }
 </style>
 </head>
 <body>
+<div class="ml-wm-tile"></div>
 <div class="header">
   <div class="header-title">📋 윈올 리포트</div>
   <div class="header-sub">2026-06-23</div>
-  <div class="badge">총 47건</div>
+  <div class="badge">총 48건</div>
   <div style="margin-left:auto;font-size:11px;color:#64748b;">목표가 상향률 높은 순</div>
-  <div style="margin-left:16px;font-size:11px;color:#94a3b8;">업데이트: 2026-06-23 09:17</div>
+  <div style="margin-left:16px;font-size:11px;color:#94a3b8;">업데이트: 2026-06-23 09:21</div>
 </div>
 <div class="table-wrap">
 <table>
@@ -239,6 +260,19 @@
   <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+69.9%</span></td>
 </tr><tr style="background:#0b1525;">
   <td style="text-align:center;color:#64748b;">15</td>
+  <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A052400" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">코나아이</a></td>
+  <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">펀더멘털은 green green</td>
+  <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 주가 조정 국면, 펀더멘털 오히려 강화</div><div style="margin:0;">■ 메탈카드·플랫폼 동반 성장 구간</div><div style="margin:0;">■ Valuation & Risk: 본업 재평가 시점</div></td>
+  <td style="text-align:center;color:#a5b4fc;">신한</td>
+  <td style="text-align:center;color:#64748b;">4</td>
+  <td style="text-align:center;color:#64748b;font-size:17px;white-space:nowrap;">2026-05-07</td>
+  <td style="text-align:right;color:#94a3b8;">96,500</td>
+  <td style="text-align:right;font-weight:700;color:#fbbf24;">96,500</td>
+  <td style="text-align:center;"><span style="color:#94a3b8;font-weight:700;">+0.0%</span></td>
+  <td style="text-align:right;color:#94a3b8;">43,400</td>
+  <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+122.4%</span></td>
+</tr><tr style="background:#0f1829;">
+  <td style="text-align:center;color:#64748b;">16</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A161890" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">한국콜마</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">수주 온기 지속, 계절성 완화 가능성</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 기대치를 상회할 2분기</div><div style="margin:0;">■ 하반기에도 이어지는 온기</div></td>
@@ -250,8 +284,8 @@
   <td style="text-align:center;"><span style="color:#94a3b8;font-weight:700;">+0.0%</span></td>
   <td style="text-align:right;color:#94a3b8;">85,900</td>
   <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+39.7%</span></td>
-</tr><tr style="background:#0f1829;">
-  <td style="text-align:center;color:#64748b;">16</td>
+</tr><tr style="background:#0b1525;">
+  <td style="text-align:center;color:#64748b;">17</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A066970" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">엘앤에프</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">이어지는 실적 호조</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 예상보다 높은 외형성장세가 2Q26에도 유지될 것으로 보임</div><div style="margin:0;">■ 2Q26 매출액과 영업이익은 각각 9,004억원(YoY +73%), 567억원(YoY 흑자전환)으로 추정</div><div style="margin:0;">■ 총 물량은 QoQ +10%(2.5만톤), Blended ASP는 QoQ +13% 증가할 것으로 예상</div></td>
@@ -263,8 +297,8 @@
   <td style="text-align:center;"><span style="color:#f87171;font-weight:700;">-9.1%</span></td>
   <td style="text-align:right;color:#94a3b8;">123,700</td>
   <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+61.7%</span></td>
-</tr><tr style="background:#0b1525;">
-  <td style="text-align:center;color:#64748b;">17</td>
+</tr><tr style="background:#0f1829;">
+  <td style="text-align:center;color:#64748b;">18</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A090430" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">아모레퍼시픽</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">주가 반등 트리거 점검</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 서구권, 신규 진출 브랜드 이커머스 성과에 주목</div><div style="margin:0;">■ 2Q26 Preview: 컨센서스 부합 전망</div></td>
@@ -276,8 +310,8 @@
   <td style="text-align:center;"><span style="color:#f87171;font-weight:700;">-11.1%</span></td>
   <td style="text-align:right;color:#94a3b8;">100,300</td>
   <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+59.5%</span></td>
-</tr><tr style="background:#0f1829;">
-  <td style="text-align:center;color:#64748b;">18</td>
+</tr><tr style="background:#0b1525;">
+  <td style="text-align:center;color:#64748b;">19</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A192650" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">드림텍</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">하반기 기대되는 신성장 스토리</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 신사업 실적 가세 속도에 따라 밸류에이션 재평가도 충분</div><div style="margin:0;">■ 2026년 상저하고 전망, 메모리 모듈, 의료기기 성장 스토리 주목</div><div style="margin:0;">■ Valuation & Risk: 신사업 매출 가세 속도가 주가 기울기 결정</div></td>
@@ -289,8 +323,8 @@
   <td style="text-align:center;"><span style="color:#f87171;font-weight:700;">-11.1%</span></td>
   <td style="text-align:right;color:#94a3b8;">5,090</td>
   <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+57.2%</span></td>
-</tr><tr style="background:#0b1525;">
-  <td style="text-align:center;color:#64748b;">19</td>
+</tr><tr style="background:#0f1829;">
+  <td style="text-align:center;color:#64748b;">20</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A015760" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">한국전력</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">전쟁 여파의 지연 반영 불가피</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 2Q26 예상 영업이익 1.8조원 (-15.3% YoY): 미-이란 전쟁의 여파 반영 시작</div><div style="margin:0;">■ 종전 영향으로 국제 유가 안정화 시 밸류에이션 회복 기대</div></td>
@@ -302,19 +336,6 @@
   <td style="text-align:center;"><span style="color:#f87171;font-weight:700;">-14.3%</span></td>
   <td style="text-align:right;color:#94a3b8;">38,250</td>
   <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+41.2%</span></td>
-</tr><tr style="background:#0f1829;">
-  <td style="text-align:center;color:#64748b;">20</td>
-  <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">비상장</a></td>
-  <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">에스이에이-AI 인프라의 전력 및 패키징 한계 극복</td>
-  <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ AI 인프라 한계 극복에 필요한 차세대 소부장 파트너</div><div style="margin:0;">■ 안정적 전방 공급망에 기반한 태양광 부문 성과</div><div style="margin:0;">■ 차세대 기술의 밸류체인 구축 및 하이엔드 상용화 가속</div></td>
-  <td style="text-align:center;color:#a5b4fc;">NH</td>
-  <td style="text-align:center;color:#64748b;">3</td>
-  <td style="text-align:center;color:#64748b;font-size:17px;white-space:nowrap;">-</td>
-  <td style="text-align:right;color:#94a3b8;">-</td>
-  <td style="text-align:right;font-weight:700;color:#fbbf24;">-</td>
-  <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
-  <td style="text-align:right;color:#94a3b8;">-</td>
-  <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
 </tr><tr style="background:#0b1525;">
   <td style="text-align:center;color:#64748b;">21</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A007070" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">GS리테일</a></td>
@@ -421,7 +442,7 @@
   <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
 </tr><tr style="background:#0b1525;">
   <td style="text-align:center;color:#64748b;">29</td>
-  <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A221800" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">지구홀딩스</a></td>
+  <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A221800" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">유투바이오</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">지구력을 보유한 영구 투자 회사</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ IPO 업데이트: 한국판 버크셔를 지향하는 투자 회사</div><div style="margin:0;">■ 듀얼 트랙 M&A 전략과 2분기 외형 성장 본격화</div><div style="margin:0;">■ Valuation & Risk: 1Q26 일회성 비용 반영 및 자본 배분 정책 주목</div></td>
   <td style="text-align:center;color:#a5b4fc;">신한</td>
@@ -629,6 +650,19 @@
   <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
 </tr><tr style="background:#0b1525;">
   <td style="text-align:center;color:#64748b;">45</td>
+  <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A458870" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">씨어스</a></td>
+  <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">2030년 매출액 1조원으로 가는 길</td>
+  <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 초성장주의 보기 드문 탑승기회</div><div style="margin:0;">■ 구독모델, 병원 외 시장, 해외 시장의 성장 잠재력 분석</div><div style="margin:0;">■ Valuation & Risk: 목표주가 55,000원 제시</div></td>
+  <td style="text-align:center;color:#a5b4fc;">신한</td>
+  <td style="text-align:center;color:#64748b;">21</td>
+  <td style="text-align:center;color:#64748b;font-size:17px;white-space:nowrap;">-</td>
+  <td style="text-align:right;color:#94a3b8;">-</td>
+  <td style="text-align:right;font-weight:700;color:#fbbf24;">55,000</td>
+  <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
+  <td style="text-align:right;color:#94a3b8;">30,150</td>
+  <td style="text-align:center;"><span style="color:#22d3a0;font-weight:700;">+82.4%</span></td>
+</tr><tr style="background:#0f1829;">
+  <td style="text-align:center;color:#64748b;">46</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A465480" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">인스피언</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">Post IPO: 주주가치 제고에 진심</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 국내 1위 SAP 사업 파트너</div><div style="margin:0;">■ 신사업 부문의 본격적인 성장세 이어질 것</div><div style="margin:0;">■ 지속적이고 적극적인 기업가치 제고 계획</div></td>
@@ -640,8 +674,8 @@
   <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
   <td style="text-align:right;color:#94a3b8;">3,800</td>
   <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
-</tr><tr style="background:#0f1829;">
-  <td style="text-align:center;color:#64748b;">46</td>
+</tr><tr style="background:#0b1525;">
+  <td style="text-align:center;color:#64748b;">47</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A475230" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">엔알비</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">공공 주택이 달아주는 날개</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 고정비 부담 완화에 따른 원가율 안정</div><div style="margin:0;">■ 모듈러 중심의 공공 주택 수주 본격화</div><div style="margin:0;">■ 정부의 정책 수혜 및 기확보한 공공 주택 수주 잔고가 동사의 본격적인 성장세를 견인할 것</div></td>
@@ -653,8 +687,8 @@
   <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
   <td style="text-align:right;color:#94a3b8;">9,190</td>
   <td style="text-align:center;"><span style="color:#64748b;">-</span></td>
-</tr><tr style="background:#0b1525;">
-  <td style="text-align:center;color:#64748b;">47</td>
+</tr><tr style="background:#0f1829;">
+  <td style="text-align:center;color:#64748b;">48</td>
   <td style="text-align:left;"><a href="https://www.tradingview.com/chart/?symbol=KRX%3A481850" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">신한글로벌액티브리츠</a></td>
   <td style="text-align:left;color:#93c5fd;font-weight:600;font-size:17px;min-width:220px;word-break:keep-all;line-height:1.4;">이제 펀더멘탈 회복만 기다리면 된다</td>
   <td style="text-align:left;font-size:17px;color:#94a3b8;line-height:1.5;word-break:break-all;"><div style="margin:0;">■ 2027년 이후 살아날 투자매력</div><div style="margin:0;">■ 외부 변수는 최대한 방어. 펀더멘탈은 더디지만, 조금씩 개선 중</div><div style="margin:0;">■ Valuation & Risk: 할인율 축소 위해서는 실물자산 가격 회복이 필요</div></td>
@@ -669,6 +703,249 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="report-cards">
+<div class="rcard">
+  <div class="rc-l1"><span class="rc-num">1</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A066570" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">LG전자</a><span class="rc-tit">날 봐! 달라진 나를 봐!</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2Q26 Preview 서프라이즈 실적, 영업이익 1.5조원 전망</div><div style="margin:0;">■ 하반기 굵직한 모멘텀 대기중</div><div style="margin:0;">■ 투자의견 BUY, 목표주가 350,000원 상향</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 180,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">350,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+94.4%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 227,500<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+53.8%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">2</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A000660" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">SK하이닉스</a><span class="rc-tit">조화로운 전 부문 가정치 상향</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 매출액 85.6조원(+63%, 이하 QoQ), 영업이익 66.5조원(+77%)으로 컨센서스(OP 62.6조원) 상회할 전망</div><div style="margin:0;">■ 26년 매출액 375.9조원(+287%), 영업이익 294.2조원(+523%)으로 직전 대비 추정치 상향</div><div style="margin:0;">■ 적정주가 420만원으로 상향</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 2,500,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">4,200,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+68.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 2,888,000<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+45.4%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">3</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A122640" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">예스티</a><span class="rc-tit">할인의 근거 소멸, 멀티플 리레이팅 진행중</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 폭발적인 성장 잠재력, HPA 의 DRAM 적용 가시화</div><div style="margin:0;">■ 투자의견 BUY, 목표주가 50,000 원으로 목표주가 상향</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 35,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">50,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+42.9%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 38,250<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+30.7%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">4</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A005930" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">삼성전자</a><span class="rc-tit">눌릴 이유 없는 눌림은 적극 매수로</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 매출액 172.8조원(+29%, 이하 QoQ), 영업이익 93.3조원(+63%)으로 컨센서스(OP 87.2조원) 상회 전망</div><div style="margin:0;">■ 26년 매출액 775.7조원(+133%), 영업이익 438.0조원(+905%)으로 직전대비 상향 조정</div><div style="margin:0;">■ 적정주가 58.5만원으로 상향</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 450,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">585,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+30.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 353,250<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+65.6%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">5</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A003490" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">대한항공</a><span class="rc-tit">2Q26 Pre: 항공화물의 운임탄력성을 확인하다</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2분기 별도 영업이익 흑자!</div><div style="margin:0;">■ 유가 급등에도 불구하고 연간 감익 폭은 제한적일 것</div><div style="margin:0;">■ 합병으로 연간 3,000억원 시너지 효과, 통합 기대하며 목표주가 상향</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 32,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">38,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+18.8%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 27,050<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+40.5%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">6</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A000150" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">두산</a><span class="rc-tit">광모듈 시대의 숨겨진 주역</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2Q26 Preview: 압도적인 마진율 유지</div><div style="margin:0;">■ CCL/PCB: 광모듈 시대의 숨겨진 병목, 그 중심의 두산 전자BG</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 2,400,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">2,600,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+8.3%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 1,641,000<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+58.4%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">7</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A005440" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">현대지에프홀딩스</a><span class="rc-tit">거버넌스 선진화, 재평가로 귀결</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2Q26 Preview: OP 978억원(+31.2% YoY), 호실적 지속</div><div style="margin:0;">■ 2026년: 성장과 환원으로 지배구조 선진화 가속화</div><div style="margin:0;">■ 투자의견 BUY와 목표주가 20,000원 상향</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 19,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">20,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#22d3a0;font-weight:700;">+5.3%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 13,200<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+51.5%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">8</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A005940" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">NH투자증권</a><span class="rc-tit">향상된 이익체력에도 평균을 하회하는 멀티플</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 증권주 부진 지속 심화, 모멘텀 없으나 하락 지속 유인도 적음</div><div style="margin:0;">■ 1배까지 하락한 PBR, 반대급부로 배당수익률 5.8%까지 상승</div><div style="margin:0;">■ 2분기 순이익 1분기와 유사한 수준 전망, 컨센서스 20% 상회 예상</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 45,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">45,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 30,400<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+48.0%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">9</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A017670" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">SK텔레콤</a><span class="rc-tit">7월 전략 - 실적과 AI RAN이 주가 올릴 것</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 매수/TP 14만원/통신서비스업종 Top Pick 유지, 성장성 부각될 시점</div><div style="margin:0;">■ 2분기 연결 영업이익 1분기 이상일 것, 컨센서스 상향 조정되며 수급 유입 기대</div><div style="margin:0;">■ 국책 AI 사업자 선정, AI RAN 도입으로 성장성 기대감 높아질 전망</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 140,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">140,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 93,100<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+50.4%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">10</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A030000" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">제일기획</a><span class="rc-tit">주주환원은 굳건</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ AI 적용으로 광고 제작 효율화</div><div style="margin:0;">■ 2Q26E - 어려운 환경에도 실적 방어</div><div style="margin:0;">■ TP 2.6만원 및 투자의견 BUY 유지</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 26,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">26,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 18,710<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+39.0%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">11</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A030200" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">KT</a><span class="rc-tit">7월 전략 - 영업 비용에 대한 신중한 접근 필요한 시점</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 투자의견 매수, 목표가 76,000원으로 유지, 단기 박스권 등락 전망</div><div style="margin:0;">■ 2분기 연결 영업이익이 중요, 영업비용 많다면 올해 본사 영업이익 감소 전망</div><div style="margin:0;">■ 특별한 재료 없는 상황, 2027년 통신업종 주가 상승 기대한 장기 매수 추천</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 76,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">76,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 52,700<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+44.2%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">12</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A032640" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">LG유플러스</a><span class="rc-tit">7월 전략 - 재료 부상하며 2Q 실적 시즌 주가 오를 것</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 매수 유지/TP 20,000원 유지, SKT와 함께 7월 Top Picks로 제시</div><div style="margin:0;">■ 2Q 연결 영업이익 3,000억원 훌쩍 넘을 것, 실적 자신감 높아질 전망</div><div style="margin:0;">■ 8월 1천억원 수준 자사주 매입/소각 추진 예상, 눌렸던 주가 상승 전환 전망</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 20,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">20,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 14,520<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+37.7%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">13</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A042660" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">한화오션</a><span class="rc-tit">결과 발표만 남았다</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 6~7월 캐나다 잠수함, Venus FPSO 수주 결과 발표 예정</div><div style="margin:0;">■ 글로벌 Top-tier와의 경쟁, 그 이상의 가치</div><div style="margin:0;">■ 수주 성공 시, 글로벌 시장 내 입지 강화와 후속 수주 기대감 확대 가능</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 175,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">175,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 116,700<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+50.0%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">14</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A051500" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">CJ프레시웨이</a><span class="rc-tit">새로운 시장을 여는 플랫폼 리더로 도약 중</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 43조원 시장, 아직 열리지 않은 30조원</div><div style="margin:0;">■ 온라인 플랫폼이 바꾸는 식자재 유통</div><div style="margin:0;">■ 상품 구색과 인프라 경쟁력 바탕으로 시장 선도 기대</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 39,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">39,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 22,950<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+69.9%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">15</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A052400" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">코나아이</a><span class="rc-tit">펀더멘털은 green green</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 주가 조정 국면, 펀더멘털 오히려 강화</div><div style="margin:0;">■ 메탈카드·플랫폼 동반 성장 구간</div><div style="margin:0;">■ Valuation & Risk: 본업 재평가 시점</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 96,500<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">96,500</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 43,400<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+122.4%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">16</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A161890" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">한국콜마</a><span class="rc-tit">수주 온기 지속, 계절성 완화 가능성</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 기대치를 상회할 2분기</div><div style="margin:0;">■ 하반기에도 이어지는 온기</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 120,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">120,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#94a3b8;font-weight:700;">+0.0%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 85,900<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+39.7%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">17</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A066970" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">엘앤에프</a><span class="rc-tit">이어지는 실적 호조</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 예상보다 높은 외형성장세가 2Q26에도 유지될 것으로 보임</div><div style="margin:0;">■ 2Q26 매출액과 영업이익은 각각 9,004억원(YoY +73%), 567억원(YoY 흑자전환)으로 추정</div><div style="margin:0;">■ 총 물량은 QoQ +10%(2.5만톤), Blended ASP는 QoQ +13% 증가할 것으로 예상</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 220,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">200,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#f87171;font-weight:700;">-9.1%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 123,700<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+61.7%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">18</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A090430" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">아모레퍼시픽</a><span class="rc-tit">주가 반등 트리거 점검</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 서구권, 신규 진출 브랜드 이커머스 성과에 주목</div><div style="margin:0;">■ 2Q26 Preview: 컨센서스 부합 전망</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 180,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">160,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#f87171;font-weight:700;">-11.1%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 100,300<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+59.5%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">19</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A192650" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">드림텍</a><span class="rc-tit">하반기 기대되는 신성장 스토리</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 신사업 실적 가세 속도에 따라 밸류에이션 재평가도 충분</div><div style="margin:0;">■ 2026년 상저하고 전망, 메모리 모듈, 의료기기 성장 스토리 주목</div><div style="margin:0;">■ Valuation & Risk: 신사업 매출 가세 속도가 주가 기울기 결정</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 9,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">8,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#f87171;font-weight:700;">-11.1%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 5,090<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+57.2%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">20</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A015760" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">한국전력</a><span class="rc-tit">전쟁 여파의 지연 반영 불가피</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2Q26 예상 영업이익 1.8조원 (-15.3% YoY): 미-이란 전쟁의 여파 반영 시작</div><div style="margin:0;">■ 종전 영향으로 국제 유가 안정화 시 밸류에이션 회복 기대</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> 63,000<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">54,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#f87171;font-weight:700;">-14.3%</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 38,250<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+41.2%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">21</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A007070" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">GS리테일</a><span class="rc-tit">사업 구조조정 효과에 업황 개선까지</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 편의점 영업레버리지 구간 진입</div><div style="margin:0;">■ 홈쇼핑과 슈퍼 사업도 긍정적</div><div style="margin:0;">■ 부진 사업 구조조정 마무리</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 22,250<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">22</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A0088M0" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">메쥬</a><span class="rc-tit">멀티파라미터 제품 출시로 승부수</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 연내 M350 출시가 성장 가속화의 핵심 변수</div><div style="margin:0;">■ 침투율 5%, 이제 시작인 국내 원격환자 모니터링 시장</div><div style="margin:0;">■ Valuation & Risk: 수급 부담보다 중요한 것은 흑자 구조 증명</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 17,220<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">23</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A030520" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">한글과컴퓨터</a><span class="rc-tit">문서 SW에서 Sovereign Agentic OS로</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 문서 SW에서 Sovereign Agentic OS로 전환</div><div style="margin:0;">■ AI 매출은 전환의 초기 성과, 공공·유럽으로 확장</div><div style="margin:0;">■ 2026년 실적 회복과 낮아진 밸류에이션</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 18,970<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">24</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A036090" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">위지트</a><span class="rc-tit">이제는 반도체 소부장 기업으로의 Re-rating 필요, 자회사 지분가치는 이미 시가총액을 상회</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 디스플레이 장비 부품사에서 반도체 소부장으로 리레이팅 기대</div><div style="margin:0;">■ 반도체 사이클과 함께 가는 지배기업의 탑라인과 수익성</div><div style="margin:0;">■ 최대주주 지분율 확대 및 자회사 지분가치가 시가총액을 상회</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 1,299<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">25</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A039030" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">이오테크닉스</a><span class="rc-tit">공정 다변화와 고객사 확대가 만드는 신규 수요</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 레이저 기술 기반 장비 업체</div><div style="margin:0;">■ 공정, 고객사 확대 진행 중</div><div style="margin:0;">■ 신규 수요로 실적 성장 이룰 2026년</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 508,000<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">26</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A042510" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">라온시큐어</a><span class="rc-tit">성장하고 있는 AI 보안, 인증 플랫폼 강소기업</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 라온시큐어는 생체인증 기반 신원 인증, 모의해킹, 모바일 신분증 솔루션 전문기업</div><div style="margin:0;">■ 디지털 ID 시장은 2025 ~ 2031년 기간 연평균 20%로 高 성장 전망</div><div style="margin:0;">■ 기존 사업 성장과 신사업 태동이 기대되는 2026년</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 7,910<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">27</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A059210" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">메타바이오메드</a><span class="rc-tit">IR후기: 소재혁신센터 기반 신규사업 본격 추진</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ IR후기: 소재혁신센터를 기반으로 기존사업 확대 및 신규사업 본격 추진</div><div style="margin:0;">■ 2Q26 Preview: 전분기 대비 회복, 전년동기 대비 매출액 증가 예상</div><div style="margin:0;">■ 2026 Preview: 신규사업 성장과 함께 5년 연속 최대 매출액 갱신 전망</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 3,590<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">28</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A141080" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">리가켐바이오</a><span class="rc-tit">AI TOP2보다 TROP2</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 빅파마 검증 ADC, 옵션 행사 모멘텀 지속</div><div style="margin:0;">■ 치열한 TROP2 ADC 경쟁, MMAE 페이로드 바탕 차별점 보유</div><div style="margin:0;">■ Valuation & Risk: L/O 모멘텀과 수급 모두 우호적</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 130,800<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">29</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A221800" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">유투바이오</a><span class="rc-tit">지구력을 보유한 영구 투자 회사</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ IPO 업데이트: 한국판 버크셔를 지향하는 투자 회사</div><div style="margin:0;">■ 듀얼 트랙 M&A 전략과 2분기 외형 성장 본격화</div><div style="margin:0;">■ Valuation & Risk: 1Q26 일회성 비용 반영 및 자본 배분 정책 주목</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 7,030<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">30</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A226950" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">올릭스</a><span class="rc-tit">릴리가 검증한 플랫폼, 비만과 뷰티로 확장</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ MASH(MARC1;Lilly) 2상 진입, 비만(ALK7) 전임상 데이터 하반기 확인</div><div style="margin:0;">■ 로레알 지분투자로 파트너십 업그레이드</div><div style="margin:0;">■ siRNA 플랫폼의 extra-hepatic(피부/눈/CNS) 확장 본격화</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 128,100<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">31</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A267250" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">HD현대</a><span class="rc-tit">과도한 쏠림 현상에 가치주로 재평가</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2026년 수익 호전</div><div style="margin:0;">■ 주력 자회사의 실적 호전과 주주환원 확대</div><div style="margin:0;">■ 투자의견 매수 신규, 목표주가 350,000원 신규</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">350,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 223,500<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+56.6%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">32</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A290650" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">엘앤씨바이오</a><span class="rc-tit">리투오: 해외 야호~ 국내도 고마워~</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 해외 진출을 통해 2030년 국내, 해외 비중 5대 5 목표 제시</div><div style="margin:0;">■ 글로벌 최대 규모와 수요가 보장된 미국 시장</div><div style="margin:0;">■ 리투오, 2분기 매출도 강하다</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 86,500<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">33</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A307180" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">아이엘</a><span class="rc-tit">피지컬 AI 휴머노이드 사업 본격화, 기존 모빌리티 사업 안정 성장 지속</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 북미향 자동차 램프 적용 차종 확대 실리콘렌즈 CAPA 증설 기반 외형 성장</div><div style="margin:0;">■ 아이엘봇 현장 투입, 운영 데이터 확보 기반 피지컬 AI 휴머노이드 사업 본격화</div><div style="margin:0;">■ 애지봇 VAP 파트너십·공동개발 협력 기반 한국형 휴머노이드 플랫폼 구축</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 5,280<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">34</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A321550" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">티움바이오</a><span class="rc-tit">TGF-β 타깃의 가치 입증 임박</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ ASCO 2026 이후에도 유효한 모멘텀</div><div style="margin:0;">■ 토스포서팁·메리골릭스, Double Best-in-class 가능성</div><div style="margin:0;">■ Valuation & Risk: 모멘텀 모두 유효, 중장기적 접근 추천</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 3,875<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">35</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A323350" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">다원넥스뷰</a><span class="rc-tit">하반기 호실적 기대</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 사업 영역 다각화, 고객사 다변화로 성장성 재평가 기대</div><div style="margin:0;">■ 주력 고객사 성장 가속화 구간 → 전년대비 30% 이상 외형 성장 전망</div><div style="margin:0;">■ Valuation & Risk: 밸류에이션 부담 제한적, 대주주 이슈는 시간 필요</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 11,700<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">36</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A354320" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">알멕</a><span class="rc-tit">우주로 가는 프리미엄 알루미늄</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 고부가 프리미엄 알루미늄 공급사</div><div style="margin:0;">■ 우주항공 부품 양산개시와 알루미늄 신사업 모멘텀</div><div style="margin:0;">■ Valuation & Risk: 우주항공 메탈 기업 중 압도적 저평가</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 40,950<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">37</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A358570" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">지아이이노베이션</a><span class="rc-tit">키트루다와 손잡고 L/O 정조준</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ ASCO 구두 발표로 증명한 병용 파트너 가치</div><div style="margin:0;">■ 경쟁약물 IBI363 제치고 구두 발표: 유효성?안전성?활용성 모두 긍정적</div><div style="margin:0;">■ Valuation & Risk: 빅파마 최초 L/O 시 리레이팅 가능</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 11,200<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">38</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A382900" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">범한퓨얼셀</a><span class="rc-tit">잠수함용 수소연료전지 양대산맥</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 의심의 여지 없는 잠수함 매출 전망</div><div style="margin:0;">■ 장보고함에게 동해 바다는 좁다</div><div style="margin:0;">■ 액화수소 충전소 시장을 선점 중</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 26,550<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">39</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A396470" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">워트</a><span class="rc-tit">정상화를 넘어 성장 국면으로</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 실적 정상화 진행 중</div><div style="margin:0;">■ 해외 진출 통한 신규 고객사 확대 기대</div><div style="margin:0;">■ 주요 고객사의 투자 계획에 따라, 올해를 기점으로 동사는 향후 안정적인 실적 흐름을 보일 것으로 전망`</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 6,180<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">40</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A443060" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">HD현대마린솔루션</a><span class="rc-tit">조선/해운: 해외출장기: Posidonia 2026: 내일의 바다</span></div>
+  <div class="rc-l2">-</div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 211,000<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">41</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A443060" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">HD현대마린솔루션</a><span class="rc-tit">첫 신호탄 일발 장전</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 약은 약사에게, 배는 마솔에게</div><div style="margin:0;">■ 해상부유식데이터센터(FDC): 첫 신호탄 일발 장전</div><div style="margin:0;">■ 투자의견 Buy, 목표주가 320,000 원으로 신규 커버리지 개시</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">320,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 211,000<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+51.7%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">42</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A445090" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">에이직랜드</a><span class="rc-tit">ASIC 설계를 위한 교두보</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 국내 유일 TSMC 디자인 서비스 파트너사</div><div style="margin:0;">■ 1) 메모리 과제 비중 증가, 2) 대만 R&D 센터 기반 해외 수주 증가</div><div style="margin:0;">■ Valuation & Risk: 양산 본격 진입 및 손익분기점 달성 예상</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 26,650<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">43</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A457600" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">벡트</a><span class="rc-tit">성장 동력 확보 노력</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 조달?공공 시장에서의 영업 기반과 연계</div><div style="margin:0;">■ 교육용 하반기 회복, 상업용/기타 영역 확대</div><div style="margin:0;">■ Valuation & Risk: 2027년 신규 영역의 매출 기여</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 2,415<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">44</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A458650" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">성우</a><span class="rc-tit">원통형 이차전지 안전장치 제조업체</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 원통형 이차전지의 안전장치 캡어셈블리 제조기업</div><div style="margin:0;">■ LG에너지솔루션 46시리즈 확장과 동반 성장</div><div style="margin:0;">■ 기대감 없는 수준</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 9,240<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">45</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A458870" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">씨어스</a><span class="rc-tit">2030년 매출액 1조원으로 가는 길</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 초성장주의 보기 드문 탑승기회</div><div style="margin:0;">■ 구독모델, 병원 외 시장, 해외 시장의 성장 잠재력 분석</div><div style="margin:0;">■ Valuation & Risk: 목표주가 55,000원 제시</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">55,000</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 30,150<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#22d3a0;font-weight:700;">+82.4%</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">46</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A465480" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">인스피언</a><span class="rc-tit">Post IPO: 주주가치 제고에 진심</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 국내 1위 SAP 사업 파트너</div><div style="margin:0;">■ 신사업 부문의 본격적인 성장세 이어질 것</div><div style="margin:0;">■ 지속적이고 적극적인 기업가치 제고 계획</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 3,800<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">47</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A475230" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">엔알비</a><span class="rc-tit">공공 주택이 달아주는 날개</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 고정비 부담 완화에 따른 원가율 안정</div><div style="margin:0;">■ 모듈러 중심의 공공 주택 수주 본격화</div><div style="margin:0;">■ 정부의 정책 수혜 및 기확보한 공공 주택 수주 잔고가 동사의 본격적인 성장세를 견인할 것</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 9,190<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div><div class="rcard">
+  <div class="rc-l1"><span class="rc-num">48</span><a href="https://www.tradingview.com/chart/?symbol=KRX%3A481850" target="_blank" style="color:#e2e8f0;text-decoration:none;font-weight:700;white-space:nowrap;font-size:17px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#e2e8f0'">신한글로벌액티브리츠</a><span class="rc-tit">이제 펀더멘탈 회복만 기다리면 된다</span></div>
+  <div class="rc-l2"><div style="margin:0;">■ 2027년 이후 살아날 투자매력</div><div style="margin:0;">■ 외부 변수는 최대한 방어. 펀더멘탈은 더디지만, 조금씩 개선 중</div><div style="margin:0;">■ Valuation & Risk: 할인율 축소 위해서는 실물자산 가격 회복이 필요</div></div>
+  <div class="rc-l3"><span class="rc-k">이전</span> -<span class="rc-sep">·</span><span class="rc-k">신규</span> <b style="color:#fbbf24;">-</b><span class="rc-sep">·</span><span class="rc-k">상향률</span> <span style="color:#64748b;">-</span></div>
+  <div class="rc-l4"><span class="rc-k">종가</span> 861<span class="rc-sep">·</span><span class="rc-k">종가대비</span> <span style="color:#64748b;">-</span></div>
+</div>
 </div>
 </body>
 </html>
