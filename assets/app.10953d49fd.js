@@ -228,8 +228,8 @@ const rowHtml=r=>{const cl=r.UD_RT>=0?'#ef4444':'#3b82f6';const sign=r.UD_RT>=0?
         <td style="padding:7px 10px;font-size: 16.5px;color:var(--muted);">${r.SCTR_NM||'-'}</td>
         <td style="padding:7px 10px;text-align:right;font-size: 19.5px;font-weight:700;">${fmt(r.EPRC)}</td>
         <td style="padding:7px 10px;text-align:right;font-size: 19.5px;font-weight:800;color:${cl};">${sign+(r.UD_RT||0).toFixed(2)+'%'}</td>
-        <td style="padding:7px 10px;text-align:right;font-size: 18px;color:var(--muted);">${fmt(r.W52_HPRC||r.ALLTIME_HPRC)}</td>
-      </tr>`;};const thead=`<thead><tr>${['종목명','코드','섹터','종가','등락률','신고가'].map((c,i)=>
+        <td style="padding:7px 10px;text-align:right;font-size: 18px;color:#f59e0b;font-weight:700;">${fmt(r.HPRC||r.W52_HPRC||r.ALLTIME_HPRC)}</td>
+      </tr>`;};const thead=`<thead><tr>${['종목명','코드','섹터','종가','등락률','장중신고가'].map((c,i)=>
       `<th style="padding:8px 10px;text-align:${i>2?'right':'left'};font-size: 16.5px;color:var(--muted);border-bottom:2px solid var(--border);">${c}</th>`
     ).join('')}</tr></thead>`;const section=(title,rows,date)=>rows.length?`
       <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;">
