@@ -51,8 +51,19 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3,.g2{grid-template-columns:1fr;}}
-/* 모바일(≤768px): 상단 지수카드(이미지1) 숨김 — 잘림 방지(홈 지수와 중복). PC 무영향. */
-@media(max-width:768px){#idxCards{display:none;}}
+/* 모바일(≤768px): 상단 지수카드(3대지수+필반) 노출·축소 + 시장지표(.mac) 한 줄 정리. PC 무영향. */
+@media(max-width:768px){
+  #idxCards{display:grid;}
+  .idx{padding:11px 10px;}
+  .idx .v{font-size:18px;letter-spacing:-.5px;}
+  .idx .n{font-size:11.5px;margin-bottom:3px;}
+  .idx .c{font-size:11px;}
+  .mac{gap:9px;padding:11px 12px;}
+  .mac .ic{width:32px;height:32px;font-size:16px;}
+  .mac .l{font-size:11px;}
+  .mac .v{font-size:14px;white-space:nowrap;}
+  .mac .v span{font-size:11.5px !important;}
+}
 
 /* index cards */
 .idx{padding:16px 18px;text-align:center;border-top:3px solid var(--up);}
@@ -112,8 +123,8 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 .filt.on{background:var(--text);color:#fff;border-color:var(--text);}
 .sort-sel{margin-left:auto;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--text2);}
 .heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:8px;}
-/* 모바일: 섹터명 옆에 등락률 한 줄(긴 이름은 말줄임), 종목수(.ct) 숨김, 글자 축소 — PC(>520px) 무영향 */
-@media(max-width:520px){.heat{grid-template-columns:1fr 1fr;}.cell{padding:9px 10px;display:flex;align-items:baseline;gap:6px;}.cell .cn{font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.cell .cp{font-size:14px;margin-top:0;margin-left:auto;flex:0 0 auto;}.cell .ct{display:none;}}
+/* 모바일: 섹터명 전체 표시(이모지 숨김·줄바꿈 허용) + 등락률 작게 우측, 종목수(.ct) 숨김 — PC(>520px) 무영향 */
+@media(max-width:520px){.heat{grid-template-columns:1fr 1fr;}.cell{padding:9px 10px;display:flex;align-items:flex-start;gap:5px;}.cell .ce{display:none;}.cell .cn{font-size:11.5px;line-height:1.25;word-break:keep-all;flex:1 1 auto;min-width:0;}.cell .cp{font-size:13px;margin-top:0;margin-left:auto;flex:0 0 auto;white-space:nowrap;}.cell .ct{display:none;}}
 .cell{border-radius:11px;padding:12px 14px;cursor:pointer;border:1px solid transparent;transition:transform .1s,box-shadow .12s;position:relative;overflow:hidden;}
 .cell:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(15,23,42,.12);}
 .cell .cn{font-size:13.5px;font-weight:800;line-height:1.3;}
@@ -303,7 +314,7 @@ function renderHeat(){
   else arr.sort((a,b)=>a._i-b._i);
   $('#heat').innerHTML=arr.map(s=>
     `<div class="cell ${level(s._v)}" onclick="openSec(${s._i})">
-      <div class="cn">${s.name}</div><div class="cp">${s.pct}</div>
+      <div class="cn">${String(s.name).replace(/^([^\w가-힣]+?)\s+/, '<span class="ce">$1 </span>')}</div><div class="cp">${s.pct}</div>
       <div class="ct">${s.stocks.length}종목 ›</div></div>`).join('');
 }
 document.querySelectorAll('.filt').forEach(b=>b.onclick=()=>{
