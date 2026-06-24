@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국 모닝브리프 2026.06.25</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f3f5f9;--white:#fff;--card:#fff;--text:#0f172a;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--dn:#dc2626;--dn-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;--purple:#7c3aed;--gold:#d97706;--cyan:#0891b2;--pink:#db2777;
+  --border:#e2e8f0;--line:#eef1f6;--shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --head-h:60px;--nav-h:48px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+
+.hdr{position:sticky;top:0;z-index:50;height:var(--head-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:0 24px;}
+.hdr-title{font-size:19px;font-weight:900;letter-spacing:-.5px;white-space:nowrap;display:flex;align-items:center;gap:9px;}
+.hdr-title .flag{font-size:22px;}
+.hdr-date{font-size:13px;color:var(--text3);font-weight:700;white-space:nowrap;}
+.hdr-upd{margin-left:auto;font-size:11px;color:var(--text3);white-space:nowrap;font-weight:600;}
+
+.nav{position:sticky;top:var(--head-h);z-index:49;height:var(--nav-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:4px;padding:0 24px;overflow-x:auto;}
+.nav a{font-size:13.5px;font-weight:700;color:var(--text3);padding:7px 14px;border-radius:8px;white-space:nowrap;transition:.15s;}
+.nav a:hover{background:var(--line);color:var(--text);}
+.nav a.active{background:var(--blue);color:#fff;}
+
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
+section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-bottom:42px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.sec-tag{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--blue-bg);color:var(--blue);}
+.sec-tag.green{background:var(--up-bg);color:var(--up);}
+.sec-tag.purple{background:#ede9fe;color:var(--purple);}
+.sec-title{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+.sec-cnt{font-size:13px;color:var(--text3);font-weight:600;}
+.sub{font-size:14px;color:var(--text3);font-weight:700;margin:18px 0 10px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:860px){.g2{grid-template-columns:1fr;}}
+
+/* chips (섹터 색상) */
+.chip{font-size:13px;font-weight:800;padding:5px 13px;border-radius:16px;white-space:nowrap;display:inline-block;}
+.c-blue{background:var(--blue-bg);color:var(--blue);}
+.c-green{background:var(--up-bg);color:var(--up);}
+.c-red{background:var(--dn-bg);color:var(--dn);}
+.c-purple{background:#ede9fe;color:var(--purple);}
+.c-gold{background:#fef3c7;color:var(--gold);}
+.c-cyan{background:#cffafe;color:var(--cyan);}
+.c-pink{background:#fce7f3;color:var(--pink);}
+.sec-tag.c-blue-tag{background:var(--blue-bg);color:var(--blue);}
+.sec-tag.c-green-tag{background:var(--up-bg);color:var(--up);}
+.sec-tag.c-red-tag{background:var(--dn-bg);color:var(--dn);}
+.sec-tag.c-purple-tag{background:#ede9fe;color:var(--purple);}
+.sec-tag.c-gold-tag{background:#fef3c7;color:var(--gold);}
+.sec-tag.c-cyan-tag{background:#cffafe;color:var(--cyan);}
+.sec-tag.c-pink-tag{background:#fce7f3;color:var(--pink);}
+
+/* overview */
+.ov2{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;}
+@media(max-width:860px){.ov2{grid-template-columns:1fr;}}
+.iss-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;}
+.iss-row:last-child{border-bottom:none;}
+a.iss-row{cursor:pointer;border-radius:8px;transition:.12s;}
+a.iss-row:hover{background:var(--line);}
+a.iss-row:hover .iss-desc{color:var(--blue);}
+.iss-desc{font-size:14.5px;font-weight:600;line-height:1.45;}
+.picks{display:flex;flex-direction:column;gap:7px;}
+.pick{background:linear-gradient(135deg,#fff,#f1f5f9);border:1.5px solid #bfdbfe;border-radius:10px;
+  padding:10px 14px;font-size:14.5px;font-weight:800;text-align:center;transition:.15s;}
+.pick:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,.15);}
+.cardpad{padding:8px 8px;}
+.cardpad2{padding:18px 20px;}
+
+/* opinion */
+.opblk{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:16px 20px;box-shadow:var(--shadow);
+  border-left:5px solid var(--blue);margin-bottom:14px;}
+.opblk.positive{border-left-color:var(--up);margin-bottom:0;}
+.opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
+.opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
+.opblk.watch .opblk-t{margin-bottom:0;}
+.opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
+.opblk p:last-child{margin-bottom:0;}
+.opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
+.opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.opblk .g2{margin:0;}
+
+/* news — 연속 2열 그리드, 카드 높이 균일(--ncard-h), 본문은 카드 안에서 스크롤 (모바일은 1열) */
+:root{--ncard-h:470px;}
+#newsgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+@media(max-width:860px){#newsgrid{grid-template-columns:1fr;}}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:18px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;height:var(--ncard-h);overflow:hidden;
+  scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 14px);}
+.nkick{align-self:flex-start;margin-bottom:9px;flex-shrink:0;}
+.nhead{font-size:16.5px;font-weight:800;line-height:1.4;margin-bottom:8px;flex-shrink:0;}
+.news-src{font-size:12px;color:var(--blue);font-weight:600;margin-bottom:10px;display:inline-block;opacity:.85;word-break:break-all;flex-shrink:0;}
+.news-src:hover{opacity:1;text-decoration:underline;}
+.nbody{font-size:14px;color:var(--text2);line-height:1.78;margin-bottom:10px;
+  flex:1;min-height:0;overflow-y:auto;padding-right:6px;}
+.nbody p{margin-bottom:7px;}.nbody p:last-child{margin-bottom:0;}
+.nbody::-webkit-scrollbar{width:6px;}
+.nbody::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+.nbody::-webkit-scrollbar-track{background:transparent;}
+.news-stocks{flex-shrink:0;border-top:1px dashed var(--border);padding-top:11px;}
+.slist{display:none;flex-wrap:wrap;gap:7px;margin-top:10px;max-height:96px;overflow-y:auto;}
+.slist.show{display:flex;}
+.stog{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+  background:var(--pink-bg,#fce7f3);color:var(--pink);padding:7px 16px;border-radius:16px;
+  font-size:13px;font-weight:800;border:1.5px solid var(--pink);transition:.2s;}
+.stog:hover{background:var(--pink);color:#fff;}
+.stog .ar{transition:transform .25s;}
+.stog.open .ar{transform:rotate(90deg);}
+.spill{background:#fce7f3;color:var(--pink);padding:6px 14px;border-radius:14px;font-size:13px;font-weight:800;transition:.15s;cursor:pointer;}
+.spill:hover{background:var(--pink);color:#fff;}
+
+footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-title"><span class="flag">🇰🇷</span>한국 모닝브리프</div>
+  <div class="hdr-date">📈 2026.06.25 (목)</div>
+  <div class="hdr-upd">⟳ 2026-06-25 07:24</div>
+</header>
+
+<nav class="nav" id="nav">
+  <a href="#overview" class="active">요약</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
+  <a href="#news2">반도체/장비</a>
+  <a href="#news3">반도체/메모리</a>
+  <a href="#news4">에너지/정유</a>
+  <a href="#news5">방산</a>
+  <a href="#news6">제약바이오/바이오시밀러</a>
+  <a href="#news7">로봇(산업용/협동로봇 등)</a>
+  <a href="#news9">전력설비</a>
+  <a href="#news10">화장품</a>
+</nav>
+
+<div class="wrap">
+
+  <section id="overview">
+    <div class="sec-head"><span class="sec-tag">OVERVIEW</span><span class="sec-title">핵심 이슈 &amp; TOP PICKs</span></div>
+    <div class="ov2">
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">오늘의 핵심 이슈</div>
+        <a class="iss-row" href="#news2"><span class="chip c-blue">반도체/장비</span><span class="iss-desc">2026년 반도체 장비 투자 50% 이상 급증…웨이퍼 전공정 장비 강세</span></a><a class="iss-row" href="#news3"><span class="chip c-blue">반도체/메모리</span><span class="iss-desc">오픈AI, 자체 AI칩 '할라페뇨' 공개…"블랙웰·TPU와 대등 성능"</span></a><a class="iss-row" href="#news4"><span class="chip c-blue">에너지/정유</span><span class="iss-desc">호르무즈 해협 재개통으로 석유 시장에 빠르게 공급 쏟아져</span></a><a class="iss-row" href="#news5"><span class="chip c-red">방산</span><span class="iss-desc">독일 전함 프로젝트 취소로 방위산업 부진</span></a><a class="iss-row" href="#news6"><span class="chip c-blue">제약바이오/바이오시밀러</span><span class="iss-desc">[바이오USA]전태연 알테오젠 대표 "올해 역대 최대 기술수출 기대"</span></a><a class="iss-row" href="#news7"><span class="chip c-blue">로봇(산업용/협동로봇 등)</span><span class="iss-desc">"AI칩 다음은 로봇"…美 정부, 중국산 로봇 겨냥 추가 규제 검토</span></a><a class="iss-row" href="#news9"><span class="chip c-blue">전력설비</span><span class="iss-desc">GPU 확보했지만…AI팩토리 못짓는 이유 "네 가지 없어서"</span></a><a class="iss-row" href="#news10"><span class="chip c-blue">화장품</span><span class="iss-desc">'K컬처 400조원 시대' 목표로 K뷰티 산업 키운다</span></a>
+      </div>
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">⭐ TOP PICKs</div>
+        <div class="picks"><span class="pick" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="pick" onclick="openPopup('281820','케이씨텍')">케이씨텍</span><span class="pick" onclick="openPopup('090360','로보스타')">로보스타</span><span class="pick" onclick="openPopup('348340','뉴로메카')">뉴로메카</span><span class="pick" onclick="openPopup('459510','나우로보틱스')">나우로보틱스</span><span class="pick" onclick="openPopup('196170','알테오젠')">알테오젠</span><span class="pick" onclick="openPopup('298040','효성중공업')">효성중공업</span><span class="pick" onclick="openPopup('034020','두산에너빌리티')">두산에너빌리티</span><span class="pick" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="pick" onclick="openPopup('012450','한화에어로스페이스')">한화에어로스페이스</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opinion">
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/장비</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/메모리</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/정유</span><span class="chip c-blue" style="background:var(--down-bg);color:var(--down);">방산</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">제약바이오/바이오시밀러</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">로봇(산업용/협동로봇 등)</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>반도체/장비·반도체/메모리·에너지/정유·제약바이오/바이오시밀러</b> 섹터에 집중할 필요가 있음.</p><p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 전일 미국 시장은 나스닥이 소폭 하락한 반면 다우가 상승하며 성장주에서 경기민감주·산업재로 자금이 이동하는 로테이션 장세가 펼쳐졌음.</p><p>■ 기술주 피로감이 감지되는 가운데도 <b>AI 인프라</b>와 로봇이라는 두 개의 새로운 촉매가 시장의 주도 테마로 부상했음.</p><p>■ 첫 번째 주목 섹터는 로봇임.</p><p>■ 골드만삭스가 2035년 휴머노이드 로봇 시장 전망을 60억달러에서 380억달러로 6배 이상 상향 조정했고, 트럼프 행정부가 중국산 로봇 규제 검토에 나서면서 한국 로봇 기업에 반사이익이 예상됨.</p><p>■ 월가 자금이 AI 반도체 인프라에서 로봇 산업으로 이동하는 초기 신호가 포착됐음.</p><p>■ 두 번째 주목 섹터는 반도체 및 장비임.</p><p>■ 오픈AI가 공개한 자체 AI칩 '할라페뇨'가 삼성·하이닉스 메모리를 채택한 것으로 알려지며 국내 메모리 수요가 재확인됐음.</p><p>■ 동시에 테크인사이츠 보고서에서 2026년 <b>반도체 장비</b> 투자가 전년비 <span class="highlight">50%</span> 이상 증가할 전망이 제시되며 전공정 장비 관련주에 직접적 <b>수혜</b>가 기대됨.</p><p>■ 세 번째 주목 섹터는 전력설비·<b>AI인프라</b>임.</p><p>■ <b>메타</b>가 텍사스·미주리 <b>데이터센터</b>에서 1.6GW 규모 컴퓨팅 용량을 선점하는 <b>계약</b>을 체결했고, 젠슨 황 <b>엔비디아</b> CEO의 방한 시 네이버·SKT와의 AI팩토리 <b>협력</b> 논의가 구체화됐음.</p><p>■ GPU 확보보다 전력·냉각·네트워킹 인프라 확보가 병목임이 확인됐고, 이는 국내 변압기·전력설비 업체들의 <b>수주</b> 기회로 연결될 전망임.</p><p>■ 전반적으로 기술 성장주 과열 부담을 분산하되 <b>AI 인프라</b>와 로봇이라는 신규 테마에 선별적으로 접근하는 중립-공격 혼합 전략이 유효한 장세로 판단됨.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ 오픈AI 할라페뇨 칩이 삼성·<b>SK하이닉스</b> 메모리를 채택함으로써 빅테크 자체 칩 확산 속에도 한국 메모리 수요가 지속됨이 확인됐음</p><p>■ 골드만삭스의 휴머노이드 로봇 시장 전망 6배 상향과 미국 정부의 중국산 로봇 규제 검토가 동시에 부각되며 국내 협동·산업용 로봇 업체에 중장기 <b>수혜</b> 기대감이 높아졌음</p><p>■ <b>반도체 장비</b> 투자가 2026년 4분기에 <b>사상 최고</b>치 605억달러에 달할 전망이어서 케이씨텍·로보스타 등 전공정 장비 관련주의 <b>수주</b> 파이프라인 확대가 예상됨</p><p>■ 알테오젠이 바이오USA에서 <b>역대 최대</b> 기술수출 가능성을 언급하며 ADC·RNA 신규영역 확대와 MSD 마일스톤 1.5조원 잔여분이 부각돼 국내 <b>바이오시밀러</b>·기술수출 섹터에 <b>모멘텀</b>이 형성됐음</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ 호르무즈 해협 재개통 이후 석유 공급이 빠르게 시장을 채우면서 유가가 <b>급락</b>했고, 이는 S-Oil 등 국내 정유사의 정제마진 압박으로 직결될 가능성이 높아졌음</p><p>■ 독일 F126 프리깃 6척 프로젝트 취소로 글로벌 <b>방산</b>주가 <b>급락</b>했고, <b>한화에어로스페이스</b>·한화시스템 등 유럽 <b>방산</b> <b>모멘텀</b>을 기대했던 종목에 단기 차익실현 압력이 우려됨</p><p>■ <b>마이크로소프트</b>가 <span class="highlight">2%</span> 이상 하락하며 빅테크 전반의 고밸류에이션 부담이 재부각됐고, 이는 국내 AI 테마 추종 종목의 단기 변동성 확대 요인으로 작용할 전망임</p></div></div>
+  </section>
+
+  <section id="news">
+    <div class="sec-head"><span class="sec-tag">NEWS</span><span class="sec-title">섹터별 뉴스</span>
+      <span class="sec-cnt">총 9건</span></div>
+    <div id="newsgrid"><article class="ncard" id="news2"><span class="chip c-blue nkick">반도체/장비</span><div class="nhead">2026년 반도체 장비 투자 50% 이상 급증…웨이퍼 전공정 장비 강세</div><a class="news-src" href="https://n.news.naver.com/article/030/0003440957" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ 글로벌 반도체 제조 장비 투자 규모가 인공지능(AI) 수요 폭증에 힘입어 2026년 본격적인 확대 국면에 들어선 것으로 나타났음.</p><p>■ 시장조사업체 테크인사이츠(TechInsights)가 최근 발간한 '2026 Semiconductor Outlook Report'에 따르면, 2026년 <b>반도체 장비</b> 지출이 2025년 대비 <span class="highlight">50%</span> 이상 증가할 전망임.</p><p>■ 특히 2026년 4분기에는 전체 장비 지출이 <b>605억</b> 달러(약 8조3000억원)에 달해 <b>사상 최고</b>치를 기록할 것으로 예상됨.</p><p>■ 2025년 1분기 399억달러였던 전체 장비 지출은 2026년 4분기 이르러 약 <span class="highlight">51.6%</span> 증가할 것으로 전망됨.</p><p>■ 2026년 4분기 WFE 지출은 427억달러로 전체의 약 <span class="highlight">70%</span>를 차지하며, 절대액 기준으로도 3분기 만에 145억달러가 늘어났음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 7 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('489790','한화비전')">한화비전</span><span class="spill" onclick="openPopup('452160','제이엔비')">제이엔비</span><span class="spill" onclick="openPopup('451220','아이엠티')">아이엠티</span><span class="spill" onclick="openPopup('178320','서진시스템')">서진시스템</span><span class="spill" onclick="openPopup('090360','로보스타')">로보스타</span><span class="spill" onclick="openPopup('281820','케이씨텍')">케이씨텍</span><span class="spill" onclick="openPopup('089030','테크윙')">테크윙</span></div></div></article><article class="ncard" id="news3"><span class="chip c-blue nkick">반도체/메모리</span><div class="nhead">오픈AI, 자체 AI칩 '할라페뇨' 공개…"블랙웰·TPU와 대등 성능"</div><a class="news-src" href="https://n.news.naver.com/article/001/0016157363" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ 개발 기간 9개월로 역대 맞춤형 반도체 중 최단이며 삼성·하이닉스 메모리를 사용한 것으로 알려졌음.</p><p>■ 오픈AI와 브로드컴은 양사가 공동 개발한 AI 칩 '할라페뇨'를 24일(현지시간) 공개하고 올해 말부터 실제 <b>데이터센터</b> 등에 배치할 계획이라고 밝혔음.</p><p>■ 브로드컴의 호크 탄 최고경영자(CEO)와 찰리 카와스 사장은 할라페뇨 시제품을 직접 오픈AI의 샘 올트먼 최고경영자(CEO)와 그레그 브록먼 사장에게 전달했음.</p><p>■ 이 칩의 최종 성능은 아직 측정 중이지만, 초기 시험 결과에 따르면 현재 최첨단 기술과 견줘 단위 전력(W)당 성능이 더 우수한 것으로 나타났다고 양사는 설명했음.</p><p>■ 기존 AI 칩에서 병목으로 작용했던 데이터 이동을 줄이고, 연산·메모리·네트워킹 자원의 균형을 맞춰 이론상 최대 성능에 근접한 활용도를 달성했다는 것임.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 5 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('489790','한화비전')">한화비전</span><span class="spill" onclick="openPopup('281820','케이씨텍')">케이씨텍</span><span class="spill" onclick="openPopup('254490','미래반도체')">미래반도체</span></div></div></article><article class="ncard" id="news4"><span class="chip c-blue nkick">에너지/정유</span><div class="nhead">호르무즈 해협 재개통으로 석유 시장에 빠르게 공급 쏟아져</div><a class="news-src" href="https://finance.yahoo.com/energy/articles/hormuz-reopening-quickly-flooding-oil-173530056.html" target="_blank">🔗 finance.yahoo.com</a><div class="nbody"><p>■ 미국-이란 협정에 따른 호르무즈 해협 개통 후 석유 카고의 흐름이 가속화되면서 석유 시장의 주요 부분이 공급으로 넘쳐나고 있음.</p><p>■ 개통 이전에도 전략적 재고 방출의 조합, 최대 구매국인 중국으로부터의 수요 붕괴, 그리고 페르시아만에서 몰래 나가는 상당한 수의 탱커들이 일부 주요 시장에서 과잉 공급에 기여했다고 거래자들은 지적했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 5 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('010950','S-Oil')">S-Oil</span><span class="spill" onclick="openPopup('028670','팬오션')">팬오션</span><span class="spill" onclick="openPopup('100840','SNT에너지')">SNT에너지</span><span class="spill" onclick="openPopup('078930','GS')">GS</span><span class="spill" onclick="openPopup('015760','한국전력')">한국전력</span></div></div></article><article class="ncard" id="news5"><span class="chip c-red nkick">방산</span><div class="nhead">독일 전함 프로젝트 취소로 방위산업 부진</div><a class="news-src" href="https://www.cnbc.com/2026/06/24/rheinmetall-stock-defense-germany-warship-scrap-plans.html" target="_blank">🔗 cnbc.com</a><div class="nbody"><p>■ 방위산업주들이 독일의 전함 건설 계획 취소로 인해 <b>급락</b>했음.</p><p>■ 베를린이 F126 프리깃 6척 건설의 수십억 유로 규모 프로젝트를 포기할 계획이라는 보도에 따라 방위산업 <b>계약</b>자들의 주가가 <b>급락</b>했음.</p><p>■ 이는 제2차 세계대전 이후 가장 큰 전함 주문이 될 수 있었던 것이었음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 5 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('079550','LIG디펜스앤에어로스페이스')">LIG디펜스앤에어로스페이스</span><span class="spill" onclick="openPopup('012450','한화에어로스페이스')">한화에어로스페이스</span><span class="spill" onclick="openPopup('272210','한화시스템')">한화시스템</span><span class="spill" onclick="openPopup('474610','RF시스템즈')">RF시스템즈</span><span class="spill" onclick="openPopup('010820','퍼스텍')">퍼스텍</span></div></div></article><article class="ncard" id="news6"><span class="chip c-blue nkick">제약바이오/바이오시밀러</span><div class="nhead">[바이오USA]전태연 알테오젠 대표 "올해 역대 최대 기술수출 기대"</div><a class="news-src" href="https://n.news.naver.com/article/277/0005781079" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ ADC·RNA 등 신규 영역 확대 특허 불확실성 해소 MSD 마일스톤 1조<b>5000억</b> 남아 로열티도 3년 내 본격화 "<b>올해는 <b>계약</b> 건수와 규모 면에서 가장 높은 실적이 예상됩니다.</b>" 전태연 알테오젠 대표는 23일(현지시간) 미국 샌디에이고에서 열린 '2026 바이오 인터내셔널 컨벤션(바이오USA)'에서 이같이 말했음.</p><p>■ 전 대표는 <b>협상</b> 중인 딜 가운데 하나에 대해 "<b>지금까지 알테오젠이 체결했던 <b>계약</b> 중 규모가 가장 큰 것이 될 수 있다</b>"고 말했음.</p><p>■ 그는 "<b>최근 하나의 품목이 아니라 여러 품목을 한 번에 <b>계약</b>하려는 기업들이 늘고 있다</b>"며 "<b>그중 한 곳은 굉장히 많은 제품을 한꺼번에 하고 싶다고 해서 논의가 많이 진전됐다</b>"고 설명했음.</p><p>■ 회사측은 현재 약 10개 기업과 물질이전<b>계약</b>(MTA)을 진행 중임.</p><p>■ 기존 파트너사의 파이프라인 확장 수요도 늘고 있음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 7 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('196170','알테오젠')">알테오젠</span><span class="spill" onclick="openPopup('009420','한올바이오파마')">한올바이오파마</span><span class="spill" onclick="openPopup('0126Z0','삼성에피스홀딩스')">삼성에피스홀딩스</span><span class="spill" onclick="openPopup('068270','셀트리온')">셀트리온</span><span class="spill" onclick="openPopup('128940','한미약품')">한미약품</span><span class="spill" onclick="openPopup('000250','삼천당제약')">삼천당제약</span><span class="spill" onclick="openPopup('003850','보령')">보령</span></div></div></article><article class="ncard" id="news7"><span class="chip c-blue nkick">로봇(산업용/협동로봇 등)</span><div class="nhead">"AI칩 다음은 로봇"…美 정부, 중국산 로봇 겨냥 추가 규제 검토</div><a class="news-src" href="https://v.daum.net/v/20260625063150255" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 트럼프 행정부가 AI칩에 이어 중국산 로봇도 국가안보 위협으로 규정하고 추가 규제에 나설 가능성을 시사했음.</p><p>■ 23일(현지 시간) 폴리티코에 따르면 하워드 러트닉 미 상무장관은 이날 기업 대상 비공개 회의에서 "<b>중국 정부의 보조금을 받는 로봇 수입에 대한 조사를 진행 중</b>"이라며 검토가 끝나면 강경 대응에 나설 수 있다고 밝혔음.</p><p>■ 회의에는 로봇 제조기업 스페이스X와 보스턴 다이내믹스, 금융기업 JP모건 체이스와 골드만삭스, 기술 기업 지멘스, 산업 자동화 기업 로크웰 오토메이션 등 10여 개 기업 경영진이 참석했음.</p><p>■ 참석자들은 반도체와 로봇 등 차세대 제조업 기반을 미국 내에 다시 구축하는 방안을 논의한 것으로 알려졌음.</p><p>■ 무역법 301조에 따라 <span class="highlight">25%</span>의 관세가 붙는음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 7 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('012200','계양전기')">계양전기</span><span class="spill" onclick="openPopup('466100','클로봇')">클로봇</span><span class="spill" onclick="openPopup('090360','로보스타')">로보스타</span><span class="spill" onclick="openPopup('199430','케이엔알시스템')">케이엔알시스템</span><span class="spill" onclick="openPopup('000850','화천기공')">화천기공</span><span class="spill" onclick="openPopup('348340','뉴로메카')">뉴로메카</span><span class="spill" onclick="openPopup('459510','나우로보틱스')">나우로보틱스</span></div></div></article><article class="ncard" id="news8"><span class="chip c-blue nkick">로봇(산업용/협동로봇 등)</span><div class="nhead">"월가 거대한 돈, AI 다음 여기로"...'300조' 판 커지는 로봇시장</div><a class="news-src" href="https://v.daum.net/v/20260625070151742" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 최근 뉴욕 월스트리트에서 만난 글로벌 투자은행(IB) 관계자들의 한결 같은 진단임.</p><p>■ 지난 2년 동안 <b>엔비디아</b>를 필두로 반도체 인프라에 천문학적인 자금을 쏟아붓던 월가가 이제 AI 두뇌를 탑재하고 움직일 휴머노이드 로봇(인간형 로봇) 산업을 향하기 시작했음.</p><p>■ 글로벌 IB 골드만삭스는 지난 5월 발간한 보고서에서 당초 2035년 60억달러(약 9조2000억원) 수준으로 예측했던 전 세계 휴머노이드 로봇 시장 규모를 380억달러(약 58조4000억원)로 수정했음.</p><p>■ 바클레이즈는 좀더 낙관적인 시나리오를 적용할 경우 로봇 시장이 2035년 2000억달러(307조4000억원)까지 커질 수 있다고 예상했음.</p><p>■ 바클레이즈의 테모스 피오타키스 글로벌 외환·신흥시장 매크로 전략총괄은 머니투데이와 만나 "<b>스마트폰이나 TV 스트리밍 같은 혁신 기술이 등장했을 때도 시장은 향후 창출될 막대한 부를 보지 못하고 과소평가했다</b>"며 "<b>지금 금융시장 역시 로봇 산업이 가져올 자산 가치 상승 효과를 과소평가하고 있다</b>"고 말했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 7 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('012200','계양전기')">계양전기</span><span class="spill" onclick="openPopup('466100','클로봇')">클로봇</span><span class="spill" onclick="openPopup('090360','로보스타')">로보스타</span><span class="spill" onclick="openPopup('199430','케이엔알시스템')">케이엔알시스템</span><span class="spill" onclick="openPopup('000850','화천기공')">화천기공</span><span class="spill" onclick="openPopup('348340','뉴로메카')">뉴로메카</span><span class="spill" onclick="openPopup('459510','나우로보틱스')">나우로보틱스</span></div></div></article><article class="ncard" id="news9"><span class="chip c-blue nkick">전력설비</span><div class="nhead">GPU 확보했지만…AI팩토리 못짓는 이유 "네 가지 없어서"</div><a class="news-src" href="https://v.daum.net/v/20260625063200265" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 수천·수만 개의 GPU를 확보했다고 끝이 아니음.</p><p>■ 이를 연결하는 네트워크, 막대한 전력을 처리하는 설비, 발열을 잡는 냉각 시스템, 보안·관제 체계가 받쳐주지 않으면 AI팩토리는 돌아갈 수 없음.</p><p>■ 25일 블룸버그통신에 따르면 <b>메타</b>는 최근 <b>데이터센터</b> 개발·운영업체 크루소와 AI 컴퓨팅 용량 확보 <b>계약</b>을 맺었음.</p><p>■ <b>메타</b>는 미국 텍사스주 차일드리스와 미주리주 워렌턴에 있는 크루소 <b>데이터센터</b> 2곳에서 약 1.6GW 규모의 컴퓨팅 용량을 구매하기로 했음.</p><p>■ 젠슨 황 <b>엔비디아</b> 최고경영자(CEO)는 최근 방한 중 네이버, SK텔레콤 등과 AI팩토리 구축 <b>협력</b>을 논의했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 7 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('388050','지투파워')">지투파워</span><span class="spill" onclick="openPopup('298040','효성중공업')">효성중공업</span><span class="spill" onclick="openPopup('034020','두산에너빌리티')">두산에너빌리티</span><span class="spill" onclick="openPopup('237750','피앤씨테크')">피앤씨테크</span><span class="spill" onclick="openPopup('006340','대원전선')">대원전선</span><span class="spill" onclick="openPopup('066570','LG전자')">LG전자</span><span class="spill" onclick="openPopup('034730','SK')">SK</span></div></div></article><article class="ncard" id="news10"><span class="chip c-blue nkick">화장품</span><div class="nhead">'K컬처 400조원 시대' 목표로 K뷰티 산업 키운다</div><a class="news-src" href="https://v.daum.net/v/20260625064631463" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 한국 뷰티 산업의 매력을 전 세계에 알리는 '2026 코리아뷰티페스티벌'이 화려하게 시작됐음.</p><p>■ 이번 행사는 최근 'K컬처 시장 <b>400조</b> 원 시대' 구상이 확정된 이후 처음 열리는 대규모 'K컬처' 관련 행사로 평가됨.</p><p>■ 문화체육관광부는 한국관광공사와 함께 24일 오후 서울 중구 청계천변 하이커 그라운드에서 '2026 코리아뷰티페스티벌' 개막식을 개최했음.</p><p>■ 올해로 3회째를 맞는 '2026 코리아뷰티페스티벌'은 '올 어바웃 뷰티(All about Beauty)'를 주제로 다음 달 19일까지 계속됨.</p><p>■ 이날 진행된 개막식에는 '2026 코리아뷰티페스티벌' 홍보모델인 가수 겸 배우 혜리와 함께 한국관광 명예홍보대사 세시 드 라 쿠에바 및 차드라발 강인즈가 참석해 축제의 시작을 알렸음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 5 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('483650','달바글로벌')">달바글로벌</span><span class="spill" onclick="openPopup('214370','케어젠')">케어젠</span><span class="spill" onclick="openPopup('290650','엘앤씨바이오')">엘앤씨바이오</span><span class="spill" onclick="openPopup('032860','더라미')">더라미</span><span class="spill" onclick="openPopup('214260','라파스')">라파스</span></div></div></article></div>
+  </section>
+</div>
+
+<footer>moneyland · 한국시장 모닝브리프 · 2026.06.25</footer>
+
+<script>
+// 종목 클릭 → 부모 SPA의 한국 종목 팝업(openKrStock) 위임 (iframe 표준 패턴)
+function openPopup(cd, nm){
+  try {
+    if (window.parent && window.parent !== window && window.parent.openKrStock) {
+      window.parent.openKrStock(cd, nm || '');
+      return;
+    }
+  } catch(e){}
+  // 폴백: 단독 열람 시 TradingView
+  window.open('https://www.tradingview.com/chart/?symbol=KRX%3A' + cd, '_blank');
+}
+
+// scrollspy — 네비가 가리키는 요소(섹션 + 각 섹터 첫 카드)를 관찰
+const links=[...document.querySelectorAll('.nav a')];
+const targets=links.map(l=>document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));}});},
+  {rootMargin:'-110px 0px -72% 0px'});
+targets.forEach(t=>obs.observe(t));
+</script>
+</body>
+</html>
