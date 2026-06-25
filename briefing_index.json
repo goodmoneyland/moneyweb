@@ -29,7 +29,7 @@
   "kr-morning": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/morning/briefing_20260625_0724_slide.html"
     },
     {
@@ -56,7 +56,7 @@
   "us-evening": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/evening/evening_20260625.html"
     },
     {
@@ -82,8 +82,13 @@
   ],
   "report": [
     {
-      "label": "06.25 목",
+      "label": "06.26 금",
       "today": true,
+      "src": "/exports/report_20260626.html"
+    },
+    {
+      "label": "06.25 목",
+      "today": false,
       "src": "/exports/report_20260625.html"
     },
     {
@@ -100,17 +105,12 @@
       "label": "06.22 월",
       "today": false,
       "src": "/exports/report_20260622.html"
-    },
-    {
-      "label": "06.21 일",
-      "today": false,
-      "src": "/exports/report_20260621.html"
     }
   ],
   "value-chart": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/value_chart_20260625.html"
     },
     {
@@ -137,7 +137,7 @@
   "sector-per": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/sector_per_20260625.html"
     },
     {
@@ -164,7 +164,7 @@
   "kr-theme": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/kr_theme_20260625.html"
     },
     {
@@ -191,7 +191,7 @@
   "kr-thememap": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/thememap_20260625.html"
     },
     {
@@ -243,7 +243,7 @@
   "kr-tgtprc": [
     {
       "label": "06.25 목",
-      "today": true,
+      "today": false,
       "src": "/exports/tgtprc_20260625.html"
     },
     {
