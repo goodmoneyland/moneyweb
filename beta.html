@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script>function onFrameLoad(){}function _injectPeerPopup(){}</script><link rel="stylesheet" href="/assets/app.8a7492ac8f.css">
+<script>function onFrameLoad(){}function _injectPeerPopup(){}</script><link rel="stylesheet" href="/assets/app.2f9d01bdaf.css">
 </head>
 <body>
 
@@ -346,24 +346,11 @@
       <div class="bottom-card" onclick="switchTab('schedule',document.querySelector('[data-tab=\'schedule\']'))">
         <div class="bottom-card-head">
           📅 오늘 일정
+          <span class="bottom-date" id="date-schedule"></span>
           <span class="bottom-viewall">전체 일정 →</span>
         </div>
         <div class="bottom-card-body" id="home-schedule">
-          <div class="sch-row" onclick="switchTab('schedule',document.querySelector('[data-tab=\'schedule\']'))">
-            <span class="sch-time">10:00</span>
-            <span class="sch-title">한국은행 금통위 의사록 공개</span>
-            <span class="sch-badge badge-high">국내</span>
-          </div>
-          <div class="sch-row" onclick="switchTab('schedule',document.querySelector('[data-tab=\'schedule\']'))">
-            <span class="sch-time">08:30</span>
-            <span class="sch-title">미국 PCE 물가지수 (4월)</span>
-            <span class="sch-badge badge-high">미국</span>
-          </div>
-          <div class="sch-row" onclick="switchTab('schedule',document.querySelector('[data-tab=\'schedule\']'))">
-            <span class="sch-time">14:00</span>
-            <span class="sch-title">FOMC 의사록 공개</span>
-            <span class="sch-badge badge-med">미국</span>
-          </div>
+          <div style="color:var(--muted);font-size: 18px;padding:8px 0;">로딩중...</div>
         </div>
       </div>
 
@@ -371,6 +358,7 @@
       <div class="bottom-card" onclick="switchTab('kr-thememap',document.querySelector('[data-tab=\'kr-thememap\']'))">
         <div class="bottom-card-head">
           🔥 오늘 테마&amp;특징주
+          <span class="bottom-date" id="date-theme"></span>
           <span class="bottom-viewall">테마맵 보기 →</span>
         </div>
         <div class="bottom-card-body" id="home-theme">
@@ -382,6 +370,7 @@
       <div class="bottom-card" onclick="switchTab('kr-theme',document.querySelector('[data-tab=\'kr-theme\']'));switchKrThemeTab('stk-high',document.getElementById('krt-stk-high'))">
         <div class="bottom-card-head">
           📈 52주 신고가
+          <span class="bottom-date" id="date-newhigh"></span>
           <span class="bottom-viewall">관련주 전체보기 →</span>
         </div>
         <div class="bottom-card-body" id="home-newhigh">
@@ -786,6 +775,6 @@
 </div>
 </div>
 
-<script src="/assets/app.db8f40c7a5.js"></script>
+<script src="/assets/app.7ae638f133.js"></script>
 </body>
 </html>
