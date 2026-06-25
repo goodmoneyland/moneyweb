@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국 모닝브리프 2026.06.26</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f3f5f9;--white:#fff;--card:#fff;--text:#0f172a;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--dn:#dc2626;--dn-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;--purple:#7c3aed;--gold:#d97706;--cyan:#0891b2;--pink:#db2777;
+  --border:#e2e8f0;--line:#eef1f6;--shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --head-h:60px;--nav-h:48px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+
+.hdr{position:sticky;top:0;z-index:50;height:var(--head-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:0 24px;}
+.hdr-title{font-size:19px;font-weight:900;letter-spacing:-.5px;white-space:nowrap;display:flex;align-items:center;gap:9px;}
+.hdr-title .flag{font-size:22px;}
+.hdr-date{font-size:13px;color:var(--text3);font-weight:700;white-space:nowrap;}
+.hdr-upd{margin-left:auto;font-size:11px;color:var(--text3);white-space:nowrap;font-weight:600;}
+
+.nav{position:sticky;top:var(--head-h);z-index:49;height:var(--nav-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:4px;padding:0 24px;overflow-x:auto;}
+.nav a{font-size:13.5px;font-weight:700;color:var(--text3);padding:7px 14px;border-radius:8px;white-space:nowrap;transition:.15s;}
+.nav a:hover{background:var(--line);color:var(--text);}
+.nav a.active{background:var(--blue);color:#fff;}
+
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
+section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-bottom:42px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.sec-tag{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--blue-bg);color:var(--blue);}
+.sec-tag.green{background:var(--up-bg);color:var(--up);}
+.sec-tag.purple{background:#ede9fe;color:var(--purple);}
+.sec-title{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+.sec-cnt{font-size:13px;color:var(--text3);font-weight:600;}
+.sub{font-size:14px;color:var(--text3);font-weight:700;margin:18px 0 10px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:860px){.g2{grid-template-columns:1fr;}}
+
+/* chips (섹터 색상) */
+.chip{font-size:13px;font-weight:800;padding:5px 13px;border-radius:16px;white-space:nowrap;display:inline-block;}
+.c-blue{background:var(--blue-bg);color:var(--blue);}
+.c-green{background:var(--up-bg);color:var(--up);}
+.c-red{background:var(--dn-bg);color:var(--dn);}
+.c-purple{background:#ede9fe;color:var(--purple);}
+.c-gold{background:#fef3c7;color:var(--gold);}
+.c-cyan{background:#cffafe;color:var(--cyan);}
+.c-pink{background:#fce7f3;color:var(--pink);}
+.sec-tag.c-blue-tag{background:var(--blue-bg);color:var(--blue);}
+.sec-tag.c-green-tag{background:var(--up-bg);color:var(--up);}
+.sec-tag.c-red-tag{background:var(--dn-bg);color:var(--dn);}
+.sec-tag.c-purple-tag{background:#ede9fe;color:var(--purple);}
+.sec-tag.c-gold-tag{background:#fef3c7;color:var(--gold);}
+.sec-tag.c-cyan-tag{background:#cffafe;color:var(--cyan);}
+.sec-tag.c-pink-tag{background:#fce7f3;color:var(--pink);}
+
+/* overview */
+.ov2{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;}
+@media(max-width:860px){.ov2{grid-template-columns:1fr;}}
+.iss-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;}
+.iss-row:last-child{border-bottom:none;}
+a.iss-row{cursor:pointer;border-radius:8px;transition:.12s;}
+a.iss-row:hover{background:var(--line);}
+a.iss-row:hover .iss-desc{color:var(--blue);}
+.iss-desc{font-size:14.5px;font-weight:600;line-height:1.45;}
+.picks{display:flex;flex-direction:column;gap:7px;}
+.pick{background:linear-gradient(135deg,#fff,#f1f5f9);border:1.5px solid #bfdbfe;border-radius:10px;
+  padding:10px 14px;font-size:14.5px;font-weight:800;text-align:center;transition:.15s;}
+.pick:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,.15);}
+.cardpad{padding:8px 8px;}
+.cardpad2{padding:18px 20px;}
+
+/* opinion */
+.opblk{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:16px 20px;box-shadow:var(--shadow);
+  border-left:5px solid var(--blue);margin-bottom:14px;}
+.opblk.positive{border-left-color:var(--up);margin-bottom:0;}
+.opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
+.opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
+.opblk.watch .opblk-t{margin-bottom:0;}
+.opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
+.opblk p:last-child{margin-bottom:0;}
+.opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
+.opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.opblk .g2{margin:0;}
+
+/* news — 연속 2열 그리드, 카드 높이 균일(--ncard-h), 본문은 카드 안에서 스크롤 (모바일은 1열) */
+:root{--ncard-h:470px;}
+#newsgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+@media(max-width:860px){#newsgrid{grid-template-columns:1fr;}}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:18px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;height:var(--ncard-h);overflow:hidden;
+  scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 14px);}
+.nkick{align-self:flex-start;margin-bottom:9px;flex-shrink:0;}
+.nhead{font-size:16.5px;font-weight:800;line-height:1.4;margin-bottom:8px;flex-shrink:0;}
+.news-src{font-size:12px;color:var(--blue);font-weight:600;margin-bottom:10px;display:inline-block;opacity:.85;word-break:break-all;flex-shrink:0;}
+.news-src:hover{opacity:1;text-decoration:underline;}
+.nbody{font-size:14px;color:var(--text2);line-height:1.78;margin-bottom:10px;
+  flex:1;min-height:0;overflow-y:auto;padding-right:6px;}
+.nbody p{margin-bottom:7px;}.nbody p:last-child{margin-bottom:0;}
+.nbody::-webkit-scrollbar{width:6px;}
+.nbody::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+.nbody::-webkit-scrollbar-track{background:transparent;}
+.news-stocks{flex-shrink:0;border-top:1px dashed var(--border);padding-top:11px;}
+.slist{display:none;flex-wrap:wrap;gap:7px;margin-top:10px;max-height:96px;overflow-y:auto;}
+.slist.show{display:flex;}
+.stog{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+  background:var(--pink-bg,#fce7f3);color:var(--pink);padding:7px 16px;border-radius:16px;
+  font-size:13px;font-weight:800;border:1.5px solid var(--pink);transition:.2s;}
+.stog:hover{background:var(--pink);color:#fff;}
+.stog .ar{transition:transform .25s;}
+.stog.open .ar{transform:rotate(90deg);}
+.spill{background:#fce7f3;color:var(--pink);padding:6px 14px;border-radius:14px;font-size:13px;font-weight:800;transition:.15s;cursor:pointer;}
+.spill:hover{background:var(--pink);color:#fff;}
+
+footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-title"><span class="flag">🇰🇷</span>한국 모닝브리프</div>
+  <div class="hdr-date">📈 2026.06.26 (금)</div>
+  <div class="hdr-upd">⟳ 2026-06-26 07:19</div>
+</header>
+
+<nav class="nav" id="nav">
+  <a href="#overview" class="active">요약</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
+  <a href="#news2">반도체</a>
+  <a href="#news7">제약바이오/바이오시밀러</a>
+  <a href="#news8">제약바이오/면역항암제</a>
+  <a href="#news9">에너지/전력</a>
+  <a href="#news10">방위산업</a>
+</nav>
+
+<div class="wrap">
+
+  <section id="overview">
+    <div class="sec-head"><span class="sec-tag">OVERVIEW</span><span class="sec-title">핵심 이슈 &amp; TOP PICKs</span></div>
+    <div class="ov2">
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">오늘의 핵심 이슈</div>
+        <a class="iss-row" href="#news2"><span class="chip c-green">반도체</span><span class="iss-desc">오픈AI도 AI칩 직접 만들어 쓴다… 엔비디아 독주 견제·추론 비용 절감</span></a><a class="iss-row" href="#news7"><span class="chip c-blue">제약바이오/바이오시밀러</span><span class="iss-desc">알테오젠, 코스피行 답일까…'코스닥 잔류' 무게 실린다</span></a><a class="iss-row" href="#news8"><span class="chip c-blue">제약바이오/면역항암제</span><span class="iss-desc">[바이오USA] 이상훈 에이비엘바이오 대표 "12월 'ABL111′ 임상</span></a><a class="iss-row" href="#news9"><span class="chip c-blue">에너지/전력</span><span class="iss-desc">AI가 전기요금도 올린다…美 데이터센터 붐에 물가 새 불씨</span></a><a class="iss-row" href="#news10"><span class="chip c-blue">방위산업</span><span class="iss-desc">무기 소진한 미군, "중국과 분쟁에 취약" 몇 년 간다</span></a>
+      </div>
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">⭐ TOP PICKs</div>
+        <div class="picks"><span class="pick" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="pick" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="pick" onclick="openPopup('042700','한미반도체')">한미반도체</span><span class="pick" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span><span class="pick" onclick="openPopup('298040','효성중공업')">효성중공업</span><span class="pick" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="pick" onclick="openPopup('064350','현대로템')">현대로템</span><span class="pick" onclick="openPopup('298380','에이비엘바이오')">에이비엘바이오</span><span class="pick" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="pick" onclick="openPopup('453450','그리드위즈')">그리드위즈</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opinion">
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--up-bg);color:var(--up);">반도체</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">제약바이오/바이오시밀러</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">제약바이오/면역항암제</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/전력</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">방위산업</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>반도체·제약바이오/바이오시밀러·제약바이오/면역항암제·에너지/전력</b> 섹터에 집중할 필요가 있음.</p><p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 전일 미국 시장은 나스닥이 소폭 하락하며 기술주 전반이 숨고르기에 들어간 반면, 다우는 상승하며 가치주로의 순환매 흐름이 감지됐음.</p><p>■ <b>애플</b>이 메모리 비용 <b>급등</b>을 이유로 제품 가격을 공식 인상하면서 <span class="highlight">6%</span> 넘게 <b>급락</b>했는데, 이는 역설적으로 메모리 반도체 가격 <b>강세</b>가 공급망 전반에 확인됐음을 의미함.</p><p>■ 반도체 섹터는 오늘 가장 뜨거운 화두임.</p><p>■ 오픈AI가 브로드컴과 공동 개발한 자체 AI 칩 '할라페뇨'를 공개하면서 빅테크의 <b>엔비디아</b> 의존도 축소 전략이 현실화됐지만, 이 칩들에 탑재될 <b>HBM</b> 수요는 오히려 폭발적으로 늘어나는 구조여서 <b>SK하이닉스</b>·<b>삼성전자</b>의 <b>HBM</b> 공급자 지위는 더욱 공고해질 전망임.</p><p>■ <b>SK하이닉스</b>의 나스닥 상장 추진(약 300억달러 규모)은 글로벌 투자자들의 한국 반도체 섹터 재평가를 이끄는 기폭제가 될 것으로 예상됨.</p><p>■ 에너지·전력 섹터는 AI <b>데이터센터</b> 붐이 전력 수요를 구조적으로 끌어올리는 메가트렌드 <b>수혜</b> 구간임.</p><p>■ 알파벳·<b>아마존</b>·<b>메타</b>·<b>마이크로소프트</b>·오라클 5개사만 올해 설비투자가 7,410억달러로 추정되는데, 이 투자의 상당 부분이 전력 인프라로 흘러가는 만큼 국내 전력기기·변압기·에너지저장장치 업체들의 <b>수주</b> 파이프라인 확대가 지속될 전망임.</p><p>■ 단순한 테마가 아니라 실제 <b>수주</b>가 실적으로 연결되는 단계에 진입했다는 점에서 접근 유효함.</p><p>■ 방위산업 섹터는 이란 전쟁으로 미군 장거리 스텔스 순항미사일 재고의 대부분이 소진됐다는 NYT 보도가 나오면서 서방 동맹국 전체의 무기 보충 수요가 재점화될 것으로 전망됨.</p><p>■ 미군 재고 재건에 수년이 걸린다는 분석은 K-<b>방산</b> 수출 확대 스토리에 추가적인 구조적 논거를 제공했음.</p><p>■ 직접적인 <b>수혜</b>보다는 글로벌 <b>방산</b> 사이클 장기화 관점에서 현대로템·쎄크 등 중장기 보유 전략이 유효함.</p><p>■ 전체 시장 톤은 반도체 재평가와 <b>방산</b>·에너지 구조 <b>수혜</b>가 동시에 부각되는 섹터 선별 공격 전략이 유효한 장세임.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ 오픈AI 자체 AI 칩 <b>상용화</b>로 추론 수요가 급팽창하면서 <b>HBM</b> 수요 증가가 재확인됐고, <b>SK하이닉스</b>·<b>삼성전자</b>의 고부가 메모리 중심 포지셔닝은 더욱 공고해질 전망임.</p><p>■ <b>SK하이닉스</b> 나스닥 상장 추진은 글로벌 투자자들의 한국 반도체 기업 밸류에이션 할인 해소 촉매로 작용할 것으로 예상되며, 국내 <b>반도체 장비</b>·소재 서플라이체인 전반에 긍정적 센티먼트를 제공할 것으로 보임.</p><p>■ 미국 빅테크 5개사의 연간 설비투자 7,410억달러 규모가 전력 인프라 비용 상승을 주도하고 있어, LS ELECTRIC·효성중공업 등 국내 전력기기 업체들의 <b>수주</b> <b>모멘텀</b>은 하반기까지 이어질 전망임.</p><p>■ 에이비엘바이오의 ABL111이 올해 12월 글로벌 <b>임상</b> 3상에 진입하면 바이오USA에서의 파트너링 기대감이 높아져 국내 면역항암제 파이프라인 보유 바이오텍 전반의 기술수출 기대감이 재점화될 것으로 예상됨.</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ <b>애플</b>이 메모리 <b>공급 부족</b>을 이유로 제품 가격을 공식 인상하면서 소비자 수요 위축 우려가 부각됐고, 이는 스마트폰 및 소비가전 수요 연관 부품주(LG전자 등)에 단기 부담이 될 전망임.</p><p>■ 중국 CXMT·YMTC 등 범용 메모리 업체들이 1년 새 점유율을 최대 2배 확대했다는 집계가 나왔는데, <b>삼성전자</b>·<b>SK하이닉스</b>가 <b>HBM</b>에 집중하는 사이 레거시 D램·낸드 시장에서의 가격 하방 압력이 점진적으로 강화될 리스크가 있음.</p><p>■ 오픈AI IPO가 내년으로 연기될 가능성이 보도되면서 AI 유니콘 밸류에이션 전반에 대한 시장 신뢰가 흔들릴 수 있고, 이는 AI 테마 고밸류에이션 종목들의 단기 조정 빌미로 작용할 수 있음.</p></div></div>
+  </section>
+
+  <section id="news">
+    <div class="sec-head"><span class="sec-tag">NEWS</span><span class="sec-title">섹터별 뉴스</span>
+      <span class="sec-cnt">총 9건</span></div>
+    <div id="newsgrid"><article class="ncard" id="news2"><span class="chip c-green nkick">반도체</span><div class="nhead">오픈AI도 AI칩 직접 만들어 쓴다… 엔비디아 독주 견제·추론 비용 절감 총력</div><a class="news-src" href="https://n.news.naver.com/article/366/0001174528?sid=105" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ 오픈AI, 브로드컴과 공동 개발한 '할라페뇨' 공개 불붙은 빅테크 'AI 칩 자립' 경쟁 <b>삼성전자</b>·<b>SK하이닉스</b>에 <b>호재</b>될까 오픈AI가 브로드컴과 공동 개발한 인공지능(AI) 반도체를 선보이면서 미국 빅테크 기업들의 자체 AI 칩 개발 경쟁이 치열해질 것이란 전망이 나온음.</p><p>■ 기업들은 반도체 수급난이 지속되는 가운데 <b>급증</b>하는 AI 수요에 대응하고, AI 가속기 시장을 사실상 독점하고 있는 <b>엔비디아</b>의 의존도를 낮추기 위해 앞다퉈 직접 설계한 AI 칩의 <b>상용화</b>에 속도를 내고 있음.</p><p>■ AI 에이전트 확산으로 막대한 비용이 드는 추론이 AI 연산의 <span class="highlight">60%</span> 이상을 차지하는 수준까지 높아지자, 특정 연산이나 자사 워크로드(연산 작업)에 최적화된 맞춤형 AI 칩을 도입해 AI 모델의 운영 비용을 낮추고, 장기적으로 외부 기업에 AI 칩을 판매해 차세대 매출원으로 키우는 청사진을 제시하고 있음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 11 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('089030','테크윙')">테크윙</span><span class="spill" onclick="openPopup('003160','디아이')">디아이</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span><span class="spill" onclick="openPopup('042700','한미반도체')">한미반도체</span><span class="spill" onclick="openPopup('039440','에스티아이')">에스티아이</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('000990','DB하이텍')">DB하이텍</span><span class="spill" onclick="openPopup('469610','이노테크')">이노테크</span></div></div></article><article class="ncard" id="news3"><span class="chip c-green nkick">반도체</span><div class="nhead">삼성·SK, HBM 경쟁할 때 中 '범용 메모리' 시장 잠식 [biz-플러스]</div><a class="news-src" href="https://n.news.naver.com/article/011/0004635135" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ ■카운터포인트리서치 1분기 집계 韓 양강, D램·낸드 1위 수성 <b>HBM</b> <b>SK하이닉스</b> <span class="highlight">58%</span> 과반 中 CXMT·YMTC, 점유율 2배 범용 시장서 존재감 키우는 듯 중국 메모리 반도체 업체들이 1년 사이 점유율 최대 2배까지 늘리며 약진하고 있음.</p><p>■ <b>삼성전자</b>(005930) 와 <b>SK하이닉스</b>(000660) 등 메모리 빅2가 고대역폭메모리(<b>HBM</b>) 등 첨단 시장에 역량을 집중한 빈자리를 중국 기업이 범용(레거시) 제품 공세로 파고든 결과음.</p><p>■ 향후 첨단 시장은 한국이 주도하고 범용 시장은 중국 비중이 확대되는 구조가 한층 굳어질 것이란 전망이 나온음.</p><p>■ 25일 시장조사업체 카운터포인트리서치에 따르면 올 1분기 세계 D램 시장에서 <b>삼성전자</b>는 매출 기준 점유율 <span class="highlight">38%</span>로 1위를 기록했음.</p><p>■ <b>SK하이닉스</b>와 마이크론이 각각 <span class="highlight">29%</span>와 <span class="highlight">22%</span> 점유율로 뒤를 이었음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 11 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('089030','테크윙')">테크윙</span><span class="spill" onclick="openPopup('003160','디아이')">디아이</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span><span class="spill" onclick="openPopup('042700','한미반도체')">한미반도체</span><span class="spill" onclick="openPopup('039440','에스티아이')">에스티아이</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('000990','DB하이텍')">DB하이텍</span><span class="spill" onclick="openPopup('469610','이노테크')">이노테크</span></div></div></article><article class="ncard" id="news4"><span class="chip c-green nkick">반도체</span><div class="nhead">빠른 소식: 뉴욕타임즈는 세 명의 소식통을 인용하여 OpenAI가 IPO 시간을 내년으로 연기할 가능성이 있다고 보도했습니다. OpenAI의 IPO를 지원하는 은행가들은 최근 기술주와 SpaceX 상장 이후 주가가 큰 변동성을 보이고 있어, 이것이 OpenAI 주식 판매에 대한 소매 투자자들의 열정을 약화시킬 수 있다고 경고했습니다. OpenAI의 CEO 샘 알트만은 은행가와 변호사를 포함한 고문들에게 평가 목표를 1조 달러로 설정하도록 촉구했습니다.</div><a class="news-src" href="https://wallstreetcn.com/livenews/3124858?ivk=1#from=ios" target="_blank">🔗 wallstreetcn.com</a><div class="nbody"></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 11 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('089030','테크윙')">테크윙</span><span class="spill" onclick="openPopup('003160','디아이')">디아이</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span><span class="spill" onclick="openPopup('042700','한미반도체')">한미반도체</span><span class="spill" onclick="openPopup('039440','에스티아이')">에스티아이</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('000990','DB하이텍')">DB하이텍</span><span class="spill" onclick="openPopup('469610','이노테크')">이노테크</span></div></div></article><article class="ncard" id="news5"><span class="chip c-green nkick">반도체</span><div class="nhead">애플, 대대적 제품 가격 인상에 주가 급락…5%↓</div><a class="news-src" href="https://news.einfomax.co.kr/news/articleView.html?idxno=4421932" target="_blank">🔗 news.einfomax.co.kr</a><div class="nbody"><p>■ AI 산업 팽창에 메모리 및 스토리지 <b>공급 부족</b> (뉴욕=연합인포맥스) 진정호 특파원 = <b>애플</b>(NAS:AAPL)이 메모리 및 스토리지 비용 <b>급등</b>으로 제품 가격을 공식적으로 인상하자 <b>애플</b> 주가가 가파르게 떨어지고 있음.</p><p>■ 연합인포맥스의 종목 현재가 화면(화면번호 7219)에 따르면 25일(현지시간) 오전 10시 15분 현재 <b>애플</b>의 주가는 전장 대비 <span class="highlight">4.99%</span> 하락한 278.445달러에 거래되고 있음.</p><p>■ 4거래일 연속 하락임.</p><p>■ 팀 쿡 <b>애플</b> 최고경영자(CEO)는 며칠 전 메모리 칩 가격 <b>급등</b>으로 제품 가격 인상이 불가피하다고 밝힌 바 있음.</p><p>■ 이날 하락폭은 지난 2월 이후 최대음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 11 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('089030','테크윙')">테크윙</span><span class="spill" onclick="openPopup('003160','디아이')">디아이</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span><span class="spill" onclick="openPopup('042700','한미반도체')">한미반도체</span><span class="spill" onclick="openPopup('039440','에스티아이')">에스티아이</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('000990','DB하이텍')">DB하이텍</span><span class="spill" onclick="openPopup('469610','이노테크')">이노테크</span></div></div></article><article class="ncard" id="news6"><span class="chip c-green nkick">반도체</span><div class="nhead">월가 "SK하이닉스 나스닥 상장, 마이크론엔 '양날의 검'"</div><a class="news-src" href="https://news.einfomax.co.kr/news/articleView.html?idxno=4421873" target="_blank">🔗 news.einfomax.co.kr</a><div class="nbody"><p>■ <b>SK하이닉스</b>가 약 300억달러 규모의 미국 나스닥 상장을 추진하면서 글로벌 메모리 반도체 업계와 투자자들의 관심이 집중되고 있음.</p><p>■ 월가에서는 <b>SK하이닉스</b>가 미국 상장을 통해 기업가치 재평가를 받을 가능성이 크다고 봤음.</p><p>■ 24일(현지시간) <b>SK하이닉스</b>는 미국 나스닥 상장을 추진한다고 밝혔음.</p><p>■ 시장에서는 이번 상장 규모를 약 300억달러 수준으로 평가하고 있음.</p><p>■ 미국 증시에 상장된 메모리 반도체 기업들의 선행 주가수익비율(PER)은 마이크론이 9.46배, 샌디스크가 10.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 11 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('089030','테크윙')">테크윙</span><span class="spill" onclick="openPopup('003160','디아이')">디아이</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span><span class="spill" onclick="openPopup('042700','한미반도체')">한미반도체</span><span class="spill" onclick="openPopup('039440','에스티아이')">에스티아이</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('000990','DB하이텍')">DB하이텍</span><span class="spill" onclick="openPopup('469610','이노테크')">이노테크</span></div></div></article><article class="ncard" id="news7"><span class="chip c-blue nkick">제약바이오/바이오시밀러</span><div class="nhead">알테오젠, 코스피行 답일까…'코스닥 잔류' 무게 실린다</div><a class="news-src" href="http://www.hansbiz.co.kr/news/articleView.html?idxno=846323" target="_blank">🔗 hansbiz.co.kr</a><div class="nbody"><p>■ 서울=한스경제 | 코스피 이전상장을 추진 중인 알테오젠을 둘러싸고 최근 시장의 시선이 달라지고 있음.</p><p>■ 과거에는 대형 바이오기업의 코스피 이전이 기업가치 제고와 기관투자가 유입을 위한 자연스러운 수순으로 평가받았지만, 최근 정부가 코스닥 시장 활성화 정책을 잇달아 내놓으면서 오히려 코스닥에 남는 것이 더 유리할 수 있다는 분석이 힘을 얻고 있음.</p><p>■ 26일 제약바이오업계에 따르면 알테오젠은 지난해 주주총회를 통해 코스피 이전상장을 결의하고 관련 절차를 진행하고 있음.</p><p>■ 회사는 이미 이전상장 주관사를 선정한 데 이어 유가증권시장 입성을 준비하고 있으며 최근에도 "<b>이전상장 계획에는 변화가 없지만 달라진 시장 환경은 면밀히 검토하고 있다</b>"는 입장을 표명한 바 있음.</p><p>■ ▲ 국민성장펀드·코스닥 승강제…달라진 정책 환경 올해 들어 정부의 코스닥 활성화 정책이 본격화되면서 시장 환경에도 변화가 나타나고 있음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 9 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('009420','한올바이오파마')">한올바이오파마</span><span class="spill" onclick="openPopup('196170','알테오젠')">알테오젠</span><span class="spill" onclick="openPopup('0126Z0','삼성에피스홀딩스')">삼성에피스홀딩스</span><span class="spill" onclick="openPopup('068270','셀트리온')">셀트리온</span><span class="spill" onclick="openPopup('128940','한미약품')">한미약품</span><span class="spill" onclick="openPopup('053030','바이넥스')">바이넥스</span><span class="spill" onclick="openPopup('006280','녹십자')">녹십자</span><span class="spill" onclick="openPopup('068760','셀트리온제약')">셀트리온제약</span><span class="spill" onclick="openPopup('003850','보령')">보령</span></div></div></article><article class="ncard" id="news8"><span class="chip c-blue nkick">제약바이오/면역항암제</span><div class="nhead">[바이오USA] 이상훈 에이비엘바이오 대표 "12월 'ABL111′ 임상 3상 진입…상업 가치 4兆 전망"</div><a class="news-src" href="https://n.news.naver.com/article/366/0001174509?sid=101" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ 면역항암제 '<b>역대 최대</b>' 선급금 경신 조준 조 네옥바이오 내년 시리즈B…상장·M&amp;A 투트랙 "<b>릴리와 BBB 플랫폼 공동연구 속도…연말 동물실험</b>" "에이비엘바이오의 최대 기대주는 'ABL111'임.</p><p>■ 현재 새로 제작 중인 기업설명회(IR) 자료에서도 가장 전면에 배치했다." 에이비엘바이오가 파이프라인 ABL111을 앞세워 국내 바이오텍 역<b>사상 최대</b> 규모의 기술수출(L/O) 기록 경신에 도전함.</p><p>■ 올해 말 글로벌 <b>임상</b> 3상 진입과 함께, 5년 내 초대형 블록버스터 <b>신약</b>을 탄생시키겠다는 포부음.</p><p>■ 이상훈 에이비엘바이오 대표는 24일(현지 시각) 미국 캘리포니아주 샌디에이고에서 열린 '바이오USA' 현장에서 국내 취재진과 만나 이 같은 청사진을 공개했음.</p><p>■ 이 대표는 "<b>올해 12월 <b>임상</b> 3상 개시를 위한 실무 작업이 이미 순항 중</b>"이라며 "<b>성공적으로 상업화 단계에 안착할 경우 파이프라인의 가치는 약 25억달러(약 4조원) 규모에 이를 것</b>"이라고 전망했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 10 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('397030','에이프릴바이오')">에이프릴바이오</span><span class="spill" onclick="openPopup('493280','아이엠바이오로직스')">아이엠바이오로직스</span><span class="spill" onclick="openPopup('141080','리가켐바이오')">리가켐바이오</span><span class="spill" onclick="openPopup('174900','앱클론')">앱클론</span><span class="spill" onclick="openPopup('338840','와이바이오로직스')">와이바이오로직스</span><span class="spill" onclick="openPopup('215600','신라젠')">신라젠</span><span class="spill" onclick="openPopup('321550','티움바이오')">티움바이오</span><span class="spill" onclick="openPopup('115180','큐리언트')">큐리언트</span><span class="spill" onclick="openPopup('298380','에이비엘바이오')">에이비엘바이오</span><span class="spill" onclick="openPopup('028300','HLB')">HLB</span></div></div></article><article class="ncard" id="news9"><span class="chip c-blue nkick">에너지/전력</span><div class="nhead">AI가 전기요금도 올린다…美 데이터센터 붐에 물가 새 불씨</div><a class="news-src" href="https://n.news.naver.com/article/003/0014029266" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ <b>데이터센터</b> 전력 수요 <b>급증</b>…전자부품·전기요금까지 인상 압박 WSJ "<b>AI 인프라 경쟁, 스마트폰·게임기·전력 비용으로 번진다</b>" 미국의 인공지능(AI) 인프라 투자 경쟁이 반도체와 전력, 전자제품 가격을 밀어올리며 물가의 새 변수로 떠올랐음.</p><p>■ <b>데이터센터</b> 건설 붐으로 전자부품 도매가격과 전기·배선 설치 인건비가 뛰고, 스마트폰과 게임기 가격, 전기요금까지 인상 압력을 받고 있다는 분석이 나온음.</p><p>■ 월스트리트저널(WSJ)은 24일(현지시간) 도널드 트럼프 미국 대통령의 무역전쟁 충격이 잦아들고 휘발유 가격도 하락하고 있지만, <b>AI 인프라</b> 구축이 미국 물가의 새로운 상승 요인으로 부상하고 있다고 보도했음.</p><p>■ AI 개발 경쟁에 투입되는 자금 규모는 전례 없는 수준임.</p><p>■ 금융정보업체 팩트셋에 따르면 알파벳, <b>아마존</b>, <b>메타</b>플랫폼스, <b>마이크로소프트</b>, 오라클 등 대형 클라우드·<b>AI 인프라</b> 기업 5곳의 올해 설비투자는 7410억달러로 추정됨.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('015760','한국전력')">한국전력</span><span class="spill" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="spill" onclick="openPopup('475150','SK이터닉스')">SK이터닉스</span><span class="spill" onclick="openPopup('011930','신성이엔지')">신성이엔지</span><span class="spill" onclick="openPopup('298040','효성중공업')">효성중공업</span><span class="spill" onclick="openPopup('001820','삼화콘덴서')">삼화콘덴서</span><span class="spill" onclick="openPopup('066570','LG전자')">LG전자</span><span class="spill" onclick="openPopup('130660','한전산업')">한전산업</span><span class="spill" onclick="openPopup('388050','지투파워')">지투파워</span><span class="spill" onclick="openPopup('126340','비나텍')">비나텍</span><span class="spill" onclick="openPopup('453450','그리드위즈')">그리드위즈</span><span class="spill" onclick="openPopup('189860','서전기전')">서전기전</span></div></div></article><article class="ncard" id="news10"><span class="chip c-blue nkick">방위산업</span><div class="nhead">무기 소진한 미군, "중국과 분쟁에 취약" 몇 년 간다</div><a class="news-src" href="https://v.daum.net/v/20260626070808784" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 이란 전쟁으로 무기 재고가 크게 부족해진 미군이 재고를 보충하기까지 상당한 시간이 걸릴 것이라고 미 뉴욕타임스(NYT)가 25일(현지시각) 보도했음.</p><p>■ NYT는 미군이 이란 전쟁이 재개될 경우 대비한 무기를 충분히 갖추고 있다고 강조하지만 중국과 전쟁 등 강대국과의 전쟁 능력이 여러 해 동안 취약한 상태에 머물 우려가 크다고 지적했음.</p><p>■ 실제로 미 전략국제문제연구소(CSIS)는 지난달 "<b>미국은 대이란 전쟁의 어떤 시나리오에도 충분한 군수품을 보유하고 있지만, 재고 고갈로 인해 서태평양 분쟁 가능성과 관련한 취약성이 생겼다</b>"면서 "<b>따라서 재고를 재건하는 데 필요한 시간이 주요 우려 사항이 됐다</b>"고 밝혔음.</p><p>■ 이란 전쟁이 국방부의 무기고를 고갈시켰음.</p><p>■ 미국은 중국과의 전쟁을 위해 비축해둔 장거리 스텔스 순항 미사일 약 1100발을 소모했는데, 이는 미국 재고에 남아 있던 총 수량에 근접하는 규모음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 10 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('437730','삼현')">삼현</span><span class="spill" onclick="openPopup('081180','쎄크')">쎄크</span><span class="spill" onclick="openPopup('099320','쎄트렉아이')">쎄트렉아이</span><span class="spill" onclick="openPopup('012210','삼미금속')">삼미금속</span><span class="spill" onclick="openPopup('129920','대성하이텍')">대성하이텍</span><span class="spill" onclick="openPopup('088800','에이스테크')">에이스테크</span><span class="spill" onclick="openPopup('010280','아이티센엔텍')">아이티센엔텍</span><span class="spill" onclick="openPopup('448710','코츠테크놀로지')">코츠테크놀로지</span><span class="spill" onclick="openPopup('368770','파이버프로')">파이버프로</span><span class="spill" onclick="openPopup('064350','현대로템')">현대로템</span></div></div></article></div>
+  </section>
+</div>
+
+<footer>moneyland · 한국시장 모닝브리프 · 2026.06.26</footer>
+
+<script>
+// 종목 클릭 → 부모 SPA의 한국 종목 팝업(openKrStock) 위임 (iframe 표준 패턴)
+function openPopup(cd, nm){
+  try {
+    if (window.parent && window.parent !== window && window.parent.openKrStock) {
+      window.parent.openKrStock(cd, nm || '');
+      return;
+    }
+  } catch(e){}
+  // 폴백: 단독 열람 시 TradingView
+  window.open('https://www.tradingview.com/chart/?symbol=KRX%3A' + cd, '_blank');
+}
+
+// scrollspy — 네비가 가리키는 요소(섹션 + 각 섹터 첫 카드)를 관찰
+const links=[...document.querySelectorAll('.nav a')];
+const targets=links.map(l=>document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));}});},
+  {rootMargin:'-110px 0px -72% 0px'});
+targets.forEach(t=>obs.observe(t));
+</script>
+</body>
+</html>
