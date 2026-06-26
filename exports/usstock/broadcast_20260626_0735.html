@@ -95,6 +95,13 @@ section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-botto
 .mv.collapsed .mv-h .mv-x{transform:rotate(-90deg);}
 .mv-body{display:block;}
 .mv.collapsed .mv-body{display:none;}
+
+/* charts (주요 차트 토글) */
+.charts-wrap{padding:8px 6px 6px;}
+.chartfig{margin:0 0 18px;}
+.chartfig:last-child{margin-bottom:4px;}
+.chartfig figcaption{font-size:13px;font-weight:700;color:var(--text2);margin:0 0 8px 2px;}
+.chartfig img{width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block;background:#fff;}
 .mrow{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:9px;}
 .mrow:nth-child(even){background:var(--line);}
 .mrow .r{width:20px;text-align:center;font-weight:800;color:var(--text3);font-size:13px;flex-shrink:0;}
@@ -195,6 +202,7 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
 
 <nav class="nav" id="nav">
   <a href="#overview" class="active">요약</a>
+  <a href="#charts">주요 차트</a>
   <a href="#flow">시장흐름</a>
   <a href="#issues">주요이슈</a>
   <a href="#sectors">섹터강도</a>
@@ -213,6 +221,20 @@ footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
     <div class="g4" id="macCards"></div>
     <div class="sub">한눈에 보기</div>
     <div class="card summary" id="ovSummary"></div>
+  </section>
+
+  <section id="charts">
+    <div class="sec-head"><span class="sec-tag">CHARTS</span><span class="sec-title">주요 차트</span>
+      <span style="font-size:13px;color:var(--text3);font-weight:600;">매크로 · 미국증시 · 한국증시 핵심 차트 · 펼칠 때만 로드</span></div>
+    <div class="card mv collapsed" id="chartsCard">
+      <div class="mv-h tog" onclick="toggleCharts(this)">📊 주요 차트 펼쳐보기<span class="mv-x">▾</span></div>
+      <div class="mv-body"><div class="charts-wrap">
+        <figure class="chartfig"><figcaption>① 미국 증시 — 핀비즈맵·섹터11·공포탐욕·반도체</figcaption><img loading="lazy" data-src="charts/chart_us.png?v=1782460686" alt="미국증시 차트" onerror="this.closest('.chartfig').style.display='none'"></figure>
+        <figure class="chartfig"><figcaption>② 미국 주요 기업 차트 — 시총상위 41종 Finviz 일봉</figcaption><img loading="lazy" data-src="charts/chart_companies.png?v=1782460686" alt="미국 주요 기업 차트" onerror="this.closest('.chartfig').style.display='none'"></figure>
+        <figure class="chartfig"><figcaption>③ 매크로 — 주요지수·원자재·FedWatch 금리·VIX</figcaption><img loading="lazy" data-src="charts/chart_macro.png?v=1782460686" alt="매크로 차트" onerror="this.closest('.chartfig').style.display='none'"></figure>
+        <figure class="chartfig"><figcaption>④ 한국 증시 — EWY·야간선물(K200·코스닥150)·원달러·K-VIX</figcaption><img loading="lazy" data-src="charts/chart_korea.png?v=1782460686" alt="한국증시 차트" onerror="this.closest('.chartfig').style.display='none'"></figure>
+      </div></div>
+    </div>
   </section>
 
   <section id="flow">
@@ -309,6 +331,13 @@ const mv = a => a.map(m=>
   `<div class="mrow"><div class="r">${m.rank}</div><div style="flex:1"><span class="nm">${m.name}</span> <a class="tk" href="${TV(m.url)}" target="_blank">${m.ticker}</a><div class="ds">${m.desc}</div></div><div class="pc ${m.dir}">${m.pct}</div></div>`).join('');
 $('#mvUp').innerHTML = mv(DATA.movers_up);
 $('#mvDn').innerHTML = mv(DATA.movers_dn);
+
+// 주요 차트: 펼칠 때만 이미지 로드(data-src→src). 닫힌 동안엔 네트워크 요청 0 → 페이지 가볍게 유지
+function toggleCharts(h){
+  const card=h.parentNode, opening=card.classList.contains('collapsed');
+  card.classList.toggle('collapsed');
+  if(opening) card.querySelectorAll('img[data-src]').forEach(img=>{img.src=img.getAttribute('data-src');img.removeAttribute('data-src');});
+}
 
 // ===== sector heatmap =====
 function pctNum(s){const m=String(s).match(/-?\d+(\.\d+)?/);return m?parseFloat(m[0]):0;}
