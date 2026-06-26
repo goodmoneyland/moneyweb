@@ -261,9 +261,9 @@
       <div class="idx-card" id="idx-SOX"  onclick="window.open('https://www.tradingview.com/chart/?symbol=SOX','_blank')"><div class="name">필라델피아 반도체</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-EWY"        onclick="window.open('https://www.tradingview.com/chart/?symbol=AMEX%3AEWY','_blank')"><div class="name">MSCI코리아(EWY)</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-DRAM"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOE%3ADRAM','_blank')"><div class="name">DRAM ETF</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
-      <!-- [야간선물 카드 보류 2026-06-25] 값 정확도 점검 동안 홈카드에서 숨김. 복원=아래 주석 해제만. 수집코드(collect_kr_prices_live.py K200F_NIGHT)·idMap·스파크맵은 그대로 보존.
-      <div class="idx-card" id="idx-K200F_NIGHT"><div class="name">K200야간종가</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
-      -->
+      <!-- 야간 지수선물(18:00~익일 05:00, KRX 야간세션 WS H0MFCNT0). 등락률=정규장 종가(정산가) 기준. 2026-06-26 종가 기준선 robust화 후 복원 + 코스닥150 추가 -->
+      <div class="idx-card" id="idx-K200F_NIGHT"><div class="name">K200야간선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-KQ150F_NIGHT"><div class="name">코스닥150야간</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-USDKRW"><div class="name">원달러</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <!-- ☀️ 아시아 세션 (한국 영향) -->
       <div class="idx-card" id="idx-DOWF"       onclick="window.open('https://www.tradingview.com/chart/?symbol=CBOT_MINI%3AYM1%21','_blank')"><div class="name">다우 선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
@@ -272,6 +272,7 @@
       <div class="idx-card" id="idx-KOSPI"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSPI','_blank')"><div class="name">KOSPI</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-KOSDAQ"     onclick="window.open('https://www.tradingview.com/chart/?symbol=KOSDAQ','_blank')"><div class="name">KOSDAQ</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-K200F"      onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AK200F1%21','_blank')"><div class="name">K200선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
+      <div class="idx-card" id="idx-KQ150F"     onclick="window.open('https://www.tradingview.com/chart/?symbol=KRX%3AKQ150F1%21','_blank')"><div class="name">코스닥150선물</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-NIKKEI"     onclick="window.open('https://www.tradingview.com/chart/?symbol=TVC%3ANI225','_blank')"><div class="name">니케이225</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-SHCOMP"     onclick="window.open('https://www.tradingview.com/chart/?symbol=SSE%3A000001','_blank')"><div class="name">상해종합</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
       <div class="idx-card" id="idx-TWII"       onclick="window.open('https://www.tradingview.com/chart/?symbol=TWSE%3ATAIEX','_blank')"><div class="name">대만가권</div><div class="idx-row"><div class="value">—</div><div class="change" style="color:var(--muted);">로딩중</div></div><div class="spark"></div></div>
@@ -775,6 +776,6 @@
 </div>
 </div>
 
-<script src="/assets/app.7ae638f133.js"></script>
+<script src="/assets/app.09dca436ee.js"></script>
 </body>
 </html>
