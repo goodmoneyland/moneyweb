@@ -1,14 +1,68 @@
 {
-  "updated_at": "2026-06-30 07:49:46",
+  "updated_at": "2026-06-30 07:52:56",
   "indicators": {
-    "SOX": null,
-    "TNX": null,
-    "DXY": null,
-    "VIX": null,
-    "WTI": null,
-    "RUT": null,
-    "YM_F": null,
-    "NQ_F": null,
-    "ES_F": null
+    "SOX": {
+      "name": "필라델피아 반도체",
+      "val": 13709.6602,
+      "prev": 13203.569,
+      "chg_amt": 506.0912,
+      "chg_rt": 3.83
+    },
+    "TNX": {
+      "name": "10Y 국채금리",
+      "val": 4.374,
+      "prev": 4.372,
+      "chg_amt": 0.002,
+      "chg_rt": 0.05
+    },
+    "DXY": {
+      "name": "달러인덱스",
+      "val": 101.111,
+      "prev": 101.369,
+      "chg_amt": -0.258,
+      "chg_rt": -0.25
+    },
+    "VIX": {
+      "name": "VIX",
+      "val": 17.65,
+      "prev": 18.38,
+      "chg_amt": -0.73,
+      "chg_rt": -3.97
+    },
+    "WTI": {
+      "name": "WTI 원유",
+      "val": 70.32,
+      "prev": 70.75,
+      "chg_amt": -0.43,
+      "chg_rt": -0.61
+    },
+    "RUT": {
+      "name": "러셀2000",
+      "val": 3010.4167,
+      "prev": 3010.0845,
+      "chg_amt": 0.3322,
+      "chg_rt": 0.01
+    },
+    "YM_F": {
+      "name": "다우 선물",
+      "val": 52536.0,
+      "prev": 52572.0,
+      "chg_amt": -36.0,
+      "chg_rt": -0.07
+    },
+    "NQ_F": {
+      "name": "나스닥 선물",
+      "val": 30017.5,
+      "prev": 30052.75,
+      "chg_amt": -35.25,
+      "chg_rt": -0.12
+    },
+    "ES_F": {
+      "name": "S&P 500 선물",
+      "val": 7495.0,
+      "prev": 7500.25,
+      "chg_amt": -5.25,
+      "chg_rt": -0.07
+    }
   }
 }
