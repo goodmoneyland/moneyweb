@@ -100,6 +100,39 @@ function _showKrThemeEmpty(sub){const f=document.getElementById('page-kr-theme')
 const map={am:{t:'🌅 오전 특징주',s:'오전 장중 특징주는 11:50 이후 업데이트됩니다.'},pm:{t:'☀️ 오후 특징주',s:'오후 장중 특징주는 14:50 이후 업데이트됩니다.'},close:{t:'🌆 특징주 정리',s:'장마감 후 특징주 정리는 17:30 이후 업데이트됩니다.'},};const m=map[sub]||map.am;if(ph){ph.style.display='flex';ph.innerHTML=`<div class="icon">🕐</div>`
 +`<div class="msg">${m.t} — 아직 수집 전입니다</div>`
 +`<div class="sub" id="ph-kr-theme-sub">${toLabel(currentDate)} · ${m.s}</div>`;}}
+async function _buildPrevDayFullView(){const[r1,r2,r3,r4]=await Promise.all([fetch('/moneyweb/api/new_high_52w_kospi.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/moneyweb/api/new_high_52w_kosdaq.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/moneyweb/api/new_high_alltime_kospi.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/moneyweb/api/new_high_alltime_kosdaq.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),]);const fmt=n=>n?Number(n).toLocaleString('ko-KR'):'-';const fmtD=d=>d?`${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}`:'';const allRows=[...(r1.rows||[]),...(r2.rows||[]),...(r3.rows||[]),...(r4.rows||[])];if(!allRows.length)return'';const sctr={};allRows.forEach(r=>{const s=r.SCTR_NM||'미분류';sctr[s]=(sctr[s]||0)+1;});const sctrSorted=Object.entries(sctr).sort((a,b)=>b[1]-a[1]);const sctrPill=([nm,cnt])=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);">'
++'<span class="kr-nh-sname" style="font-size:16.5px;color:var(--text);">▣ '+nm+'</span>'
++'<span style="font-size:16.5px;font-weight:700;color:#f59e0b;margin-left:8px;flex-shrink:0;">'+cnt+'</span></div>';const summaryCard='<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:16px;max-width:340px;">'
++'<div style="font-size:17.2px;font-weight:800;margin-bottom:6px;">신고가 섹터 <span style="font-size:14px;color:var(--muted);font-weight:400;">'+allRows.length+'개</span></div>'
++sctrSorted.map(sctrPill).join('')+'</div>';const rowHtml=r=>{const cl=r.UD_RT>=0?'#ef4444':'#3b82f6';const sign=r.UD_RT>=0?'+':'';return`<tr style="border-bottom:1px solid var(--border);cursor:pointer;"
+        onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
+        onclick="openKrStock('${r.ITM_CD}','${(r.ITM_NM||'').replace(/'/g,"&#39;")}')">
+      <td style="padding:7px 10px;font-size:19.5px;font-weight:700;">${r.ITM_NM}</td>
+      <td style="padding:7px 10px;font-size:16.5px;color:var(--muted);">${r.ITM_CD}</td>
+      <td style="padding:7px 10px;font-size:16.5px;color:var(--muted);">${r.SCTR_NM||'-'}</td>
+      <td style="padding:7px 10px;text-align:right;font-size:19.5px;font-weight:700;">${fmt(r.EPRC)}</td>
+      <td style="padding:7px 10px;text-align:right;font-size:19.5px;font-weight:800;color:${cl};">${sign+(r.UD_RT||0).toFixed(2)+'%'}</td>
+      <td style="padding:7px 10px;text-align:right;font-size:18px;color:#f59e0b;font-weight:700;">${fmt(r.HPRC||r.W52_HPRC||r.ALLTIME_HPRC)}</td>
+    </tr>`;};const thead=`<thead><tr>${['종목명','코드','섹터','종가','등락률','장중신고가'].map((c,i)=>
+    `<th style="padding:8px 10px;text-align:${i>2?'right':'left'};font-size:16.5px;color:var(--muted);border-bottom:2px solid var(--border);">${c}</th>`
+  ).join('')}</tr></thead>`;const section=(title,rows,date)=>rows.length?`
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+        <span style="font-size:19.5px;font-weight:700;color:#ef4444;">${title}</span>
+        <span style="font-size:16.5px;color:var(--muted);">${fmtD(date)} 기준 ${rows.length}개</span>
+      </div>
+      <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">${thead}<tbody>${rows.map(rowHtml).join('')}</tbody></table></div>
+    </div>`:'';return summaryCard+`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        ${section('KOSPI 역사적 신고가', r3.rows||[], r3.trd_ymd)}
+        ${section('KOSPI 52주 신고가', r1.rows||[], r1.trd_ymd)}
+      </div>
+      <div>
+        ${section('KOSDAQ 역사적 신고가', r4.rows||[], r4.trd_ymd)}
+        ${section('KOSDAQ 52주 신고가', r2.rows||[], r2.trd_ymd)}
+      </div>
+    </div>`;}
 async function renderNewHigh(tab){const el=document.getElementById('newhigh-content');if(tab==='etf-high'){el.innerHTML='<div style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>';try{let data=await fetch('/moneyweb/api/new_high_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));if(!(data.rows||[]).length){data=await fetch('/moneyweb/api/new_high_etf_52w.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));}
 const rows=data.rows||[];if(!rows.length){el.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted);">데이터 없음</div>';return;}
 const fmtD=d=>d?d.slice(0,4)+'.'+d.slice(4,6)+'.'+d.slice(6,8):'';const fmt=n=>n?Number(n).toLocaleString('ko-KR'):'-';const sectorMap={};rows.forEach(r=>{const s=(!r.sector||r.sector==='기타')?'기타 ETF':r.sector;if(!sectorMap[s])sectorMap[s]=[];sectorMap[s].push(r);});Object.values(sectorMap).forEach(arr=>arr.sort((a,b)=>(b.ud_rt||0)-(a.ud_rt||0)));const sectors=Object.entries(sectorMap).filter(([s])=>s!=='기타 ETF').sort((a,b)=>b[1].length-a[1].length).map(([s])=>s);if(sectorMap['기타 ETF'])sectors.push('기타 ETF');const sumPill=(s)=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);">'
@@ -195,7 +228,7 @@ const isMarketOpen=KR_MARKET_STATUS==='KRX'||KR_MARKET_STATUS==='NXT_PRE';if(isM
             <tbody>${nxtItems}</tbody>
           </table>
         </div>`;})():'';el.innerHTML=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-          <span style="font-size:20px;font-weight:800;">📈 종목 신고가</span>
+          <span style="font-size:20px;font-weight:800;">📈 오늘 장중 신고가</span>
           <span style="font-size:15px;color:var(--muted);">${_isToday ? fmtD(stkData.trd_ymd) : fmtD(_kstYmd)} 기준</span>
           <span style="margin-left:auto;font-size:13px;color:#22c55e;background:rgba(34,197,94,0.1);padding:3px 10px;border-radius:6px;border:1px solid rgba(34,197,94,0.3);">🟢 장중</span>
         </div>
@@ -203,7 +236,10 @@ const isMarketOpen=KR_MARKET_STATUS==='KRX'||KR_MARKET_STATUS==='NXT_PRE';if(isM
         <div class="kr-nh-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           ${stkPanel}
           ${etfPanel}
-        </div>`;}catch(e){el.innerHTML=`<div style="color:#f87171;padding:20px;">데이터 로드 실패: ${e.message}</div>`;}
+        </div>`;try{const prevHtml=await _buildPrevDayFullView();if(prevHtml){el.innerHTML+=`<div style="margin-top:28px;padding-top:20px;border-top:2px solid var(--border);">
+              <div style="font-size:18px;font-weight:800;color:var(--muted);margin-bottom:14px;">📋 전일 신고가 정리</div>
+              ${prevHtml}
+            </div>`;}}catch(e){console.warn('전일 신고가 정리 로드 실패',e);}}catch(e){el.innerHTML=`<div style="color:#f87171;padding:20px;">데이터 로드 실패: ${e.message}</div>`;}
 return;}
 el.innerHTML=`<div style="color:var(--muted);font-size: 19.5px;">로딩 중...</div>`;try{const _etfWithFallback=async()=>{const d=await fetch('/moneyweb/api/new_high_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));if((d.rows||[]).length)return d;return fetch('/moneyweb/api/new_high_etf_52w.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]}));};const[r1,r2,r3,r4,stkData,etfData]=await Promise.all([fetch('/moneyweb/api/new_high_52w_kospi.json?t='+Date.now()).then(r=>r.json()),fetch('/moneyweb/api/new_high_52w_kosdaq.json?t='+Date.now()).then(r=>r.json()),fetch('/moneyweb/api/new_high_alltime_kospi.json?t='+Date.now()).then(r=>r.json()),fetch('/moneyweb/api/new_high_alltime_kosdaq.json?t='+Date.now()).then(r=>r.json()),fetch('/moneyweb/api/new_high_stocks.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),_etfWithFallback(),]);const fmt=n=>n?Number(n).toLocaleString('ko-KR'):'-';const fmtD=d=>d?`${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}`:'';const stkRows=stkData.rows||[];const etfRows=etfData.rows||[];let summaryHtml='';if(stkRows.length||etfRows.length){const alltime=stkRows.filter(r=>r.is_alltime).length;const uplimit=stkRows.filter(r=>r.is_uplimit).length;const stkSctr={};stkRows.forEach(r=>{const s=r.sector||'미분류';stkSctr[s]=(stkSctr[s]||0)+1;});const stkSctrSorted=Object.entries(stkSctr).sort((a,b)=>b[1]-a[1]);const etfSctr={};etfRows.forEach(r=>{const s=r.sector||'기타 ETF';etfSctr[s]=(etfSctr[s]||0)+1;});const etfSctrSorted=Object.entries(etfSctr).sort((a,b)=>b[1]-a[1]);const sctrPill=([nm,cnt])=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 6px;margin-bottom:2px;border-radius:4px;background:var(--card2);">'
 +'<span class="kr-nh-sname" style="font-size: 16.5px;color:var(--text);">▣ '+nm+'</span>'
