@@ -41,8 +41,8 @@ else if(tab==='global-high'){document.getElementById('page-global-high').classLi
 else if(tab==='tgtprc'){const pg=document.getElementById('page-tgtprc');pg.classList.add('active');pg.classList.remove('tp-detail');loadTgtprcPage();}
 else if(tab==='nxt'){document.getElementById('page-nxt').classList.add('active');nxtInit();}
 else if(tab==='kr-marketmap'){document.getElementById('wrap-kr-marketmap').style.display='block';}
-else if(tab==='global-marketmap'){document.getElementById('wrap-global-marketmap').style.display='block';}
-else if(tab==='global-thememap'){document.getElementById('wrap-global-thememap').style.display='block';}
+else if(tab==='global-marketmap'){document.getElementById('wrap-global-marketmap').style.display='block';var _gmf=document.getElementById('page-global-marketmap');if(_gmf&&!_gmf.src){_gmf.src=_gmf.getAttribute('data-src')+'?v='+Date.now();}}
+else if(tab==='global-thememap'){document.getElementById('wrap-global-thememap').style.display='block';var _gtf=document.getElementById('page-global-thememap');if(_gtf&&!_gtf.src){_gtf.src=_gtf.getAttribute('data-src')+'?v='+Date.now();}}
 else if(tab==='kr-sugup'){document.getElementById('wrap-kr-sugup').style.display='block';}
 else if(tab==='dram'){document.getElementById('wrap-dram').style.display='block';}
 else if(tab==='peer'){document.getElementById('wrap-peer').style.display='block';var _pf=document.getElementById('page-peer');if(_pf&&!_pf.src){_pf.src=_pf.getAttribute('data-src')+'?v='+Date.now();}}
