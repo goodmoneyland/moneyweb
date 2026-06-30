@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국 모닝브리프 2026.07.01</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f3f5f9;--white:#fff;--card:#fff;--text:#0f172a;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--dn:#dc2626;--dn-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;--purple:#7c3aed;--gold:#d97706;--cyan:#0891b2;--pink:#db2777;
+  --border:#e2e8f0;--line:#eef1f6;--shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --head-h:60px;--nav-h:48px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+
+.hdr{position:sticky;top:0;z-index:50;height:var(--head-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:0 24px;}
+.hdr-title{font-size:19px;font-weight:900;letter-spacing:-.5px;white-space:nowrap;display:flex;align-items:center;gap:9px;}
+.hdr-title .flag{font-size:22px;}
+.hdr-date{font-size:13px;color:var(--text3);font-weight:700;white-space:nowrap;}
+.hdr-upd{margin-left:auto;font-size:11px;color:var(--text3);white-space:nowrap;font-weight:600;}
+
+.nav{position:sticky;top:var(--head-h);z-index:49;height:var(--nav-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:4px;padding:0 24px;overflow-x:auto;}
+.nav a{font-size:13.5px;font-weight:700;color:var(--text3);padding:7px 14px;border-radius:8px;white-space:nowrap;transition:.15s;}
+.nav a:hover{background:var(--line);color:var(--text);}
+.nav a.active{background:var(--blue);color:#fff;}
+
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
+section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-bottom:42px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.sec-tag{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--blue-bg);color:var(--blue);}
+.sec-tag.green{background:var(--up-bg);color:var(--up);}
+.sec-tag.purple{background:#ede9fe;color:var(--purple);}
+.sec-title{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+.sec-cnt{font-size:13px;color:var(--text3);font-weight:600;}
+.sub{font-size:14px;color:var(--text3);font-weight:700;margin:18px 0 10px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:860px){.g2{grid-template-columns:1fr;}}
+
+/* chips (섹터 색상) */
+.chip{font-size:13px;font-weight:800;padding:5px 13px;border-radius:16px;white-space:nowrap;display:inline-block;}
+.c-blue{background:var(--blue-bg);color:var(--blue);}
+.c-green{background:var(--up-bg);color:var(--up);}
+.c-red{background:var(--dn-bg);color:var(--dn);}
+.c-purple{background:#ede9fe;color:var(--purple);}
+.c-gold{background:#fef3c7;color:var(--gold);}
+.c-cyan{background:#cffafe;color:var(--cyan);}
+.c-pink{background:#fce7f3;color:var(--pink);}
+.sec-tag.c-blue-tag{background:var(--blue-bg);color:var(--blue);}
+.sec-tag.c-green-tag{background:var(--up-bg);color:var(--up);}
+.sec-tag.c-red-tag{background:var(--dn-bg);color:var(--dn);}
+.sec-tag.c-purple-tag{background:#ede9fe;color:var(--purple);}
+.sec-tag.c-gold-tag{background:#fef3c7;color:var(--gold);}
+.sec-tag.c-cyan-tag{background:#cffafe;color:var(--cyan);}
+.sec-tag.c-pink-tag{background:#fce7f3;color:var(--pink);}
+
+/* overview */
+.ov2{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;}
+@media(max-width:860px){.ov2{grid-template-columns:1fr;}}
+.iss-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;}
+.iss-row:last-child{border-bottom:none;}
+a.iss-row{cursor:pointer;border-radius:8px;transition:.12s;}
+a.iss-row:hover{background:var(--line);}
+a.iss-row:hover .iss-desc{color:var(--blue);}
+.iss-desc{font-size:14.5px;font-weight:600;line-height:1.45;}
+.picks{display:flex;flex-direction:column;gap:7px;}
+.pick{background:linear-gradient(135deg,#fff,#f1f5f9);border:1.5px solid #bfdbfe;border-radius:10px;
+  padding:10px 14px;font-size:14.5px;font-weight:800;text-align:center;transition:.15s;}
+.pick:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,.15);}
+.cardpad{padding:8px 8px;}
+.cardpad2{padding:18px 20px;}
+
+/* opinion */
+.opblk{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:16px 20px;box-shadow:var(--shadow);
+  border-left:5px solid var(--blue);margin-bottom:14px;}
+.opblk.positive{border-left-color:var(--up);margin-bottom:0;}
+.opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
+.opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
+.opblk.watch .opblk-t{margin-bottom:0;}
+.opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
+.opblk p:last-child{margin-bottom:0;}
+.opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
+.opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.opblk .g2{margin:0;}
+
+/* news — 연속 2열 그리드, 카드 높이 균일(--ncard-h), 본문은 카드 안에서 스크롤 (모바일은 1열) */
+:root{--ncard-h:470px;}
+#newsgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+@media(max-width:860px){#newsgrid{grid-template-columns:1fr;}}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:18px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;height:var(--ncard-h);overflow:hidden;
+  scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 14px);}
+.nkick{align-self:flex-start;margin-bottom:9px;flex-shrink:0;}
+.nhead{font-size:16.5px;font-weight:800;line-height:1.4;margin-bottom:8px;flex-shrink:0;}
+.news-src{font-size:12px;color:var(--blue);font-weight:600;margin-bottom:10px;display:inline-block;opacity:.85;word-break:break-all;flex-shrink:0;}
+.news-src:hover{opacity:1;text-decoration:underline;}
+.nbody{font-size:14px;color:var(--text2);line-height:1.78;margin-bottom:10px;
+  flex:1;min-height:0;overflow-y:auto;padding-right:6px;}
+.nbody p{margin-bottom:7px;}.nbody p:last-child{margin-bottom:0;}
+.nbody::-webkit-scrollbar{width:6px;}
+.nbody::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+.nbody::-webkit-scrollbar-track{background:transparent;}
+.news-stocks{flex-shrink:0;border-top:1px dashed var(--border);padding-top:11px;}
+.slist{display:none;flex-wrap:wrap;gap:7px;margin-top:10px;max-height:96px;overflow-y:auto;}
+.slist.show{display:flex;}
+.stog{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+  background:var(--pink-bg,#fce7f3);color:var(--pink);padding:7px 16px;border-radius:16px;
+  font-size:13px;font-weight:800;border:1.5px solid var(--pink);transition:.2s;}
+.stog:hover{background:var(--pink);color:#fff;}
+.stog .ar{transition:transform .25s;}
+.stog.open .ar{transform:rotate(90deg);}
+.spill{background:#fce7f3;color:var(--pink);padding:6px 14px;border-radius:14px;font-size:13px;font-weight:800;transition:.15s;cursor:pointer;}
+.spill:hover{background:var(--pink);color:#fff;}
+
+footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-title"><span class="flag">🇰🇷</span>한국 모닝브리프</div>
+  <div class="hdr-date">📈 2026.07.01 (수)</div>
+  <div class="hdr-upd">⟳ 2026-07-01 07:15</div>
+</header>
+
+<nav class="nav" id="nav">
+  <a href="#overview" class="active">요약</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
+  <a href="#news2">반도체</a>
+  <a href="#news4">에너지/원전</a>
+  <a href="#news5">에너지/신재생</a>
+  <a href="#news6">에너지/전력</a>
+  <a href="#news7">피지컬 AI</a>
+  <a href="#news8">우주항공산업</a>
+</nav>
+
+<div class="wrap">
+
+  <section id="overview">
+    <div class="sec-head"><span class="sec-tag">OVERVIEW</span><span class="sec-title">핵심 이슈 &amp; TOP PICKs</span></div>
+    <div class="ov2">
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">오늘의 핵심 이슈</div>
+        <a class="iss-row" href="#news2"><span class="chip c-green">반도체</span><span class="iss-desc">세종시에 AI 데이터센터 구축된다</span></a><a class="iss-row" href="#news4"><span class="chip c-blue">에너지/원전</span><span class="iss-desc">메가 프로젝트, 원전 20기 전력 든다</span></a><a class="iss-row" href="#news5"><span class="chip c-blue">에너지/신재생</span><span class="iss-desc">메가 프로젝트 필수 아이템 ESS… 미국은 이미 태양광 ESS 주류로</span></a><a class="iss-row" href="#news6"><span class="chip c-blue">에너지/전력</span><span class="iss-desc">AI·호남 반도체가 불러온 역대급 전력 청구서…12차 전기본 전면 수정</span></a><a class="iss-row" href="#news7"><span class="chip c-blue">피지컬 AI</span><span class="iss-desc">LG전자 피지컬 AI 승부수… 홈로봇 클로이드 상용화 앞당긴다</span></a><a class="iss-row" href="#news8"><span class="chip c-blue">우주항공산업</span><span class="iss-desc">연봉 6.7억 쏩니다… 지구 탈출 젠슨 황, 우주 데이터센터 인재 찾는다</span></a>
+      </div>
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">⭐ TOP PICKs</div>
+        <div class="picks"><span class="pick" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="pick" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="pick" onclick="openPopup('298040','효성중공업')">효성중공업</span><span class="pick" onclick="openPopup('062040','산일전기')">산일전기</span><span class="pick" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="pick" onclick="openPopup('066570','LG전자')">LG전자</span><span class="pick" onclick="openPopup('457550','우진엔텍')">우진엔텍</span><span class="pick" onclick="openPopup('373220','LG에너지솔루션')">LG에너지솔루션</span><span class="pick" onclick="openPopup('189300','인텔리안테크')">인텔리안테크</span><span class="pick" onclick="openPopup('009830','한화솔루션')">한화솔루션</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opinion">
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--up-bg);color:var(--up);">반도체</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/원전</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/신재생</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/전력</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">피지컬 AI</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">우주항공산업</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>반도체·에너지/원전·에너지/신재생·에너지/전력</b> 섹터에 집중할 필요가 있음.</p><p>■ 에너지 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 나스닥이 <span class="highlight">1.5%</span> 넘게 상승하며 기술주 중심의 강한 매수세가 재점화됐음.</p><p>■ 첫째 주목 섹터는 반도체 및 <b>AI 인프라</b>임.</p><p>■ 정부가 삼성·SK와 함께 1,800조원 규모 반도체·AI <b>데이터센터</b> 메가프로젝트를 공식화하며 세종·용인·호남 거점별 투자 로드맵이 구체화됐음.</p><p>■ AI 서버 수요 <b>급증</b>이 중국 스마트폰 업체들의 D램 공급 경쟁에서 이탈을 가속화하고 있어, <b>삼성전자</b>·<b>SK하이닉스</b>의 서버용 <b>HBM</b> 가격 <b>협상</b>력 강화가 예상됨.</p><p>■ 둘째는 <b>원전</b>·전력 인프라 섹터임.</p><p>■ 메가프로젝트 완수를 위해 2040년까지 27.7GW 추가 전력 설비가 필요하다는 분석이 나왔고, 이는 신형 <b>원전</b> 20기 건설에 상당하는 물량임.</p><p>■ 12차 전기본 전면 수정이 불가피해지면서 <b>원전</b> 부품사, 변압기·전선 등 송배전 기업들의 <b>수주</b> 기대감이 재점화될 전망임.</p><p>■ 셋째는 피지컬 AI 및 로보틱스 섹터임.</p><p>■ LG전자가 CEO 직속 로보틱스사업센터를 7월 1일 공식 출범하며 홈·산업·상업 로봇 <b>상용화</b>에 속도를 냈음.</p><p>■ 정부 메가프로젝트에 피지컬 AI가 3대 축으로 포함돼 국내 로봇 부품·솔루션 기업들의 <b>수혜</b> 기대가 단기 테마에서 중기 실적 <b>모멘텀</b>으로 격상될 분위기임.</p><p>■ 전체적으로 오늘 장은 국내 정책 <b>모멘텀</b>과 미국 기술주 <b>강세</b>가 맞물린 공격적 매수 전략이 유효한 하루임.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ 나스닥 <span class="highlight">1.52%</span> 상승과 AI 반도체 대표주 동반 <b>강세</b>는 <b>SK하이닉스</b>·<b>삼성전자</b>의 외국인 수급 유입 기대감을 높였음.</p><p>■ 정부 주도 1,800조원 메가프로젝트 공식화로 반도체 소재·장비·EPC 기업들의 중장기 <b>수주</b> 가시성이 대폭 확대됐음.</p><p>■ AI <b>데이터센터</b> 확장이 중국 스마트폰 부품 수요를 잠식하면서 국내 메모리 업체의 서버 D램·<b>HBM</b> 프리미엄이 구조적으로 유지될 전망임.</p><p>■ ESS 및 재생에너지 인프라가 메가프로젝트의 전력 공급 핵심 수단으로 명시되면서 <b>LG에너지솔루션</b>·한화솔루션 등 국내 <b>배터리</b>·ESS 기업들의 국내 <b>수주</b> 기회가 열렸음.</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ WTI 유가가 <span class="highlight">1%</span> 하락하며 <b>70달러</b> 선을 위협, 에너지 섹터 전반의 투자심리 냉각과 정유·화학주 <b>약세</b>가 동반될 수 있음.</p><p>■ 전력 수급 계획이 "<b>차질 없이 공급하겠다</b>"는 원론적 발언에 그쳐 메가프로젝트 전력 인프라 이행 불확실성이 잔존하며, 속도 과장 시 실망 매물 출회 가능성이 있음.</p><p>■ 10년물 금리가 <span class="highlight">4.42%</span>로 <span class="highlight">1%</span> 넘게 상승하며 고금리 부담이 재차 부각됐고, 멀티플 압박이 성장주 밸류에이션에 부정적으로 작용할 수 있음.</p></div></div>
+  </section>
+
+  <section id="news">
+    <div class="sec-head"><span class="sec-tag">NEWS</span><span class="sec-title">섹터별 뉴스</span>
+      <span class="sec-cnt">총 7건</span></div>
+    <div id="newsgrid"><article class="ncard" id="news2"><span class="chip c-green nkick">반도체</span><div class="nhead">세종시에 AI 데이터센터 구축된다</div><a class="news-src" href="https://v.daum.net/v/20260630234302555" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 이재명 대통령과 이재용 <b>삼성전자</b> 회장, 최태원 SK그룹 회장은 지난 29일 청와대 영빈관에서 열린 대한민국대도약 3대 프로젝트 국민보고회에서 반도체, AI로봇 등 피지컬 AI, AI데이터 센터 등 3대 분야의 대규모 투자계획과 전력·입지 등에 대한 인프라 확충방안에 대해 논의했음.</p><p>■ 이 자리에는 산업통상부, 과학기술정보통신부, 기후에너지환경부, 국토교통부, 재정경제부, 교육부, 중소벤처기업부, 기획예산처, 방위사업청 등 정부 관계자와 <b>삼성전자</b>, SK, LG전자, 퓨리오사AI, 로보티즈, HD현대로보틱스, GS 등 기업체 관계자, KT, 한국전력공사,한구수자원공사 등 공사 관계자, 서울대, 한양대, 성균관대, 포항공대, 한국과학기술원, 국토연구원 등 학계·연구계 관계자 등 90여 명이 참석해 깊은 관심을 표명했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 10 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('066570','LG전자')">LG전자</span><span class="spill" onclick="openPopup('025560','미래산업')">미래산업</span><span class="spill" onclick="openPopup('281820','케이씨텍')">케이씨텍</span><span class="spill" onclick="openPopup('025320','시노펙스')">시노펙스</span><span class="spill" onclick="openPopup('357780','솔브레인')">솔브레인</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('353200','대덕전자')">대덕전자</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span></div></div></article><article class="ncard" id="news3"><span class="chip c-green nkick">반도체</span><div class="nhead">부품 없고 단가 뛰고… 샤오미·오포·비보, 스마트폰 출하 '최대 30%' 감축</div><a class="news-src" href="http://m.g-enews.com/view.php?ud=2026063017282317700c8c1c064d_1" target="_blank">🔗 m.g-enews.com</a><div class="nbody"><p>■ 인공지능(AI) 인프라가 부품 블랙홀 되며 모바일 공급망 고사 샤오미, 올해 전망치 <b>9,500만</b> 대로 덤핑 조정… 작년 <b>1억</b> <b>7,000만</b> 대 대비 반토막 <b>폭락</b> <b>엔비디아</b> 서버가 모바일용 저전력 D램까지 집어삼켜… 퀄컴 등 칩 제조사도 인상 통보 글로벌 인공지능(AI) <b>데이터센터</b> 확장 붐이 전 세계 첨단 반도체와 핵심 부품 자산을 가쁘게 빨아들이는 블랙홀로 부상하면서, 스마트폰 시장을 호령하던 중국 테크 공룡들이 전례 없는 부품 부족과 제조 원가 <b>폭등</b>의 직격탄을 맞았음.</p><p>■ 비용 효율성을 무기 삼아 세계 시장을 공습하던 샤오미, 오포, 비보 등 중국 핵심 스마트폰 제조사들은 공급망 마비 장벽을 견디지 못하고 올해 생산 및 출하 목표량을 최대 <span class="highlight">30%</span>까지 기습 감축하며 비상 긴축 경영에 돌입했음.</p><p>■ 지난달 30일(현지시각) 닛케이 아시아(Nikkei Asia) 보도에 따르면, 샤오미를 비롯해 오포(Oppo), 비보(Vivo), 오너(Honor) 등 중국을 대표하는 스마트폰 제조업체들은 부품 수급난과 단가 인상 압박 탓에 올해 출하량 목표치를 일제히 대폭 하향 조정하고 이를 주요 부품 공급업체들에 긴급 통보했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 10 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('005930','삼성전자')">삼성전자</span><span class="spill" onclick="openPopup('000660','SK하이닉스')">SK하이닉스</span><span class="spill" onclick="openPopup('066570','LG전자')">LG전자</span><span class="spill" onclick="openPopup('025560','미래산업')">미래산업</span><span class="spill" onclick="openPopup('281820','케이씨텍')">케이씨텍</span><span class="spill" onclick="openPopup('025320','시노펙스')">시노펙스</span><span class="spill" onclick="openPopup('357780','솔브레인')">솔브레인</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('353200','대덕전자')">대덕전자</span><span class="spill" onclick="openPopup('031980','피에스케이홀딩스')">피에스케이홀딩스</span></div></div></article><article class="ncard" id="news4"><span class="chip c-blue nkick">에너지/원전</span><div class="nhead">메가 프로젝트, 원전 20기 전력 든다</div><a class="news-src" href="https://v.daum.net/v/20260701005752496" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 삼성과 SK가 1800조원을 투자해 반도체 산업 단지와 인공지능(AI) <b>데이터센터</b>를 구축하려면 2040년까지 27.7GW(기가와트) 규모의 전력 설비가 추가로 필요한 것으로 나타났음.</p><p>■ 15년 내에 신형 <b>원전</b>(설비 용량 1.4GW) 20기를 더 지어야 충당할 수 있음.</p><p>■ 현재 우리나라에서 가동 중인 <b>원전</b>은 총 26기로 설비 용량은 26GW음.</p><p>■ 그러면서도 정부는 속도전만 강조했음.</p><p>■ 호남 반도체 산단을 이재명 대통령 임기 내에 완공하고, <b>삼성전자</b>와 <b>SK하이닉스</b>의 용인 반도체 산단 완공 시점도 7~12년 앞당기겠다고 했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 10 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('044490','태웅')">태웅</span><span class="spill" onclick="openPopup('012210','삼미금속')">삼미금속</span><span class="spill" onclick="openPopup('114190','강원에너지')">강원에너지</span><span class="spill" onclick="openPopup('014620','성광벤드')">성광벤드</span><span class="spill" onclick="openPopup('282720','금양그린파워')">금양그린파워</span><span class="spill" onclick="openPopup('053690','한미글로벌')">한미글로벌</span><span class="spill" onclick="openPopup('457550','우진엔텍')">우진엔텍</span><span class="spill" onclick="openPopup('136150','원일티엔아이')">원일티엔아이</span><span class="spill" onclick="openPopup('083650','비에이치아이')">비에이치아이</span><span class="spill" onclick="openPopup('011700','한신기계')">한신기계</span></div></div></article><article class="ncard" id="news5"><span class="chip c-blue nkick">에너지/신재생</span><div class="nhead">메가 프로젝트 필수 아이템 ESS… 미국은 이미 태양광 ESS 주류로</div><a class="news-src" href="https://v.daum.net/v/20260701060310887" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 정부가 서남권 재생에너지를 활용해 3대 메가프로젝트를 추진하겠다고 밝히면서 전력 계통 안정화를 위한 에너지저장장치(ESS) 시장 성장세가 더욱 가팔라질 거라는 전망이 나온음.</p><p>■ 미국에선 이미 <b>태양광</b>과 ESS가 신규 전력 인프라의 주류로 자리잡은 가운데 메가 프로젝트가 본격화되면 국내에서도 ESS 기반 전력 운영 체계가 빠르게 확산할 수 있다는 관측임.</p><p>■ 정부는 지난 29일 대한민국 대도약 3대 메가프로젝트(반도체·AI <b>데이터센터</b>·피지컬AI)를 발표하며 서남권의 풍부한 재생에너지를 AI 산업 전력 기반으로 활용하겠다는 구상을 밝혔음.</p><p>■ 반도체 클러스터나 AI <b>데이터센터</b>는 막대한 전력을 24시간 안정적으로 공급받아야 하는 만큼, 전력을 저장했다가 필요한 때 공급하는 ESS 등 유연성 자원을 대폭 확대하겠다는 방침임.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 8 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('009830','한화솔루션')">한화솔루션</span><span class="spill" onclick="openPopup('373220','LG에너지솔루션')">LG에너지솔루션</span><span class="spill" onclick="openPopup('348370','엔켐')">엔켐</span><span class="spill" onclick="openPopup('416180','신성에스티')">신성에스티</span><span class="spill" onclick="openPopup('475150','SK이터닉스')">SK이터닉스</span><span class="spill" onclick="openPopup('456040','OCI')">OCI</span><span class="spill" onclick="openPopup('282720','금양그린파워')">금양그린파워</span><span class="spill" onclick="openPopup('137400','피엔티')">피엔티</span></div></div></article><article class="ncard" id="news6"><span class="chip c-blue nkick">에너지/전력</span><div class="nhead">AI·호남 반도체가 불러온 역대급 전력 청구서…12차 전기본 전면 수정 불가피</div><a class="news-src" href="https://m.ekn.kr/view.php?key=20260630027497674" target="_blank">🔗 m.ekn.kr</a><div class="nbody"><p>■ 정부가 대규모 전력 공급을 필요로 하는 반도체 클러스터 추가 조성과 AI <b>데이터센터</b> 구축 등 메가프로젝트를 발표하면서 하반기 초안 공개를 앞둔 12차 전력수급기본계획(전기본)이 중대한 시험대에 올랐음.</p><p>■ 에너지업계에서는 이번 프로젝트가 단순한 산업단지 조성을 넘어 국가 산업경쟁력과 직결되는 만큼, 향후 전력정책의 우선순위도 변화할 가능성이 있다는 분석을 내놓고 있음.</p><p>■ 정부의 메가 프로젝트 발표에 따르면 호남권에 구축하는 메모리 팹 4기 공장의 전력 수요 규모는 6.3GW이며, 2035년까지 울산, 동해, 세종 등 전국 권역별로 구축되는 AI <b>데이터센터</b>의 총 규모는 18.4GW임.</p><p>■ 1.4GW급 <b>원전</b> 18기가 필요한 수준임.</p><p>■ 호남 반도체 클러스터 추진과 12차 전기본 수립 엄청난 전력 수요가 신규로 발생함에 따라 현재 정부가 수립 중인 12차 전력수급기본계획이 전체적으로 뒤바뀔 수 있다는 전망이 나오고 있음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 8 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('000500','가온전선')">가온전선</span><span class="spill" onclick="openPopup('054220','비츠로시스')">비츠로시스</span><span class="spill" onclick="openPopup('033100','제룡전기')">제룡전기</span><span class="spill" onclick="openPopup('062040','산일전기')">산일전기</span><span class="spill" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="spill" onclick="openPopup('006340','대원전선')">대원전선</span><span class="spill" onclick="openPopup('298040','효성중공업')">효성중공업</span><span class="spill" onclick="openPopup('103590','일진전기')">일진전기</span></div></div></article><article class="ncard" id="news7"><span class="chip c-blue nkick">피지컬 AI</span><div class="nhead">LG전자 피지컬 AI 승부수… 홈로봇 클로이드 상용화 앞당긴다</div><a class="news-src" href="https://v.daum.net/v/20260701050453210" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ CEO 직속 피지컬 AI 컨트롤타워로봇 학습용 데이터팩토리도 구축홈·산업·상업 로봇으로 시장 공략 종합 로보틱스 솔루션 발돋움 목표 LG전자가 최고경영자(CEO) 직속으로 피지컬 인공지능(AI) 사업을 관장하는 로보틱스사업센터를 신설했음.</p><p>■ 컨트롤타워 격 조직을 갖춰 로보틱스와 공급망, 제조 등 운영 영역까지 피지컬 AI의 사업화에 필요한 역량을 결집하겠다는 의지로 풀이됨.</p><p>■ LG전자는 7월 1일부터 로보틱스사업센터를 신설하는 내용의 조직개편안을 30일 발표했음.</p><p>■ 연말 정기 조직개편을 약 4개월 앞둔 시점에 단행한 원포인트 인사로, 로보틱스 사업의 전략적 중요성과 육성 의지를 반영한 것임.</p><p>■ 로보틱스사업센터는 피지컬 AI와 로보틱스 분야의 사업 개발, 영업, 운영 등을 맡는 완결형 사업 조직으로 운영한다는 게 LG전자의 목표음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 8 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('066570','LG전자')">LG전자</span><span class="spill" onclick="openPopup('464080','에스오에스랩')">에스오에스랩</span><span class="spill" onclick="openPopup('432470','케이엔에스')">케이엔에스</span><span class="spill" onclick="openPopup('199430','케이엔알시스템')">케이엔알시스템</span><span class="spill" onclick="openPopup('389500','에스비비테크')">에스비비테크</span><span class="spill" onclick="openPopup('065350','신성델타테크')">신성델타테크</span><span class="spill" onclick="openPopup('377480','마음AI')">마음AI</span><span class="spill" onclick="openPopup('466100','클로봇')">클로봇</span></div></div></article><article class="ncard" id="news8"><span class="chip c-blue nkick">우주항공산업</span><div class="nhead">연봉 6.7억 쏩니다… 지구 탈출 젠슨 황, 우주 데이터센터 인재 찾는다</div><a class="news-src" href="https://v.daum.net/v/20260701042145488" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ [파이낸셜뉴스] 인공지능(AI) 반도체 시장의 압도적 1위인 <b>엔비디아</b>가 최대 <b>43만</b> 달러(약 <b>6억</b> <b>7000만</b> 원)의 연봉을 내걸고 <b>우주</b> <b>데이터센터</b> 구축을 위한 핵심 인재 채용에 나섰음.</p><p>■ 30일(현지시간) <b>엔비디아</b> 채용 공고에 따르면, <b>엔비디아</b>는 최근 자사의 <b>우주</b> <b>데이터센터</b> 프로젝트인 스페이스-1을 이끌 시스템 소프트웨어(SW) 수석 설계자를 공개 모집하고 있음.</p><p>■ 스페이스-1은 <b>엔비디아</b>의 차세대 AI 컴퓨팅 플랫폼 베라 루빈을 <b>우주</b> 환경에 맞춰 설계한 궤도 <b>데이터센터</b>(ODC) 모듈임.</p><p>■ <b>위성</b> 등에서 수집한 방대한 데이터를 지상으로 내려보내지 않고 <b>우주</b> 공간에서 직접 연산하거나, 궤도 상의 대규모 <b>데이터센터</b> 기반으로 활용하는 것이 목표음.</p><p>■ 이번 채용의 지원 자격은 시스템 소프트웨어 분야에서 15년 이상의 경력을 갖추고 <b>우주</b> <b>AI 인프라</b> 구축 경험이 있는 자음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 8 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('347700','스피어')">스피어</span><span class="spill" onclick="openPopup('295310','에이치브이엠')">에이치브이엠</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('189300','인텔리안테크')">인텔리안테크</span><span class="spill" onclick="openPopup('451760','컨텍')">컨텍</span><span class="spill" onclick="openPopup('211270','AP위성')">AP위성</span><span class="spill" onclick="openPopup('274090','켄코아에어로스페이스')">켄코아에어로스페이스</span><span class="spill" onclick="openPopup('462350','이노스페이스')">이노스페이스</span></div></div></article></div>
+  </section>
+</div>
+
+<footer>moneyland · 한국시장 모닝브리프 · 2026.07.01</footer>
+
+<script>
+// 종목 클릭 → 부모 SPA의 한국 종목 팝업(openKrStock) 위임 (iframe 표준 패턴)
+function openPopup(cd, nm){
+  try {
+    if (window.parent && window.parent !== window && window.parent.openKrStock) {
+      window.parent.openKrStock(cd, nm || '');
+      return;
+    }
+  } catch(e){}
+  // 폴백: 단독 열람 시 TradingView
+  window.open('https://www.tradingview.com/chart/?symbol=KRX%3A' + cd, '_blank');
+}
+
+// scrollspy — 네비가 가리키는 요소(섹션 + 각 섹터 첫 카드)를 관찰
+const links=[...document.querySelectorAll('.nav a')];
+const targets=links.map(l=>document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));}});},
+  {rootMargin:'-110px 0px -72% 0px'});
+targets.forEach(t=>obs.observe(t));
+</script>
+</body>
+</html>
