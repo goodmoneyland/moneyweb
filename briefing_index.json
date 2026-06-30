@@ -109,6 +109,11 @@
   ],
   "value-chart": [
     {
+      "label": "07.01 수",
+      "today": true,
+      "src": "/exports/value_chart_20260701.html"
+    },
+    {
       "label": "06.30 화",
       "today": false,
       "src": "/exports/value_chart_20260630.html"
@@ -127,14 +132,14 @@
       "label": "06.27 토",
       "today": false,
       "src": "/exports/value_chart_20260627.html"
-    },
-    {
-      "label": "06.26 금",
-      "today": false,
-      "src": "/exports/value_chart_20260626.html"
     }
   ],
   "sector-per": [
+    {
+      "label": "07.01 수",
+      "today": true,
+      "src": "/exports/sector_per_20260701.html"
+    },
     {
       "label": "06.30 화",
       "today": false,
@@ -154,11 +159,6 @@
       "label": "06.27 토",
       "today": false,
       "src": "/exports/sector_per_20260627.html"
-    },
-    {
-      "label": "06.26 금",
-      "today": false,
-      "src": "/exports/sector_per_20260626.html"
     }
   ],
   "kr-theme": [
