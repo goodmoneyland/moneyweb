@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script>function onFrameLoad(){}function _injectPeerPopup(){}</script><link rel="stylesheet" href="/assets/app.e897cd9e73.css">
+<script>function onFrameLoad(){}function _injectPeerPopup(){}</script><link rel="stylesheet" href="/assets/app.8ce795ffa4.css">
 </head>
 <body>
 
@@ -765,6 +765,7 @@
       <button class="sp-tab active" onclick="spTab(this,'price')">주가 · 수급</button>
       <button class="sp-tab" onclick="spTab(this,'report')">증권사 리포트</button>
       <button class="sp-tab" onclick="spTab(this,'finance')">재무 · 컨센서스</button>
+      <button class="sp-tab" id="sp-tab-btn-order" onclick="spTab(this,'order')" style="display:none;">수주</button>
       <button class="sp-tab" onclick="spTab(this,'disclosure')">공시</button>
     </div>
     <div id="sp-ext-links" style="display:flex;gap:6px;padding:0 16px;flex-shrink:0;align-items:center;"></div>
@@ -774,6 +775,7 @@
     <div id="sp-52w-bar" style="display:none;margin-bottom:14px;"></div>
     <div id="sp-price-section-lbl" style="font-size:11px;color:#64748b;font-weight:700;margin-bottom:6px;letter-spacing:.5px;display:none;">주가 현황</div>
     <div id="sp-price-cards" style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:20px;"></div>
+    <div id="sp-order-kpi"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
       <div style="background:#162033;border:1px solid #1e2d47;border-radius:8px;padding:12px 14px;">
         <div style="font-size: 18px;color:#64748b;font-weight:700;margin-bottom:8px;letter-spacing:.04em;">국내 비교기업</div>
@@ -799,13 +801,15 @@
     <div id="sp-consensus-cards" style="margin-bottom:18px;"></div>
     <div id="sp-earnings-table"></div>
   </div>
+  <div id="sp-tab-order" class="sp-panel" style="padding:18px 20px;display:none;">
+    <div id="sp-order-backlog"></div>
+  </div>
   <div id="sp-tab-disclosure" class="sp-panel" style="padding:18px 20px;display:none;">
-    <div id="sp-order-backlog" style="margin-bottom:18px;"></div>
     <div id="sp-disclosure-list"></div>
   </div>
 </div>
 </div>
 
-<script src="/assets/app.97551b5aae.js"></script>
+<script src="/assets/app.99e6e2f623.js"></script>
 </body>
 </html>

@@ -39,6 +39,7 @@
   svg{display:block;width:100%;height:78px}
   .detail{grid-column:1/-1;background:#0c1526;border:1px solid #263a5e;border-radius:12px;padding:14px}
   .detail .bigchart{width:100%;height:auto;display:block}
+  .chsub{text-align:center;font-size:12.5px;font-weight:700;color:#cdddf6;margin:4px 0 2px}
   .vtoggle{display:inline-flex;gap:0;border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-left:auto}
   .vtoggle button{background:#111c30;color:var(--mut);border:0;padding:4px 12px;font-size:12px;cursor:pointer}
   .vtoggle button.on{background:var(--acc);color:#fff;font-weight:700}
@@ -203,7 +204,7 @@ function aggregate(gr,view){
 
 // 비온식 스택 차트(국가 스택막대 + 단가선 + 좌우축)
 function bigChart(agg,mode){
-  const W=1000,H=380,ML=76,MR=64,MT=16,MB=64, iw=W-ML-MR, ih=H-MT-MB;
+  const W=1000,H=390,ML=76,MR=64,MT=34,MB=64, iw=W-ML-MR, ih=H-MT-MB;
   const n=agg.labels.length, bw=iw/n;
   const cs=Object.keys(agg.countries);
   const hasC=cs.length>0;
@@ -229,10 +230,14 @@ function bigChart(agg,mode){
   const step=Math.ceil(n/24);
   let xl='';agg.labels.forEach((lb,i)=>{if(i%step)return;const x=sx(i)+bw/2;
     xl+=`<text x="${x}" y="${H-MB+14}" fill="#7f92ad" font-size="10" text-anchor="end" transform="rotate(-60 ${x} ${H-MB+14})">${esc(lb)}</text>`;});
-  // 범례
-  let leg='';const items=hasC?cs.map((c,i)=>[c,CPAL[i%CPAL.length]]):[[mode+'금액',mode==='수입'?'#c77dff':'#4c8dff']];
+  // 범례(가운데 정렬, 폭 넘치면 자동 줄바꿈)
+  const items=hasC?cs.map((c,i)=>[c,CPAL[i%CPAL.length]]):[[mode+'금액',mode==='수입'?'#c77dff':'#4c8dff']];
   items.push(['단가($/kg)','#2f6b34']);
-  let lx=ML;items.forEach(([nm,col])=>{leg+=`<rect x="${lx}" y="2" width="11" height="11" rx="2" fill="${col}"/><text x="${lx+15}" y="11" fill="#cdddf6" font-size="11">${esc(nm)}</text>`;lx+=28+nm.length*7.2;});
+  const iw2=items.map(([nm])=>26+nm.length*13);   // 각 항목 대략 폭
+  let leg='',lx=ML,ly=6;const avail=W-MR;
+  items.forEach(([nm,col],i)=>{if(lx+iw2[i]>avail){lx=ML;ly+=15;}
+    leg+=`<rect x="${lx}" y="${ly}" width="11" height="11" rx="2" fill="${col}"/><text x="${lx+15}" y="${ly+9}" fill="#cdddf6" font-size="11">${esc(nm)}</text>`;lx+=iw2[i];});
+  const legH=ly;  // 범례가 2줄이면 아래로 내려감
   return `<svg class="bigchart" viewBox="0 0 ${W} ${H}"><g>${leg}</g>${grid}${bars}${line}${yl}${yr}${xl}
     <text x="14" y="${MT+ih/2}" fill="#7f92ad" font-size="11" transform="rotate(-90 14 ${MT+ih/2})" text-anchor="middle">${mode}금액($)</text></svg>`;
 }
@@ -260,19 +265,23 @@ function dataTable(agg,mode,fxMap,view){
   return `<div class="tblwrap"><table class="dt"><thead>${h}</thead><tbody>${body}</tbody></table></div>`;
 }
 
-let _detView={};
+let _tblView={};
 function renderDetail(idx){
-  const gr=DATA.groups[idx], view=_detView[idx]||'month';
-  const agg=aggregate(gr,view);
-  const note=gr.trass_needed?'⚠ 경쟁사 공유 HS 합산치 — 개별 격리는 TRASS 대기':(Object.keys(gr.countries).length?'무료 HS + 국가별 실데이터':'무료 HS 기반');
-  return `<div class="dttl" style="display:flex;align-items:center;gap:10px">${esc(gr.product)} — ${view==='quarter'?'분기':'월별'} ${gr.mode}금액 + 단가
-      <span style="font-size:11px;color:var(--mut)">${note}</span>
-      <span class="vtoggle"><button class="${view==='month'?'on':''}" onclick="setView(${idx},'month')">월별</button><button class="${view==='quarter'?'on':''}" onclick="setView(${idx},'quarter')">분기</button></span></div>
-    ${bigChart(agg,gr.mode)}
-    <div class="chips" style="margin:8px 0">${gr.stocks.map(s=>`<span class="chip" data-c="${esc(s.code)}" data-n="${esc(s.name)}">${esc(s.name)} 팝업</span>`).join('')}</div>
-    ${dataTable(agg,gr.mode,DATA.fx||{},view)}`;
+  const gr=DATA.groups[idx], tv=_tblView[idx]||'month';
+  const aggM=aggregate(gr,'month'), aggQ=aggregate(gr,'quarter');
+  const sub=gr.stocks.map(s=>esc(s.name)).join(' / ');
+  const note=gr.trass_needed?'⚠ 경쟁사 공유 HS 합산치 — 개별 격리는 TRASS 대기':(Object.keys(gr.countries).length?'국가별 실데이터':'무료 HS');
+  return `<div class="dttl" style="text-align:center">${esc(gr.product)}<div style="font-size:12px;color:var(--mut);font-weight:400">관련종목 : ${sub} <span style="margin-left:6px">· ${note}</span></div></div>
+    <div class="chsub">월별 ${gr.mode}금액 + 단가($/kg)</div>
+    ${bigChart(aggM,gr.mode)}
+    <div class="chsub" style="margin-top:14px">분기 ${gr.mode}금액 + 단가($/kg)</div>
+    ${bigChart(aggQ,gr.mode)}
+    <div class="chips" style="margin:10px 0">${gr.stocks.map(s=>`<span class="chip" data-c="${esc(s.code)}" data-n="${esc(s.name)}">${esc(s.name)} 팝업</span>`).join('')}</div>
+    <div class="dttl" style="display:flex;align-items:center;gap:10px;margin-top:6px">상세 데이터
+      <span class="vtoggle"><button class="${tv==='month'?'on':''}" onclick="setTbl(${idx},'month')">월별</button><button class="${tv==='quarter'?'on':''}" onclick="setTbl(${idx},'quarter')">분기</button></span></div>
+    ${dataTable(tv==='quarter'?aggQ:aggM,gr.mode,DATA.fx||{},tv)}`;
 }
-function setView(idx,v){_detView[idx]=v;const det=document.getElementById('detail-'+idx);if(det){det.innerHTML=renderDetail(idx);bindChips(det);}}
+function setTbl(idx,v){_tblView[idx]=v;const det=document.getElementById('detail-'+idx);if(det){det.innerHTML=renderDetail(idx);bindChips(det);}}
 function bindChips(det){det.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',e=>{e.stopPropagation();popup(ch.dataset.c,ch.dataset.n);}));}
 
 function toggleDetail(idx,card){
