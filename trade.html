@@ -17,9 +17,14 @@
   @media(max-width:720px){.xun{grid-template-columns:1fr}}
   .xbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px}
   .xbox h3{margin:0 0 6px;font-size:13px;color:var(--acc)}
-  .xrow{display:flex;justify-content:space-between;padding:2px 0;font-size:12.5px;border-bottom:1px dashed #182339}
+  .xrow,.xhrow{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:4px;padding:2px 0;font-size:12px;border-bottom:1px dashed #182339;align-items:center}
   .xrow:last-child{border:0}
-  .xrow .nm{color:var(--fg)} .xrow .v{color:var(--mut)}
+  .xhrow{border-bottom:1px solid #26385c;color:var(--mut);font-size:10.5px;font-weight:700}
+  .xrow .nm{color:var(--fg)} .xhrow .nm{color:var(--mut)}
+  .xstage{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
+  .xstage.strong{color:var(--fg);font-weight:700}
+  .xchg{text-align:right;font-variant-numeric:tabular-nums}
+  .xhrow .xstage,.xhrow .xchg{color:var(--mut)}
   .up{color:var(--grn)} .dn{color:var(--red)}
   /* 그룹 그리드 */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
@@ -128,10 +133,14 @@ function chart(series,mode,months,withUnit){
 
 function xunStrip(x){
   if(!x||!x.sections){return '';}
+  const ymk=(x.ym||'').replace(/(\d{4})(\d{2})/,'$1-$2');
   const box=(title,rows)=>{
-    const top=rows.slice().sort((a,b)=>b.full-a.full).slice(0,5);
-    return `<div class="xbox"><h3>${title} <span style="color:var(--mut);font-weight:400">(${x.ym} 완성 잠정 · 십억$)</span></h3>`+
-      top.map(r=>`<div class="xrow"><span class="nm">${r.label}</span><span class="v">${fmtB(r.full)} · MoM <b class="${cls(r.mom)}">${fmtPct(r.mom)}</b> · YoY <b class="${cls(r.yoy)}">${fmtPct(r.yoy)}</b></span></div>`).join('')+`</div>`;
+    const rs=rows.slice().sort((a,b)=>b.full-a.full);   // 10대 전체
+    const hdr=`<div class="xhrow"><span class="nm">품목</span><span class="xstage">10일</span><span class="xstage">20일</span><span class="xstage">말일</span><span class="xchg">YoY</span></div>`;
+    return `<div class="xbox"><h3>${title} <span style="color:var(--mut);font-weight:400">(${ymk} 10일 旬 잠정 누적)</span></h3>${hdr}`+
+      rs.map(r=>`<div class="xrow"><span class="nm">${r.label}</span>`+
+        `<span class="xstage">${fmtB(r.d10)}</span><span class="xstage">${fmtB(r.d20)}</span><span class="xstage strong">${fmtB(r.full)}</span>`+
+        `<span class="xchg ${cls(r.yoy)}">${fmtPct(r.yoy)}</span></div>`).join('')+`</div>`;
   };
   return box('🟦 수출 10대 품목',x.sections['수출품목']||[])+box('🟪 수입 10대 품목',x.sections['수입품목']||[]);
 }
