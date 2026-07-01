@@ -309,7 +309,7 @@ async function renderRankCombined(){const el=document.getElementById('newhigh-co
           onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
           onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
         <td style="padding:5px 4px 5px 8px;text-align:right;font-size:13px;color:var(--muted);">${i+1}</td>
-        <td style="padding:5px 10px 5px 6px;font-size:15px;font-weight:700;white-space:nowrap;">${r.itm_nm}</td>
+        <td style="padding:5px 12px 5px 6px;font-size:15px;font-weight:700;white-space:nowrap;">${r.itm_nm}<span style="font-size:11.5px;color:var(--muted);font-weight:400;margin-left:5px;">${r.sector||''}</span></td>
         <td style="padding:5px 8px;text-align:right;font-size:14.5px;font-weight:700;white-space:nowrap;">${_rkFmt(prc)}</td>
         <td style="padding:5px 10px 5px 6px;text-align:right;font-size:14.5px;font-weight:800;color:${ud.c};white-space:nowrap;">${ud.s}</td>
       </tr>`;};const chgCol=(title,d,accent)=>{const rows=d.rows||[];return`<div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;">
@@ -322,7 +322,7 @@ async function renderRankCombined(){const el=document.getElementById('newhigh-co
           onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
           onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
         <td style="padding:5px 4px 5px 8px;text-align:right;font-size:13px;color:var(--muted);">${i+1}</td>
-        <td style="padding:5px 8px;font-size:15px;font-weight:700;white-space:nowrap;">${r.itm_nm} ${mkBadge(r.market)}</td>
+        <td style="padding:5px 8px;font-size:15px;font-weight:700;white-space:nowrap;">${r.itm_nm} ${mkBadge(r.market)}<span style="font-size:11.5px;color:var(--muted);font-weight:400;margin-left:5px;">${r.sector||''}</span></td>
         <td style="padding:5px 8px;text-align:right;font-size:14px;font-weight:700;white-space:nowrap;">${_rkFmt(prc)}</td>
         <td style="padding:5px 8px;text-align:right;font-size:14px;font-weight:800;color:${ud.c};white-space:nowrap;">${ud.s}</td>
         <td style="padding:5px 10px 5px 8px;text-align:right;font-size:15px;font-weight:800;color:#f59e0b;white-space:nowrap;">${metric}</td>
