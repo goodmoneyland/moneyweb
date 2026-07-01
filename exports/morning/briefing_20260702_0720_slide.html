@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국 모닝브리프 2026.07.02</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f3f5f9;--white:#fff;--card:#fff;--text:#0f172a;--text2:#374151;--text3:#6b7280;
+  --up:#059669;--up-bg:#d1fae5;--dn:#dc2626;--dn-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;--purple:#7c3aed;--gold:#d97706;--cyan:#0891b2;--pink:#db2777;
+  --border:#e2e8f0;--line:#eef1f6;--shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --head-h:60px;--nav-h:48px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+
+.hdr{position:sticky;top:0;z-index:50;height:var(--head-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:0 24px;}
+.hdr-title{font-size:19px;font-weight:900;letter-spacing:-.5px;white-space:nowrap;display:flex;align-items:center;gap:9px;}
+.hdr-title .flag{font-size:22px;}
+.hdr-date{font-size:13px;color:var(--text3);font-weight:700;white-space:nowrap;}
+.hdr-upd{margin-left:auto;font-size:11px;color:var(--text3);white-space:nowrap;font-weight:600;}
+
+.nav{position:sticky;top:var(--head-h);z-index:49;height:var(--nav-h);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:4px;padding:0 24px;overflow-x:auto;}
+.nav a{font-size:13.5px;font-weight:700;color:var(--text3);padding:7px 14px;border-radius:8px;white-space:nowrap;transition:.15s;}
+.nav a:hover{background:var(--line);color:var(--text);}
+.nav a.active{background:var(--blue);color:#fff;}
+
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
+section{scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 12px);margin-bottom:42px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.sec-tag{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:5px;background:var(--blue-bg);color:var(--blue);}
+.sec-tag.green{background:var(--up-bg);color:var(--up);}
+.sec-tag.purple{background:#ede9fe;color:var(--purple);}
+.sec-title{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+.sec-cnt{font-size:13px;color:var(--text3);font-weight:600;}
+.sub{font-size:14px;color:var(--text3);font-weight:700;margin:18px 0 10px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:860px){.g2{grid-template-columns:1fr;}}
+
+/* chips (섹터 색상) */
+.chip{font-size:13px;font-weight:800;padding:5px 13px;border-radius:16px;white-space:nowrap;display:inline-block;}
+.c-blue{background:var(--blue-bg);color:var(--blue);}
+.c-green{background:var(--up-bg);color:var(--up);}
+.c-red{background:var(--dn-bg);color:var(--dn);}
+.c-purple{background:#ede9fe;color:var(--purple);}
+.c-gold{background:#fef3c7;color:var(--gold);}
+.c-cyan{background:#cffafe;color:var(--cyan);}
+.c-pink{background:#fce7f3;color:var(--pink);}
+.sec-tag.c-blue-tag{background:var(--blue-bg);color:var(--blue);}
+.sec-tag.c-green-tag{background:var(--up-bg);color:var(--up);}
+.sec-tag.c-red-tag{background:var(--dn-bg);color:var(--dn);}
+.sec-tag.c-purple-tag{background:#ede9fe;color:var(--purple);}
+.sec-tag.c-gold-tag{background:#fef3c7;color:var(--gold);}
+.sec-tag.c-cyan-tag{background:#cffafe;color:var(--cyan);}
+.sec-tag.c-pink-tag{background:#fce7f3;color:var(--pink);}
+
+/* overview */
+.ov2{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;}
+@media(max-width:860px){.ov2{grid-template-columns:1fr;}}
+.iss-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;}
+.iss-row:last-child{border-bottom:none;}
+a.iss-row{cursor:pointer;border-radius:8px;transition:.12s;}
+a.iss-row:hover{background:var(--line);}
+a.iss-row:hover .iss-desc{color:var(--blue);}
+.iss-desc{font-size:14.5px;font-weight:600;line-height:1.45;}
+.picks{display:flex;flex-direction:column;gap:7px;}
+.pick{background:linear-gradient(135deg,#fff,#f1f5f9);border:1.5px solid #bfdbfe;border-radius:10px;
+  padding:10px 14px;font-size:14.5px;font-weight:800;text-align:center;transition:.15s;}
+.pick:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,138,.15);}
+.cardpad{padding:8px 8px;}
+.cardpad2{padding:18px 20px;}
+
+/* opinion */
+.opblk{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:16px 20px;box-shadow:var(--shadow);
+  border-left:5px solid var(--blue);margin-bottom:14px;}
+.opblk.positive{border-left-color:var(--up);margin-bottom:0;}
+.opblk.risk{border-left-color:var(--dn);margin-bottom:0;}
+.opblk.summary{border-left-color:var(--purple);background:linear-gradient(135deg,#faf5ff,#f5f3ff);}
+.opblk.watch{display:flex;flex-direction:column;gap:11px;}
+.watchrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.opblk-t{font-size:16px;font-weight:900;margin-bottom:10px;}
+.opblk.watch .opblk-t{margin-bottom:0;}
+.opblk p{font-size:14.5px;line-height:1.8;color:var(--text2);margin-bottom:6px;}
+.opblk p:last-child{margin-bottom:0;}
+.opblk .ws{display:flex;flex-wrap:wrap;gap:8px;}
+.watchsum{border-top:1px dashed var(--border);padding-top:10px;}
+.watchsum p{font-size:14.5px;line-height:1.75;color:var(--text);font-weight:500;margin-bottom:4px;}
+.watchsum p:last-child{margin-bottom:0;}
+.opblk b,.nbody b{background:linear-gradient(180deg,transparent 60%,#fde68a 60%);font-weight:700;}
+.opblk .g2{margin:0;}
+
+/* news — 연속 2열 그리드, 카드 높이 균일(--ncard-h), 본문은 카드 안에서 스크롤 (모바일은 1열) */
+:root{--ncard-h:470px;}
+#newsgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+@media(max-width:860px){#newsgrid{grid-template-columns:1fr;}}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:18px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;height:var(--ncard-h);overflow:hidden;
+  scroll-margin-top:calc(var(--head-h) + var(--nav-h) + 14px);}
+.nkick{align-self:flex-start;margin-bottom:9px;flex-shrink:0;}
+.nhead{font-size:16.5px;font-weight:800;line-height:1.4;margin-bottom:8px;flex-shrink:0;}
+.news-src{font-size:12px;color:var(--blue);font-weight:600;margin-bottom:10px;display:inline-block;opacity:.85;word-break:break-all;flex-shrink:0;}
+.news-src:hover{opacity:1;text-decoration:underline;}
+.nbody{font-size:14px;color:var(--text2);line-height:1.78;margin-bottom:10px;
+  flex:1;min-height:0;overflow-y:auto;padding-right:6px;}
+.nbody p{margin-bottom:7px;}.nbody p:last-child{margin-bottom:0;}
+.nbody::-webkit-scrollbar{width:6px;}
+.nbody::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+.nbody::-webkit-scrollbar-track{background:transparent;}
+.news-stocks{flex-shrink:0;border-top:1px dashed var(--border);padding-top:11px;}
+.slist{display:none;flex-wrap:wrap;gap:7px;margin-top:10px;max-height:96px;overflow-y:auto;}
+.slist.show{display:flex;}
+.stog{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+  background:var(--pink-bg,#fce7f3);color:var(--pink);padding:7px 16px;border-radius:16px;
+  font-size:13px;font-weight:800;border:1.5px solid var(--pink);transition:.2s;}
+.stog:hover{background:var(--pink);color:#fff;}
+.stog .ar{transition:transform .25s;}
+.stog.open .ar{transform:rotate(90deg);}
+.spill{background:#fce7f3;color:var(--pink);padding:6px 14px;border-radius:14px;font-size:13px;font-weight:800;transition:.15s;cursor:pointer;}
+.spill:hover{background:var(--pink);color:#fff;}
+
+footer{text-align:center;color:var(--text3);font-size:12px;padding:24px;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-title"><span class="flag">🇰🇷</span>한국 모닝브리프</div>
+  <div class="hdr-date">📈 2026.07.02 (목)</div>
+  <div class="hdr-upd">⟳ 2026-07-02 07:20</div>
+</header>
+
+<nav class="nav" id="nav">
+  <a href="#overview" class="active">요약</a>
+  <a href="#opinion">오늘장 주목섹터&포인트</a>
+  <a href="#goodrisk">굿&리스크 체크</a>
+  <a href="#news2">반도체/기판</a>
+  <a href="#news4">반도체/부품</a>
+  <a href="#news5">전선</a>
+  <a href="#news7">에너지/신재생</a>
+  <a href="#news9">에너지/전력저장장치</a>
+  <a href="#news10">방산</a>
+  <a href="#news11">조선</a>
+  <a href="#news12">금융</a>
+</nav>
+
+<div class="wrap">
+
+  <section id="overview">
+    <div class="sec-head"><span class="sec-tag">OVERVIEW</span><span class="sec-title">핵심 이슈 &amp; TOP PICKs</span></div>
+    <div class="ov2">
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">오늘의 핵심 이슈</div>
+        <a class="iss-row" href="#news2"><span class="chip c-blue">반도체/기판</span><span class="iss-desc">FO-PLP·유리기판 시장, 2030년 12.6조 돌파 전망…12.5배</span></a><a class="iss-row" href="#news4"><span class="chip c-blue">반도체/부품</span><span class="iss-desc">삼전·하이닉스만 있나…AI 랠리 올라탄 삼성전기·LG이노텍 몸값↑</span></a><a class="iss-row" href="#news5"><span class="chip c-blue">전선</span><span class="iss-desc">김우태 LS전선 대표 "버스덕트는 AIDC 필수 인프라…2030년 글로벌</span></a><a class="iss-row" href="#news7"><span class="chip c-blue">에너지/신재생</span><span class="iss-desc">SK그룹, '투트랙 에너지' 전략 시동…신재생은 '외부수혈', LNG·수</span></a><a class="iss-row" href="#news9"><span class="chip c-blue">에너지/전력저장장치</span><span class="iss-desc">호남만이 아니다…美 AI 데이터센터도 전력 확보 '사활'</span></a><a class="iss-row" href="#news10"><span class="chip c-red">방산</span><span class="iss-desc">한화, 7월 방산 '빅이벤트' 줄줄이…김동관 부회장 수주 최전선</span></a><a class="iss-row" href="#news11"><span class="chip c-blue">조선</span><span class="iss-desc">中 조선, 이번엔 스마트화 '조 단위' 투자…韓 압박</span></a><a class="iss-row" href="#news12"><span class="chip c-blue">금융</span><span class="iss-desc">국민연금 이사장 "연금 '74조 매도폭탄' 터무니없어…'폭탄' 가능성 제</span></a>
+      </div>
+      <div class="card cardpad2">
+        <div class="sub" style="margin-top:0;">⭐ TOP PICKs</div>
+        <div class="picks"><span class="pick" onclick="openPopup('042660','한화오션')">한화오션</span><span class="pick" onclick="openPopup('012450','한화에어로스페이스')">한화에어로스페이스</span><span class="pick" onclick="openPopup('009150','삼성전기')">삼성전기</span><span class="pick" onclick="openPopup('011070','LG이노텍')">LG이노텍</span><span class="pick" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="pick" onclick="openPopup('222800','심텍')">심텍</span><span class="pick" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="pick" onclick="openPopup('001440','대한전선')">대한전선</span><span class="pick" onclick="openPopup('329180','HD현대중공업')">HD현대중공업</span><span class="pick" onclick="openPopup('009830','한화솔루션')">한화솔루션</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opinion">
+    <div class="sec-head"><span class="sec-tag purple">TODAY FOCUS</span><span class="sec-title">오늘장 주목섹터 &amp; 포인트</span></div>
+    <div class="opblk watch"><div class="watchrow"><div class="opblk-t">🔍 오늘 주목할 섹터</div><div class="ws"><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/기판</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">반도체/부품</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">전선</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/신재생</span><span class="chip c-blue" style="background:var(--blue-bg);color:var(--blue);">에너지/전력저장장치</span><span class="chip c-blue" style="background:var(--down-bg);color:var(--down);">방산</span></div></div><div class="watchsum"><p>■ 오늘장은 <b>반도체/기판·반도체/부품·전선·에너지/신재생</b> 섹터에 집중할 필요가 있음.</p><p>■ 방산 관련 변동성도 주시하며 <span class="highlight">섹터별 차별화된 접근</span>이 핵심임.</p></div></div><div class="opblk "><div class="opblk-t">📊 마켓 포인트</div><p>■ 전일 미국 증시는 나스닥이 상대적으로 <b>약세</b>를 보이며 기술주 차익실현 흐름이 나타났으나, <b>마이크로소프트</b>가 <span class="highlight">3%</span> <b>급등</b>하며 AI 소프트웨어 인프라 지출 확대 기대가 시장 전체를 지지했음.</p><p>■ 반도체 하드웨어(<b>엔비디아</b> <span class="highlight">-1.25%</span>) 대비 AI 응용·인프라 레이어로 <b>수혜</b> 축이 이동하고 있다는 신호임.</p><p>■ 첫 번째 주목 섹터는 첨단패키징·기판임.</p><p>■ 마이크론의 영업이익률 <span class="highlight">80%</span> 달성과 FO-PLP·유리기판 시장의 2030년 12배 성장 전망이 동시에 부각되며, AI HPC 수요가 단순 메모리를 넘어 패키징·기판 소재 전반으로 퍼지는 구조적 국면에 진입했음.</p><p>■ 이수페타시스, 심텍, 삼성전기 등 FC-BGA·MLCC 공급사들이 마이크론 <b>어닝 서프라이즈</b>의 직접 <b>수혜</b> 라인으로 재조명받을 전망임.</p><p>■ 두 번째 주목 섹터는 전선·전력인프라임.</p><p>■ 미국이 중국산 인버터 수입제한을 검토하고 있어 국산 인버터·전력 장비 업체의 반사 <b>수혜</b>가 기대되며, 정부의 <b>16조</b> 피지컬 AI 지원 패키지에서 해저케이블·HVDC가 1호 투자 프로젝트로 명시된 점은 LS 계열 및 대한전선 계통 종목의 가시적 <b>모멘텀</b>임.</p><p>■ 버스덕트가 글로벌 빅테크의 <b>데이터센터</b> 설계 표준으로 편입되는 흐름은 단기 이슈가 아닌 멀티이어 수요로 봐야 함.</p><p>■ 세 번째 주목 섹터는 <b>방산</b>임.</p><p>■ 한화오션의 캐나다 잠수함(CPSP, 최대 <b>60조</b>) 우협 발표가 이르면 이번 주 나올 수 있고, <b>한화에어로스페이스</b>의 미국 차륜형 자주포(<b>5조</b>) 시제품 경쟁 결과도 7월 내 결론 예정임.</p><p>■ 단일 이벤트 두 개가 동시에 촉매로 작용할 수 있는 구간으로, K-<b>방산</b> <b>역대 최대</b> 단일 수출이 현실화될 경우 <b>방산</b> 서플라이체인 전반에 걸쳐 광범위한 주가 반응이 나타날 전망임.</p><p>■ 전체적으로 오늘 장은 <b>AI 인프라</b>·<b>방산</b> <b>수주</b>라는 두 축을 중심으로 선별적 공격 전략이 유효한 국면으로 판단됨.</p></div>
+  </section>
+  <section id="goodrisk">
+    <div class="sec-head"><span class="sec-tag green">GOOD &amp; RISK</span><span class="sec-title">굿 &amp; 리스크 체크</span></div>
+    <div class="g2"><div class="opblk positive"><div class="opblk-t">✅ 굿 포인트</div><p>■ 마이크론 <span class="highlight">346%</span> <b>매출 성장</b>과 <span class="highlight">80%</span> 영업이익률이 확인되며 AI 메모리 <b>슈퍼사이클</b> 지속 신호가 나왔고, 삼성전기·LG이노텍 등 부품 후방 업체로 <b>수혜</b> 기대가 확산되는 구조임</p><p>■ 한화오션 캐나다 잠수함 <b>60조</b> 우협 발표가 임박해 <b>방산</b> 섹터에 대형 <b>수주</b> 기대감이 고조되고 있으며, 이는 한화 계열 및 함정 서플라이체인 전체의 밸류에이션 재평가 트리거가 될 수 있음</p><p>■ 정부의 <b>16조</b> 피지컬 AI 지원 패키지와 LS전선 해저케이블 공장 증설이 1호 M.AX 프로젝트로 선정되며 전력 인프라 섹터에 정책 바람이 가세했음</p><p>■ 미국이 중국산 인버터 수입제한을 검토하면서 <b>태양광</b>·ESS 시스템에 탑재되는 한국산 전력 변환 장치 업체의 대미 수출 기회가 확대될 전망임</p></div><div class="opblk risk"><div class="opblk-t">⚠️ 리스크 포인트</div><p>■ <b>엔비디아</b>가 <span class="highlight">-1.25%</span> 하락하며 반도체 하드웨어 밸류에이션 부담이 재확인됐고, 국내 <b>HBM</b> 직접 노출 종목(<b>SK하이닉스</b> 등)에 대한 단기 차익실현 압력이 이어질 수 있음</p><p>■ 중국 조선사들이 조 단위 스마트화 투자를 단행하며 AI 기반 자동화 생산 경쟁에 진입했고, 이는 기술 격차를 수렴시킬 수 있는 중장기 구조적 위협으로 국내 조선사 밸류에이션 프리미엄 근거를 약화시킬 수 있음</p><p>■ 나스닥 하락과 달러 <b>강세</b> 기조가 맞물려 글로벌 유동성 위험 선호가 제한적인 환경이 단기적으로 유지될 수 있으며, 성장주 비중이 높은 코스닥 중소형 종목군에 부담으로 작용할 수 있음</p></div></div>
+  </section>
+
+  <section id="news">
+    <div class="sec-head"><span class="sec-tag">NEWS</span><span class="sec-title">섹터별 뉴스</span>
+      <span class="sec-cnt">총 11건</span></div>
+    <div id="newsgrid"><article class="ncard" id="news2"><span class="chip c-blue nkick">반도체/기판</span><div class="nhead">FO-PLP·유리기판 시장, 2030년 12.6조 돌파 전망…12.5배 폭증</div><a class="news-src" href="https://n.news.naver.com/mnews/article/421/0009035041?sid=101" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ AI·HPC <b>애플</b>리케이션, FO-PLP 시장 매출 <span class="highlight">45.6%</span> 차지할 듯 글로벌 팬아웃 패널레벨패키징(FO-PLP)과 유리 기판 패키징(GSP) 시장 규모가 오는 2030년에는 <b>81억</b> 달러(약 <b>12조</b> <b>5728억</b> 원)를 <b>돌파</b>할 것이란 전망이 나왔음.</p><p>■ 글로벌 반도체 기업들이 점점 더 복잡해지는 인공지능(AI)과 고성능 컴퓨팅(HPC) 요구 사양을 충족하기 위해 차세대 첨단 패키징 기술 도입에 속도를 내고 있어서음.</p><p>■ 1일 글로벌 시장조사기관 카운터포인트리서치의 2026 FO-PLP 및 유리 기판 보고서에 따르면, FO-PLP와 유리 기판 시장 규모는 2024년 약 <b>6억</b> <b>5000만</b> 달러(약 <b>1조</b> <b>89억</b> 원)에서 2030년 <b>81억</b> 달러(약 <b>12조</b> <b>5728억</b> 원) 이상으로 증가할 전망임.</p><p>■ 6년 만에 12배 이상 커지는 셈임.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('267320','나인테크')">나인테크</span><span class="spill" onclick="openPopup('078150','HB테크놀러지')">HB테크놀러지</span><span class="spill" onclick="openPopup('452450','피아이이')">피아이이</span><span class="spill" onclick="openPopup('112290','와이씨켐')">와이씨켐</span><span class="spill" onclick="openPopup('452190','한빛레이저')">한빛레이저</span><span class="spill" onclick="openPopup('040910','아이씨디')">아이씨디</span><span class="spill" onclick="openPopup('009150','삼성전기')">삼성전기</span><span class="spill" onclick="openPopup('077360','덕산하이메탈')">덕산하이메탈</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('036930','주성엔지니어링')">주성엔지니어링</span><span class="spill" onclick="openPopup('131290','티에스이')">티에스이</span></div></div></article><article class="ncard" id="news3"><span class="chip c-blue nkick">반도체/기판</span><div class="nhead">반도체 저장·선진 패키징 시장, 7년간 15배 상승, 선진 패키징 주문량 2027년까지 계속 증가</div><a class="news-src" href="https://cj.sina.cn/article/normal_detail?url=https://finance.sina.com.cn/jjxw/2026-07-01/doc-inifheze6325684.shtml" target="_blank">🔗 cj.sina.cn</a><div class="nbody"><p>■ AI 폭발로 반도체 업계의 기층 논리가 완전히 바뀌었음.</p><p>■ 이는 더 이상 단일 구간의 맥동식 행정이 아니라 장비, 재료에서 패키징, 터미널까지 계층적으로 전도되는 전역적 변화음.</p><p>■ 저장 가격 7년 15배, 선진 패키징 주문량 2027년까지 계속 증가, 반도체 재료 가격 인상의 물결도 드물지 않은 속도로 전산업체를 휩쓸고 있음.</p><p>■ 누가 고기를 먹고 누가 국물을 마시고 누가 여전히 전환점을 기다리고 있는가? 프라이빗펀드 포트폴리오는 <b>반도체 장비</b>, 재료, 대공, 패키징, 설계 및 터미널 <b>애플</b>리케이션 전구간을 정리했으며, 현재 가장 주목할 만한 핵심 트랙과 폭발 절주를 명확히 했음.</p><p>■ 상류(장비, 재료) <b>반도체 장비</b> 판은 세계 확산 구동 수요+성적 고도 실현+국산 대체 속도 투과 삼중 논리 공진을 맞이하고 있으며, 경기는 뚜렷한 상향 추세를 보이고 있으며, 현재 반도체 산업체 중 성적 확실성이 비교적 강한 구간 중 하나음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('267320','나인테크')">나인테크</span><span class="spill" onclick="openPopup('078150','HB테크놀러지')">HB테크놀러지</span><span class="spill" onclick="openPopup('452450','피아이이')">피아이이</span><span class="spill" onclick="openPopup('112290','와이씨켐')">와이씨켐</span><span class="spill" onclick="openPopup('452190','한빛레이저')">한빛레이저</span><span class="spill" onclick="openPopup('040910','아이씨디')">아이씨디</span><span class="spill" onclick="openPopup('009150','삼성전기')">삼성전기</span><span class="spill" onclick="openPopup('077360','덕산하이메탈')">덕산하이메탈</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('036930','주성엔지니어링')">주성엔지니어링</span><span class="spill" onclick="openPopup('131290','티에스이')">티에스이</span></div></div></article><article class="ncard" id="news4"><span class="chip c-blue nkick">반도체/부품</span><div class="nhead">삼전·하이닉스만 있나…AI 랠리 올라탄 삼성전기·LG이노텍 몸값↑</div><a class="news-src" href="https://v.daum.net/v/20260702060146195" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 미국 메모리 반도체 기업 마이크론 테크놀로지가 시장 예상을 웃도는 실적을 내놓으면서 AI 반도체 <b>랠리</b>가 후방 부품 업계로 확산할 것이란 기대가 커지고 있음.</p><p>■ 고대역폭메모리(<b>HBM</b>)와 그래픽처리장치(GPU)를 중심으로 한 수요 <b>강세</b>가 장기화되면 이를 뒷받침하는 적층세라믹커패시터(MLCC), 플립칩 볼그리드어레이(FC-BGA) 등 고성능 부품 수요도 함께 늘어나는 구조음.</p><p>■ <b>삼성전자</b>와 <b>SK하이닉스</b>에 집중됐던 AI 반도체 <b>수혜</b> 기대가 삼성전기와 LG이노텍으로 번지는 배경임.</p><p>■ 2일 업계에 따르면, 마이크론은 최근 2026회계연도 3분기 실적 발표에서 매출 414억5600만달러, 영업이익 333억1800만달러를 기록했다고 밝혔음.</p><p>■ 매출은 전년 동기 93억100만달러에서 약 <span class="highlight">346%</span> 늘었고, 영업이익률은 <span class="highlight">80.4%</span>에 달했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 9 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('320000','한울반도체')">한울반도체</span><span class="spill" onclick="openPopup('306620','지아이에스')">지아이에스</span><span class="spill" onclick="openPopup('149950','아바텍')">아바텍</span><span class="spill" onclick="openPopup('009150','삼성전기')">삼성전기</span><span class="spill" onclick="openPopup('052710','아모텍')">아모텍</span><span class="spill" onclick="openPopup('077360','덕산하이메탈')">덕산하이메탈</span><span class="spill" onclick="openPopup('007660','이수페타시스')">이수페타시스</span><span class="spill" onclick="openPopup('222800','심텍')">심텍</span><span class="spill" onclick="openPopup('353200','대덕전자')">대덕전자</span></div></div></article><article class="ncard" id="news5"><span class="chip c-blue nkick">전선</span><div class="nhead">김우태 LS전선 대표 "버스덕트는 AIDC 필수 인프라…2030년 글로벌 '넘버 원' 자신"</div><a class="news-src" href="https://www.sedaily.com/article/20062684?ref=naver" target="_blank">🔗 sedaily.com</a><div class="nbody"><p>■ 인공지능(AI)은 이제 써도 그만 안 써도 그만인 기술이 아니라 반드시 써야 하는 인프라가 됐음.</p><p>■ 데이터가 폭증하면 결국 전력 인프라가 따라가야 하고 그 중심에 버스덕트(Busduct)가 있음.</p><p>■ 김우태LS(006260)전선 대표는 지난달 22일 서울 용산구 LS용산타워에서 서울경제신문과 만나 AI <b>데이터센터</b> 확산이 전력 인프라 산업의 판도를 바꾸고 있다고 강조했음.</p><p>■ 그는 원자재 비중이 높은 전선 사업은 수익성이 낮은 제조업으로 인식됐지만 AI 시대가 열리면서 상황은 완전히 달라졌다고 진단했음.</p><p>■ 김 대표는 북미를 중심으로 <b>구글</b>·<b>메타</b>·<b>아마존</b>·<b>마이크로소프트</b> 등 글로벌 클라우드 사업자들이 <b>데이터센터</b> 설계 표준에 버스덕트를 반영하고 있다며 AI <b>데이터센터</b>는 용량이 워낙 크기 때문에 고용량 전력을 안정적으로 분배할 수 있는 장치가 필수이고 케이블만으로는 구조적으로 대응하기 어렵다고 설명했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('006340','대원전선')">대원전선</span><span class="spill" onclick="openPopup('024840','KBI메탈')">KBI메탈</span><span class="spill" onclick="openPopup('000500','가온전선')">가온전선</span><span class="spill" onclick="openPopup('229640','LS에코에너지')">LS에코에너지</span><span class="spill" onclick="openPopup('103590','일진전기')">일진전기</span><span class="spill" onclick="openPopup('001440','대한전선')">대한전선</span><span class="spill" onclick="openPopup('007610','선도전기')">선도전기</span><span class="spill" onclick="openPopup('119850','지엔씨에너지')">지엔씨에너지</span><span class="spill" onclick="openPopup('189860','서전기전')">서전기전</span><span class="spill" onclick="openPopup('017510','세명전기')">세명전기</span><span class="spill" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="spill" onclick="openPopup('060370','LS마린솔루션')">LS마린솔루션</span></div></div></article><article class="ncard" id="news6"><span class="chip c-blue nkick">전선</span><div class="nhead">피지컬 AI 육성 박차… 2026년 16조 지원</div><a class="news-src" href="https://v.daum.net/v/20260702060324428" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 정부가 피지컬 인공지능(AI)을 비롯한 미래 산업 육성을 위해 대규모 자금을 투입함.</p><p>■ 이날 간담회엔 1호 M.AX 투자 프로젝트인 '초고압 해저케이블 생산공장 증설'을 추진하는 LS전선 등 민간 기업도 참석해 투자수요와 성장전략을 공유했음.</p><p>■ 이들 기업은 AI 시대를 선도하기 위해선 연구개발 지원을 넘어 대규모 시설투자, 실증 인프라 구축 등을 위한 인내자본 공급이 필수적이라고 강조했음.</p><p>■ 인내자본은 회수 기간이 길고 불확실성이 크더라도 장기적인 관점에서 투자하는 자금을 말함.</p><p>■ 이억원 금융위원장은 국민성장펀드는 대한민국 피지컬 AI 글로벌 1강 도약 비전을 현실로 만드는 강력한 이행수단으로서, 민간 투자를 촉진하는 마중물이 될 것이라며 장기적이고 적극적인 금융지원을 약속했음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('006340','대원전선')">대원전선</span><span class="spill" onclick="openPopup('024840','KBI메탈')">KBI메탈</span><span class="spill" onclick="openPopup('000500','가온전선')">가온전선</span><span class="spill" onclick="openPopup('229640','LS에코에너지')">LS에코에너지</span><span class="spill" onclick="openPopup('103590','일진전기')">일진전기</span><span class="spill" onclick="openPopup('001440','대한전선')">대한전선</span><span class="spill" onclick="openPopup('007610','선도전기')">선도전기</span><span class="spill" onclick="openPopup('119850','지엔씨에너지')">지엔씨에너지</span><span class="spill" onclick="openPopup('189860','서전기전')">서전기전</span><span class="spill" onclick="openPopup('017510','세명전기')">세명전기</span><span class="spill" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="spill" onclick="openPopup('060370','LS마린솔루션')">LS마린솔루션</span></div></div></article><article class="ncard" id="news7"><span class="chip c-blue nkick">에너지/신재생</span><div class="nhead">SK그룹, '투트랙 에너지' 전략 시동…신재생은 '외부수혈', LNG·수소는 '내실'</div><a class="news-src" href="https://v.daum.net/v/20260702050209570" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ SK그룹이 <b>신재생</b>에너지 사업을 사모펀드에 매각하는 승부수를 던졌음.</p><p>■ 겉보기엔 '자산 매각'이지만, 속내는 대규모 외부 자본을 수혈해 2031년까지 발전 용량을 6배 이상 키우겠다는 전략으로 풀이됨.</p><p>■ 2일 업계에 따르면 SK그룹 지주사 SK㈜는 전날 세계 최대 사모펀드그룹 KKR과 함께 국내 최대 규모의 <b>신재생</b>에너지 통합법인을 설립하기로 했다고 밝혔음.</p><p>■ 이에 따라 현재 SK이노베이션과 SK에코플랜트, SK디스커버리 등에 분산돼 있는 <b>신재생</b>에너지 사업 자산을 KKR에 매각함.</p><p>■ 올해 말 출범 예정인 통합법인은 <b>태양광</b>과 육·해상<b>풍력</b>, 연료전지, 에너지저장장치(ESS) 등 <b>신재생</b>에너지 발전 사업을 맡게 되며, 계열사들이 각각 <b>신재생</b>에너지 사업을 운영하는 구조는 사실상 마무리됨.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('010060','OCI홀딩스')">OCI홀딩스</span><span class="spill" onclick="openPopup('475150','SK이터닉스')">SK이터닉스</span><span class="spill" onclick="openPopup('109610','에스와이')">에스와이</span><span class="spill" onclick="openPopup('009830','한화솔루션')">한화솔루션</span><span class="spill" onclick="openPopup('322000','HD현대에너지솔루션')">HD현대에너지솔루션</span><span class="spill" onclick="openPopup('011930','신성이엔지')">신성이엔지</span><span class="spill" onclick="openPopup('416180','신성에스티')">신성에스티</span><span class="spill" onclick="openPopup('373220','LG에너지솔루션')">LG에너지솔루션</span><span class="spill" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="spill" onclick="openPopup('044490','태웅')">태웅</span><span class="spill" onclick="openPopup('112610','씨에스윈드')">씨에스윈드</span><span class="spill" onclick="openPopup('282720','금양그린파워')">금양그린파워</span></div></div></article><article class="ncard" id="news8"><span class="chip c-blue nkick">에너지/신재생</span><div class="nhead">美, 中산 인버터 수입제한 검토…EU 이어 '전력망 안보' 강화</div><a class="news-src" href="https://v.daum.net/v/20260702035401017" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 인버터는 재생에너지 설비와 <b>배터리</b> 저장장치를 전력망에 연결하는 핵심 장치로, <b>태양광</b> 패널과 <b>풍력</b>발전, 에너지저장장치(ESS), <b>전기차</b> 충전 시스템 등에 폭넓게 사용됨.</p><p>■ 현지시간 지난달 30일 보도에 따르면, 미국 연방통신위원회(FCC)가 마련 중인 제한 조치는 새롭게 <b>출시</b>돼 미국에서 신규 인증을 받아야 하는 외국산 인버터 모델에 적용되며, 이르면 올해 안에 발표될 수 있음.</p><p>■ 트럼프 행정부는 중국이 자국산 인버터를 이용해 미국의 전력 공급을 교란할 수 있다고 우려하는 것으로 알려졌음.</p><p>■ 앞서 미국 전문가들이 중국산 <b>태양광</b> 인버터를 분석하는 과정에서 제품 설명서에 기재되지 않은 통신장치를 일부 발견했다는 로이터 보도도 나온 바 있음.</p><p>■ 이번 규제 검토에는 유럽연합(EU)의 결정도 영향을 미친 것으로 전해졌음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('010060','OCI홀딩스')">OCI홀딩스</span><span class="spill" onclick="openPopup('475150','SK이터닉스')">SK이터닉스</span><span class="spill" onclick="openPopup('109610','에스와이')">에스와이</span><span class="spill" onclick="openPopup('009830','한화솔루션')">한화솔루션</span><span class="spill" onclick="openPopup('322000','HD현대에너지솔루션')">HD현대에너지솔루션</span><span class="spill" onclick="openPopup('011930','신성이엔지')">신성이엔지</span><span class="spill" onclick="openPopup('416180','신성에스티')">신성에스티</span><span class="spill" onclick="openPopup('373220','LG에너지솔루션')">LG에너지솔루션</span><span class="spill" onclick="openPopup('010120','LS ELECTRIC')">LS ELECTRIC</span><span class="spill" onclick="openPopup('044490','태웅')">태웅</span><span class="spill" onclick="openPopup('112610','씨에스윈드')">씨에스윈드</span><span class="spill" onclick="openPopup('282720','금양그린파워')">금양그린파워</span></div></div></article><article class="ncard" id="news9"><span class="chip c-blue nkick">에너지/전력저장장치</span><div class="nhead">호남만이 아니다…美 AI 데이터센터도 전력 확보 '사활'</div><a class="news-src" href="https://v.daum.net/v/20260702060121181" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 미국 인공지능(AI) <b>데이터센터</b> 투자사들이 직접 전력 개발사를 사들이며 자산을 내재화하고 있음.</p><p>■ 우리 정부도 최근 호남 반도체 공장을 비롯해 전국에 걸친 AI <b>데이터센터</b>용 전력 확보를 고심하고 있는 가운데, AI용 전력 확보는 이제 글로벌 화두로 부상했음.</p><p>■ 2일 로이터통신 등 주요 외신에 따르면 디지털 인프라 투자 전문 기업인 디지털브릿지는 최근 전력 인프라 개발사 아크라이트캐피탈을 <b>11억</b> 달러(약 1조7110억원)에 <b>인수</b>하기로 결정했음.</p><p>■ 디지털브릿지는 미국에 본사를 둔 기업으로 초대형 <b>데이터센터</b> 설계 기업 투자, 글로벌 <b>데이터센터</b> 운영사 <b>인수</b> 등 AI·클라우드 인프라 분야로 사업을 빠르게 확장하고 있음.</p><p>■ 글로벌 투자은행 골드만삭스에 따르면 미국 <b>데이터센터</b>의 전력 수요는 지난해 31기가와트(GW)에서 오는 2027년 66GW로 두 배 이상 <b>급증</b>할 전망임.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 10 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('348370','엔켐')">엔켐</span><span class="spill" onclick="openPopup('416180','신성에스티')">신성에스티</span><span class="spill" onclick="openPopup('373220','LG에너지솔루션')">LG에너지솔루션</span><span class="spill" onclick="openPopup('137400','피엔티')">피엔티</span><span class="spill" onclick="openPopup('475150','SK이터닉스')">SK이터닉스</span><span class="spill" onclick="openPopup('107640','한중엔시에스')">한중엔시에스</span><span class="spill" onclick="openPopup('393890','더블유씨피')">더블유씨피</span><span class="spill" onclick="openPopup('217820','원익피앤이')">원익피앤이</span><span class="spill" onclick="openPopup('222080','SFA넥셀')">SFA넥셀</span><span class="spill" onclick="openPopup('282720','금양그린파워')">금양그린파워</span></div></div></article><article class="ncard" id="news10"><span class="chip c-red nkick">방산</span><div class="nhead">한화, 7월 방산 '빅이벤트' 줄줄이…김동관 부회장 수주 최전선</div><a class="news-src" href="https://v.daum.net/v/20260702060005110" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 캐나다 <b>60조</b> 잠수함·미국 <b>5조</b> 자주포 이달 결판…하반기 스페인 한화그룹이 7월 한달 방위산업 <b>수주</b> '빅이벤트'를 연달아 맞는음.</p><p>■ 한화오션은 최대 60조원 규모의 캐나다 차세대 잠수함 사업(CPSP) 우선<b>협상</b>대상자(우협) 발표가 임박한 상황이고, <b>한화에어로스페이스</b>는 이달 중 5조원대 미국 육군 차륜형 자주포 사업의 시제품 경쟁 결과를 기다리고 있음.</p><p>■ CPSP는 잠수함 12척 건조와 30년 이상 유지보수(MRO)를 포함해 총사업 규모가 최대 60조원에 달하는 캐나다 국방 조달 역<b>사상 최대</b> 규모 사업임.</p><p>■ <b>수주</b>시 K-<b>방산</b> <b>역대 최대</b> 단일 수출 프로젝트가 됨.</p><p>■ 한화오션은 독일 티센크루프마린시스템즈(TKMS)와의 2파전 속 3600톤급 장보고-Ⅲ Batch-Ⅱ(KSS-Ⅲ)를 제안하며 빠른 납기, 한국 해군의 실전 운용 경험 등을 강점으로 내세웠음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 12 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('042660','한화오션')">한화오션</span><span class="spill" onclick="openPopup('012450','한화에어로스페이스')">한화에어로스페이스</span><span class="spill" onclick="openPopup('071970','HD현대마린엔진')">HD현대마린엔진</span><span class="spill" onclick="openPopup('014620','성광벤드')">성광벤드</span><span class="spill" onclick="openPopup('044490','태웅')">태웅</span><span class="spill" onclick="openPopup('082740','한화엔진')">한화엔진</span><span class="spill" onclick="openPopup('347700','스피어')">스피어</span><span class="spill" onclick="openPopup('045100','한양이엔지')">한양이엔지</span><span class="spill" onclick="openPopup('274090','켄코아에어로스페이스')">켄코아에어로스페이스</span><span class="spill" onclick="openPopup('437730','삼현')">삼현</span><span class="spill" onclick="openPopup('081180','쎄크')">쎄크</span><span class="spill" onclick="openPopup('099320','쎄트렉아이')">쎄트렉아이</span></div></div></article><article class="ncard" id="news11"><span class="chip c-blue nkick">조선</span><div class="nhead">中 조선, 이번엔 스마트화 '조 단위' 투자…韓 압박</div><a class="news-src" href="https://v.daum.net/v/20260702060123183" target="_blank">🔗 v.daum.net</a><div class="nbody"><p>■ 중국 조선업계가 탄탄한 <b>수주</b> 물량을 앞세워 조선소 스마트화를 착착 진행해 나가고 있음.</p><p>■ 기존에 숙련공을 거쳐 오랜기간 쌓은 기술 격차가 아닌, 최근 인공지능(AI)붐에 따른 새로운 차원의 경쟁이어서 국내 조선사들의 긴장감은 커지고 있음.</p><p>■ 2일 한국무역협회와 중국 현지 언론 등에 따르면, 중국 조선사인 송파주식과 천해방우는 헝리조선·헝리중공업 쪽 조선 생산능력 확대 등을 위해 지난달 각각 최대 70억위안(약 1조6000억원)과 10억위안(2300억원)을 조달해 조선소 스마트화와 스마트 선박·무인선박 제품군 개발을 비롯한 스마트 제조 고도화 프로젝트 추진에 들어갔음.</p><p>■ 앞서 중국은 공업정보화부 등이 지난 2023년 12월 '선박 제조업 녹색발전 행동강요 2024~2030'을 발표하면서 조선소 고도화와 스마트화를 추진해왔음.</p></div><div class="news-stocks"><span class="stog" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show');">관련주 6 <span class="ar">▸</span></span><div class="slist"><span class="spill" onclick="openPopup('329180','HD현대중공업')">HD현대중공업</span><span class="spill" onclick="openPopup('042660','한화오션')">한화오션</span><span class="spill" onclick="openPopup('010140','삼성중공업')">삼성중공업</span><span class="spill" onclick="openPopup('023790','동일스틸럭스')">동일스틸럭스</span><span class="spill" onclick="openPopup('439260','대한조선')">대한조선</span><span class="spill" onclick="openPopup('097230','HJ중공업')">HJ중공업</span></div></div></article><article class="ncard" id="news12"><span class="chip c-blue nkick">금융</span><div class="nhead">국민연금 이사장 "연금 '74조 매도폭탄' 터무니없어…'폭탄' 가능성 제로"</div><a class="news-src" href="https://n.news.naver.com/mnews/article/002/0002446952" target="_blank">🔗 n.news.naver.com</a><div class="nbody"><p>■ 국민연금이 국내주식 리밸런싱을 감행해 막대한 매도물량이 증시에 쏟아질 것이라는 우려에 대해 김성주 국민연금공단 이사장이 터무니 없는 소리라고 반박했음.</p><p>■ 김 이사장은 1일 페이스북에 국민연금 리밸런싱과 <b>74조</b> 매도폭탄의 진실이라는 제목의 글을 올려 시장의 우려를 불식시키려 이같이 주장했음.</p><p>■ 김 이사장은 일단 <b>74조</b> 수치가 틀렸다면서 어떻게 계산했는지 모르지만 터무니없는 숫자음.</p><p>■ 언제부터 애널리스트가 점쟁이 노릇을 하게 되었는지 의아하다고 지적했음.</p><p>■ 지난 1월 기금위에서 시장의 높은 변동성을 고려하여 결정한 한시적 유예를 끝내고 7월부터 재개하는 것이라고 강조했음.</p></div></article></div>
+  </section>
+</div>
+
+<footer>moneyland · 한국시장 모닝브리프 · 2026.07.02</footer>
+
+<script>
+// 종목 클릭 → 부모 SPA의 한국 종목 팝업(openKrStock) 위임 (iframe 표준 패턴)
+function openPopup(cd, nm){
+  try {
+    if (window.parent && window.parent !== window && window.parent.openKrStock) {
+      window.parent.openKrStock(cd, nm || '');
+      return;
+    }
+  } catch(e){}
+  // 폴백: 단독 열람 시 TradingView
+  window.open('https://www.tradingview.com/chart/?symbol=KRX%3A' + cd, '_blank');
+}
+
+// scrollspy — 네비가 가리키는 요소(섹션 + 각 섹터 첫 카드)를 관찰
+const links=[...document.querySelectorAll('.nav a')];
+const targets=links.map(l=>document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));}});},
+  {rootMargin:'-110px 0px -72% 0px'});
+targets.forEach(t=>obs.observe(t));
+</script>
+</body>
+</html>
