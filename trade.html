@@ -69,16 +69,7 @@
 </style>
 </head>
 <body>
-<div id="gate">
-  <div class="box">
-    <h2>🔒 수출입 (준비중)</h2>
-    <p>열람 비밀번호를 입력하세요</p>
-    <input id="gate-pw" type="password" autocomplete="off" placeholder="비밀번호" onkeydown="if(event.key==='Enter')gateCheck()">
-    <button onclick="gateCheck()">확인</button>
-    <div class="err" id="gate-err"></div>
-  </div>
-</div>
-<div class="wrap" id="main" style="display:none">
+<div class="wrap" id="main">
   <h1>📦 수출입 · 섹터 수출연관그룹</h1>
   <div class="sub" id="sub">로딩중…</div>
   <div class="xun" id="xun"></div>
@@ -86,23 +77,6 @@
   <div class="foot" id="foot"></div>
 </div>
 <script>
-// ── 열람 비번 게이트 (클라이언트 소프트 게이트, 준비중 가림용) ──
-// ⚠ 진짜 보안 아님(정적 JSON은 직접접근 가능). 비번 변경 = 아래 해시 교체:
-//    python -c "import hashlib;print(hashlib.sha256('새비번'.encode()).hexdigest())"
-const GATE_HASH = "476366715f37181649df83cc98635846d8b65ea2b72e2ac6ff7ca7471d52fe5a"; // 기본:moneyland2026
-async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
-  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function gateCheck(){
-  const pw=document.getElementById('gate-pw').value;
-  if(await sha256(pw)===GATE_HASH){ sessionStorage.setItem('trade_unlocked','1'); unlock(); }
-  else { document.getElementById('gate-err').textContent='비밀번호가 올바르지 않습니다'; }
-}
-function unlock(){
-  document.getElementById('gate').style.display='none';
-  document.getElementById('main').style.display='';
-  if(!DATA) startApp();
-}
-
 const $=(s,r=document)=>r.querySelector(s);
 const fmtB=v=>'$'+(v/1e6).toFixed(1)+'B';         // 旬잠정: 천달러 → /1e6 = 십억달러
 const fmtBd=v=>v>=1e9?'$'+(v/1e9).toFixed(1)+'B':'$'+(v/1e6).toFixed(0)+'M'; // 월별: 달러, 10억↓=백만$
@@ -221,10 +195,11 @@ function bigChart(agg,mode){
       acc+=v;});}
   const upts=agg.unit.map((u,i)=>u>0?`${(sx(i)+bw/2).toFixed(1)},${uy(u).toFixed(1)}`:null).filter(Boolean).join(' ');
   const line=`<polyline points="${upts}" fill="none" stroke="#2f6b34" stroke-width="2"/>`;
-  // 축
+  // 축 (금액 라벨: 10억↑=B, 미만=M)
+  const axL=v=>v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(0)+'M':v>=1e3?'$'+Math.round(v/1e3)+'K':'$'+Math.round(v);
   let grid='',yl='';
   for(let t=0;t<=4;t++){const v=yTop*t/4,y=sy(v);grid+=`<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="#1a2740" stroke-width="1"/>`;
-    yl+=`<text x="${ML-6}" y="${y+3}" fill="#7f92ad" font-size="11" text-anchor="end">$${(v/1e6).toFixed(1)}M</text>`;}
+    yl+=`<text x="${ML-6}" y="${y+3}" fill="#7f92ad" font-size="11" text-anchor="end">${axL(v)}</text>`;}
   let yr='';
   for(let t=0;t<=4;t++){const u=uLo+(uHi-uLo)*t/4,y=MT+ih-(ih*t/4);yr+=`<text x="${W-MR+6}" y="${y+3}" fill="#2f6b34" font-size="11" text-anchor="start">$${u.toFixed(0)}</text>`;}
   const step=Math.ceil(n/24);
@@ -299,9 +274,7 @@ function startApp(){
     .then(r=>r.json()).then(d=>{DATA=d;render();})
     .catch(e=>{$('#sub').textContent='데이터 로드 실패: '+e;});
 }
-// 세션 중 이미 해제됐으면 게이트 건너뜀
-if(sessionStorage.getItem('trade_unlocked')==='1'){ unlock(); }
-else { const gi=document.getElementById('gate-pw'); if(gi) gi.focus(); }
+startApp();
 </script>
 </body>
 </html>
