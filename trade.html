@@ -71,9 +71,14 @@
   #gate input{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--bd);background:#0b1220;color:var(--fg);font-size:14px;box-sizing:border-box}
   #gate button{margin-top:10px;width:100%;padding:9px;border:0;border-radius:8px;background:var(--acc);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
   #gate .err{color:var(--red);font-size:12px;min-height:16px;margin-top:8px}
+  .xclick{cursor:pointer} .xclick:hover{background:#16243d}
+  #xmodal{position:fixed;inset:0;background:rgba(4,8,16,.72);z-index:9998;display:none;align-items:center;justify-content:center;padding:20px}
+  #xmodal .xm{background:var(--card);border:1px solid #2a3c5a;border-radius:12px;padding:16px 18px;max-width:960px;width:100%;max-height:90vh;overflow:auto;position:relative}
+  #xmodal .xm-x{position:absolute;top:10px;right:12px;background:#1b2d4f;border:0;color:#cdddf6;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:15px}
 </style>
 </head>
 <body>
+<div id="xmodal" onclick="if(event.target===this)xmClose()"><div class="xm"><button class="xm-x" onclick="xmClose()">✕</button><div id="xm-body"></div></div></div>
 <div id="gate">
   <div class="box">
     <h2>🔒 수출입</h2>
@@ -134,20 +139,54 @@ function chart(series,mode,months,withUnit){
 function xunStrip(x){
   if(!x||!x.sections){return '';}
   const ymk=(x.ym||'').replace(/(\d{4})(\d{2})/,'$1-$2');
-  const box=(title,rows)=>{
+  const box=(title,sec)=>{
+    const rows=x.sections[sec]||[];
     const rs=rows.slice().sort((a,b)=>b.full-a.full);   // 10대 전체
     const hdr=`<div class="xhrow"><span class="nm">품목</span><span class="xstage">10일</span><span class="xstage">20일</span><span class="xstage">말일</span><span class="xchg">YoY</span></div>`;
-    return `<div class="xbox"><h3>${title} <span style="color:var(--mut);font-weight:400">(${ymk} 10일 旬 잠정 누적)</span></h3>${hdr}`+
-      rs.map(r=>`<div class="xrow"><span class="nm">${r.label}</span>`+
+    return `<div class="xbox"><h3>${title} <span style="color:var(--mut);font-weight:400">(${ymk} 10일 旬 잠정 누적 · 클릭=추이)</span></h3>${hdr}`+
+      rs.map(r=>`<div class="xrow xclick" data-sec="${sec}" data-label="${esc(r.label)}"><span class="nm">${r.label}</span>`+
         `<span class="xstage">${fmtB(r.d10)}</span><span class="xstage">${fmtB(r.d20)}</span><span class="xstage strong">${fmtB(r.full)}</span>`+
         `<span class="xchg ${cls(r.yoy)}">${fmtPct(r.yoy)}</span></div>`).join('')+`</div>`;
   };
-  return box('🟦 수출 10대 품목',x.sections['수출품목']||[])+box('🟪 수입 10대 품목',x.sections['수입품목']||[]);
+  return box('🟦 수출 10대 품목','수출품목')+box('🟪 수입 10대 품목','수입품목');
 }
+
+// A: 10대 품목 클릭 → 월별 추이 + 최신월 10/20/말일 잠정 모달
+function xunItemDetail(sec,label){
+  const it=(DATA.xun.sections[sec]||[]).find(i=>i.label===label); if(!it||!it.monthly) return;
+  const mode=sec.startsWith('수출')?'수출':'수입';
+  const m=it.monthly, n=m.length, li=n-1;
+  const W=920,H=360,ML=64,MR=20,MT=20,MB=48,iw=W-ML-MR,ih=H-MT-MB,bw=iw/n;
+  const max=Math.max(...m.map(x=>x.full),1)*1.1;
+  const sx=i=>ML+i*bw, sy=v=>MT+ih-(v/max*ih);
+  let bars='';
+  m.forEach((x,i)=>{const isL=i===li;const xx=sx(i)+bw*0.15,w=bw*0.7;
+    if(isL){ // 최신월: 10일/20일/말일 스택(누적 증분)
+      const segs=[[x.d10,'#37d67a'],[Math.max(0,x.d20-x.d10),'#ff9f43'],[Math.max(0,x.full-x.d20),'#31d0d6']];
+      let acc=0; segs.forEach(([v,c])=>{if(v<=0)return;const y0=sy(acc),y1=sy(acc+v);bars+=`<rect x="${xx.toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${(y0-y1).toFixed(1)}" fill="${c}"/>`;acc+=v;});
+    } else {const y1=sy(x.full);bars+=`<rect x="${xx.toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${(sy(0)-y1).toFixed(1)}" fill="#ffd166"/>`;}
+  });
+  let grid='',yl='';for(let t=0;t<=4;t++){const v=max*t/4,y=sy(v);grid+=`<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="#1a2740"/>`;yl+=`<text x="${ML-5}" y="${y+3}" fill="#7f92ad" font-size="11" text-anchor="end">$${(v/1e6).toFixed(0)}B</text>`;}
+  let xl=m.map((x,i)=>`<text x="${(sx(i)+bw/2).toFixed(1)}" y="${H-MB+16}" fill="${i===li?'#31d0d6':'#7f92ad'}" font-size="10" text-anchor="middle">${x.ym.slice(2)}</text>`).join('');
+  const leg=`<rect x="${ML}" y="2" width="10" height="10" fill="#ffd166"/><text x="${ML+14}" y="11" fill="#cdddf6" font-size="11">월 확정/잠정</text>`+
+    `<rect x="${ML+110}" y="2" width="10" height="10" fill="#37d67a"/><text x="${ML+124}" y="11" fill="#cdddf6" font-size="11">10일</text>`+
+    `<rect x="${ML+175}" y="2" width="10" height="10" fill="#ff9f43"/><text x="${ML+189}" y="11" fill="#cdddf6" font-size="11">20일</text>`+
+    `<rect x="${ML+240}" y="2" width="10" height="10" fill="#31d0d6"/><text x="${ML+254}" y="11" fill="#cdddf6" font-size="11">말일</text>`;
+  const svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto"><g>${leg}</g>${grid}${bars}${yl}${xl}
+    <text x="14" y="${MT+ih/2}" fill="#7f92ad" font-size="11" transform="rotate(-90 14 ${MT+ih/2})" text-anchor="middle">${mode}금액($)</text>
+    <text x="${ML+iw/2}" y="${MT+ih/2}" fill="#fff" fill-opacity="0.08" font-size="44" font-weight="800" text-anchor="middle">moneyland.co.kr</text></svg>`;
+  const latest=m[li];
+  document.getElementById('xm-body').innerHTML=`<div class="dttl" style="text-align:center">${esc(label)} <span style="font-size:11px;color:var(--mut)">전국 10대 ${mode}품목 · ${DATA.xun.ym.replace(/(\d{4})(\d{2})/,'$1-$2')} 旬 잠정</span></div>
+    <div class="chsub">최신월 10/20/말일 누적: ${fmtB(latest.d10)} → ${fmtB(latest.d20)} → ${fmtB(latest.full)}  ·  YoY <b class="${cls(it.yoy)}">${fmtPct(it.yoy)}</b> · MoM <b class="${cls(it.mom)}">${fmtPct(it.mom)}</b></div>${svg}
+    <div style="color:var(--mut);font-size:11px;margin-top:8px">※ 10대 매크로 품목(전국). 개별 HS·회사분리는 TRASS. 노란=월 전체, 초록/주황/청록=최신월 旬 누적.</div>`;
+  document.getElementById('xmodal').style.display='flex';
+}
+function xmClose(){document.getElementById('xmodal').style.display='none';}
 
 function render(){
   const d=DATA; $('#sub').textContent=`기준 ${d.generated} · 그룹 ${d.groups.length}개 · 월별 확정 ${d.yms[0]}~${d.yms[d.yms.length-1]} (旬잠정=속보, 개별종목=월별 확정 기준)`;
   $('#xun').innerHTML=xunStrip(d.xun);
+  $('#xun').querySelectorAll('.xclick').forEach(r=>r.addEventListener('click',()=>xunItemDetail(r.dataset.sec,r.dataset.label)));
   const g=$('#grid'); g.innerHTML='';
   // 카테고리로 묶고, 카테고리는 총 수출액 큰 순 / 그룹은 mode값 큰 순
   const byCat={}; d.groups.forEach((gr,i)=>{const c=gr.category||'기타';(byCat[c]=byCat[c]||[]).push({gr,idx:i});});
