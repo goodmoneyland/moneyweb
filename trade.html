@@ -138,10 +138,9 @@ function render(){
       <div class="ctop">
         <span class="pname">${gr.product}</span>
         <span class="badge b-${modeCls}">${gr.mode}</span>
-        <span class="badge ${gr.trass_needed?'b-trass':'b-free'}">${gr.trass_needed?'TRASS필요':'무료추적'}</span>
       </div>`+
       (nodata
-        ? `<div class="empty">무료 무역데이터 없음 · <b>TRASS(유료) 연동 대기</b><br><span style="color:var(--mut);font-size:11px">구성종목이 공용 HS를 안 쓰거나 세부제품이 HS보다 세밀</span></div>${chips}`
+        ? `<div class="empty">데이터 준비중</div>${chips}`
         : `<div class="cmeta">
         <span class="big ${modeCls}">${fmtBd(val)}</span>
         <span class="chg">MoM <b class="${cls(gr.latest.mom)}">${fmtPct(gr.latest.mom)}</b> · YoY <b class="${cls(gr.latest.yoy)}">${fmtPct(gr.latest.yoy)}</b></span>
@@ -152,7 +151,7 @@ function render(){
     if(!nodata) card.addEventListener('click',()=>toggleDetail(idx,card));
     g.appendChild(card);
   });
-  $('#foot').textContent='※ 웹 공개용 데이터 — HS코드 비공개. 그룹 시계열=구성 HS 합산(경쟁사 공유 HS는 합산치). 제품 단위 정밀·旬속보는 TRASS(유료) 연동 예정.';
+  $('#foot').textContent='※ 관세청 수출입 확정 데이터 기준. 그룹=관련 수출제품 묶음.';
 }
 
 // 국가 색 팔레트
@@ -245,8 +244,8 @@ function renderDetail(idx){
   const gr=DATA.groups[idx], tv=_tblView[idx]||'month';
   const aggM=aggregate(gr,'month'), aggQ=aggregate(gr,'quarter');
   const sub=gr.stocks.map(s=>esc(s.name)).join(' / ');
-  const note=gr.trass_needed?'⚠ 경쟁사 공유 HS 합산치 — 개별 격리는 TRASS 대기':(Object.keys(gr.countries).length?'국가별 실데이터':'무료 HS');
-  return `<div class="dttl" style="text-align:center">${esc(gr.product)}<div style="font-size:12px;color:var(--mut);font-weight:400">관련종목 : ${sub} <span style="margin-left:6px">· ${note}</span></div></div>
+  const note=Object.keys(gr.countries).length?'국가별 수출 실데이터':'';
+  return `<div class="dttl" style="text-align:center">${esc(gr.product)}<div style="font-size:12px;color:var(--mut);font-weight:400">관련종목 : ${sub}${note?' <span style="margin-left:6px">· '+note+'</span>':''}</div></div>
     <div class="chsub">월별 ${gr.mode}금액 + 단가($/kg)</div>
     ${bigChart(aggM,gr.mode)}
     <div class="chsub" style="margin-top:14px">분기 ${gr.mode}금액 + 단가($/kg)</div>
