@@ -300,6 +300,63 @@ const rowHtml=r=>{const cl=r.UD_RT>=0?'#ef4444':'#3b82f6';const sign=r.UD_RT>=0?
           ${section('KOSDAQ 52주 신고가', r2.rows||[], r2.trd_ymd)}
         </div>
       </div>`;}catch(e){el.innerHTML=`<div style="color:#f87171;padding:20px;">데이터 로드 실패: ${e.message}</div>`;}}
+function _rkFmt(n){return(n!=null&&n!=='')?Number(n).toLocaleString('ko-KR'):'-';}
+function _rkKrw(n){n=Number(n)||0;if(n>=1e12)return(n/1e12).toFixed(n>=1e13?0:1)+'조';if(n>=1e8)return Math.round(n/1e8).toLocaleString('ko-KR')+'억';return _rkFmt(n);}
+function _rkUd(u){if(u==null)return{c:'var(--muted)',s:'-'};const c=u>0?'#ef4444':(u<0?'#3b82f6':'var(--muted)');return{c,s:(u>0?'+':'')+Number(u).toFixed(2)+'%'};}
+function _rkTime(t){return t?String(t).slice(11,16):'';}
+async function renderRankChange(){const el=document.getElementById('newhigh-content');el.innerHTML='<div style="color:var(--muted);font-size:19.5px;">로딩 중...</div>';try{const[ks,kq]=await Promise.all([fetch('/moneyweb/api/rank_change_kospi.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/moneyweb/api/rank_change_kosdaq.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),]);const row=(r,i)=>{const live=_getPrice(r.itm_cd);const prc=(live&&live.curr_prc)||r.curr_prc;const u=live&&live.ud_rt!=null?live.ud_rt:r.ud_rt;const ud=_rkUd(u);const nm_esc=(r.itm_nm||'').replace(/'/g,"&#39;");return`<tr style="cursor:pointer;border-bottom:1px solid var(--border);"
+          onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
+          onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
+        <td style="padding:6px 8px;text-align:center;font-size:14px;color:var(--muted);width:34px;">${i+1}</td>
+        <td style="padding:6px 8px;font-size:16px;font-weight:700;">${r.itm_nm}
+          <span style="font-size:12.5px;color:var(--muted);font-weight:400;">${r.sector||''}</span></td>
+        <td style="padding:6px 8px;text-align:right;font-size:15.5px;font-weight:700;white-space:nowrap;">${_rkFmt(prc)}</td>
+        <td style="padding:6px 10px 6px 8px;text-align:right;font-size:15.5px;font-weight:800;color:${ud.c};white-space:nowrap;">${ud.s}</td>
+      </tr>`;};const col=(title,d,accent)=>{const rows=d.rows||[];return`<div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+        <div style="padding:8px 12px;background:var(--card2);font-size:16px;font-weight:800;border-bottom:1px solid var(--border);">
+          ${accent} ${title} <span style="color:var(--muted);font-weight:400;font-size:13px;">${rows.length}종목</span></div>
+        <table style="border-collapse:collapse;width:100%;table-layout:fixed;">
+          <colgroup><col style="width:34px"/><col/><col style="width:80px"/><col style="width:74px"/></colgroup>
+          <tbody>${rows.length ? rows.map(row).join('') : '<tr><td colspan="4" style="padding:24px;text-align:center;color:var(--muted);">집계 중</td></tr>'}</tbody>
+        </table></div>`;};const upd=ks.updated_at||kq.updated_at;el.innerHTML=`<div style="font-size:21px;font-weight:800;margin-bottom:4px;">🔥 등락률 상위 30</div>
+       <div style="font-size:13.5px;color:var(--muted);margin-bottom:12px;">코스피·코스닥 상승률 상위 · 거래대금 1억원 이상${upd?' · '+_rkTime(upd)+' 기준':''}</div>
+       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;">
+         ${col('코스피', ks, '📈')}
+         ${col('코스닥', kq, '📊')}
+       </div>`;}catch(e){el.innerHTML=`<div style="color:#f87171;padding:20px;">데이터 로드 실패: ${e.message}</div>`;}}
+let _rankValMode='value';function setRankValMode(m){_rankValMode=m;renderRankValue();}
+async function renderRankValue(){const el=document.getElementById('newhigh-content');el.innerHTML='<div style="color:var(--muted);font-size:19.5px;">로딩 중...</div>';try{const[valD,turnD]=await Promise.all([fetch('/moneyweb/api/rank_value.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/moneyweb/api/rank_turnover.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),]);const isTurn=_rankValMode==='turnover';const data=isTurn?turnD:valD;const rows=data.rows||[];const mkBadge=(mkt)=>{const kospi=mkt==='KOSPI';return`<span style="font-size:11px;padding:1px 5px;border-radius:3px;font-weight:700;
+        color:${kospi?'#2563eb':'#059669'};background:${kospi?'rgba(37,99,235,.12)':'rgba(5,150,105,.12)'};">${mkt||'-'}</span>`;};const row=(r,i)=>{const live=_getPrice(r.itm_cd);const prc=(live&&live.curr_prc)||r.curr_prc;const u=live&&live.ud_rt!=null?live.ud_rt:r.ud_rt;const ud=_rkUd(u);const nm_esc=(r.itm_nm||'').replace(/'/g,"&#39;");const metricCell=isTurn?`<td style="padding:6px 12px 6px 8px;text-align:right;font-size:16px;font-weight:800;color:#f59e0b;white-space:nowrap;">${r.turnover!=null?Number(r.turnover).toFixed(2)+'%':'-'}</td>`:`<td style="padding:6px 12px 6px 8px;text-align:right;font-size:16px;font-weight:800;color:#f59e0b;white-space:nowrap;">${_rkKrw(r.trd_amt)}</td>`;const subCell=isTurn?`<td style="padding:6px 8px;text-align:right;font-size:14px;color:var(--muted);white-space:nowrap;">${_rkKrw(r.trd_amt)}</td>`:`<td style="padding:6px 8px;text-align:right;font-size:14px;color:var(--muted);white-space:nowrap;">${_rkKrw(r.mktcap)}</td>`;return`<tr style="cursor:pointer;border-bottom:1px solid var(--border);"
+          onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
+          onclick="openKrStock('${r.itm_cd}','${nm_esc}')">
+        <td style="padding:6px 8px;text-align:center;font-size:14px;color:var(--muted);width:34px;">${i+1}</td>
+        <td style="padding:6px 8px;font-size:16px;font-weight:700;">${r.itm_nm} ${mkBadge(r.market)}
+          <span style="font-size:12.5px;color:var(--muted);font-weight:400;">${r.sector||''}</span></td>
+        <td style="padding:6px 8px;text-align:right;font-size:15px;font-weight:700;white-space:nowrap;">${_rkFmt(prc)}</td>
+        <td style="padding:6px 8px;text-align:right;font-size:15px;font-weight:800;color:${ud.c};white-space:nowrap;">${ud.s}</td>
+        ${metricCell}
+        ${subCell}
+      </tr>`;};const tabBtn=(m,label)=>{const on=_rankValMode===m;return`<div onclick="setRankValMode('${m}')" style="cursor:pointer;padding:5px 14px;border-radius:7px;font-size:14.5px;font-weight:700;
+        ${on?'background:#f59e0b;color:#111;':'background:var(--card2);color:var(--muted);border:1px solid var(--border);'}">${label}</div>`;};const metricHead=isTurn?'회전율':'거래대금';const subHead=isTurn?'거래대금':'시가총액';const upd=data.updated_at;el.innerHTML=`<div style="font-size:21px;font-weight:800;margin-bottom:4px;">💰 거래대금 상위 30</div>
+       <div style="font-size:13.5px;color:var(--muted);margin-bottom:10px;">
+         ${isTurn ? '시가총액 대비 거래대금(회전율) · 시총 300억·거래대금 10억 이상' : '당일 누적 거래대금 상위 (ETF 제외)'}${upd?' · '+_rkTime(upd)+' 기준':''}</div>
+       <div style="display:flex;gap:8px;margin-bottom:12px;">
+         ${tabBtn('value','거래대금')}
+         ${tabBtn('turnover','시총대비 거래대금')}
+       </div>
+       <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:760px;">
+         <table style="border-collapse:collapse;width:100%;table-layout:fixed;">
+           <colgroup><col style="width:34px"/><col/><col style="width:82px"/><col style="width:72px"/><col style="width:96px"/><col style="width:92px"/></colgroup>
+           <thead><tr style="background:var(--card2);">
+             <th style="padding:7px 8px;text-align:center;font-size:13px;color:var(--muted);border-bottom:2px solid var(--border);">#</th>
+             <th style="padding:7px 8px;text-align:left;font-size:13px;color:var(--muted);border-bottom:2px solid var(--border);">종목</th>
+             <th style="padding:7px 8px;text-align:right;font-size:13px;color:var(--muted);border-bottom:2px solid var(--border);">현재가</th>
+             <th style="padding:7px 8px;text-align:right;font-size:13px;color:var(--muted);border-bottom:2px solid var(--border);">등락률</th>
+             <th style="padding:7px 12px 7px 8px;text-align:right;font-size:13px;color:#f59e0b;font-weight:800;border-bottom:2px solid var(--border);">${metricHead}</th>
+             <th style="padding:7px 8px;text-align:right;font-size:13px;color:var(--muted);border-bottom:2px solid var(--border);">${subHead}</th>
+           </tr></thead>
+           <tbody>${rows.length ? rows.map(row).join('') : '<tr><td colspan="6" style="padding:30px;text-align:center;color:var(--muted);">집계 중</td></tr>'}</tbody>
+         </table></div>`;}catch(e){el.innerHTML=`<div style="color:#f87171;padding:20px;">데이터 로드 실패: ${e.message}</div>`;}}
 function _injectKrPopup(frame){try{const iDoc=frame.contentDocument||frame.contentWindow.document;if(!iDoc||!iDoc.body)return;frame.contentWindow.openPopup=function(cd){window.parent.openKrStock(cd);};iDoc.querySelectorAll('a[href*="tradingview.com"]').forEach(a=>{const m=a.href.match(/KRX(?::|%3A)(\d{6})/i);if(!m)return;const cd=m[1];const nm=a.textContent.trim();a.removeAttribute('target');a.addEventListener('click',e=>{e.preventDefault();window.parent.openKrStock(cd,nm);});a.style.setProperty('cursor','pointer','important');});}catch(e){console.warn('iframe KR팝업 주입 실패',e);}}
 function _injectPeerPopup(frame){try{frame.contentWindow.glPopup=function(tk){window.parent.glPopup(tk);};}catch(e){console.warn('peer 해외팝업 주입 실패',e);}}
 function loadCurrentTab(){if(!TAB_KEY[currentTab])return;const w=document.getElementById('wrap-'+currentTab);if(w)w.style.display='block';loadFrame(currentTab);}
