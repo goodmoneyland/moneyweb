@@ -156,7 +156,7 @@ function xunItemDetail(sec,label){
   const it=(DATA.xun.sections[sec]||[]).find(i=>i.label===label); if(!it||!it.monthly) return;
   const mode=sec.startsWith('수출')?'수출':'수입';
   const m=it.monthly, n=m.length, li=n-1;
-  const W=920,H=360,ML=64,MR=20,MT=20,MB=48,iw=W-ML-MR,ih=H-MT-MB,bw=iw/n;
+  const W=1080,H=380,ML=64,MR=20,MT=22,MB=56,iw=W-ML-MR,ih=H-MT-MB,bw=iw/n;
   const max=Math.max(...m.map(x=>x.full),1)*1.1;
   const sx=i=>ML+i*bw, sy=v=>MT+ih-(v/max*ih);
   let bars='';
@@ -167,7 +167,8 @@ function xunItemDetail(sec,label){
     } else {const y1=sy(x.full);bars+=`<rect x="${xx.toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${(sy(0)-y1).toFixed(1)}" fill="#ffd166"/>`;}
   });
   let grid='',yl='';for(let t=0;t<=4;t++){const v=max*t/4,y=sy(v);grid+=`<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="#1a2740"/>`;yl+=`<text x="${ML-5}" y="${y+3}" fill="#7f92ad" font-size="11" text-anchor="end">$${(v/1e6).toFixed(0)}B</text>`;}
-  let xl=m.map((x,i)=>`<text x="${(sx(i)+bw/2).toFixed(1)}" y="${H-MB+16}" fill="${i===li?'#31d0d6':'#7f92ad'}" font-size="10" text-anchor="middle">${x.ym.slice(2)}</text>`).join('');
+  const xstep=Math.ceil(n/16);
+  let xl=m.map((x,i)=>{if(i%xstep && i!==li)return'';const xx=sx(i)+bw/2;return `<text x="${xx.toFixed(1)}" y="${H-MB+14}" fill="${i===li?'#31d0d6':'#7f92ad'}" font-size="10" text-anchor="end" transform="rotate(-55 ${xx} ${H-MB+14})">${x.ym.slice(2)}</text>`;}).join('');
   const leg=`<rect x="${ML}" y="2" width="10" height="10" fill="#ffd166"/><text x="${ML+14}" y="11" fill="#cdddf6" font-size="11">월 확정/잠정</text>`+
     `<rect x="${ML+110}" y="2" width="10" height="10" fill="#37d67a"/><text x="${ML+124}" y="11" fill="#cdddf6" font-size="11">10일</text>`+
     `<rect x="${ML+175}" y="2" width="10" height="10" fill="#ff9f43"/><text x="${ML+189}" y="11" fill="#cdddf6" font-size="11">20일</text>`+
