@@ -234,7 +234,7 @@ function bigChart(agg,mode){
     leg+=`<rect x="${lx}" y="${ly}" width="11" height="11" rx="2" fill="${col}"/><text x="${lx+15}" y="${ly+9}" fill="#cdddf6" font-size="11">${esc(nm)}</text>`;lx+=iw2[i];});
   const legH=ly;  // 범례가 2줄이면 아래로 내려감
   // 머니랜드 워터마크(플롯 중앙 오버레이, 반투명)
-  const wm=`<text x="${ML+iw/2}" y="${MT+ih/2}" fill="#ffffff" fill-opacity="0.10" font-size="70" font-weight="800" text-anchor="middle" dominant-baseline="middle" style="pointer-events:none" letter-spacing="4">머니랜드</text>`;
+  const wm=`<text x="${ML+iw/2}" y="${MT+ih/2}" fill="#ffffff" fill-opacity="0.10" font-size="52" font-weight="800" text-anchor="middle" dominant-baseline="middle" style="pointer-events:none" letter-spacing="2">moneyland.co.kr</text>`;
   return `<svg class="bigchart" viewBox="0 0 ${W} ${H}"><g>${leg}</g>${grid}${bars}${line}${yl}${yr}${xl}${wm}
     <text x="14" y="${MT+ih/2}" fill="#7f92ad" font-size="11" transform="rotate(-90 14 ${MT+ih/2})" text-anchor="middle">${mode}금액($)</text></svg>`;
 }
