@@ -202,7 +202,16 @@ function aggregate(gr,view){
   const usd=idxGroups.map(g=>sum(vals,g)), wkg=idxGroups.map(g=>sum(kg,g));
   const unit=usd.map((u,i)=>wkg[i]?u/wkg[i]:0);
   const countries={}; Object.keys(cn).forEach(c=>{countries[c]=idxGroups.map(g=>sum(cn[c],g));});
-  return {labels,usd,kg:wkg,unit,countries,ymGroups:idxGroups};
+  let provFrom=-1;
+  // TRASS 당월 잠정치 — 월별 뷰 맨 끝에 별도 막대로 덧붙임(확정 뒤 속보)
+  if(view==='month' && gr.prov && gr.prov.val){
+    const p=gr.prov, [py,pm]=p.ym.split('-');
+    labels.push(py.slice(2)+'.'+pm+'ⓟ'); usd.push(p.val); wkg.push(p.kg); unit.push(p.unit);
+    idxGroups.push([]);
+    Object.keys(countries).forEach(c=>{countries[c].push(Math.round((p.countries||{})[c]||0));});
+    provFrom=labels.length-1;
+  }
+  return {labels,usd,kg:wkg,unit,countries,ymGroups:idxGroups,provFrom};
 }
 
 // 비온식 스택 차트(국가 스택막대 + 단가선 + 좌우축)
@@ -217,10 +226,11 @@ function bigChart(agg,mode){
   const uLo=Math.max(0,umin*0.9), uHi=umax*1.05||1;
   const yTop=totMax*1.08;
   const sx=i=>ML+i*bw, sy=v=>MT+ih-(v/yTop)*ih, uy=u=>MT+ih-((u-uLo)/(uHi-uLo||1))*ih;
+  const pf=agg.provFrom==null?-1:agg.provFrom;
   let bars='';
-  for(let i=0;i<n;i++){let acc=0;
+  for(let i=0;i<n;i++){let acc=0; const isProv=pf>=0&&i>=pf;
     stacks.forEach((st,si)=>{const v=st[i]||0; if(v<=0)return; const y0=sy(acc),y1=sy(acc+v);
-      bars+=`<rect x="${(sx(i)+bw*0.12).toFixed(1)}" y="${y1.toFixed(1)}" width="${(bw*0.76).toFixed(1)}" height="${(y0-y1).toFixed(1)}" fill="${hasC?CPAL[si%CPAL.length]:(mode==='수입'?'#c77dff':'#4c8dff')}"/>`;
+      bars+=`<rect x="${(sx(i)+bw*0.12).toFixed(1)}" y="${y1.toFixed(1)}" width="${(bw*0.76).toFixed(1)}" height="${(y0-y1).toFixed(1)}" fill="${hasC?CPAL[si%CPAL.length]:(mode==='수입'?'#c77dff':'#4c8dff')}"${isProv?' opacity="0.55" stroke="#fff" stroke-width="0.6" stroke-dasharray="2 1"':''}/>`;
       acc+=v;});}
   const upts=agg.unit.map((u,i)=>u>0?`${(sx(i)+bw/2).toFixed(1)},${uy(u).toFixed(1)}`:null).filter(Boolean).join(' ');
   const line=`<polyline points="${upts}" fill="none" stroke="#2f6b34" stroke-width="2"/>`;
@@ -232,11 +242,12 @@ function bigChart(agg,mode){
   let yr='';
   for(let t=0;t<=4;t++){const u=uLo+(uHi-uLo)*t/4,y=MT+ih-(ih*t/4);yr+=`<text x="${W-MR+6}" y="${y+3}" fill="#2f6b34" font-size="11" text-anchor="start">$${u.toFixed(0)}</text>`;}
   const step=Math.ceil(n/24);
-  let xl='';agg.labels.forEach((lb,i)=>{if(i%step)return;const x=sx(i)+bw/2;
-    xl+=`<text x="${x}" y="${H-MB+14}" fill="#7f92ad" font-size="10" text-anchor="end" transform="rotate(-60 ${x} ${H-MB+14})">${esc(lb)}</text>`;});
+  let xl='';agg.labels.forEach((lb,i)=>{if(i%step && i!==n-1)return;const x=sx(i)+bw/2;const isp=pf>=0&&i>=pf;
+    xl+=`<text x="${x}" y="${H-MB+14}" fill="${isp?'#ffb066':'#7f92ad'}" font-size="10" text-anchor="end" transform="rotate(-60 ${x} ${H-MB+14})">${esc(lb)}</text>`;});
   // 범례(가운데 정렬, 폭 넘치면 자동 줄바꿈)
   const items=hasC?cs.map((c,i)=>[c,CPAL[i%CPAL.length]]):[[mode+'금액',mode==='수입'?'#c77dff':'#4c8dff']];
   items.push(['단가($/kg)','#2f6b34']);
+  if(pf>=0) items.push(['ⓟ당월잠정(TRASS)','#ffb066']);
   const iw2=items.map(([nm])=>26+nm.length*13);   // 각 항목 대략 폭
   let leg='',lx=ML,ly=6;const avail=W-MR;
   items.forEach(([nm,col],i)=>{if(lx+iw2[i]>avail){lx=ML;ly+=15;}
