@@ -1,0 +1,134 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>원자재 · 탄산리튬</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1d212a;--line:#262b36;--txt:#e6e9ef;--mut:#8b93a3;
+--up:#ff5b5b;--dn:#3b82f6;--teal:#1ea97c;--amber:#d99a2b;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:13px/1.5 -apple-system,"Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px 18px 60px}
+.hd{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.hd h1{margin:0;font-size:18px;font-weight:700}
+.hd h1 .sub{color:var(--mut);font-size:12px;font-weight:500;margin-left:7px}
+.hd .as{color:var(--mut);font-size:12px}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;background:#26210f;color:var(--amber);margin-left:8px}
+.badge.open{background:#10261c;color:#48d597}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .l{color:var(--mut);font-size:12px;margin-bottom:6px}
+.kpi .v{font-size:20px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;margin-top:5px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-bottom:14px}
+.toolbar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.btn{background:var(--panel2);color:var(--mut);border:1px solid var(--line);padding:5px 13px;border-radius:7px;cursor:pointer;font-size:12px}
+.btn.on{background:#2a3140;color:#fff;border-color:#3a4250}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--mut);margin:4px 0 6px}
+.legend span{display:flex;align-items:center;gap:5px}.legend i{width:12px;height:3px;border-radius:2px}
+.up{color:var(--up)}.dn{color:var(--dn)}.mut{color:var(--mut)}
+.note{color:var(--mut);font-size:11.5px;line-height:1.7;margin-top:4px}
+.chartbox{position:relative;height:420px}
+.loading{padding:40px;text-align:center;color:var(--mut)}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}.chartbox{height:340px}}
+</style></head>
+<body>
+<div class="wrap" id="root"><div class="loading">불러오는 중…</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// 머니랜드 워터마크 — 모든 차트 공통
+const ML_WM={id:'mlwm',afterDraw(c){const x=c.ctx,a=c.chartArea;if(!a)return;
+  x.save();x.globalAlpha=0.15;x.fillStyle='#fff';
+  x.font='700 '+Math.max(13,Math.min(32,(a.right-a.left)/12))+'px sans-serif';
+  x.textAlign='center';x.textBaseline='middle';
+  x.fillText('moneyland.co.kr',(a.left+a.right)/2,(a.top+a.bottom)/2);x.restore();}};
+Chart.register(ML_WM);
+const UP="#ff5b5b",DN="#3b82f6",MUT="#8b93a3",GRID="rgba(255,255,255,.06)",MA5="#e6b23a",MA20="#c07ff0";
+let DATA=null, CHART=null, MODE='d';
+
+const fmt=n=>n==null?'—':Math.round(n).toLocaleString();
+const fmtC=n=>n==null?'—':'¥'+Math.round(n).toLocaleString();
+function chgHtml(pct,abs){
+  if(pct==null)return '<span class="mut">—</span>';
+  const up=pct>=0,c=up?'var(--up)':'var(--dn)';
+  const a=abs!=null?` (${up?'+':''}${Math.round(abs).toLocaleString()})`:'';
+  return `<span style="color:${c}">${up?'▲':'▼'} ${Math.abs(pct).toFixed(2)}%${a}</span>`;
+}
+function ma(arr,w){const o=[];for(let i=0;i<arr.length;i++){if(i<w-1||arr[i]==null){o.push(null);continue;}
+  let s=0,ok=1;for(let j=0;j<w;j++){const v=arr[i-j];if(v==null){ok=0;break;}s+=v;}o.push(ok?s/w:null);}return o;}
+
+function baseOpts(){return{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y==null?'—':'¥'+Math.round(c.parsed.y).toLocaleString())}}},
+  scales:{x:{grid:{color:GRID},ticks:{color:MUT,maxTicksLimit:10,autoSkip:true}},
+          y:{position:'right',grid:{color:GRID},ticks:{color:MUT,callback:v=>Math.round(v).toLocaleString()}}}};}
+
+function draw(){
+  const d=DATA; const box=document.getElementById('cbox');
+  let labels,close,label,showMA=true,fill=false;
+  if(MODE==='i'){const it=d.intraday||{t:[],v:[]};labels=it.t;close=it.v;label='장중(베이징시각)';showMA=false;fill=true;}
+  else{const s=MODE==='d'?d.daily:MODE==='w'?d.weekly:d.monthly;labels=s.d;close=s.c;
+       label=MODE==='d'?'일봉 종가':MODE==='w'?'주봉 종가':'월봉 종가';}
+  const ds=[{label,data:close,borderColor:UP,backgroundColor:'rgba(255,91,91,.10)',borderWidth:2,
+             pointRadius:0,tension:.15,fill:fill}];
+  if(showMA){ds.push({label:'MA5',data:ma(close,5),borderColor:MA5,borderWidth:1.3,pointRadius:0,tension:.15});
+             ds.push({label:'MA20',data:ma(close,20),borderColor:MA20,borderWidth:1.3,pointRadius:0,tension:.15});}
+  if(CHART)CHART.destroy();
+  CHART=new Chart(box.getContext('2d'),{type:'line',data:{labels,datasets:ds},options:baseOpts()});
+  document.querySelectorAll('#tb .btn').forEach(b=>b.classList.toggle('on',b.dataset.m===MODE));
+  document.getElementById('legend').style.display=showMA?'flex':'none';
+}
+window.setMode=function(m){MODE=m;draw();};
+
+function render(d){
+  DATA=d;
+  const lv=d.live||{}, st=d.stats||{};
+  const price=lv.price!=null?lv.price:st.last;
+  const pct=lv.chg_pct!=null?lv.chg_pct:st.d_chg_pct;
+  const abs=lv.chg;
+  const isOpen=lv.market==='open';
+  const hasIntra=d.intraday&&d.intraday.t&&d.intraday.t.length;
+  const root=document.getElementById('root');
+  root.innerHTML=`
+    <div class="hd">
+      <h1>탄산리튬 <span class="sub">碳酸锂 주력연속 · 中 GFEX</span>
+        <span class="badge ${isOpen?'open':''}">${isOpen?'● 장중':'장마감'} · ~15분 지연</span></h1>
+      <div class="as"><span class="mut">기준</span> ${lv.time||d.as_of||''} <span class="mut">(베이징)</span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">현재가 <span class="mut">(${d.unit})</span></div>
+        <div class="v">${fmtC(price)}</div><div class="s">${chgHtml(pct,abs)}</div></div>
+      <div class="kpi"><div class="l">당일 고 / 저</div>
+        <div class="v" style="font-size:16px">${fmt(lv.high)} <span class="mut">/</span> ${fmt(lv.low)}</div>
+        <div class="s mut">시가 ${fmt(lv.open)}</div></div>
+      <div class="kpi"><div class="l">52주 최고</div><div class="v">${fmt(st.w52_high)}</div>
+        <div class="s mut">전일정산 ${fmt(lv.prev)}</div></div>
+      <div class="kpi"><div class="l">52주 최저</div><div class="v">${fmt(st.w52_low)}</div>
+        <div class="s mut">거래량 ${fmt(lv.volume)}</div></div>
+    </div>
+    <div class="card">
+      <div class="toolbar" id="tb">
+        <button class="btn ${hasIntra?'':'mut'}" data-m="i" onclick="setMode('i')" ${hasIntra?'':'disabled style=opacity:.4'}>장중</button>
+        <button class="btn on" data-m="d" onclick="setMode('d')">일봉</button>
+        <button class="btn" data-m="w" onclick="setMode('w')">주봉</button>
+        <button class="btn" data-m="m" onclick="setMode('m')">월봉</button>
+      </div>
+      <div class="legend" id="legend">
+        <span><i style="background:${UP}"></i>종가</span>
+        <span><i style="background:${MA5}"></i>MA5</span>
+        <span><i style="background:${MA20}"></i>MA20</span>
+      </div>
+      <div class="chartbox"><canvas id="cbox"></canvas></div>
+    </div>
+    <div class="note">
+      원천: <b>Eastmoney</b> 공개 시세(거래소 <b>广州期货交易所 GFEX</b>, 종목 225.lcm 주력연속) · 단위 ${d.unit} ·
+      무료 피드는 통상 <b>~15분 지연</b>(실시간 아님) · 거래시간 KST 10:00–12:30, 14:30–16:00(주간장, 야간장 없음) ·
+      등락률은 East Money 기준(전일 <b>정산가</b> 대비) · 생성 ${d.generated||''}
+    </div>`;
+  MODE='d'; draw();
+}
+
+function load(){
+  fetch('/moneyweb/api/lithium_dashboard.json?t='+Date.now()).then(r=>r.json()).then(render)
+    .catch(e=>{document.getElementById('root').innerHTML='<div class="loading">데이터를 불러오지 못했습니다.<br><span style="font-size:11px">'+e+'</span></div>';});
+}
+load();
+setInterval(load,60000);  // 장중 60초 자동 갱신
+</script></body></html>

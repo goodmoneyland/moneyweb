@@ -306,6 +306,9 @@ function _rkFmt(n){return(n!=null&&n!=='')?Number(n).toLocaleString('ko-KR'):'-'
 function _rkKrw(n){n=Number(n)||0;if(n>=1e12)return(n/1e12).toFixed(n>=1e13?0:1)+'조';if(n>=1e8)return Math.round(n/1e8).toLocaleString('ko-KR')+'억';return _rkFmt(n);}
 function _rkUd(u){if(u==null)return{c:'var(--muted)',s:'-'};const c=u>0?'#ef4444':(u<0?'#3b82f6':'var(--muted)');return{c,s:(u>0?'+':'')+Number(u).toFixed(2)+'%'};}
 function _rkTime(t){return t?String(t).slice(11,16):'';}
+function _rkTopSectors(rows,n){n=n||3;const cnt={};(rows||[]).forEach(r=>{const x=r.sector;if(x&&x!=='미분류')cnt[x]=(cnt[x]||0)+1;});return Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,n);}
+function _rkSecLine(rows){const t=_rkTopSectors(rows,3);if(!t.length)return'';return'<div style="font-size:11.5px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🏷️ '
++t.map(([x,c])=>x+' <b style="color:#f59e0b;font-weight:700;">'+c+'</b>').join(' · ')+'</div>';}
 let _rankValMode='value';function setRankValMode(m){_rankValMode=m;renderRankCombined();}
 async function renderRankCombined(){const el=document.getElementById('newhigh-content');el.innerHTML='<div style="color:var(--muted);font-size:19.5px;">로딩 중...</div>';try{const[ks,kq,valD,turnD,etfD]=await Promise.all([fetch('/api/rank_change_kospi.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/api/rank_change_kosdaq.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/api/rank_value.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/api/rank_turnover.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),fetch('/api/rank_value_etf.json?t='+Date.now()).then(r=>r.json()).catch(()=>({rows:[]})),]);const chgRow=(r,i)=>{const live=_getPrice(r.itm_cd);const prc=(live&&live.curr_prc)||r.curr_prc;const u=live&&live.ud_rt!=null?live.ud_rt:r.ud_rt;const ud=_rkUd(u);const nm_esc=(r.itm_nm||'').replace(/'/g,"&#39;");return`<tr style="cursor:pointer;border-bottom:1px solid var(--border);"
           onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background=''"
@@ -315,8 +318,10 @@ async function renderRankCombined(){const el=document.getElementById('newhigh-co
         <td style="padding:5px 8px;text-align:right;font-size:14.5px;font-weight:700;white-space:nowrap;">${_rkFmt(prc)}</td>
         <td style="padding:5px 10px 5px 6px;text-align:right;font-size:14.5px;font-weight:800;color:${ud.c};white-space:nowrap;">${ud.s}</td>
       </tr>`;};const chgCol=(title,d,accent)=>{const rows=d.rows||[];return`<div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-        <div style="padding:7px 12px;background:var(--card2);font-size:15px;font-weight:800;border-bottom:1px solid var(--border);white-space:nowrap;">
-          ${accent} ${title} <span style="color:var(--muted);font-weight:400;font-size:12.5px;">${rows.length}</span></div>
+        <div style="padding:7px 12px;background:var(--card2);border-bottom:1px solid var(--border);">
+          <div style="font-size:15px;font-weight:800;white-space:nowrap;">${accent} ${title} <span style="color:var(--muted);font-weight:400;font-size:12.5px;">${rows.length}</span></div>
+          ${_rkSecLine(rows)}
+        </div>
         <table style="border-collapse:collapse;table-layout:auto;">
           <tbody>${rows.length ? rows.map(chgRow).join('') : '<tr><td colspan="4" style="padding:24px;text-align:center;color:var(--muted);">집계 중</td></tr>'}</tbody>
         </table></div>`;};const mode=_rankValMode;const isTurn=mode==='turnover';const isEtf=mode==='etf';const vd=isTurn?turnD:(isEtf?etfD:valD);const vrows=vd.rows||[];const mv=vd.market_value||{};const share=(amt,mkt)=>{const tot=mv[mkt];return(tot&&amt)?(amt/tot*100).toFixed(amt/tot>=0.1?1:2)+'%':'-';};const mkBadge=(mkt)=>{if(!mkt||mkt==='-')return'';const kospi=mkt==='KOSPI';return`<span style="font-size:11px;padding:1px 5px;border-radius:3px;font-weight:700;
@@ -337,6 +342,7 @@ async function renderRankCombined(){const el=document.getElementById('newhigh-co
             ${tabBtn('value','거래대금')}${tabBtn('turnover','시총대비')}${tabBtn('etf','ETF')}
           </div>
           ${mvLine}
+          ${_rkSecLine(vrows)}
         </div>
         <table style="border-collapse:collapse;width:100%;table-layout:auto;">
           <thead><tr style="background:var(--card2);">
