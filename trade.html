@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수출입 — 섹터 수출연관그룹</title>
+<style>
+  :root{--bg:#0b1220;--card:#0f1829;--bd:#1e2d47;--fg:#e6edf7;--mut:#8aa0c0;
+        --grn:#37d67a;--red:#ff5c6c;--acc:#4c8dff;--exp:#4c8dff;--imp:#c77dff;--unit:#ffd166;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 -apple-system,"Malgun Gothic",sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:14px}
+  h1{font-size:18px;margin:6px 0 2px}
+  .sub{color:var(--mut);font-size:12px;margin-bottom:14px}
+  /* 旬잠정 스트립 */
+  .xun{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  @media(max-width:720px){.xun{grid-template-columns:1fr}}
+  .xbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px}
+  .xbox h3{margin:0 0 6px;font-size:13px;color:var(--acc)}
+  .xrow{display:flex;justify-content:space-between;padding:2px 0;font-size:12.5px;border-bottom:1px dashed #182339}
+  .xrow:last-child{border:0}
+  .xrow .nm{color:var(--fg)} .xrow .v{color:var(--mut)}
+  .up{color:var(--grn)} .dn{color:var(--red)}
+  /* 그룹 그리드 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 13px;cursor:pointer;transition:.15s}
+  .card:hover{border-color:#31507f;transform:translateY(-1px)}
+  .ctop{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px}
+  .pname{font-weight:700;font-size:14.5px}
+  .badge{font-size:10.5px;padding:1px 6px;border-radius:20px;border:1px solid var(--bd);color:var(--mut)}
+  .b-exp{color:var(--exp);border-color:#274a7f} .b-imp{color:var(--imp);border-color:#5a3a7a}
+  .b-free{color:var(--grn);border-color:#245c3f} .b-trass{color:#ffb066;border-color:#7a5327}
+  .cmeta{display:flex;gap:14px;align-items:baseline;margin:4px 0 6px}
+  .big{font-size:19px;font-weight:800} .big.exp{color:var(--exp)} .big.imp{color:var(--imp)}
+  .chg{font-size:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .chip{font-size:11.5px;padding:2px 8px;background:#13203a;border:1px solid var(--bd);border-radius:16px;color:#cdddf6}
+  .chip:hover{background:#1b2d4f;border-color:var(--acc);color:#fff}
+  svg{display:block;width:100%;height:78px}
+  .detail{grid-column:1/-1;background:#0c1526;border:1px solid #263a5e;border-radius:12px;padding:14px}
+  .detail .bigchart{width:100%;height:auto;display:block}
+  .vtoggle{display:inline-flex;gap:0;border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-left:auto}
+  .vtoggle button{background:#111c30;color:var(--mut);border:0;padding:4px 12px;font-size:12px;cursor:pointer}
+  .vtoggle button.on{background:var(--acc);color:#fff;font-weight:700}
+  .tblwrap{max-height:340px;overflow:auto;margin-top:12px;border:1px solid var(--bd);border-radius:8px}
+  table.dt{border-collapse:collapse;width:100%;font-size:11.5px;white-space:nowrap}
+  table.dt th,table.dt td{padding:3px 8px;text-align:right;border-bottom:1px solid #16233a}
+  table.dt th{position:sticky;top:0;background:#13203a;color:#cdddf6;font-weight:700;z-index:1}
+  table.dt td:first-child,table.dt th:first-child{text-align:left;position:sticky;left:0;background:#0c1526}
+  table.dt tr.q td{background:#101b2f;font-weight:700;color:#dfe9fb}
+  .dttl{font-weight:700;margin-bottom:4px}
+  .lgd{display:flex;gap:14px;font-size:11.5px;color:var(--mut);margin:6px 0}
+  .lgd i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+  .cathead{grid-column:1/-1;display:flex;align-items:baseline;gap:8px;margin:10px 2px 2px;padding-bottom:5px;border-bottom:2px solid #22385c}
+  .cathead span:first-child{font-size:15px;font-weight:800;color:#dfe9fb}
+  .cathead .cnt{font-size:11px;color:var(--mut)}
+  .card.nodata{cursor:default;opacity:.72}
+  .empty{background:#141d30;border:1px dashed #2a3c5a;border-radius:8px;padding:9px 10px;margin:6px 0 2px;font-size:12.5px;color:#ffb066}
+  .foot{color:var(--mut);font-size:11px;margin-top:14px;text-align:center}
+  /* 비번 게이트 */
+  #gate{position:fixed;inset:0;background:#0b1220;z-index:9999;display:flex;align-items:center;justify-content:center}
+  #gate .box{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:26px 24px;width:300px;text-align:center}
+  #gate h2{margin:0 0 4px;font-size:16px}
+  #gate p{color:var(--mut);font-size:12px;margin:0 0 14px}
+  #gate input{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--bd);background:#0b1220;color:var(--fg);font-size:14px;box-sizing:border-box}
+  #gate button{margin-top:10px;width:100%;padding:9px;border:0;border-radius:8px;background:var(--acc);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+  #gate .err{color:var(--red);font-size:12px;min-height:16px;margin-top:8px}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="box">
+    <h2>🔒 수출입 (준비중)</h2>
+    <p>열람 비밀번호를 입력하세요</p>
+    <input id="gate-pw" type="password" autocomplete="off" placeholder="비밀번호" onkeydown="if(event.key==='Enter')gateCheck()">
+    <button onclick="gateCheck()">확인</button>
+    <div class="err" id="gate-err"></div>
+  </div>
+</div>
+<div class="wrap" id="main" style="display:none">
+  <h1>📦 수출입 · 섹터 수출연관그룹</h1>
+  <div class="sub" id="sub">로딩중…</div>
+  <div class="xun" id="xun"></div>
+  <div class="grid" id="grid"></div>
+  <div class="foot" id="foot"></div>
+</div>
+<script>
+// ── 열람 비번 게이트 (클라이언트 소프트 게이트, 준비중 가림용) ──
+// ⚠ 진짜 보안 아님(정적 JSON은 직접접근 가능). 비번 변경 = 아래 해시 교체:
+//    python -c "import hashlib;print(hashlib.sha256('새비번'.encode()).hexdigest())"
+const GATE_HASH = "476366715f37181649df83cc98635846d8b65ea2b72e2ac6ff7ca7471d52fe5a"; // 기본:moneyland2026
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function gateCheck(){
+  const pw=document.getElementById('gate-pw').value;
+  if(await sha256(pw)===GATE_HASH){ sessionStorage.setItem('trade_unlocked','1'); unlock(); }
+  else { document.getElementById('gate-err').textContent='비밀번호가 올바르지 않습니다'; }
+}
+function unlock(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('main').style.display='';
+  if(!DATA) startApp();
+}
+
+const $=(s,r=document)=>r.querySelector(s);
+const fmtB=v=>'$'+(v/1e6).toFixed(1)+'B';         // 旬잠정: 천달러 → /1e6 = 십억달러
+const fmtBd=v=>v>=1e9?'$'+(v/1e9).toFixed(1)+'B':'$'+(v/1e6).toFixed(0)+'M'; // 월별: 달러, 10억↓=백만$
+const fmtPct=v=>v==null?'—':(v>=0?'+':'')+(v*100).toFixed(1)+'%';
+const cls=v=>v==null?'':(v>=0?'up':'dn');
+let DATA=null, openIdx=-1;
+
+function popup(code,name){
+  if(!code) return;
+  try{ if(window.parent&&window.parent.openKrStock) return window.parent.openKrStock(code,name); }catch(e){}
+  try{ if(window.openPopup) return window.openPopup(code); }catch(e){}
+}
+
+// 경량 SVG: 월별 막대(수출 or 수입) + 단가선(옵션)
+function chart(series,mode,months,withUnit){
+  const vals = mode==='수입'?series.imp:series.exp;
+  const n=Math.min(months,vals.length); const d=vals.slice(-n);
+  const unit=series.unit.slice(-n);
+  const W=100,H=100, max=Math.max(...d,1), bw=W/n;
+  const col=mode==='수입'?'var(--imp)':'var(--exp)';
+  let bars='';
+  d.forEach((v,i)=>{const h=v/max*82; bars+=`<rect x="${(i*bw+bw*0.12).toFixed(2)}" y="${(88-h).toFixed(2)}" width="${(bw*0.76).toFixed(2)}" height="${h.toFixed(2)}" fill="${col}" opacity="${0.55+0.45*i/n}"/>`;});
+  let line='';
+  if(withUnit){const um=Math.max(...unit,1); const pts=unit.map((u,i)=>`${(i*bw+bw/2).toFixed(2)},${(88-u/um*82).toFixed(2)}`).join(' ');
+    line=`<polyline points="${pts}" fill="none" stroke="var(--unit)" stroke-width="1.4"/>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${bars}${line}<line x1="0" y1="88" x2="${W}" y2="88" stroke="#24374f" stroke-width="0.6"/></svg>`;
+}
+
+function xunStrip(x){
+  if(!x||!x.sections){return '';}
+  const box=(title,rows)=>{
+    const top=rows.slice().sort((a,b)=>b.full-a.full).slice(0,5);
+    return `<div class="xbox"><h3>${title} <span style="color:var(--mut);font-weight:400">(${x.ym} 완성 잠정 · 십억$)</span></h3>`+
+      top.map(r=>`<div class="xrow"><span class="nm">${r.label}</span><span class="v">${fmtB(r.full)} · MoM <b class="${cls(r.mom)}">${fmtPct(r.mom)}</b> · YoY <b class="${cls(r.yoy)}">${fmtPct(r.yoy)}</b></span></div>`).join('')+`</div>`;
+  };
+  return box('🟦 수출 10대 품목',x.sections['수출품목']||[])+box('🟪 수입 10대 품목',x.sections['수입품목']||[]);
+}
+
+function render(){
+  const d=DATA; $('#sub').textContent=`기준 ${d.generated} · 그룹 ${d.groups.length}개 · 월별 확정 ${d.yms[0]}~${d.yms[d.yms.length-1]} (旬잠정=속보, 개별종목=월별 확정 기준)`;
+  $('#xun').innerHTML=xunStrip(d.xun);
+  const g=$('#grid'); g.innerHTML='';
+  // 카테고리로 묶고, 카테고리는 총 수출액 큰 순 / 그룹은 mode값 큰 순
+  const byCat={}; d.groups.forEach((gr,i)=>{const c=gr.category||'기타';(byCat[c]=byCat[c]||[]).push({gr,idx:i});});
+  const gval=o=>(o.gr.mode==='수입'?o.gr.latest.imp:o.gr.latest.exp)||0;
+  const cats=Object.keys(byCat).sort((a,b)=>byCat[b].reduce((s,o)=>s+gval(o),0)-byCat[a].reduce((s,o)=>s+gval(o),0));
+  const flat=[];
+  cats.forEach(c=>{flat.push({head:c,n:byCat[c].length});
+    byCat[c].sort((a,b)=>gval(b)-gval(a)).forEach(o=>flat.push(o));});
+  flat.forEach((item)=>{
+    if(item.head){const h=document.createElement('div');h.className='cathead';h.innerHTML=`<span>${item.head}</span><span class="cnt">${item.n}그룹</span>`;g.appendChild(h);return;}
+    const {gr,idx}=item;
+    const modeCls=gr.mode==='수입'?'imp':'exp';
+    const val=gr.mode==='수입'?gr.latest.imp:gr.latest.exp;
+    const nodata=(gr.latest.exp||0)===0 && (gr.latest.imp||0)===0;
+    const card=document.createElement('div'); card.className='card'+(nodata?' nodata':'');
+    const chips=`<div class="chips">${gr.stocks.map(s=>`<span class="chip" data-c="${s.code}" data-n="${s.name}">${s.name}</span>`).join('')}</div>`;
+    card.innerHTML=`
+      <div class="ctop">
+        <span class="pname">${gr.product}</span>
+        <span class="badge b-${modeCls}">${gr.mode}</span>
+        <span class="badge ${gr.trass_needed?'b-trass':'b-free'}">${gr.trass_needed?'TRASS필요':'무료추적'}</span>
+      </div>`+
+      (nodata
+        ? `<div class="empty">무료 무역데이터 없음 · <b>TRASS(유료) 연동 대기</b><br><span style="color:var(--mut);font-size:11px">구성종목이 공용 HS를 안 쓰거나 세부제품이 HS보다 세밀</span></div>${chips}`
+        : `<div class="cmeta">
+        <span class="big ${modeCls}">${fmtBd(val)}</span>
+        <span class="chg">MoM <b class="${cls(gr.latest.mom)}">${fmtPct(gr.latest.mom)}</b> · YoY <b class="${cls(gr.latest.yoy)}">${fmtPct(gr.latest.yoy)}</b></span>
+        ${gr.rep_country?`<span class="chg" style="color:var(--mut)">→ ${gr.rep_country}</span>`:''}
+      </div>
+      ${chart(gr.series,gr.mode,24,false)}${chips}`);
+    card.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',e=>{e.stopPropagation();popup(ch.dataset.c,ch.dataset.n);}));
+    if(!nodata) card.addEventListener('click',()=>toggleDetail(idx,card));
+    g.appendChild(card);
+  });
+  $('#foot').textContent='※ 웹 공개용 데이터 — HS코드 비공개. 그룹 시계열=구성 HS 합산(경쟁사 공유 HS는 합산치). 제품 단위 정밀·旬속보는 TRASS(유료) 연동 예정.';
+}
+
+// 국가 색 팔레트
+const CPAL=['#ffd166','#ff5c6c','#4c8dff','#37d67a','#c77dff','#ff9f43','#31d0d6','#a0a7b5'];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// 월별 → 기간 집계(month/quarter). 국가 스택 + 합계 usd/kg/unit 반환.
+function aggregate(gr,view){
+  const yms=DATA.yms, vals=gr.mode==='수입'?gr.series.imp:gr.series.exp, kg=gr.series.kg||yms.map(()=>0);
+  const cn=gr.countries||{};
+  let labels, idxGroups;
+  if(view==='quarter'){
+    labels=[]; idxGroups=[]; let cur=null,g=null;
+    yms.forEach((ym,i)=>{const [y,m]=ym.split('-');const q=y.slice(2)+'년 '+(((+m-1)/3|0)+1)+'분기';
+      if(q!==cur){cur=q;labels.push(q);g=[];idxGroups.push(g);}g.push(i);});
+  } else { labels=yms.map(ym=>{const[y,m]=ym.split('-');return y.slice(2)+'.'+m;}); idxGroups=yms.map((_,i)=>[i]); }
+  const sum=(arr,g)=>g.reduce((s,i)=>s+(arr[i]||0),0);
+  const usd=idxGroups.map(g=>sum(vals,g)), wkg=idxGroups.map(g=>sum(kg,g));
+  const unit=usd.map((u,i)=>wkg[i]?u/wkg[i]:0);
+  const countries={}; Object.keys(cn).forEach(c=>{countries[c]=idxGroups.map(g=>sum(cn[c],g));});
+  return {labels,usd,kg:wkg,unit,countries,ymGroups:idxGroups};
+}
+
+// 비온식 스택 차트(국가 스택막대 + 단가선 + 좌우축)
+function bigChart(agg,mode){
+  const W=1000,H=380,ML=76,MR=64,MT=16,MB=64, iw=W-ML-MR, ih=H-MT-MB;
+  const n=agg.labels.length, bw=iw/n;
+  const cs=Object.keys(agg.countries);
+  const hasC=cs.length>0;
+  const stacks=hasC?cs.map(c=>agg.countries[c]):[[...agg.usd]];
+  const totMax=Math.max(...agg.usd,1);
+  const umax=Math.max(...agg.unit,1), umin=Math.min(...agg.unit.filter(x=>x>0),umax);
+  const uLo=Math.max(0,umin*0.9), uHi=umax*1.05||1;
+  const yTop=totMax*1.08;
+  const sx=i=>ML+i*bw, sy=v=>MT+ih-(v/yTop)*ih, uy=u=>MT+ih-((u-uLo)/(uHi-uLo||1))*ih;
+  let bars='';
+  for(let i=0;i<n;i++){let acc=0;
+    stacks.forEach((st,si)=>{const v=st[i]||0; if(v<=0)return; const y0=sy(acc),y1=sy(acc+v);
+      bars+=`<rect x="${(sx(i)+bw*0.12).toFixed(1)}" y="${y1.toFixed(1)}" width="${(bw*0.76).toFixed(1)}" height="${(y0-y1).toFixed(1)}" fill="${hasC?CPAL[si%CPAL.length]:(mode==='수입'?'#c77dff':'#4c8dff')}"/>`;
+      acc+=v;});}
+  const upts=agg.unit.map((u,i)=>u>0?`${(sx(i)+bw/2).toFixed(1)},${uy(u).toFixed(1)}`:null).filter(Boolean).join(' ');
+  const line=`<polyline points="${upts}" fill="none" stroke="#2f6b34" stroke-width="2"/>`;
+  // 축
+  let grid='',yl='';
+  for(let t=0;t<=4;t++){const v=yTop*t/4,y=sy(v);grid+=`<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="#1a2740" stroke-width="1"/>`;
+    yl+=`<text x="${ML-6}" y="${y+3}" fill="#7f92ad" font-size="11" text-anchor="end">$${(v/1e6).toFixed(1)}M</text>`;}
+  let yr='';
+  for(let t=0;t<=4;t++){const u=uLo+(uHi-uLo)*t/4,y=MT+ih-(ih*t/4);yr+=`<text x="${W-MR+6}" y="${y+3}" fill="#2f6b34" font-size="11" text-anchor="start">$${u.toFixed(0)}</text>`;}
+  const step=Math.ceil(n/24);
+  let xl='';agg.labels.forEach((lb,i)=>{if(i%step)return;const x=sx(i)+bw/2;
+    xl+=`<text x="${x}" y="${H-MB+14}" fill="#7f92ad" font-size="10" text-anchor="end" transform="rotate(-60 ${x} ${H-MB+14})">${esc(lb)}</text>`;});
+  // 범례
+  let leg='';const items=hasC?cs.map((c,i)=>[c,CPAL[i%CPAL.length]]):[[mode+'금액',mode==='수입'?'#c77dff':'#4c8dff']];
+  items.push(['단가($/kg)','#2f6b34']);
+  let lx=ML;items.forEach(([nm,col])=>{leg+=`<rect x="${lx}" y="2" width="11" height="11" rx="2" fill="${col}"/><text x="${lx+15}" y="11" fill="#cdddf6" font-size="11">${esc(nm)}</text>`;lx+=28+nm.length*7.2;});
+  return `<svg class="bigchart" viewBox="0 0 ${W} ${H}"><g>${leg}</g>${grid}${bars}${line}${yl}${yr}${xl}
+    <text x="14" y="${MT+ih/2}" fill="#7f92ad" font-size="11" transform="rotate(-90 14 ${MT+ih/2})" text-anchor="middle">${mode}금액($)</text></svg>`;
+}
+
+// 해당 월의 평일수(주말 제외)
+function weekdays(ym){const[y,m]=ym.split('-').map(Number);let c=0,d=new Date(Date.UTC(y,m-1,1));
+  while(d.getUTCMonth()===m-1){const w=d.getUTCDay();if(w>=1&&w<=5)c++;d.setUTCDate(d.getUTCDate()+1);}return c;}
+
+// 상세 데이터 표 (월별=MoM, 분기=QoQ. 일평균·단가·중량 변동 포함)
+function dataTable(agg,mode,fxMap,view){
+  const q=view==='quarter', per=q?'QoQ':'MoM', yb=q?4:12;
+  const fx=g=>{const vs=g.map(i=>fxMap[DATA.yms[i]]).filter(Boolean);return vs.length?vs.reduce((a,b)=>a+b,0)/vs.length:0;};
+  const rows=agg.labels.map((lb,i)=>{
+    const usd=agg.usd[i],kg=agg.kg[i],unit=agg.unit[i],rate=fx(agg.ymGroups[i]);
+    const wd=agg.ymGroups[i].reduce((s,j)=>s+weekdays(DATA.yms[j]),0);
+    const p=i?i-1:null;
+    const a_c=p!=null&&agg.usd[p]?usd/agg.usd[p]-1:null;
+    const u_c=p!=null&&agg.unit[p]?unit/agg.unit[p]-1:null;
+    const w_c=p!=null&&agg.kg[p]?kg/agg.kg[p]-1:null;
+    const yv=i-yb>=0?agg.usd[i-yb]:null, yoy=yv?usd/yv-1:null;
+    return {lb,daily:wd?usd/wd:0,usd,rate,krw:usd*rate/1000,unit,kg,yoy,a_c,u_c,w_c};});
+  const h=`<tr><th>기간</th><th>일평균($)</th><th>${mode}금액($)</th><th>평균환율</th><th>${mode}금액(천원)</th><th>단가($/kg)</th><th>중량(kg)</th><th>금액 YoY</th><th>금액 ${per}</th><th>단가 ${per}</th><th>중량 ${per}</th></tr>`;
+  const nf=v=>v?Math.round(v).toLocaleString():'0';
+  const body=rows.slice().reverse().map(r=>`<tr><td>${esc(r.lb)}</td><td>${nf(r.daily)}</td><td>${nf(r.usd)}</td><td>${r.rate?r.rate.toFixed(2):'—'}</td><td>${nf(r.krw)}</td><td>${r.unit?r.unit.toFixed(0):'—'}</td><td>${nf(r.kg)}</td><td class="${cls(r.yoy)}">${fmtPct(r.yoy)}</td><td class="${cls(r.a_c)}">${fmtPct(r.a_c)}</td><td class="${cls(r.u_c)}">${fmtPct(r.u_c)}</td><td class="${cls(r.w_c)}">${fmtPct(r.w_c)}</td></tr>`).join('');
+  return `<div class="tblwrap"><table class="dt"><thead>${h}</thead><tbody>${body}</tbody></table></div>`;
+}
+
+let _detView={};
+function renderDetail(idx){
+  const gr=DATA.groups[idx], view=_detView[idx]||'month';
+  const agg=aggregate(gr,view);
+  const note=gr.trass_needed?'⚠ 경쟁사 공유 HS 합산치 — 개별 격리는 TRASS 대기':(Object.keys(gr.countries).length?'무료 HS + 국가별 실데이터':'무료 HS 기반');
+  return `<div class="dttl" style="display:flex;align-items:center;gap:10px">${esc(gr.product)} — ${view==='quarter'?'분기':'월별'} ${gr.mode}금액 + 단가
+      <span style="font-size:11px;color:var(--mut)">${note}</span>
+      <span class="vtoggle"><button class="${view==='month'?'on':''}" onclick="setView(${idx},'month')">월별</button><button class="${view==='quarter'?'on':''}" onclick="setView(${idx},'quarter')">분기</button></span></div>
+    ${bigChart(agg,gr.mode)}
+    <div class="chips" style="margin:8px 0">${gr.stocks.map(s=>`<span class="chip" data-c="${esc(s.code)}" data-n="${esc(s.name)}">${esc(s.name)} 팝업</span>`).join('')}</div>
+    ${dataTable(agg,gr.mode,DATA.fx||{},view)}`;
+}
+function setView(idx,v){_detView[idx]=v;const det=document.getElementById('detail-'+idx);if(det){det.innerHTML=renderDetail(idx);bindChips(det);}}
+function bindChips(det){det.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',e=>{e.stopPropagation();popup(ch.dataset.c,ch.dataset.n);}));}
+
+function toggleDetail(idx,card){
+  const ex=document.getElementById('detail-'+idx);
+  if(ex){ex.remove(); return;}
+  document.querySelectorAll('.detail').forEach(e=>e.remove());
+  const det=document.createElement('div'); det.className='detail'; det.id='detail-'+idx;
+  det.innerHTML=renderDetail(idx);
+  card.after(det); bindChips(det);
+}
+
+function startApp(){
+  // 상대경로: 로컬(/moneyweb/trade.html→/moneyweb/api/)·라이브(/trade.html→/api/) 양쪽 작동
+  fetch('api/trade_sectors.json?t='+Date.now())
+    .then(r=>r.json()).then(d=>{DATA=d;render();})
+    .catch(e=>{$('#sub').textContent='데이터 로드 실패: '+e;});
+}
+// 세션 중 이미 해제됐으면 게이트 건너뜀
+if(sessionStorage.getItem('trade_unlocked')==='1'){ unlock(); }
+else { const gi=document.getElementById('gate-pw'); if(gi) gi.focus(); }
+</script>
+</body>
+</html>
