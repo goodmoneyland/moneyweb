@@ -69,7 +69,16 @@
 </style>
 </head>
 <body>
-<div class="wrap" id="main">
+<div id="gate">
+  <div class="box">
+    <h2>🔒 수출입</h2>
+    <p>열람 비밀번호를 입력하세요</p>
+    <input id="gate-pw" type="password" autocomplete="off" placeholder="비밀번호" onkeydown="if(event.key==='Enter')gateCheck()">
+    <button onclick="gateCheck()">확인</button>
+    <div class="err" id="gate-err"></div>
+  </div>
+</div>
+<div class="wrap" id="main" style="display:none">
   <h1>📦 수출입 · 섹터 수출연관그룹</h1>
   <div class="sub" id="sub">로딩중…</div>
   <div class="xun" id="xun"></div>
@@ -77,6 +86,18 @@
   <div class="foot" id="foot"></div>
 </div>
 <script>
+// ── 열람 비번 게이트 (준비중 가림, SHA-256) — 비번 변경: sha256('새비번') 해시 교체 ──
+const GATE_HASH = "158a323a7ba44870f23d96f1516dd70aa48e9a72db4ebb026b0a89e212a208ab"; // 2026
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function gateCheck(){
+  const pw=document.getElementById('gate-pw').value;
+  if(await sha256(pw)===GATE_HASH){ sessionStorage.setItem('trade_unlocked','1'); unlock(); }
+  else { document.getElementById('gate-err').textContent='비밀번호가 올바르지 않습니다'; }
+}
+function unlock(){ document.getElementById('gate').style.display='none';
+  document.getElementById('main').style.display=''; if(!DATA) startApp(); }
+
 const $=(s,r=document)=>r.querySelector(s);
 const fmtB=v=>'$'+(v/1e6).toFixed(1)+'B';         // 旬잠정: 천달러 → /1e6 = 십억달러
 const fmtBd=v=>v>=1e9?'$'+(v/1e9).toFixed(1)+'B':'$'+(v/1e6).toFixed(0)+'M'; // 월별: 달러, 10억↓=백만$
@@ -212,7 +233,9 @@ function bigChart(agg,mode){
   items.forEach(([nm,col],i)=>{if(lx+iw2[i]>avail){lx=ML;ly+=15;}
     leg+=`<rect x="${lx}" y="${ly}" width="11" height="11" rx="2" fill="${col}"/><text x="${lx+15}" y="${ly+9}" fill="#cdddf6" font-size="11">${esc(nm)}</text>`;lx+=iw2[i];});
   const legH=ly;  // 범례가 2줄이면 아래로 내려감
-  return `<svg class="bigchart" viewBox="0 0 ${W} ${H}"><g>${leg}</g>${grid}${bars}${line}${yl}${yr}${xl}
+  // 머니랜드 워터마크(플롯 중앙 오버레이, 반투명)
+  const wm=`<text x="${ML+iw/2}" y="${MT+ih/2}" fill="#ffffff" fill-opacity="0.10" font-size="70" font-weight="800" text-anchor="middle" dominant-baseline="middle" style="pointer-events:none" letter-spacing="4">머니랜드</text>`;
+  return `<svg class="bigchart" viewBox="0 0 ${W} ${H}"><g>${leg}</g>${grid}${bars}${line}${yl}${yr}${xl}${wm}
     <text x="14" y="${MT+ih/2}" fill="#7f92ad" font-size="11" transform="rotate(-90 14 ${MT+ih/2})" text-anchor="middle">${mode}금액($)</text></svg>`;
 }
 
@@ -273,7 +296,8 @@ function startApp(){
     .then(r=>r.json()).then(d=>{DATA=d;render();})
     .catch(e=>{$('#sub').textContent='데이터 로드 실패: '+e;});
 }
-startApp();
+if(sessionStorage.getItem('trade_unlocked')==='1'){ unlock(); }
+else { const gi=document.getElementById('gate-pw'); if(gi) gi.focus(); }
 </script>
 </body>
 </html>
