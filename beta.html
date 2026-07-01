@@ -36,6 +36,7 @@
   <div class="drawer-tab" data-tab="kr-marketmap"                 onclick="drawerNav('kr-marketmap')">🗺️ 마켓맵</div>
   <div class="drawer-tab" data-tab="kr-sugup"                     onclick="drawerNav('kr-sugup')">💰 수급&amp;RS</div>
   <div class="drawer-tab" data-tab="dram"                         onclick="drawerNav('dram')">💾 메모리가격</div>
+  <div class="drawer-tab" data-tab="trade"                        onclick="drawerNav('trade')">📦 수출입</div>
   <div class="drawer-tab" data-tab="trump"                        onclick="drawerNav('trump')">📢 트럼프&amp;일론 SNS</div>
   <div class="drawer-tab" data-tab="schedule"                     onclick="drawerNav('schedule')">📅 일정</div>
   <div class="drawer-tab" data-tab="idea"                         onclick="drawerNav('idea')">💡 투자아이디어</div>
@@ -181,6 +182,9 @@
   <div class="ntab" data-tab="dram" onclick="switchTab('dram',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="8" rx="1"/><path d="M8 8V5M12 8V5M16 8V5M8 19v-3M12 19v-3M16 19v-3M2 11h3M2 14h3M19 11h3M19 14h3"/></svg></span> 메모리가격
   </div>
+  <div class="ntab" data-tab="trade" onclick="switchTab('trade',this)">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></span> 수출입
+  </div>
 
   <div class="side-divider"></div>
 
@@ -217,8 +221,7 @@
 <div id="kr-theme-bar" style="background:var(--card2);border-bottom:1px solid var(--border);padding:0 20px;display:none;gap:4px;align-items:center;height:38px;flex-shrink:0;">
   <div class="stab active" id="krt-stk-high"   onclick="switchKrThemeTab('stk-high',this)">📈 종목신고가</div>
   <div class="stab"        id="krt-etf-high"   onclick="switchKrThemeTab('etf-high',this)">📊 ETF신고가</div>
-  <div class="stab"        id="krt-rank-chg"   onclick="switchKrThemeTab('rank-chg',this)">🔥 등락률 상위</div>
-  <div class="stab"        id="krt-rank-val"   onclick="switchKrThemeTab('rank-val',this)">💰 거래대금 상위</div>
+  <div class="stab"        id="krt-rank-chg"   onclick="switchKrThemeTab('rank-chg',this)">🔥 등락률·거래대금</div>
 </div>
 <!-- 테마맵 서브탭 바 -->
 <div id="kr-thememap-bar" style="background:var(--card2);border-bottom:1px solid var(--border);padding:0 20px;display:none;gap:4px;align-items:center;height:38px;flex-shrink:0;">
@@ -415,6 +418,10 @@
   <!-- ── 메모리가격 DRAM (iframe) ── -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;overflow:auto;" id="wrap-dram">
     <iframe id="page-dram" src="/moneyweb/dram.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  </div>
+
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;overflow:auto;" id="wrap-trade">
+    <iframe id="page-trade" src="/moneyweb/trade.html" onload="_injectKrPopup(this)" style="width:100%;height:100%;border:none;display:block;"></iframe>
   </div>
 
   <!-- ── US모닝브리핑 (iframe) ── -->
@@ -778,6 +785,6 @@
 </div>
 </div>
 
-<script src="/assets/app.0cbe830ae7.js"></script>
+<script src="/assets/app.3dfea5de7e.js"></script>
 </body>
 </html>
