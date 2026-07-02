@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script>function onFrameLoad(){}function _injectPeerPopup(){}</script><link rel="stylesheet" href="/assets/app.da429c1712.css">
+<script>function onFrameLoad(){}function _injectPeerPopup(){}</script><link rel="stylesheet" href="/assets/app.96db1efcac.css">
 </head>
 <body>
 
@@ -55,6 +55,24 @@
   <span class="logo" onclick="hardReload()" title="클릭하여 새로고침 (캐시 삭제)">김형철의 마켓레이더</span>
   <div class="v-divider"></div>
 
+  <!-- 홈 (사이드 → 상단 이동) : 로고와 날짜 사이 -->
+  <div class="ntab-home active" data-tab="home" onclick="switchTab('home',this)" style="padding:5px 11px;font-size:13px;border-radius:7px;">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span> 홈
+  </div>
+
+  <!-- 날짜 + 시세상태 (사이드 → 상단 이동) : 로고 옆 -->
+  <div class="topbar-datebox" style="display:flex;align-items:center;gap:8px;margin:0 6px;flex-shrink:0;">
+    <div class="date-nav" id="date-nav" style="gap:4px;">
+      <div class="date-arrow disabled" id="arr-newer" onclick="moveDate('newer')" title="다음 날짜(최신)" style="width:20px;height:20px;font-size:17px;">&#8249;</div>
+      <div class="date-label" id="date-label" style="font-size:14px;min-width:74px;">—</div>
+      <div class="date-arrow" id="arr-older" onclick="moveDate('older')" title="이전 날짜(과거)" style="width:20px;height:20px;font-size:17px;">&#8250;</div>
+    </div>
+    <div id="kpl-status" style="font-size:10px;color:#94a3b8;white-space:nowrap;padding:2px 6px;border:1px solid #1e3a5f;border-radius:4px;background:#0d1f35;line-height:1.5;" title="실시간 시세 갱신 상태">
+      <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#64748b;margin-right:3px;vertical-align:middle;"></span>시세로딩
+    </div>
+  </div>
+  <div class="v-divider"></div>
+
   <!-- 검색 (강조) -->
   <div class="search-wrap">
     <div class="search-box" onclick="document.getElementById('search-input').focus()">
@@ -78,8 +96,14 @@
     <div id="gl-search-dropdown" class="search-dropdown"></div>
   </div>
 
-  <!-- 면책 문구 -->
+  <!-- 면책 문구 (flex 스페이서 겸용 → 아바타를 오른쪽 끝으로) -->
   <span class="disclaimer-text">본 자료에 게재된 내용은 절대적인 투자 권유나 조언이 아니며 수치상 오류가 있을 수 있습니다.</span>
+
+  <!-- 아바타 + 이름 (사이드 → 상단 이동) : 맨 오른쪽 끝 -->
+  <div class="side-user" style="padding:0;flex-shrink:0;">
+    <div class="user-avatar" id="user-avatar" title="내 계정" onclick="openUserPanel()" style="width:26px;height:26px;font-size:12px;border:1px solid rgba(167,85,247,.4);">김</div>
+    <span class="uname">김형철</span>
+  </div>
 
   <!-- 햄버거 버튼 (모바일 전용) -->
   <div class="hamburger-btn" id="hamburger-btn" onclick="toggleDrawer()">
@@ -92,31 +116,10 @@
 ══════════════════════════════════════ -->
 <nav id="sidebar">
 
-  <!-- 아바타 + 이름 -->
-  <div class="side-user">
-    <div class="user-avatar" id="user-avatar" title="내 계정" onclick="openUserPanel()" style="width:24px;height:24px;font-size:12px;border:1px solid rgba(167,85,247,.4);">김</div>
-    <span class="uname">김형철</span>
-  </div>
-
-  <!-- 날짜 + 시세상태 -->
-  <div class="side-datebox">
-    <div class="date-nav" id="date-nav" style="gap:4px;justify-content:center;">
-      <div class="date-arrow disabled" id="arr-newer" onclick="moveDate('newer')" title="다음 날짜(최신)" style="width:20px;height:20px;font-size:17px;">&#8249;</div>
-      <div class="date-label" id="date-label" style="font-size:14px;min-width:80px;">—</div>
-      <div class="date-arrow" id="arr-older" onclick="moveDate('older')" title="이전 날짜(과거)" style="width:20px;height:20px;font-size:17px;">&#8250;</div>
-    </div>
-    <div id="kpl-status" style="font-size:10px;color:#94a3b8;white-space:nowrap;padding:1px 4px;border:1px solid #1e3a5f;border-radius:4px;background:#0d1f35;line-height:1.5;text-align:center;margin-top:5px;" title="실시간 시세 갱신 상태">
-      <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#64748b;margin-right:3px;vertical-align:middle;"></span>시세로딩
-    </div>
-  </div>
-
-  <!-- 홈 -->
-  <div class="ntab-home active" data-tab="home" onclick="switchTab('home',this)">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span> 홈
-  </div>
+  <!-- (아바타·날짜·홈은 상단바로 이동됨) -->
 
   <!-- ══ 데일리 브리핑 ══ -->
-  <div class="side-head">데일리 브리핑</div>
+  <div class="side-head" style="border-left-color:#f59e0b;">데일리 브리핑</div>
   <!-- US 마감브리핑 -->
   <div class="ntab" data-tab="us-morning" onclick="switchTab('us-morning',this)">
     <img class="flag-img" src="https://flagcdn.com/w40/us.png" alt="US"> US마감브리핑
@@ -131,7 +134,7 @@
   </div>
 
   <!-- ══ 한국 마켓 ══ (테마맵 = 테마맵·마켓맵·특징주·NXT 상단탭 통합) -->
-  <div class="side-head">한국 마켓</div>
+  <div class="side-head" style="border-left-color:#3b82f6;">한국 마켓</div>
   <!-- 테마맵 : 버블 (상단탭: 테마맵/마켓맵/오전·오후특징주/특징주정리/NXT) -->
   <div class="ntab" data-tab="kr-thememap" onclick="switchTab('kr-thememap',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="3"/><circle cx="16.5" cy="14.5" r="4"/><circle cx="17" cy="6" r="2"/></svg></span> 테마맵
@@ -146,9 +149,9 @@
   </div>
 
   <!-- ══ 스크리너 · 분석 ══ -->
-  <div class="side-head">스크리너 · 분석</div>
+  <div class="side-head" style="border-left-color:#8b5cf6;">스크리너 · 분석</div>
   <!-- 한국vs글로벌 : 좌우 비교(저울) — 강조 -->
-  <div class="ntab ntab-peer" data-tab="peer" onclick="switchTab('peer',this)">
+  <div class="ntab" data-tab="peer" onclick="switchTab('peer',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 7h12"/><path d="M6 7l-3 6a3 3 0 006 0L6 7z"/><path d="M18 7l-3 6a3 3 0 006 0l-3-6z"/></svg></span> 한국vs글로벌
   </div>
   <!-- PER마켓 -->
@@ -161,7 +164,7 @@
   </div>
 
   <!-- ══ 글로벌 마켓 ══ (글로벌 테마맵 = 테마맵·마켓맵 상단탭 통합) -->
-  <div class="side-head">글로벌 마켓</div>
+  <div class="side-head" style="border-left-color:#22c55e;">글로벌 마켓</div>
   <!-- 글로벌 테마맵 : 버블(지구) (상단탭: 테마맵/마켓맵) -->
   <div class="ntab" data-tab="global-thememap" onclick="switchTab('global-thememap',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="10" r="3.5"/><circle cx="16.5" cy="15" r="4"/><circle cx="17" cy="6.5" r="2"/></svg></span> 글로벌 테마맵
@@ -172,7 +175,7 @@
   </div>
 
   <!-- ══ 매크로 · 뉴스 ══ -->
-  <div class="side-head">매크로 · 뉴스</div>
+  <div class="side-head" style="border-left-color:#94a3b8;">매크로 · 뉴스</div>
   <!-- 원자재 : 메모리·탄산리튬·조선 -->
   <div class="ntab" data-tab="dram" onclick="switchTab('dram',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6c0-1.5 3.6-2.5 8-2.5s8 1 8 2.5-3.6 2.5-8 2.5S4 7.5 4 6z"/><path d="M4 6v12c0 1.5 3.6 2.5 8 2.5s8-1 8-2.5V6"/><path d="M4 12c0 1.5 3.6 2.5 8 2.5s8-1 8-2.5"/></svg></span> 원자재
@@ -186,7 +189,7 @@
   </div>
 
   <!-- ══ 커뮤니티 ══ -->
-  <div class="side-head">커뮤니티</div>
+  <div class="side-head" style="border-left-color:#ec4899;">커뮤니티</div>
   <!-- 일정 : 달력 -->
   <div class="ntab" data-tab="schedule" onclick="switchTab('schedule',this)">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg></span> 일정
@@ -810,6 +813,6 @@
 </div>
 </div>
 
-<script src="/assets/app.37bd413f95.js"></script>
+<script src="/assets/app.34840451a8.js"></script>
 </body>
 </html>
